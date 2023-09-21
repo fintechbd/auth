@@ -2,9 +2,9 @@
 
 namespace Fintech\Auth;
 
-use Illuminate\Support\ServiceProvider;
-use Fintech\Auth\Commands\InstallCommand;
 use Fintech\Auth\Commands\AuthCommand;
+use Fintech\Auth\Commands\InstallCommand;
+use Illuminate\Support\ServiceProvider;
 
 class AuthServiceProvider extends ServiceProvider
 {

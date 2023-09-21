@@ -16,7 +16,7 @@ class AuthServiceProvider extends ServiceProvider
     public function register()
     {
         $this->mergeConfigFrom(
-            __DIR__.'/../config/auth.php', 'auth'
+            __DIR__.'/../config/auth.php', 'fintech.auth'
         );
 
         $this->app->register(RouteServiceProvider::class);
@@ -28,7 +28,7 @@ class AuthServiceProvider extends ServiceProvider
     public function boot(): void
     {
         $this->publishes([
-            __DIR__.'/../config/auth.php' => config_path('auth.php'),
+            __DIR__.'/../config/auth.php' => config_path('fintech/auth.php'),
         ]);
 
         $this->loadMigrationsFrom(__DIR__.'/../database/migrations');

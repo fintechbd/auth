@@ -48,6 +48,12 @@ Route::prefix('v1')->group(function () {
         Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])
             ->middleware('auth')
             ->name('logout');
+
+        Route::apiResource('users', \Fintech\Auth\Http\Controllers\UserController::class);
+//        Route::apiResource('roles', \Fintech\Auth\Http\Controllers\RoleController::class);
+//        Route::apiResource('permissions', \Fintech\Auth\Http\Resources\PermissionCollection::class);
+//        Route::apiResource('teams', \Fintech\Auth\Http\Controllers\TeamController::class);
+        Route::apiSingleton('users.profile', \Fintech\Auth\Http\Controllers\ProfileController::class);
     });
 });
 

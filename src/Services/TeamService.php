@@ -2,12 +2,10 @@
 
 namespace Fintech\Auth\Services;
 
-
 use Fintech\Auth\Interfaces\TeamRepository;
 
 /**
  * Class TeamService
- * @package Fintech\Auth\Services
  *
  * @property-read TeamRepository $teamRepository
  */
@@ -15,12 +13,12 @@ class TeamService
 {
     /**
      * TeamService constructor.
-     * @param TeamRepository $teamRepository
      */
-    public function __construct(private TeamRepository $teamRepository) { }
+    public function __construct(private TeamRepository $teamRepository)
+    {
+    }
 
     /**
-     * @param array $filters
      * @return mixed
      */
     public function list(array $filters = [])

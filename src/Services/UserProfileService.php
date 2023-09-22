@@ -2,12 +2,10 @@
 
 namespace Fintech\Auth\Services;
 
-
 use Fintech\Auth\Interfaces\UserProfileRepository;
 
 /**
  * Class UserProfileService
- * @package Fintech\Auth\Services
  *
  * @property-read UserProfileRepository $userProfileRepository
  */
@@ -15,12 +13,12 @@ class UserProfileService
 {
     /**
      * UserProfileService constructor.
-     * @param UserProfileRepository $userProfileRepository
      */
-    public function __construct(private UserProfileRepository $userProfileRepository) { }
+    public function __construct(private UserProfileRepository $userProfileRepository)
+    {
+    }
 
     /**
-     * @param array $filters
      * @return mixed
      */
     public function list(array $filters = [])

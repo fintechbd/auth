@@ -2,32 +2,30 @@
 
 namespace Fintech\Auth\Http\Controllers;
 
-use Fintech\Core\Exceptions\StoreOperationException;
-use Fintech\Core\Exceptions\UpdateOperationException;
-use Fintech\Core\Exceptions\ResourceNotFoundException;
-use Fintech\Core\Exceptions\DeleteOperationException;
-use Fintech\Core\Exceptions\RestoreOperationException;
-use Fintech\Core\Traits\ApiResponseTrait;
-use Fintech\Auth\Http\Resources\PermissionResource;
-use Fintech\Auth\Http\Resources\PermissionCollection;
 use Fintech\Auth\Http\Requests\ImportPermissionRequest;
+use Fintech\Auth\Http\Requests\IndexPermissionRequest;
 use Fintech\Auth\Http\Requests\StorePermissionRequest;
 use Fintech\Auth\Http\Requests\UpdatePermissionRequest;
-use Fintech\Auth\Http\Requests\IndexPermissionRequest;
+use Fintech\Auth\Http\Resources\PermissionCollection;
+use Fintech\Auth\Http\Resources\PermissionResource;
+use Fintech\Core\Exceptions\DeleteOperationException;
+use Fintech\Core\Exceptions\ResourceNotFoundException;
+use Fintech\Core\Exceptions\RestoreOperationException;
+use Fintech\Core\Exceptions\StoreOperationException;
+use Fintech\Core\Exceptions\UpdateOperationException;
+use Fintech\Core\Traits\ApiResponseTrait;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Routing\Controller;
 
 /**
  * Class PermissionController
- * @package Fintech\Auth\Http\Controllers
  *
  * @lrd:start
  * This class handle create, display, update, delete & restore
  * operation related to permission
- * @lrd:end
  *
+ * @lrd:end
  */
-
 class PermissionController extends Controller
 {
     use ApiResponseTrait;
@@ -45,10 +43,8 @@ class PermissionController extends Controller
      * Return a listing of the permission resource as collection.
      *
      * ** ```paginate=false``` returns all resource as list not pagination **
-     * @lrd:end
      *
-     * @param IndexPermissionRequest $request
-     * @return PermissionCollection|JsonResponse
+     * @lrd:end
      */
     public function index(IndexPermissionRequest $request): PermissionCollection|JsonResponse
     {
@@ -68,10 +64,9 @@ class PermissionController extends Controller
     /**
      * @lrd:start
      * Create a new permission resource in storage.
+     *
      * @lrd:end
      *
-     * @param StorePermissionRequest $request
-     * @return JsonResponse
      * @throws StoreOperationException
      */
     public function store(StorePermissionRequest $request): JsonResponse
@@ -81,14 +76,14 @@ class PermissionController extends Controller
 
             $permission = \Auth::permission()->create($inputs);
 
-            if (!$permission) {
+            if (! $permission) {
                 throw new StoreOperationException();
             }
 
             return $this->created([
                 'message' => __('auth::messages.resource.created', ['model' => 'Permission']),
-                'id' => $permission->id
-             ]);
+                'id' => $permission->id,
+            ]);
 
         } catch (\Exception $exception) {
 
@@ -99,10 +94,9 @@ class PermissionController extends Controller
     /**
      * @lrd:start
      * Return a specified permission resource found by id.
+     *
      * @lrd:end
      *
-     * @param string|int $id
-     * @return PermissionResource|JsonResponse
      * @throws ResourceNotFoundException
      */
     public function show(string|int $id): PermissionResource|JsonResponse
@@ -111,7 +105,7 @@ class PermissionController extends Controller
 
             $permission = \Auth::permission()->read($id);
 
-            if (!$permission) {
+            if (! $permission) {
                 throw new ResourceNotFoundException(__('auth::messages.resource.notfound', ['model' => 'Permission', 'id' => strval($id)]));
             }
 
@@ -130,11 +124,9 @@ class PermissionController extends Controller
     /**
      * @lrd:start
      * Update a specified permission resource using id.
+     *
      * @lrd:end
      *
-     * @param UpdatePermissionRequest $request
-     * @param string|int $id
-     * @return JsonResponse
      * @throws ResourceNotFoundException
      * @throws UpdateOperationException
      */
@@ -144,13 +136,13 @@ class PermissionController extends Controller
 
             $permission = \Auth::permission()->read($id);
 
-            if (!$permission) {
+            if (! $permission) {
                 throw new ResourceNotFoundException(__('auth::messages.resource.notfound', ['model' => 'Permission', 'id' => strval($id)]));
             }
 
             $inputs = $request->validated();
 
-            if (!\Auth::permission()->update($id, $inputs)) {
+            if (! \Auth::permission()->update($id, $inputs)) {
 
                 throw new UpdateOperationException();
             }
@@ -170,10 +162,11 @@ class PermissionController extends Controller
     /**
      * @lrd:start
      * Soft delete a specified permission resource using id.
+     *
      * @lrd:end
      *
-     * @param string|int $id
      * @return JsonResponse
+     *
      * @throws ResourceNotFoundException
      * @throws DeleteOperationException
      */
@@ -183,11 +176,11 @@ class PermissionController extends Controller
 
             $permission = \Auth::permission()->read($id);
 
-            if (!$permission) {
+            if (! $permission) {
                 throw new ResourceNotFoundException(__('auth::messages.resource.notfound', ['model' => 'Permission', 'id' => strval($id)]));
             }
 
-            if (!\Auth::permission()->destroy($id)) {
+            if (! \Auth::permission()->destroy($id)) {
 
                 throw new DeleteOperationException();
             }
@@ -208,9 +201,9 @@ class PermissionController extends Controller
      * @lrd:start
      * Restore the specified permission resource from trash.
      * ** ```Soft Delete``` needs to enabled to use this feature**
+     *
      * @lrd:end
      *
-     * @param string|int $id
      * @return JsonResponse
      */
     public function restore(string|int $id)
@@ -219,11 +212,11 @@ class PermissionController extends Controller
 
             $permission = \Auth::permission()->read($id, true);
 
-            if (!$permission) {
+            if (! $permission) {
                 throw new ResourceNotFoundException(__('auth::messages.resource.notfound', ['model' => 'Permission', 'id' => strval($id)]));
             }
 
-            if (!\Auth::permission()->restore($id)) {
+            if (! \Auth::permission()->restore($id)) {
 
                 throw new RestoreOperationException();
             }
@@ -246,9 +239,6 @@ class PermissionController extends Controller
      * After export job is done system will fire  export completed event
      *
      * @lrd:end
-     *
-     * @param IndexPermissionRequest $request
-     * @return JsonResponse
      */
     public function export(IndexPermissionRequest $request): JsonResponse
     {
@@ -272,7 +262,6 @@ class PermissionController extends Controller
      *
      * @lrd:end
      *
-     * @param ImportPermissionRequest $request
      * @return PermissionCollection|JsonResponse
      */
     public function import(ImportPermissionRequest $request): JsonResponse

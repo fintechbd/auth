@@ -4,7 +4,6 @@ namespace Fintech\Auth\Exceptions;
 
 /**
  * Class TeamRepositoryException
- * @package Fintech\Auth\Exceptions
  */
 class TeamRepositoryException extends \Exception
 {

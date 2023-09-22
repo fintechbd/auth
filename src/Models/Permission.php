@@ -2,16 +2,16 @@
 
 namespace Fintech\Auth\Models;
 
+use Fintech\Core\Traits\BlameableTrait;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use OwenIt\Auditing\Contracts\Auditable;
-use Fintech\Core\Traits\BlameableTrait;
 
 class Permission extends Model implements Auditable
 {
-   use \OwenIt\Auditing\Auditable;
-   use SoftDeletes;
-   use BlameableTrait;
+    use BlameableTrait;
+    use \OwenIt\Auditing\Auditable;
+    use SoftDeletes;
 
     /*
     |--------------------------------------------------------------------------
@@ -20,9 +20,13 @@ class Permission extends Model implements Auditable
     */
 
     protected $primaryKey = 'id';
+
     protected $fillable = [];
+
     protected $guarded = ['id'];
+
     protected $hidden = ['creator_id', 'editor_id', 'destroyer_id', 'creator_type', 'editor_type', 'destroyer_type', 'restorer_type', 'restorer_id', 'deleted_at'];
+
     protected $casts = [];
 
     /*

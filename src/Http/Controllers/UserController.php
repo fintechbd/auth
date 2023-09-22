@@ -3,32 +3,30 @@
 namespace Fintech\Auth\Http\Controllers;
 
 use Fintech\Auth\Facades\Auth;
-use Fintech\Core\Exceptions\StoreOperationException;
-use Fintech\Core\Exceptions\UpdateOperationException;
-use Fintech\Core\Exceptions\ResourceNotFoundException;
-use Fintech\Core\Exceptions\DeleteOperationException;
-use Fintech\Core\Exceptions\RestoreOperationException;
-use Fintech\Core\Traits\ApiResponseTrait;
-use Fintech\Auth\Http\Resources\UserResource;
-use Fintech\Auth\Http\Resources\UserCollection;
 use Fintech\Auth\Http\Requests\ImportUserRequest;
+use Fintech\Auth\Http\Requests\IndexUserRequest;
 use Fintech\Auth\Http\Requests\StoreUserRequest;
 use Fintech\Auth\Http\Requests\UpdateUserRequest;
-use Fintech\Auth\Http\Requests\IndexUserRequest;
+use Fintech\Auth\Http\Resources\UserCollection;
+use Fintech\Auth\Http\Resources\UserResource;
+use Fintech\Core\Exceptions\DeleteOperationException;
+use Fintech\Core\Exceptions\ResourceNotFoundException;
+use Fintech\Core\Exceptions\RestoreOperationException;
+use Fintech\Core\Exceptions\StoreOperationException;
+use Fintech\Core\Exceptions\UpdateOperationException;
+use Fintech\Core\Traits\ApiResponseTrait;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Routing\Controller;
 
 /**
  * Class UserController
- * @package Fintech\Auth\Http\Controllers
  *
  * @lrd:start
  * This class handle create, display, update, delete & restore
  * operation related to user
- * @lrd:end
  *
+ * @lrd:end
  */
-
 class UserController extends Controller
 {
     use ApiResponseTrait;
@@ -46,10 +44,8 @@ class UserController extends Controller
      * Return a listing of the user resource as collection.
      *
      * ** ```paginate=false``` returns all resource as list not pagination **
-     * @lrd:end
      *
-     * @param IndexUserRequest $request
-     * @return UserCollection|JsonResponse
+     * @lrd:end
      */
     public function index(IndexUserRequest $request): UserCollection|JsonResponse
     {
@@ -69,10 +65,9 @@ class UserController extends Controller
     /**
      * @lrd:start
      * Create a new user resource in storage.
+     *
      * @lrd:end
      *
-     * @param StoreUserRequest $request
-     * @return JsonResponse
      * @throws StoreOperationException
      */
     public function store(StoreUserRequest $request): JsonResponse
@@ -82,14 +77,14 @@ class UserController extends Controller
 
             $user = Auth::user()->create($inputs);
 
-            if (!$user) {
+            if (! $user) {
                 throw new StoreOperationException();
             }
 
             return $this->created([
                 'message' => __('auth::messages.resource.created', ['model' => 'User']),
-                'id' => $user->id
-             ]);
+                'id' => $user->id,
+            ]);
 
         } catch (\Exception $exception) {
 
@@ -100,10 +95,9 @@ class UserController extends Controller
     /**
      * @lrd:start
      * Return a specified user resource found by id.
+     *
      * @lrd:end
      *
-     * @param string|int $id
-     * @return UserResource|JsonResponse
      * @throws ResourceNotFoundException
      */
     public function show(string|int $id): UserResource|JsonResponse
@@ -112,7 +106,7 @@ class UserController extends Controller
 
             $user = Auth::user()->read($id);
 
-            if (!$user) {
+            if (! $user) {
                 throw new ResourceNotFoundException(__('auth::messages.resource.notfound', ['model' => 'User', 'id' => strval($id)]));
             }
 
@@ -131,11 +125,9 @@ class UserController extends Controller
     /**
      * @lrd:start
      * Update a specified user resource using id.
+     *
      * @lrd:end
      *
-     * @param UpdateUserRequest $request
-     * @param string|int $id
-     * @return JsonResponse
      * @throws ResourceNotFoundException
      * @throws UpdateOperationException
      */
@@ -145,13 +137,13 @@ class UserController extends Controller
 
             $user = Auth::user()->read($id);
 
-            if (!$user) {
+            if (! $user) {
                 throw new ResourceNotFoundException(__('auth::messages.resource.notfound', ['model' => 'User', 'id' => strval($id)]));
             }
 
             $inputs = $request->validated();
 
-            if (!Auth::user()->update($id, $inputs)) {
+            if (! Auth::user()->update($id, $inputs)) {
 
                 throw new UpdateOperationException();
             }
@@ -171,10 +163,11 @@ class UserController extends Controller
     /**
      * @lrd:start
      * Soft delete a specified user resource using id.
+     *
      * @lrd:end
      *
-     * @param string|int $id
      * @return JsonResponse
+     *
      * @throws ResourceNotFoundException
      * @throws DeleteOperationException
      */
@@ -184,11 +177,11 @@ class UserController extends Controller
 
             $user = Auth::user()->read($id);
 
-            if (!$user) {
+            if (! $user) {
                 throw new ResourceNotFoundException(__('auth::messages.resource.notfound', ['model' => 'User', 'id' => strval($id)]));
             }
 
-            if (!Auth::user()->destroy($id)) {
+            if (! Auth::user()->destroy($id)) {
 
                 throw new DeleteOperationException();
             }
@@ -209,9 +202,9 @@ class UserController extends Controller
      * @lrd:start
      * Restore the specified user resource from trash.
      * ** ```Soft Delete``` needs to enabled to use this feature**
+     *
      * @lrd:end
      *
-     * @param string|int $id
      * @return JsonResponse
      */
     public function restore(string|int $id)
@@ -220,11 +213,11 @@ class UserController extends Controller
 
             $user = Auth::user()->read($id, true);
 
-            if (!$user) {
+            if (! $user) {
                 throw new ResourceNotFoundException(__('auth::messages.resource.notfound', ['model' => 'User', 'id' => strval($id)]));
             }
 
-            if (!Auth::user()->restore($id)) {
+            if (! Auth::user()->restore($id)) {
 
                 throw new RestoreOperationException();
             }
@@ -247,9 +240,6 @@ class UserController extends Controller
      * After export job is done system will fire  export completed event
      *
      * @lrd:end
-     *
-     * @param IndexUserRequest $request
-     * @return JsonResponse
      */
     public function export(IndexUserRequest $request): JsonResponse
     {
@@ -273,7 +263,6 @@ class UserController extends Controller
      *
      * @lrd:end
      *
-     * @param ImportUserRequest $request
      * @return UserCollection|JsonResponse
      */
     public function import(ImportUserRequest $request): JsonResponse

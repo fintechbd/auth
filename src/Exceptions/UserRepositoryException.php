@@ -4,7 +4,6 @@ namespace Fintech\Auth\Exceptions;
 
 /**
  * Class UserRepositoryException
- * @package Fintech\Auth\Exceptions
  */
 class UserRepositoryException extends \Exception
 {

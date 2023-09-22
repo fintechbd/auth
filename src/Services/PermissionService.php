@@ -2,12 +2,10 @@
 
 namespace Fintech\Auth\Services;
 
-
 use Fintech\Auth\Interfaces\PermissionRepository;
 
 /**
  * Class PermissionService
- * @package Fintech\Auth\Services
  *
  * @property-read PermissionRepository $permissionRepository
  */
@@ -15,12 +13,12 @@ class PermissionService
 {
     /**
      * PermissionService constructor.
-     * @param PermissionRepository $permissionRepository
      */
-    public function __construct(private PermissionRepository $permissionRepository) { }
+    public function __construct(private PermissionRepository $permissionRepository)
+    {
+    }
 
     /**
-     * @param array $filters
      * @return mixed
      */
     public function list(array $filters = [])

@@ -2,32 +2,30 @@
 
 namespace Fintech\Auth\Http\Controllers;
 
-use Fintech\Core\Exceptions\StoreOperationException;
-use Fintech\Core\Exceptions\UpdateOperationException;
-use Fintech\Core\Exceptions\ResourceNotFoundException;
-use Fintech\Core\Exceptions\DeleteOperationException;
-use Fintech\Core\Exceptions\RestoreOperationException;
-use Fintech\Core\Traits\ApiResponseTrait;
-use Fintech\Auth\Http\Resources\TeamResource;
-use Fintech\Auth\Http\Resources\TeamCollection;
 use Fintech\Auth\Http\Requests\ImportTeamRequest;
+use Fintech\Auth\Http\Requests\IndexTeamRequest;
 use Fintech\Auth\Http\Requests\StoreTeamRequest;
 use Fintech\Auth\Http\Requests\UpdateTeamRequest;
-use Fintech\Auth\Http\Requests\IndexTeamRequest;
+use Fintech\Auth\Http\Resources\TeamCollection;
+use Fintech\Auth\Http\Resources\TeamResource;
+use Fintech\Core\Exceptions\DeleteOperationException;
+use Fintech\Core\Exceptions\ResourceNotFoundException;
+use Fintech\Core\Exceptions\RestoreOperationException;
+use Fintech\Core\Exceptions\StoreOperationException;
+use Fintech\Core\Exceptions\UpdateOperationException;
+use Fintech\Core\Traits\ApiResponseTrait;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Routing\Controller;
 
 /**
  * Class TeamController
- * @package Fintech\Auth\Http\Controllers
  *
  * @lrd:start
  * This class handle create, display, update, delete & restore
  * operation related to team
- * @lrd:end
  *
+ * @lrd:end
  */
-
 class TeamController extends Controller
 {
     use ApiResponseTrait;
@@ -45,10 +43,8 @@ class TeamController extends Controller
      * Return a listing of the team resource as collection.
      *
      * ** ```paginate=false``` returns all resource as list not pagination **
-     * @lrd:end
      *
-     * @param IndexTeamRequest $request
-     * @return TeamCollection|JsonResponse
+     * @lrd:end
      */
     public function index(IndexTeamRequest $request): TeamCollection|JsonResponse
     {
@@ -68,10 +64,9 @@ class TeamController extends Controller
     /**
      * @lrd:start
      * Create a new team resource in storage.
+     *
      * @lrd:end
      *
-     * @param StoreTeamRequest $request
-     * @return JsonResponse
      * @throws StoreOperationException
      */
     public function store(StoreTeamRequest $request): JsonResponse
@@ -81,14 +76,14 @@ class TeamController extends Controller
 
             $team = \Auth::team()->create($inputs);
 
-            if (!$team) {
+            if (! $team) {
                 throw new StoreOperationException();
             }
 
             return $this->created([
                 'message' => __('auth::messages.resource.created', ['model' => 'Team']),
-                'id' => $team->id
-             ]);
+                'id' => $team->id,
+            ]);
 
         } catch (\Exception $exception) {
 
@@ -99,10 +94,9 @@ class TeamController extends Controller
     /**
      * @lrd:start
      * Return a specified team resource found by id.
+     *
      * @lrd:end
      *
-     * @param string|int $id
-     * @return TeamResource|JsonResponse
      * @throws ResourceNotFoundException
      */
     public function show(string|int $id): TeamResource|JsonResponse
@@ -111,7 +105,7 @@ class TeamController extends Controller
 
             $team = \Auth::team()->read($id);
 
-            if (!$team) {
+            if (! $team) {
                 throw new ResourceNotFoundException(__('auth::messages.resource.notfound', ['model' => 'Team', 'id' => strval($id)]));
             }
 
@@ -130,11 +124,9 @@ class TeamController extends Controller
     /**
      * @lrd:start
      * Update a specified team resource using id.
+     *
      * @lrd:end
      *
-     * @param UpdateTeamRequest $request
-     * @param string|int $id
-     * @return JsonResponse
      * @throws ResourceNotFoundException
      * @throws UpdateOperationException
      */
@@ -144,13 +136,13 @@ class TeamController extends Controller
 
             $team = \Auth::team()->read($id);
 
-            if (!$team) {
+            if (! $team) {
                 throw new ResourceNotFoundException(__('auth::messages.resource.notfound', ['model' => 'Team', 'id' => strval($id)]));
             }
 
             $inputs = $request->validated();
 
-            if (!\Auth::team()->update($id, $inputs)) {
+            if (! \Auth::team()->update($id, $inputs)) {
 
                 throw new UpdateOperationException();
             }
@@ -170,10 +162,11 @@ class TeamController extends Controller
     /**
      * @lrd:start
      * Soft delete a specified team resource using id.
+     *
      * @lrd:end
      *
-     * @param string|int $id
      * @return JsonResponse
+     *
      * @throws ResourceNotFoundException
      * @throws DeleteOperationException
      */
@@ -183,11 +176,11 @@ class TeamController extends Controller
 
             $team = \Auth::team()->read($id);
 
-            if (!$team) {
+            if (! $team) {
                 throw new ResourceNotFoundException(__('auth::messages.resource.notfound', ['model' => 'Team', 'id' => strval($id)]));
             }
 
-            if (!\Auth::team()->destroy($id)) {
+            if (! \Auth::team()->destroy($id)) {
 
                 throw new DeleteOperationException();
             }
@@ -208,9 +201,9 @@ class TeamController extends Controller
      * @lrd:start
      * Restore the specified team resource from trash.
      * ** ```Soft Delete``` needs to enabled to use this feature**
+     *
      * @lrd:end
      *
-     * @param string|int $id
      * @return JsonResponse
      */
     public function restore(string|int $id)
@@ -219,11 +212,11 @@ class TeamController extends Controller
 
             $team = \Auth::team()->read($id, true);
 
-            if (!$team) {
+            if (! $team) {
                 throw new ResourceNotFoundException(__('auth::messages.resource.notfound', ['model' => 'Team', 'id' => strval($id)]));
             }
 
-            if (!\Auth::team()->restore($id)) {
+            if (! \Auth::team()->restore($id)) {
 
                 throw new RestoreOperationException();
             }
@@ -246,9 +239,6 @@ class TeamController extends Controller
      * After export job is done system will fire  export completed event
      *
      * @lrd:end
-     *
-     * @param IndexTeamRequest $request
-     * @return JsonResponse
      */
     public function export(IndexTeamRequest $request): JsonResponse
     {
@@ -272,7 +262,6 @@ class TeamController extends Controller
      *
      * @lrd:end
      *
-     * @param ImportTeamRequest $request
      * @return TeamCollection|JsonResponse
      */
     public function import(ImportTeamRequest $request): JsonResponse

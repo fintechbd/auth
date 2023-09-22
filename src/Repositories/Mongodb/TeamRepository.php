@@ -9,31 +9,29 @@ use InvalidArgumentException;
 
 /**
  * Class TeamRepository
- * @package Fintech\Auth\Repositories\Mongodb
  */
 class TeamRepository implements InterfacesCountryRepository
 {
     /**
-     * @var $model Model
+     * @var Model
      */
     private Model $model;
 
     public function __construct()
     {
-       $model = app()->make(config('auth.country_model', \App\Models\Country::class));
+        $model = app()->make(config('auth.country_model', \App\Models\Country::class));
 
-       if (!$model instanceof Model) {
-           throw new InvalidArgumentException("Eloquent repository require model class to be `Illuminate\Database\Eloquent\Model` instance.");
-       }
+        if (! $model instanceof Model) {
+            throw new InvalidArgumentException("Eloquent repository require model class to be `Illuminate\Database\Eloquent\Model` instance.");
+        }
 
-       $this->model = $model;
+        $this->model = $model;
     }
 
     /**
      * return a list or pagination of items from
      * filtered options
      *
-     * @param array $filters
      * @return LengthAwarePaginator|Builder[]|Collection
      */
     public function list(array $filters = [])
@@ -53,8 +51,8 @@ class TeamRepository implements InterfacesCountryRepository
     /**
      * Create a new entry resource
      *
-     * @param array $attributes
      * @return Model|null
+     *
      * @throws TeamRepositoryException
      */
     public function create(array $attributes = [])
@@ -77,9 +75,8 @@ class TeamRepository implements InterfacesCountryRepository
     /**
      * find and update a resource attributes
      *
-     * @param int|string $id
-     * @param array $attributes
      * @return Model|null
+     *
      * @throws TeamRepositoryException
      */
     public function update(int|string $id, array $attributes = [])
@@ -111,9 +108,9 @@ class TeamRepository implements InterfacesCountryRepository
     /**
      * find and delete a entry from records
      *
-     * @param string|int $id
-     * @param bool $onlyTrashed
+     * @param  bool  $onlyTrashed
      * @return bool|null
+     *
      * @throws TeamRepositoryException
      */
     public function read(int|string $id, $onlyTrashed = false)
@@ -142,8 +139,8 @@ class TeamRepository implements InterfacesCountryRepository
     /**
      * find and delete a entry from records
      *
-     * @param string|int $id
      * @return bool|null
+     *
      * @throws TeamRepositoryException
      */
     public function delete(int|string $id)
@@ -172,13 +169,13 @@ class TeamRepository implements InterfacesCountryRepository
     /**
      * find and restore a entry from records
      *
-     * @param string|int $id
      * @return bool|null
+     *
      * @throws TeamRepositoryException
      */
     public function restore(int|string $id)
     {
-        if (!method_exists($this->model, 'restore')) {
+        if (! method_exists($this->model, 'restore')) {
             throw new InvalidArgumentException('This model does not have `Illuminate\Database\Eloquent\SoftDeletes` trait to perform restoration.');
         }
 

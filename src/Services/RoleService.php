@@ -2,12 +2,10 @@
 
 namespace Fintech\Auth\Services;
 
-
 use Fintech\Auth\Interfaces\RoleRepository;
 
 /**
  * Class RoleService
- * @package Fintech\Auth\Services
  *
  * @property-read RoleRepository $roleRepository
  */
@@ -15,12 +13,12 @@ class RoleService
 {
     /**
      * RoleService constructor.
-     * @param RoleRepository $roleRepository
      */
-    public function __construct(private RoleRepository $roleRepository) { }
+    public function __construct(private RoleRepository $roleRepository)
+    {
+    }
 
     /**
-     * @param array $filters
      * @return mixed
      */
     public function list(array $filters = [])

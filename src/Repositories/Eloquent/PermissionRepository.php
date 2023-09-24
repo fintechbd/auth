@@ -13,16 +13,13 @@ use InvalidArgumentException;
  */
 class PermissionRepository implements InterfacesPermissionRepository
 {
-    /**
-     * @var Model
-     */
     private Model $model;
 
     public function __construct()
     {
         $model = app()->make(config('fintech.auth.permission_model', \Fintech\Auth\Models\Permission::class));
 
-        if (!$model instanceof Model) {
+        if (! $model instanceof Model) {
             throw new InvalidArgumentException("Eloquent repository require model class to be `Illuminate\Database\Eloquent\Model` instance.");
         }
 
@@ -110,7 +107,7 @@ class PermissionRepository implements InterfacesPermissionRepository
     /**
      * find and delete a entry from records
      *
-     * @param bool $onlyTrashed
+     * @param  bool  $onlyTrashed
      * @return bool|null
      *
      * @throws PermissionRepositoryException
@@ -177,7 +174,7 @@ class PermissionRepository implements InterfacesPermissionRepository
      */
     public function restore(int|string $id)
     {
-        if (!method_exists($this->model, 'restore')) {
+        if (! method_exists($this->model, 'restore')) {
             throw new InvalidArgumentException('This model does not have `Illuminate\Database\Eloquent\SoftDeletes` trait to perform restoration.');
         }
 

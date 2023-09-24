@@ -12,9 +12,6 @@ use InvalidArgumentException;
  */
 class UserProfileRepository implements InterfacesUserProfileRepository
 {
-    /**
-     * @var Model
-     */
     private Model $model;
 
     public function __construct()
@@ -58,7 +55,7 @@ class UserProfileRepository implements InterfacesUserProfileRepository
     public function create(array $attributes = [])
     {
         try {
-                        $this->model->fill($attributes);
+            $this->model->fill($attributes);
             if ($this->model->saveOrFail()) {
 
                 $this->model->refresh();

@@ -34,7 +34,7 @@ class StoreUserRequest extends FormRequest
             'app_version' => ['nullable', 'string'],
             'fcm_token' => ['nullable', 'string'],
             'language' => ['nullable', 'string'],
-            'currency' => ['nullable', 'string']
+            'currency' => ['nullable', 'string'],
         ];
     }
 

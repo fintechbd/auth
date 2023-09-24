@@ -14,16 +14,13 @@ use Throwable;
  */
 class TeamRepository implements InterfacesTeamRepository
 {
-    /**
-     * @var Model
-     */
     private Model $model;
 
     public function __construct()
     {
         $model = app()->make(config('fintech.auth.team_model', Team::class));
 
-        if (!$model instanceof Model) {
+        if (! $model instanceof Model) {
             throw new InvalidArgumentException("Eloquent repository require model class to be `Illuminate\Database\Eloquent\Model` instance.");
         }
 
@@ -111,7 +108,7 @@ class TeamRepository implements InterfacesTeamRepository
     /**
      * find and delete a entry from records
      *
-     * @param bool $onlyTrashed
+     * @param  bool  $onlyTrashed
      * @return bool|null
      *
      * @throws TeamRepositoryException
@@ -178,7 +175,7 @@ class TeamRepository implements InterfacesTeamRepository
      */
     public function restore(int|string $id)
     {
-        if (!method_exists($this->model, 'restore')) {
+        if (! method_exists($this->model, 'restore')) {
             throw new InvalidArgumentException('This model does not have `Illuminate\Database\Eloquent\SoftDeletes` trait to perform restoration.');
         }
 

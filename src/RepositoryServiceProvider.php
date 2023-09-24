@@ -25,23 +25,23 @@ class RepositoryServiceProvider extends ServiceProvider implements DeferrablePro
     public array $repositories = [
         PermissionRepository::class => [
             'default' => EloquentPermissionRepository::class,
-            'mongodb' => MongodbPermissionRepository::class
+            'mongodb' => MongodbPermissionRepository::class,
         ],
         RoleRepository::class => [
             'default' => EloquentRoleRepository::class,
-            'mongodb' => MongodbRoleRepository::class
+            'mongodb' => MongodbRoleRepository::class,
         ],
         TeamRepository::class => [
             'default' => EloquentTeamRepository::class,
-            'mongodb' => MongodbTeamRepository::class
+            'mongodb' => MongodbTeamRepository::class,
         ],
         UserProfileRepository::class => [
             'default' => EloquentUserProfileRepository::class,
-            'mongodb' => MongodbUserProfileRepository::class
+            'mongodb' => MongodbUserProfileRepository::class,
         ],
         UserRepository::class => [
             'default' => EloquentUserRepository::class,
-            'mongodb' => MongodbUserRepository::class
+            'mongodb' => MongodbUserRepository::class,
         ],
     ];
 
@@ -52,11 +52,11 @@ class RepositoryServiceProvider extends ServiceProvider implements DeferrablePro
     {
         foreach ($this->repositories as $interface => $bindings) {
             $this->app->bind($interface, function () use ($bindings) {
-                return match(config('database.default')){
-                'mongodb' => new $bindings['mongodb'](),
-                default => new $bindings['default'](),
-            };
-        }, true);
+                return match (config('database.default')) {
+                    'mongodb' => new $bindings['mongodb'](),
+                    default => new $bindings['default'](),
+                };
+            }, true);
         }
     }
 

@@ -17,11 +17,13 @@
     ],
     "require": {
         "php": "^8.1",
+        "fintech/core": "^0.0.1",
         "illuminate/contracts": "^10.0",
         "laravel/sanctum": "^3.3",
         "spatie/laravel-permission": "^5.11"
     },
     "require-dev": {
+        "guzzlehttp/guzzle": "^7.8",
         "laravel/pint": "^1.0",
         "nunomaduro/collision": "^7.9",
         "nunomaduro/larastan": "^2.0.1",

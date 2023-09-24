@@ -9,6 +9,7 @@ use Illuminate\Contracts\Database\Eloquent\Builder;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use InvalidArgumentException;
 use Throwable;
 
@@ -63,7 +64,7 @@ class UserRepository implements InterfacesUserRepository
     public function create(array $attributes = [])
     {
         try {
-            
+
             $this->model->fill($attributes);
 
             if ($this->model->saveOrFail()) {
@@ -127,18 +128,11 @@ class UserRepository implements InterfacesUserRepository
 
             $this->model = $this->model->findOrFail($id);
 
+            return $this->model;
+
         } catch (Throwable $exception) {
 
             throw new ModelNotFoundException($exception->getMessage(), 0, $exception);
-        }
-
-        try {
-
-            return $this->model->deleteOrFail();
-
-        } catch (Throwable $exception) {
-
-            throw new UserRepositoryException($exception->getMessage(), 0, $exception);
         }
 
         return null;

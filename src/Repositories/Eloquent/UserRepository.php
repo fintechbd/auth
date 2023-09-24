@@ -2,15 +2,20 @@
 
 namespace Fintech\Auth\Repositories\Eloquent;
 
-use Fintech\Auth\Exceptions\Eloquent\UserRepository;
-use Fintech\Auth\Interfaces\CountryRepository as InterfacesCountryRepository;
+use Fintech\Auth\Exceptions\UserRepositoryException;
+use Fintech\Auth\Interfaces\UserRepository as InterfacesUserRepository;
+use Fintech\Auth\Models\User;
+use Illuminate\Contracts\Database\Eloquent\Builder;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
+use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Model;
 use InvalidArgumentException;
+use Throwable;
 
 /**
  * Class UserRepository
  */
-class UserRepository implements InterfacesCountryRepository
+class UserRepository implements InterfacesUserRepository
 {
     /**
      * @var Model
@@ -19,9 +24,9 @@ class UserRepository implements InterfacesCountryRepository
 
     public function __construct()
     {
-        $model = app()->make(config('auth.country_model', \App\Models\Country::class));
+        $model = app()->make(config('fintech.auth.user_model', User::class));
 
-        if (! $model instanceof Model) {
+        if (!$model instanceof Model) {
             throw new InvalidArgumentException("Eloquent repository require model class to be `Illuminate\Database\Eloquent\Model` instance.");
         }
 
@@ -58,13 +63,16 @@ class UserRepository implements InterfacesCountryRepository
     public function create(array $attributes = [])
     {
         try {
-            if ($this->model->saveOrFail($attributes)) {
+            
+            $this->model->fill($attributes);
+
+            if ($this->model->saveOrFail()) {
 
                 $this->model->refresh();
 
                 return $this->model;
             }
-        } catch (\Throwable $e) {
+        } catch (Throwable $e) {
 
             throw new UserRepositoryException($e->getMessage(), 0, $e);
         }
@@ -85,7 +93,7 @@ class UserRepository implements InterfacesCountryRepository
 
             $this->model = $this->model->findOrFail($id);
 
-        } catch (\Throwable $exception) {
+        } catch (Throwable $exception) {
 
             throw new ModelNotFoundException($exception->getMessage(), 0, $exception);
         }
@@ -97,7 +105,7 @@ class UserRepository implements InterfacesCountryRepository
 
                 return $this->model;
             }
-        } catch (\Throwable $exception) {
+        } catch (Throwable $exception) {
 
             throw new UserRepositoryException($exception->getMessage(), 0, $exception);
         }
@@ -108,7 +116,7 @@ class UserRepository implements InterfacesCountryRepository
     /**
      * find and delete a entry from records
      *
-     * @param  bool  $onlyTrashed
+     * @param bool $onlyTrashed
      * @return bool|null
      *
      * @throws UserRepositoryException
@@ -119,7 +127,7 @@ class UserRepository implements InterfacesCountryRepository
 
             $this->model = $this->model->findOrFail($id);
 
-        } catch (\Throwable $exception) {
+        } catch (Throwable $exception) {
 
             throw new ModelNotFoundException($exception->getMessage(), 0, $exception);
         }
@@ -128,7 +136,7 @@ class UserRepository implements InterfacesCountryRepository
 
             return $this->model->deleteOrFail();
 
-        } catch (\Throwable $exception) {
+        } catch (Throwable $exception) {
 
             throw new UserRepositoryException($exception->getMessage(), 0, $exception);
         }
@@ -149,7 +157,7 @@ class UserRepository implements InterfacesCountryRepository
 
             $this->model = $this->model->findOrFail($id);
 
-        } catch (\Throwable $exception) {
+        } catch (Throwable $exception) {
 
             throw new ModelNotFoundException($exception->getMessage(), 0, $exception);
         }
@@ -158,7 +166,7 @@ class UserRepository implements InterfacesCountryRepository
 
             return $this->model->deleteOrFail();
 
-        } catch (\Throwable $exception) {
+        } catch (Throwable $exception) {
 
             throw new UserRepositoryException($exception->getMessage(), 0, $exception);
         }
@@ -175,7 +183,7 @@ class UserRepository implements InterfacesCountryRepository
      */
     public function restore(int|string $id)
     {
-        if (! method_exists($this->model, 'restore')) {
+        if (!method_exists($this->model, 'restore')) {
             throw new InvalidArgumentException('This model does not have `Illuminate\Database\Eloquent\SoftDeletes` trait to perform restoration.');
         }
 
@@ -183,7 +191,7 @@ class UserRepository implements InterfacesCountryRepository
 
             $this->model = $this->model->onlyTrashed()->findOrFail($id);
 
-        } catch (\Throwable $exception) {
+        } catch (Throwable $exception) {
 
             throw new ModelNotFoundException($exception->getMessage(), 0, $exception);
         }
@@ -192,7 +200,7 @@ class UserRepository implements InterfacesCountryRepository
 
             return $this->model->deleteOrFail();
 
-        } catch (\Throwable $exception) {
+        } catch (Throwable $exception) {
 
             throw new UserRepositoryException($exception->getMessage(), 0, $exception);
         }

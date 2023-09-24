@@ -2,15 +2,17 @@
 
 namespace Fintech\Auth\Repositories\Mongodb;
 
-use Fintech\Auth\Exceptions\Mongodb\RoleRepository;
-use Fintech\Auth\Interfaces\CountryRepository as InterfacesCountryRepository;
+use Fintech\Auth\Exceptions\RoleRepositoryException;
+use Fintech\Auth\Interfaces\RoleRepository as InterfacesRoleRepository;
+use Fintech\Auth\Models\Role;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use InvalidArgumentException;
+use Throwable;
 
 /**
  * Class RoleRepository
  */
-class RoleRepository implements InterfacesCountryRepository
+class RoleRepository implements InterfacesRoleRepository
 {
     /**
      * @var Model
@@ -19,9 +21,9 @@ class RoleRepository implements InterfacesCountryRepository
 
     public function __construct()
     {
-        $model = app()->make(config('auth.country_model', \App\Models\Country::class));
+        $model = app()->make(config('fintech.auth.role_model', Role::class));
 
-        if (! $model instanceof Model) {
+        if (!$model instanceof Model) {
             throw new InvalidArgumentException("Eloquent repository require model class to be `Illuminate\Database\Eloquent\Model` instance.");
         }
 
@@ -58,13 +60,14 @@ class RoleRepository implements InterfacesCountryRepository
     public function create(array $attributes = [])
     {
         try {
-            if ($this->model->saveOrFail($attributes)) {
+            $this->model->fill($attributes);
+            if ($this->model->saveOrFail()) {
 
                 $this->model->refresh();
 
                 return $this->model;
             }
-        } catch (\Throwable $e) {
+        } catch (Throwable $e) {
 
             throw new RoleRepositoryException($e->getMessage(), 0, $e);
         }
@@ -85,7 +88,7 @@ class RoleRepository implements InterfacesCountryRepository
 
             $this->model = $this->model->findOrFail($id);
 
-        } catch (\Throwable $exception) {
+        } catch (Throwable $exception) {
 
             throw new ModelNotFoundException($exception->getMessage(), 0, $exception);
         }
@@ -97,7 +100,7 @@ class RoleRepository implements InterfacesCountryRepository
 
                 return $this->model;
             }
-        } catch (\Throwable $exception) {
+        } catch (Throwable $exception) {
 
             throw new RoleRepositoryException($exception->getMessage(), 0, $exception);
         }
@@ -108,7 +111,7 @@ class RoleRepository implements InterfacesCountryRepository
     /**
      * find and delete a entry from records
      *
-     * @param  bool  $onlyTrashed
+     * @param bool $onlyTrashed
      * @return bool|null
      *
      * @throws RoleRepositoryException
@@ -119,7 +122,7 @@ class RoleRepository implements InterfacesCountryRepository
 
             $this->model = $this->model->findOrFail($id);
 
-        } catch (\Throwable $exception) {
+        } catch (Throwable $exception) {
 
             throw new ModelNotFoundException($exception->getMessage(), 0, $exception);
         }
@@ -128,7 +131,7 @@ class RoleRepository implements InterfacesCountryRepository
 
             return $this->model->deleteOrFail();
 
-        } catch (\Throwable $exception) {
+        } catch (Throwable $exception) {
 
             throw new RoleRepositoryException($exception->getMessage(), 0, $exception);
         }
@@ -149,7 +152,7 @@ class RoleRepository implements InterfacesCountryRepository
 
             $this->model = $this->model->findOrFail($id);
 
-        } catch (\Throwable $exception) {
+        } catch (Throwable $exception) {
 
             throw new ModelNotFoundException($exception->getMessage(), 0, $exception);
         }
@@ -158,7 +161,7 @@ class RoleRepository implements InterfacesCountryRepository
 
             return $this->model->deleteOrFail();
 
-        } catch (\Throwable $exception) {
+        } catch (Throwable $exception) {
 
             throw new RoleRepositoryException($exception->getMessage(), 0, $exception);
         }
@@ -175,7 +178,7 @@ class RoleRepository implements InterfacesCountryRepository
      */
     public function restore(int|string $id)
     {
-        if (! method_exists($this->model, 'restore')) {
+        if (!method_exists($this->model, 'restore')) {
             throw new InvalidArgumentException('This model does not have `Illuminate\Database\Eloquent\SoftDeletes` trait to perform restoration.');
         }
 
@@ -183,7 +186,7 @@ class RoleRepository implements InterfacesCountryRepository
 
             $this->model = $this->model->onlyTrashed()->findOrFail($id);
 
-        } catch (\Throwable $exception) {
+        } catch (Throwable $exception) {
 
             throw new ModelNotFoundException($exception->getMessage(), 0, $exception);
         }
@@ -192,7 +195,7 @@ class RoleRepository implements InterfacesCountryRepository
 
             return $this->model->deleteOrFail();
 
-        } catch (\Throwable $exception) {
+        } catch (Throwable $exception) {
 
             throw new RoleRepositoryException($exception->getMessage(), 0, $exception);
         }

@@ -42,7 +42,7 @@ class TeamController extends Controller
      * @lrd:start
      * Return a listing of the team resource as collection.
      *
-     * ** ```paginate=false``` returns all resource as list not pagination **
+     * *```paginate=false``` returns all resource as list not pagination*
      *
      * @lrd:end
      */
@@ -81,7 +81,7 @@ class TeamController extends Controller
             }
 
             return $this->created([
-                'message' => __('auth::messages.resource.created', ['model' => 'Team']),
+                'message' => __('core::messages.resource.created', ['model' => 'Team']),
                 'id' => $team->id,
             ]);
 
@@ -106,7 +106,7 @@ class TeamController extends Controller
             $team = \Auth::team()->read($id);
 
             if (! $team) {
-                throw new ResourceNotFoundException(__('auth::messages.resource.notfound', ['model' => 'Team', 'id' => strval($id)]));
+                throw new ResourceNotFoundException(__('core::messages.resource.notfound', ['model' => 'Team', 'id' => strval($id)]));
             }
 
             return new TeamResource($team);
@@ -137,7 +137,7 @@ class TeamController extends Controller
             $team = \Auth::team()->read($id);
 
             if (! $team) {
-                throw new ResourceNotFoundException(__('auth::messages.resource.notfound', ['model' => 'Team', 'id' => strval($id)]));
+                throw new ResourceNotFoundException(__('core::messages.resource.notfound', ['model' => 'Team', 'id' => strval($id)]));
             }
 
             $inputs = $request->validated();
@@ -147,7 +147,7 @@ class TeamController extends Controller
                 throw new UpdateOperationException();
             }
 
-            return $this->updated(__('auth::messages.resource.updated', ['model' => 'Team']));
+            return $this->updated(__('core::messages.resource.updated', ['model' => 'Team']));
 
         } catch (ResourceNotFoundException $exception) {
 
@@ -177,7 +177,7 @@ class TeamController extends Controller
             $team = \Auth::team()->read($id);
 
             if (! $team) {
-                throw new ResourceNotFoundException(__('auth::messages.resource.notfound', ['model' => 'Team', 'id' => strval($id)]));
+                throw new ResourceNotFoundException(__('core::messages.resource.notfound', ['model' => 'Team', 'id' => strval($id)]));
             }
 
             if (! \Auth::team()->destroy($id)) {
@@ -185,7 +185,7 @@ class TeamController extends Controller
                 throw new DeleteOperationException();
             }
 
-            return $this->deleted(__('auth::messages.resource.deleted', ['model' => 'Team']));
+            return $this->deleted(__('core::messages.resource.deleted', ['model' => 'Team']));
 
         } catch (ResourceNotFoundException $exception) {
 
@@ -213,7 +213,7 @@ class TeamController extends Controller
             $team = \Auth::team()->read($id, true);
 
             if (! $team) {
-                throw new ResourceNotFoundException(__('auth::messages.resource.notfound', ['model' => 'Team', 'id' => strval($id)]));
+                throw new ResourceNotFoundException(__('core::messages.resource.notfound', ['model' => 'Team', 'id' => strval($id)]));
             }
 
             if (! \Auth::team()->restore($id)) {
@@ -221,7 +221,7 @@ class TeamController extends Controller
                 throw new RestoreOperationException();
             }
 
-            return $this->restored(__('auth::messages.resource.restored', ['model' => 'Team']));
+            return $this->restored(__('core::messages.resource.restored', ['model' => 'Team']));
 
         } catch (ResourceNotFoundException $exception) {
 
@@ -247,7 +247,7 @@ class TeamController extends Controller
 
             $teamPaginate = \Auth::team()->export($inputs);
 
-            return $this->exported(__('auth::messages.resource.exported', ['model' => 'Team']));
+            return $this->exported(__('core::messages.resource.exported', ['model' => 'Team']));
 
         } catch (\Exception $exception) {
 

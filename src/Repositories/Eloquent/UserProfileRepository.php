@@ -2,15 +2,15 @@
 
 namespace Fintech\Auth\Repositories\Eloquent;
 
-use Fintech\Auth\Exceptions\Eloquent\UserProfileRepository;
-use Fintech\Auth\Interfaces\CountryRepository as InterfacesCountryRepository;
+use Fintech\Auth\Exceptions\UserProfileRepositoryException;
+use Fintech\Auth\Interfaces\UserProfileRepository as InterfacesUserProfileRepository;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use InvalidArgumentException;
 
 /**
  * Class UserProfileRepository
  */
-class UserProfileRepository implements InterfacesCountryRepository
+class UserProfileRepository implements InterfacesUserProfileRepository
 {
     /**
      * @var Model
@@ -19,7 +19,7 @@ class UserProfileRepository implements InterfacesCountryRepository
 
     public function __construct()
     {
-        $model = app()->make(config('auth.country_model', \App\Models\Country::class));
+        $model = app()->make(config('fintech.auth.user_profile_model', \Fintech\Auth\Models\UserProfile::class));
 
         if (! $model instanceof Model) {
             throw new InvalidArgumentException("Eloquent repository require model class to be `Illuminate\Database\Eloquent\Model` instance.");
@@ -58,7 +58,8 @@ class UserProfileRepository implements InterfacesCountryRepository
     public function create(array $attributes = [])
     {
         try {
-            if ($this->model->saveOrFail($attributes)) {
+                        $this->model->fill($attributes);
+            if ($this->model->saveOrFail()) {
 
                 $this->model->refresh();
 

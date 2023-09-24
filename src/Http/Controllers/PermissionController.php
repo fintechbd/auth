@@ -42,7 +42,7 @@ class PermissionController extends Controller
      * @lrd:start
      * Return a listing of the permission resource as collection.
      *
-     * ** ```paginate=false``` returns all resource as list not pagination **
+     * *```paginate=false``` returns all resource as list not pagination*
      *
      * @lrd:end
      */
@@ -81,7 +81,7 @@ class PermissionController extends Controller
             }
 
             return $this->created([
-                'message' => __('auth::messages.resource.created', ['model' => 'Permission']),
+                'message' => __('core::messages.resource.created', ['model' => 'Permission']),
                 'id' => $permission->id,
             ]);
 
@@ -106,7 +106,7 @@ class PermissionController extends Controller
             $permission = \Auth::permission()->read($id);
 
             if (! $permission) {
-                throw new ResourceNotFoundException(__('auth::messages.resource.notfound', ['model' => 'Permission', 'id' => strval($id)]));
+                throw new ResourceNotFoundException(__('core::messages.resource.notfound', ['model' => 'Permission', 'id' => strval($id)]));
             }
 
             return new PermissionResource($permission);
@@ -137,7 +137,7 @@ class PermissionController extends Controller
             $permission = \Auth::permission()->read($id);
 
             if (! $permission) {
-                throw new ResourceNotFoundException(__('auth::messages.resource.notfound', ['model' => 'Permission', 'id' => strval($id)]));
+                throw new ResourceNotFoundException(__('core::messages.resource.notfound', ['model' => 'Permission', 'id' => strval($id)]));
             }
 
             $inputs = $request->validated();
@@ -147,7 +147,7 @@ class PermissionController extends Controller
                 throw new UpdateOperationException();
             }
 
-            return $this->updated(__('auth::messages.resource.updated', ['model' => 'Permission']));
+            return $this->updated(__('core::messages.resource.updated', ['model' => 'Permission']));
 
         } catch (ResourceNotFoundException $exception) {
 
@@ -177,7 +177,7 @@ class PermissionController extends Controller
             $permission = \Auth::permission()->read($id);
 
             if (! $permission) {
-                throw new ResourceNotFoundException(__('auth::messages.resource.notfound', ['model' => 'Permission', 'id' => strval($id)]));
+                throw new ResourceNotFoundException(__('core::messages.resource.notfound', ['model' => 'Permission', 'id' => strval($id)]));
             }
 
             if (! \Auth::permission()->destroy($id)) {
@@ -185,7 +185,7 @@ class PermissionController extends Controller
                 throw new DeleteOperationException();
             }
 
-            return $this->deleted(__('auth::messages.resource.deleted', ['model' => 'Permission']));
+            return $this->deleted(__('core::messages.resource.deleted', ['model' => 'Permission']));
 
         } catch (ResourceNotFoundException $exception) {
 
@@ -213,7 +213,7 @@ class PermissionController extends Controller
             $permission = \Auth::permission()->read($id, true);
 
             if (! $permission) {
-                throw new ResourceNotFoundException(__('auth::messages.resource.notfound', ['model' => 'Permission', 'id' => strval($id)]));
+                throw new ResourceNotFoundException(__('core::messages.resource.notfound', ['model' => 'Permission', 'id' => strval($id)]));
             }
 
             if (! \Auth::permission()->restore($id)) {
@@ -221,7 +221,7 @@ class PermissionController extends Controller
                 throw new RestoreOperationException();
             }
 
-            return $this->restored(__('auth::messages.resource.restored', ['model' => 'Permission']));
+            return $this->restored(__('core::messages.resource.restored', ['model' => 'Permission']));
 
         } catch (ResourceNotFoundException $exception) {
 
@@ -247,7 +247,7 @@ class PermissionController extends Controller
 
             $permissionPaginate = \Auth::permission()->export($inputs);
 
-            return $this->exported(__('auth::messages.resource.exported', ['model' => 'Permission']));
+            return $this->exported(__('core::messages.resource.exported', ['model' => 'Permission']));
 
         } catch (\Exception $exception) {
 

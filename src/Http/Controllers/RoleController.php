@@ -42,7 +42,7 @@ class RoleController extends Controller
      * @lrd:start
      * Return a listing of the role resource as collection.
      *
-     * ** ```paginate=false``` returns all resource as list not pagination **
+     * *```paginate=false``` returns all resource as list not pagination*
      *
      * @lrd:end
      */
@@ -81,7 +81,7 @@ class RoleController extends Controller
             }
 
             return $this->created([
-                'message' => __('auth::messages.resource.created', ['model' => 'Role']),
+                'message' => __('core::messages.resource.created', ['model' => 'Role']),
                 'id' => $role->id,
             ]);
 
@@ -106,7 +106,7 @@ class RoleController extends Controller
             $role = \Auth::role()->read($id);
 
             if (! $role) {
-                throw new ResourceNotFoundException(__('auth::messages.resource.notfound', ['model' => 'Role', 'id' => strval($id)]));
+                throw new ResourceNotFoundException(__('core::messages.resource.notfound', ['model' => 'Role', 'id' => strval($id)]));
             }
 
             return new RoleResource($role);
@@ -137,7 +137,7 @@ class RoleController extends Controller
             $role = \Auth::role()->read($id);
 
             if (! $role) {
-                throw new ResourceNotFoundException(__('auth::messages.resource.notfound', ['model' => 'Role', 'id' => strval($id)]));
+                throw new ResourceNotFoundException(__('core::messages.resource.notfound', ['model' => 'Role', 'id' => strval($id)]));
             }
 
             $inputs = $request->validated();
@@ -147,7 +147,7 @@ class RoleController extends Controller
                 throw new UpdateOperationException();
             }
 
-            return $this->updated(__('auth::messages.resource.updated', ['model' => 'Role']));
+            return $this->updated(__('core::messages.resource.updated', ['model' => 'Role']));
 
         } catch (ResourceNotFoundException $exception) {
 
@@ -177,7 +177,7 @@ class RoleController extends Controller
             $role = \Auth::role()->read($id);
 
             if (! $role) {
-                throw new ResourceNotFoundException(__('auth::messages.resource.notfound', ['model' => 'Role', 'id' => strval($id)]));
+                throw new ResourceNotFoundException(__('core::messages.resource.notfound', ['model' => 'Role', 'id' => strval($id)]));
             }
 
             if (! \Auth::role()->destroy($id)) {
@@ -185,7 +185,7 @@ class RoleController extends Controller
                 throw new DeleteOperationException();
             }
 
-            return $this->deleted(__('auth::messages.resource.deleted', ['model' => 'Role']));
+            return $this->deleted(__('core::messages.resource.deleted', ['model' => 'Role']));
 
         } catch (ResourceNotFoundException $exception) {
 
@@ -213,7 +213,7 @@ class RoleController extends Controller
             $role = \Auth::role()->read($id, true);
 
             if (! $role) {
-                throw new ResourceNotFoundException(__('auth::messages.resource.notfound', ['model' => 'Role', 'id' => strval($id)]));
+                throw new ResourceNotFoundException(__('core::messages.resource.notfound', ['model' => 'Role', 'id' => strval($id)]));
             }
 
             if (! \Auth::role()->restore($id)) {
@@ -221,7 +221,7 @@ class RoleController extends Controller
                 throw new RestoreOperationException();
             }
 
-            return $this->restored(__('auth::messages.resource.restored', ['model' => 'Role']));
+            return $this->restored(__('core::messages.resource.restored', ['model' => 'Role']));
 
         } catch (ResourceNotFoundException $exception) {
 
@@ -247,7 +247,7 @@ class RoleController extends Controller
 
             $rolePaginate = \Auth::role()->export($inputs);
 
-            return $this->exported(__('auth::messages.resource.exported', ['model' => 'Role']));
+            return $this->exported(__('core::messages.resource.exported', ['model' => 'Role']));
 
         } catch (\Exception $exception) {
 

@@ -2,47 +2,51 @@
 
 namespace Fintech\Auth;
 
+use Fintech\Auth\Services\PermissionService;
+use Fintech\Auth\Services\RoleService;
+use Fintech\Auth\Services\TeamService;
+use Fintech\Auth\Services\UserService;
 use Illuminate\Contracts\Container\BindingResolutionException;
 
 class Auth
 {
     /**
-     * @return \Fintech\Auth\Services\UserService
+     * @return UserService
      *
      * @throws BindingResolutionException
      */
     public function user()
     {
-        return app()->make(\Fintech\Auth\Services\UserService::class);
+        return app()->make(UserService::class);
     }
 
     /**
-     * @return \Fintech\Auth\Services\RoleService
+     * @return RoleService
      *
      * @throws BindingResolutionException
      */
     public function role()
     {
-        return app()->make(\Fintech\Auth\Services\RoleService::class);
+        return app()->make(RoleService::class);
     }
 
     /**
-     * @return \Fintech\Auth\Services\PermissionService
+     * @return PermissionService
      *
      * @throws BindingResolutionException
      */
     public function permission()
     {
-        return app()->make(\Fintech\Auth\Services\PermissionService::class);
+        return app()->make(PermissionService::class);
     }
 
     /**
-     * @return \Fintech\Auth\Services\TeamService
+     * @return TeamService
      *
      * @throws BindingResolutionException
      */
     public function team()
     {
-        return app()->make(\Fintech\Auth\Services\TeamService::class);
+        return app()->make(TeamService::class);
     }
 }

@@ -55,7 +55,7 @@ interface RoleRepository
      *
      * @throws RoleRepositoryException
      */
-    public function delete(int|string $id): ?bool;
+    public function delete(int|string $id);
 
     /**
      * find and restore a entry from records
@@ -63,5 +63,5 @@ interface RoleRepository
      * @throws \InvalidArgumentException
      * @throws RoleRepositoryException
      */
-    public function restore(int|string $id): ?bool;
+    public function restore(int|string $id);
 }

@@ -32,18 +32,10 @@ class UserController extends Controller
     use ApiResponseTrait;
 
     /**
-     * UserController constructor.
-     */
-    public function __construct()
-    {
-
-    }
-
-    /**
      * @lrd:start
      * Return a listing of the user resource as collection.
      *
-     * ** ```paginate=false``` returns all resource as list not pagination **
+     * *```paginate=false``` returns all resource as list not pagination*
      *
      * @lrd:end
      */
@@ -82,7 +74,7 @@ class UserController extends Controller
             }
 
             return $this->created([
-                'message' => __('auth::messages.resource.created', ['model' => 'User']),
+                'message' => __('core::messages.resource.created', ['model' => 'User']),
                 'id' => $user->id,
             ]);
 
@@ -107,7 +99,7 @@ class UserController extends Controller
             $user = Auth::user()->read($id);
 
             if (! $user) {
-                throw new ResourceNotFoundException(__('auth::messages.resource.notfound', ['model' => 'User', 'id' => strval($id)]));
+                throw new ResourceNotFoundException(__('core::messages.resource.notfound', ['model' => 'User', 'id' => strval($id)]));
             }
 
             return new UserResource($user);
@@ -138,7 +130,7 @@ class UserController extends Controller
             $user = Auth::user()->read($id);
 
             if (! $user) {
-                throw new ResourceNotFoundException(__('auth::messages.resource.notfound', ['model' => 'User', 'id' => strval($id)]));
+                throw new ResourceNotFoundException(__('core::messages.resource.notfound', ['model' => 'User', 'id' => strval($id)]));
             }
 
             $inputs = $request->validated();
@@ -148,7 +140,7 @@ class UserController extends Controller
                 throw new UpdateOperationException();
             }
 
-            return $this->updated(__('auth::messages.resource.updated', ['model' => 'User']));
+            return $this->updated(__('core::messages.resource.updated', ['model' => 'User']));
 
         } catch (ResourceNotFoundException $exception) {
 
@@ -178,7 +170,7 @@ class UserController extends Controller
             $user = Auth::user()->read($id);
 
             if (! $user) {
-                throw new ResourceNotFoundException(__('auth::messages.resource.notfound', ['model' => 'User', 'id' => strval($id)]));
+                throw new ResourceNotFoundException(__('core::messages.resource.notfound', ['model' => 'User', 'id' => strval($id)]));
             }
 
             if (! Auth::user()->destroy($id)) {
@@ -186,7 +178,7 @@ class UserController extends Controller
                 throw new DeleteOperationException();
             }
 
-            return $this->deleted(__('auth::messages.resource.deleted', ['model' => 'User']));
+            return $this->deleted(__('core::messages.resource.deleted', ['model' => 'User']));
 
         } catch (ResourceNotFoundException $exception) {
 
@@ -214,7 +206,7 @@ class UserController extends Controller
             $user = Auth::user()->read($id, true);
 
             if (! $user) {
-                throw new ResourceNotFoundException(__('auth::messages.resource.notfound', ['model' => 'User', 'id' => strval($id)]));
+                throw new ResourceNotFoundException(__('core::messages.resource.notfound', ['model' => 'User', 'id' => strval($id)]));
             }
 
             if (! Auth::user()->restore($id)) {
@@ -222,7 +214,7 @@ class UserController extends Controller
                 throw new RestoreOperationException();
             }
 
-            return $this->restored(__('auth::messages.resource.restored', ['model' => 'User']));
+            return $this->restored(__('core::messages.resource.restored', ['model' => 'User']));
 
         } catch (ResourceNotFoundException $exception) {
 
@@ -248,7 +240,7 @@ class UserController extends Controller
 
             $userPaginate = Auth::user()->export($inputs);
 
-            return $this->exported(__('auth::messages.resource.exported', ['model' => 'User']));
+            return $this->exported(__('core::messages.resource.exported', ['model' => 'User']));
 
         } catch (\Exception $exception) {
 

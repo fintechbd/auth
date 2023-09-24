@@ -13,9 +13,11 @@ class UserService
 {
     /**
      * UserService constructor.
+     * @param UserRepository $userRepository
      */
-    public function __construct(private UserRepository $userRepository)
+    public function __construct(UserRepository $userRepository)
     {
+        $this->userRepository = $userRepository;
     }
 
     /**
@@ -33,6 +35,7 @@ class UserService
 
     public function create(array $inputs = [])
     {
+
         return $this->userRepository->create($inputs);
     }
 

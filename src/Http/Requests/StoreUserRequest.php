@@ -3,6 +3,7 @@
 namespace Fintech\Auth\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rules\Password;
 
 class StoreUserRequest extends FormRequest
 {
@@ -22,7 +23,18 @@ class StoreUserRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'parent_id' => ['nullable', 'integer'],
+            'name' => ['required', 'string', 'min:2', 'max:255'],
+            'mobile' => ['required', 'string', 'min:10'],
+            'email' => ['required', 'string', 'email:rfc,dns', 'min:2', 'max:255'],
+            'loginid' => ['required', 'string', 'min:6', 'max:255'],
+            'password' => ['required', 'string', Password::default()],
+            'pin' => ['required', 'string', 'min:4', 'max:16'],
+            'status' => ['required', 'string'],
+            'app_version' => ['nullable', 'string'],
+            'fcm_token' => ['nullable', 'string'],
+            'language' => ['nullable', 'string'],
+            'currency' => ['nullable', 'string']
         ];
     }
 

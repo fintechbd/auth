@@ -128,7 +128,6 @@ class UserProfileRepository implements InterfacesUserProfileRepository
             throw new ModelNotFoundException($exception->getMessage(), 0, $exception);
         }
 
-
         return null;
     }
 

@@ -18,9 +18,9 @@ class RegisteredUserController extends Controller
 
         \Fintech\Auth\Facades\Auth::user()->create($request->validated());
 
-//        event(new Registered($user));
-//
-//        Auth::login($user);
+        //        event(new Registered($user));
+        //
+        //        Auth::login($user);
 
         return response()->noContent();
     }

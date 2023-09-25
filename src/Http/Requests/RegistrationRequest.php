@@ -2,12 +2,9 @@
 
 namespace Fintech\Auth\Http\Requests;
 
-use Illuminate\Auth\Events\Lockout;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\RateLimiter;
-use Illuminate\Support\Str;
-use Illuminate\Validation\ValidationException;
+use Illuminate\Validation\Rules\File;
+use Illuminate\Validation\Rules\Password;
 
 class RegistrationRequest extends FormRequest
 {
@@ -27,59 +24,48 @@ class RegistrationRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'email' => ['required', 'string', 'email'],
-            'password' => ['required', 'string'],
+            //user
+            'name' => ['required', 'string', 'min:2', 'max:255'],
+            'mobile' => ['required', 'string', 'min:10'],
+            'email' => ['required', 'string', 'email:rfc,dns', 'min:2', 'max:255'],
+            'loginid' => ['required', 'string', 'min:6', 'max:255'],
+            'password' => ['required', 'string', Password::default()],
+            'pin' => ['required', 'string', 'min:4', 'max:16'],
+            'parent_id' => ['nullable', 'integer'],
+            'app_version' => ['nullable', 'string'],
+            'fcm_token' => ['nullable', 'string'],
+            'language' => ['nullable', 'string'],
+            'currency' => ['nullable', 'string'],
+
+            //profile
+            'father_name' => ['string', 'nullable'],
+            'mother_name' => ['string', 'nullable'],
+            'gender' => ['string', 'nullable'],
+            'marital_status' => ['string', 'nullable'],
+            'occupation' => ['string', 'nullable'],
+            'source_of_income' => ['string', 'nullable'],
+            'id_type' => ['string', 'nullable'],
+            'id_no' => ['string', 'nullable'],
+            'id_issue_country' => ['string', 'nullable'],
+            'id_expired_at' => ['string', 'nullable'],
+            'id_issue_at' => ['string', 'nullable'],
+            'profile_photo' => [File::image(), 'nullable'],
+            'scan' => [File::types(['application/pdf', 'image/*']), 'nullable'],
+            'scan_1' => [File::types(['application/pdf', 'image/*']), 'nullable'],
+            'scan_2' => [File::types(['application/pdf', 'image/*']), 'nullable'],
+            'date_of_birth' => ['date', 'nullable'],
+            'permanent_address' => ['string', 'nullable'],
+            'city_id' => ['integer', 'nullable'],
+            'state_id' => ['integer', 'nullable'],
+            'country_id' => ['integer', 'nullable'],
+            'post_code' => ['string', 'nullable'],
+            'present_address' => ['string', 'nullable'],
+            'present_city_id' => ['integer', 'nullable'],
+            'present_state_id' => ['integer', 'nullable'],
+            'present_country_id' => ['integer', 'nullable'],
+            'present_post_code' => ['string', 'nullable'],
+            'note' => ['string', 'nullable'],
+            'nationality' => ['string', 'nullable'],
         ];
-    }
-
-    /**
-     * Attempt to authenticate the request's credentials.
-     *
-     * @throws \Illuminate\Validation\ValidationException
-     */
-    public function authenticate(): void
-    {
-        $this->ensureIsNotRateLimited();
-
-        if (! Auth::attempt($this->only('email', 'password'), $this->boolean('remember'))) {
-            RateLimiter::hit($this->throttleKey());
-
-            throw ValidationException::withMessages([
-                'email' => __('auth.failed'),
-            ]);
-        }
-
-        RateLimiter::clear($this->throttleKey());
-    }
-
-    /**
-     * Ensure the login request is not rate limited.
-     *
-     * @throws \Illuminate\Validation\ValidationException
-     */
-    public function ensureIsNotRateLimited(): void
-    {
-        if (! RateLimiter::tooManyAttempts($this->throttleKey(), 5)) {
-            return;
-        }
-
-        event(new Lockout($this));
-
-        $seconds = RateLimiter::availableIn($this->throttleKey());
-
-        throw ValidationException::withMessages([
-            'email' => trans('auth.throttle', [
-                'seconds' => $seconds,
-                'minutes' => ceil($seconds / 60),
-            ]),
-        ]);
-    }
-
-    /**
-     * Get the rate limiting throttle key for the request.
-     */
-    public function throttleKey(): string
-    {
-        return Str::transliterate(Str::lower($this->input('email')).'|'.$this->ip());
     }
 }

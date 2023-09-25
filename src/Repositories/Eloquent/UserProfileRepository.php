@@ -4,7 +4,11 @@ namespace Fintech\Auth\Repositories\Eloquent;
 
 use Fintech\Auth\Exceptions\UserProfileRepositoryException;
 use Fintech\Auth\Interfaces\UserProfileRepository as InterfacesUserProfileRepository;
+use Illuminate\Contracts\Database\Eloquent\Builder;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
+use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use InvalidArgumentException;
 
 /**
@@ -107,7 +111,7 @@ class UserProfileRepository implements InterfacesUserProfileRepository
      * find and delete a entry from records
      *
      * @param  bool  $onlyTrashed
-     * @return bool|null
+     * @return Model|null
      *
      * @throws UserProfileRepositoryException
      */
@@ -117,19 +121,13 @@ class UserProfileRepository implements InterfacesUserProfileRepository
 
             $this->model = $this->model->findOrFail($id);
 
+            return $this->model;
+
         } catch (\Throwable $exception) {
 
             throw new ModelNotFoundException($exception->getMessage(), 0, $exception);
         }
 
-        try {
-
-            return $this->model->deleteOrFail();
-
-        } catch (\Throwable $exception) {
-
-            throw new UserProfileRepositoryException($exception->getMessage(), 0, $exception);
-        }
 
         return null;
     }

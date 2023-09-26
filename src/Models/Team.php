@@ -25,7 +25,7 @@ class Team extends Model implements Auditable
 
     protected $guarded = ['id'];
 
-    protected $hidden = ['creator_id', 'editor_id', 'destroyer_id', 'creator_type', 'editor_type', 'destroyer_type', 'restorer_type', 'restorer_id', 'deleted_at'];
+    protected $hidden = ['creator_id', 'editor_id', 'destroyer_id',  'restorer_id', 'deleted_at'];
 
     protected $casts = [];
 

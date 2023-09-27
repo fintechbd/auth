@@ -11,8 +11,8 @@ use OwenIt\Auditing\Contracts\Auditable;
 class User extends Authenticatable implements Auditable
 {
     use BlameableTrait;
-    use \OwenIt\Auditing\Auditable;
     use HasApiTokens;
+    use \OwenIt\Auditing\Auditable;
     use SoftDeletes;
 
     /*

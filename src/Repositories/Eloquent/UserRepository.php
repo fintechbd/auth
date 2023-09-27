@@ -44,6 +44,8 @@ class UserRepository implements InterfacesUserRepository
         //Handle Sorting
         $query->orderBy($filters['sort'] ?? $this->model->getKeyName(), $filters['direction'] ?? 'asc');
 
+        $query->with(['userProfile']);
+
         //Prepare Output
         return (isset($filters['paginate']) && $filters['paginate'] == true)
             ? $query->paginate(($filters['per_page'] ?? 20))

@@ -51,12 +51,11 @@ class RepositoryServiceProvider extends ServiceProvider implements DeferrablePro
     public function register(): void
     {
         foreach ($this->repositories as $interface => $bindings) {
-            $this->app->bind($interface, function () use ($bindings) {
-                return match (config('database.default')) {
-                    'mongodb' => new $bindings['mongodb'](),
-                    default => new $bindings['default'](),
-                };
-            }, true);
+            $this->app->bind($interface, function ($app) use ($bindings) {
+                return (config('database.default') == 'mongodb')
+                    ? $app->make($bindings['mongodb'])
+                    : $app->make($bindings['default']);
+            });
         }
     }
 

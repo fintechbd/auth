@@ -3,10 +3,8 @@
 namespace Fintech\Auth\Http\Controllers;
 
 use Fintech\Auth\Http\Requests\RegistrationRequest;
-use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
-use Illuminate\Support\Facades\Auth;
 
 class RegisteredUserController extends Controller
 {

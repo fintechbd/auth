@@ -3,15 +3,15 @@
 namespace Fintech\Auth\Models;
 
 use Fintech\Core\Traits\BlameableTrait;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 use OwenIt\Auditing\Contracts\Auditable;
 
-class User extends Model implements Auditable
+class User extends Authenticatable implements Auditable
 {
     use BlameableTrait;
     use \OwenIt\Auditing\Auditable;
-    use SoftDeletes;
+//    use SoftDeletes;
 
     /*
     |--------------------------------------------------------------------------
@@ -40,6 +40,11 @@ class User extends Model implements Auditable
     | RELATIONS
     |--------------------------------------------------------------------------
     */
+
+    public function userProfile()
+    {
+        return $this->hasOne(UserProfile::class);
+    }
 
     /*
     |--------------------------------------------------------------------------

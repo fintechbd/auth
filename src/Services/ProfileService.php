@@ -6,14 +6,13 @@ use Fintech\Auth\Interfaces\ProfileRepository;
 
 /**
  * Class UserProfileService
- *
  */
 class ProfileService
 {
     private $profileRepository;
+
     /**
      * UserProfileService constructor.
-     * @param ProfileRepository $profileRepository
      */
     public function __construct(ProfileRepository $profileRepository)
     {

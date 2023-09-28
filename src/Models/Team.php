@@ -25,8 +25,6 @@ class Team extends Model implements Auditable
 
     protected $guarded = ['id'];
 
-
-
     protected $casts = [];
 
     /*

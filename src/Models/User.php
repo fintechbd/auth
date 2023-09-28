@@ -27,8 +27,6 @@ class User extends Authenticatable implements Auditable
 
     protected $guarded = ['id'];
 
-
-
     protected $casts = [];
 
     /*

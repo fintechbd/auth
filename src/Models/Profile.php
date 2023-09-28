@@ -25,8 +25,6 @@ class Profile extends Model implements Auditable
 
     protected $guarded = ['id'];
 
-
-
     protected $casts = [];
 
     /*

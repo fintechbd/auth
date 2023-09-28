@@ -6,8 +6,8 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 use Spatie\Permission\PermissionRegistrar;
 
-return new class extends Migration {
-
+return new class extends Migration
+{
     /**
      * Run the migrations.
      */
@@ -17,7 +17,7 @@ return new class extends Migration {
         $tableNames = config('permission.table_names');
         $columnNames = config('permission.column_names');
 
-        if (!$teams) {
+        if (! $teams) {
             return;
         }
 
@@ -42,7 +42,7 @@ return new class extends Migration {
             $table->timestamp('restored_at')->nullable();
         });
 
-        if (!Schema::hasColumn($tableNames['roles'], $columnNames['team_foreign_key'])) {
+        if (! Schema::hasColumn($tableNames['roles'], $columnNames['team_foreign_key'])) {
             Schema::table($tableNames['roles'], function (Blueprint $table) use ($columnNames) {
                 $table->foreignId($columnNames['team_foreign_key'])->nullable()->after('id');
                 $table->dropUnique('roles_name_guard_name_unique');
@@ -50,7 +50,7 @@ return new class extends Migration {
             });
         }
 
-        if (!Schema::hasColumn($tableNames['model_has_permissions'], $columnNames['team_foreign_key'])) {
+        if (! Schema::hasColumn($tableNames['model_has_permissions'], $columnNames['team_foreign_key'])) {
             Schema::table($tableNames['model_has_permissions'], function (Blueprint $table) use ($tableNames, $columnNames) {
                 $table->foreignId($columnNames['team_foreign_key'])->default('1');
 
@@ -67,7 +67,7 @@ return new class extends Migration {
             });
         }
 
-        if (!Schema::hasColumn($tableNames['model_has_roles'], $columnNames['team_foreign_key'])) {
+        if (! Schema::hasColumn($tableNames['model_has_roles'], $columnNames['team_foreign_key'])) {
             Schema::table($tableNames['model_has_roles'], function (Blueprint $table) use ($tableNames, $columnNames) {
                 $table->foreignId($columnNames['team_foreign_key'])->default('1');
                 if (DB::getDriverName() !== 'sqlite') {

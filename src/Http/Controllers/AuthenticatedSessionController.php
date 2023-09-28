@@ -19,8 +19,6 @@ class AuthenticatedSessionController extends Controller
     /**
      * Handle an incoming authentication request.
      *
-     * @param LoginRequest $request
-     * @return LoginResource|JsonResponse
      * @throws ValidationException
      */
     public function store(LoginRequest $request): LoginResource|JsonResponse
@@ -29,7 +27,7 @@ class AuthenticatedSessionController extends Controller
 
         $attemptUser = \Fintech\Auth\Facades\Auth::user()->list([
             'login_id' => $request->input('login_id'),
-            'paginate' => false
+            'paginate' => false,
         ]);
 
         if ($attemptUser->isEmpty()) {
@@ -42,18 +40,18 @@ class AuthenticatedSessionController extends Controller
         if ($attemptUser->wrong_password > config('fintech.auth.threshold.password', 10)) {
 
             \Fintech\Auth\Facades\Auth::user()->update($attemptUser->id, [
-                'status' => UserStatus::InActive->value
+                'status' => UserStatus::InActive->value,
             ]);
 
             return $this->failed(__('auth::messages.lockup'));
         }
 
-        if (!Hash::check($request->input('password'), $attemptUser->password)) {
+        if (! Hash::check($request->input('password'), $attemptUser->password)) {
 
             $request->hitRateLimited();
 
             \Fintech\Auth\Facades\Auth::user()->update($attemptUser->id, [
-                'wrong_password' => $attemptUser->wrong_password + 1
+                'wrong_password' => $attemptUser->wrong_password + 1,
             ]);
 
             return $this->failed(__('auth::messages.failed'));
@@ -63,7 +61,7 @@ class AuthenticatedSessionController extends Controller
 
         Auth::login($attemptUser);
 
-        Auth::user()->tokens->each(fn($token) => $token->delete());
+        Auth::user()->tokens->each(fn ($token) => $token->delete());
 
         //permission check
 
@@ -72,7 +70,6 @@ class AuthenticatedSessionController extends Controller
 
     /**
      * Destroy an authenticated session.
-     * @return JsonResponse
      */
     public function destroy(): JsonResponse
     {

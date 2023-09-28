@@ -42,7 +42,6 @@ class Profile extends Model implements Auditable
     /**
      * Permanent Address
      */
-
     public function country()
     {
         return $this->belongsTo(config('fintech.metadata.country_model'));
@@ -61,7 +60,6 @@ class Profile extends Model implements Auditable
     /**
      * Present Address
      */
-
     public function presentCountry()
     {
         return $this->belongsTo(config('fintech.metadata.country_model'), 'present_country_id');
@@ -80,7 +78,6 @@ class Profile extends Model implements Auditable
     /**
      * Parental Access
      */
-
     public function user()
     {
         return $this->belongsTo(config('fintech.auth.user_model'));

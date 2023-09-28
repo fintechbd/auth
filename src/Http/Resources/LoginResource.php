@@ -8,7 +8,6 @@ use Illuminate\Support\Str;
 
 class LoginResource extends JsonResource
 {
-
     /**
      * Transform the resource into an array.
      *
@@ -19,7 +18,7 @@ class LoginResource extends JsonResource
     {
         $this->resource->load([
             'profile.country', 'profile.state', 'profile.city',
-            'profile.presentCountry', 'profile.presentState', 'profile.presentCity'
+            'profile.presentCountry', 'profile.presentState', 'profile.presentCity',
         ]);
 
         return [
@@ -68,14 +67,13 @@ class LoginResource extends JsonResource
                     'created_at' => $this->profile->created_at ?? null,
                     'updated_at' => $this->profile->updated_at ?? null,
                 ]
-                : (new \stdClass()))
+                : (new \stdClass())),
         ];
     }
 
     /**
      * Get additional data that should be returned with the resource array.
      *
-     * @param Request $request
      * @return array<string, mixed>
      */
     public function with(Request $request): array
@@ -88,10 +86,10 @@ class LoginResource extends JsonResource
                 'type' => 'bearer',
                 'permissions' => [
                     'login',
-                    'dashboard'
-                ]
+                    'dashboard',
+                ],
             ],
-            'message' => trans('auth::messages.success')
+            'message' => trans('auth::messages.success'),
         ];
     }
 }

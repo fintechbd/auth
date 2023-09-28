@@ -71,7 +71,7 @@ return [
         'login' => [
             'login_id' => ['required', 'string'],
             'password' => ['required', 'string', \Illuminate\Validation\Rules\Password::default()],
-        ]
+        ],
     ],
 
     /*
@@ -95,5 +95,5 @@ return [
     |
     | This value will be used to across system where model is needed
     */
-    'middleware' => ['auth:sanctum']
+    'middleware' => ['auth:sanctum'],
 ];

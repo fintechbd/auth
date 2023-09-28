@@ -23,6 +23,5 @@ return [
     'lockup' => 'Sorry, Your Account is has been Locked. Please contact support!',
     'This user are not login' => 'This user are not login',
     'Sorry, You entered wrong mobile number or invalid pin!' => 'Sorry, You entered wrong mobile number or invalid pin!',
-    'Sorry, You entered wrong mobile number or pin! You already attempt :wrong_pin_password. times out of :password_retry_limit'
-    => 'Sorry, You entered wrong mobile number or pin! You already attempt :wrong_pin_password. times out of :password_retry_limit',
+    'Sorry, You entered wrong mobile number or pin! You already attempt :wrong_pin_password. times out of :password_retry_limit' => 'Sorry, You entered wrong mobile number or pin! You already attempt :wrong_pin_password. times out of :password_retry_limit',
 ];

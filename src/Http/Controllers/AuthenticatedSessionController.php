@@ -19,6 +19,8 @@ class AuthenticatedSessionController extends Controller
     /**
      * Handle an incoming authentication request.
      *
+     * @param LoginRequest $request
+     * @return JsonResponse
      * @throws ValidationException
      */
     public function store(LoginRequest $request): JsonResponse

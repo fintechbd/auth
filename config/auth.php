@@ -58,5 +58,5 @@ return [
     |
     | This value will be used to across system where model is needed
     */
-    'user_profile_model' => \Fintech\Auth\Models\UserProfile::class,
+    'user_profile_model' => \Fintech\Auth\Models\Profile::class,
 ];

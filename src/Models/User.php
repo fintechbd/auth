@@ -27,7 +27,7 @@ class User extends Authenticatable implements Auditable
 
     protected $guarded = ['id'];
 
-    protected $hidden = ['creator_id', 'editor_id', 'destroyer_id',  'restorer_id', 'deleted_at'];
+
 
     protected $casts = [];
 
@@ -45,7 +45,7 @@ class User extends Authenticatable implements Auditable
 
     public function userProfile()
     {
-        return $this->hasOne(UserProfile::class);
+        return $this->hasOne(Profile::class);
     }
 
     /*

@@ -25,7 +25,7 @@ class Role extends Model implements Auditable
 
     protected $guarded = ['id'];
 
-    protected $hidden = ['creator_id', 'editor_id', 'destroyer_id',  'restorer_id', 'deleted_at'];
+
 
     protected $casts = [];
 

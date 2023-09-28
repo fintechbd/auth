@@ -2,7 +2,7 @@
 
 namespace Fintech\Auth\Interfaces;
 
-use Fintech\Auth\Exceptions\UserProfileRepositoryException;
+use Fintech\Auth\Exceptions\ProfileRepositoryException;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
@@ -12,7 +12,7 @@ use MongoDB\Laravel\Eloquent\Model as MongodbModel;
 /**
  * Interface UserProfileRepository
  */
-interface UserProfileRepository
+interface ProfileRepository
 {
     /**
      * return a list or pagination of items from
@@ -27,7 +27,7 @@ interface UserProfileRepository
      *
      * @return EloquentModel|MongodbModel|null
      *
-     * @throws UserProfileRepositoryException
+     * @throws ProfileRepositoryException
      */
     public function create(array $attributes = []);
 
@@ -36,7 +36,7 @@ interface UserProfileRepository
      *
      * @return EloquentModel|MongodbModel|null
      *
-     * @throws UserProfileRepositoryException
+     * @throws ProfileRepositoryException
      */
     public function update(int|string $id, array $attributes = []);
 
@@ -46,14 +46,14 @@ interface UserProfileRepository
      * @param  bool  $onlyTrashed
      * @return EloquentModel|MongodbModel|null
      *
-     * @throws UserProfileRepositoryException
+     * @throws ProfileRepositoryException
      */
     public function read(int|string $id, $onlyTrashed = false);
 
     /**
      * find and delete a entry from records
      *
-     * @throws UserProfileRepositoryException
+     * @throws ProfileRepositoryException
      */
     public function delete(int|string $id);
 
@@ -61,7 +61,7 @@ interface UserProfileRepository
      * find and restore a entry from records
      *
      * @throws \InvalidArgumentException
-     * @throws UserProfileRepositoryException
+     * @throws ProfileRepositoryException
      */
     public function restore(int|string $id);
 }

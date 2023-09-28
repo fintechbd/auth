@@ -3,6 +3,7 @@
 namespace Fintech\Auth\Http\Controllers;
 
 use Fintech\Auth\Http\Requests\LoginRequest;
+use Fintech\Auth\Models\User;
 use Fintech\Core\Traits\ApiResponseTrait;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -33,7 +34,14 @@ class AuthenticatedSessionController extends Controller
 
         $request->clearRateLimited();
 
-        return response()->json(['data' => Auth::guard('api')->user(), 'message' => 'Login Successful.'], Response::HTTP_OK);
+        /**
+         * @var User $authUser
+         */
+        $authUser = Auth::user();
+
+        $token = $authUser->createToken(config('app.name'))->plainTextToken;
+
+        return response()->json(['data' => $authUser, 'token' => $token, 'message' => 'Login Successful.'], Response::HTTP_OK);
     }
 
     /**

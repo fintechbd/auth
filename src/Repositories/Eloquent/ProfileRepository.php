@@ -1,24 +1,26 @@
 <?php
 
-namespace Fintech\Auth\Repositories\Mongodb;
+namespace Fintech\Auth\Repositories\Eloquent;
 
-use Fintech\Auth\Exceptions\UserProfileRepositoryException;
-use Fintech\Auth\Interfaces\UserProfileRepository as InterfacesUserProfileRepository;
-use Fintech\Auth\Models\UserProfile;
+use Fintech\Auth\Exceptions\ProfileRepositoryException;
+use Fintech\Auth\Interfaces\ProfileRepository as InterfacesProfileRepository;
+use Illuminate\Contracts\Database\Eloquent\Builder;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
+use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use InvalidArgumentException;
-use Throwable;
 
 /**
  * Class UserProfileRepository
  */
-class UserProfileRepository implements InterfacesUserProfileRepository
+class ProfileRepository implements InterfacesProfileRepository
 {
     private Model $model;
 
     public function __construct()
     {
-        $model = app()->make(config('fintech.auth.user_profile_model', UserProfile::class));
+        $model = app()->make(config('fintech.auth.user_profile_model', \Fintech\Auth\Models\Profile::class));
 
         if (! $model instanceof Model) {
             throw new InvalidArgumentException("Eloquent repository require model class to be `Illuminate\Database\Eloquent\Model` instance.");
@@ -52,7 +54,7 @@ class UserProfileRepository implements InterfacesUserProfileRepository
      *
      * @return Model|null
      *
-     * @throws UserProfileRepositoryException
+     * @throws ProfileRepositoryException
      */
     public function create(array $attributes = [])
     {
@@ -64,9 +66,9 @@ class UserProfileRepository implements InterfacesUserProfileRepository
 
                 return $this->model;
             }
-        } catch (Throwable $e) {
+        } catch (\Throwable $e) {
 
-            throw new UserProfileRepositoryException($e->getMessage(), 0, $e);
+            throw new ProfileRepositoryException($e->getMessage(), 0, $e);
         }
 
         return null;
@@ -77,7 +79,7 @@ class UserProfileRepository implements InterfacesUserProfileRepository
      *
      * @return Model|null
      *
-     * @throws UserProfileRepositoryException
+     * @throws ProfileRepositoryException
      */
     public function update(int|string $id, array $attributes = [])
     {
@@ -85,7 +87,7 @@ class UserProfileRepository implements InterfacesUserProfileRepository
 
             $this->model = $this->model->findOrFail($id);
 
-        } catch (Throwable $exception) {
+        } catch (\Throwable $exception) {
 
             throw new ModelNotFoundException($exception->getMessage(), 0, $exception);
         }
@@ -97,9 +99,9 @@ class UserProfileRepository implements InterfacesUserProfileRepository
 
                 return $this->model;
             }
-        } catch (Throwable $exception) {
+        } catch (\Throwable $exception) {
 
-            throw new UserProfileRepositoryException($exception->getMessage(), 0, $exception);
+            throw new ProfileRepositoryException($exception->getMessage(), 0, $exception);
         }
 
         return null;
@@ -109,9 +111,9 @@ class UserProfileRepository implements InterfacesUserProfileRepository
      * find and delete a entry from records
      *
      * @param  bool  $onlyTrashed
-     * @return bool|null
+     * @return Model|null
      *
-     * @throws UserProfileRepositoryException
+     * @throws ProfileRepositoryException
      */
     public function read(int|string $id, $onlyTrashed = false)
     {
@@ -119,18 +121,11 @@ class UserProfileRepository implements InterfacesUserProfileRepository
 
             $this->model = $this->model->findOrFail($id);
 
-        } catch (Throwable $exception) {
+            return $this->model;
+
+        } catch (\Throwable $exception) {
 
             throw new ModelNotFoundException($exception->getMessage(), 0, $exception);
-        }
-
-        try {
-
-            return $this->model->deleteOrFail();
-
-        } catch (Throwable $exception) {
-
-            throw new UserProfileRepositoryException($exception->getMessage(), 0, $exception);
         }
 
         return null;
@@ -141,7 +136,7 @@ class UserProfileRepository implements InterfacesUserProfileRepository
      *
      * @return bool|null
      *
-     * @throws UserProfileRepositoryException
+     * @throws ProfileRepositoryException
      */
     public function delete(int|string $id)
     {
@@ -149,7 +144,7 @@ class UserProfileRepository implements InterfacesUserProfileRepository
 
             $this->model = $this->model->findOrFail($id);
 
-        } catch (Throwable $exception) {
+        } catch (\Throwable $exception) {
 
             throw new ModelNotFoundException($exception->getMessage(), 0, $exception);
         }
@@ -158,9 +153,9 @@ class UserProfileRepository implements InterfacesUserProfileRepository
 
             return $this->model->deleteOrFail();
 
-        } catch (Throwable $exception) {
+        } catch (\Throwable $exception) {
 
-            throw new UserProfileRepositoryException($exception->getMessage(), 0, $exception);
+            throw new ProfileRepositoryException($exception->getMessage(), 0, $exception);
         }
 
         return null;
@@ -171,7 +166,7 @@ class UserProfileRepository implements InterfacesUserProfileRepository
      *
      * @return bool|null
      *
-     * @throws UserProfileRepositoryException
+     * @throws ProfileRepositoryException
      */
     public function restore(int|string $id)
     {
@@ -183,7 +178,7 @@ class UserProfileRepository implements InterfacesUserProfileRepository
 
             $this->model = $this->model->onlyTrashed()->findOrFail($id);
 
-        } catch (Throwable $exception) {
+        } catch (\Throwable $exception) {
 
             throw new ModelNotFoundException($exception->getMessage(), 0, $exception);
         }
@@ -192,9 +187,9 @@ class UserProfileRepository implements InterfacesUserProfileRepository
 
             return $this->model->deleteOrFail();
 
-        } catch (Throwable $exception) {
+        } catch (\Throwable $exception) {
 
-            throw new UserProfileRepositoryException($exception->getMessage(), 0, $exception);
+            throw new ProfileRepositoryException($exception->getMessage(), 0, $exception);
         }
 
         return null;

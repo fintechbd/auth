@@ -5,7 +5,7 @@ namespace Fintech\Auth\Exceptions;
 /**
  * Class UserProfileRepositoryException
  */
-class UserProfileRepositoryException extends \Exception
+class ProfileRepositoryException extends \Exception
 {
     public function __construct($message = '', $code = 0, \Throwable $previous = null)
     {

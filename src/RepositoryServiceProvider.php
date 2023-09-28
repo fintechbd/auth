@@ -5,17 +5,17 @@ namespace Fintech\Auth;
 use Fintech\Auth\Interfaces\PermissionRepository;
 use Fintech\Auth\Interfaces\RoleRepository;
 use Fintech\Auth\Interfaces\TeamRepository;
-use Fintech\Auth\Interfaces\UserProfileRepository;
+use Fintech\Auth\Interfaces\ProfileRepository;
 use Fintech\Auth\Interfaces\UserRepository;
 use Fintech\Auth\Repositories\Eloquent\PermissionRepository as EloquentPermissionRepository;
 use Fintech\Auth\Repositories\Eloquent\RoleRepository as EloquentRoleRepository;
 use Fintech\Auth\Repositories\Eloquent\TeamRepository as EloquentTeamRepository;
-use Fintech\Auth\Repositories\Eloquent\UserProfileRepository as EloquentUserProfileRepository;
+use Fintech\Auth\Repositories\Eloquent\ProfileRepository as EloquentProfileRepository;
 use Fintech\Auth\Repositories\Eloquent\UserRepository as EloquentUserRepository;
 use Fintech\Auth\Repositories\Mongodb\PermissionRepository as MongodbPermissionRepository;
 use Fintech\Auth\Repositories\Mongodb\RoleRepository as MongodbRoleRepository;
 use Fintech\Auth\Repositories\Mongodb\TeamRepository as MongodbTeamRepository;
-use Fintech\Auth\Repositories\Mongodb\UserProfileRepository as MongodbUserProfileRepository;
+use Fintech\Auth\Repositories\Mongodb\ProfileRepository as MongodbProfileRepository;
 use Fintech\Auth\Repositories\Mongodb\UserRepository as MongodbUserRepository;
 use Illuminate\Contracts\Support\DeferrableProvider;
 use Illuminate\Support\ServiceProvider;
@@ -35,9 +35,9 @@ class RepositoryServiceProvider extends ServiceProvider implements DeferrablePro
             'default' => EloquentTeamRepository::class,
             'mongodb' => MongodbTeamRepository::class,
         ],
-        UserProfileRepository::class => [
-            'default' => EloquentUserProfileRepository::class,
-            'mongodb' => MongodbUserProfileRepository::class,
+        ProfileRepository::class => [
+            'default' => EloquentProfileRepository::class,
+            'mongodb' => MongodbProfileRepository::class,
         ],
         UserRepository::class => [
             'default' => EloquentUserRepository::class,

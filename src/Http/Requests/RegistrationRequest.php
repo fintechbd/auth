@@ -28,7 +28,7 @@ class RegistrationRequest extends FormRequest
             'name' => ['required', 'string', 'min:2', 'max:255'],
             'mobile' => ['required', 'string', 'min:10'],
             'email' => ['required', 'string', 'email:rfc,dns', 'min:2', 'max:255'],
-            'loginid' => ['required', 'string', 'min:6', 'max:255'],
+            'login_id' => ['required', 'string', 'min:6', 'max:255'],
             'password' => ['required', 'string', Password::default()],
             'pin' => ['required', 'string', 'min:4', 'max:16'],
             'parent_id' => ['nullable', 'integer'],

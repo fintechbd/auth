@@ -2,7 +2,7 @@
 
 namespace Fintech\Auth\Services;
 
-use Fintech\Auth\Interfaces\UserProfileRepository;
+use Fintech\Auth\Interfaces\ProfileRepository;
 use Fintech\Auth\Interfaces\UserRepository;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Hash;
  * Class UserService
  *
  * @property-read UserRepository $userRepository
- * @property-read UserProfileRepository $profileRepository
+ * @property-read ProfileRepository $profileRepository
  */
 class UserService
 {
@@ -22,7 +22,7 @@ class UserService
     /**
      * UserService constructor.
      */
-    public function __construct(UserRepository $userRepository, UserProfileRepository $profileRepository)
+    public function __construct(UserRepository $userRepository, ProfileRepository $profileRepository)
     {
         $this->userRepository = $userRepository;
         $this->profileRepository = $profileRepository;
@@ -69,11 +69,10 @@ class UserService
         $data['name'] = $inputs['name'] ?? null;
         $data['mobile'] = $inputs['mobile'] ?? null;
         $data['email'] = $inputs['email'] ?? null;
-        $data['loginid'] = $inputs['loginid'] ?? null;
+        $data['login_id'] = $inputs['login_id'] ?? null;
         if (isset($inputs['password'])) {
             $data['password'] = Hash::make($inputs['password'] ?? '');
         }
-
         if (isset($inputs['pin'])) {
             $data['pin'] = Hash::make($inputs['pin'] ?? '');
         }

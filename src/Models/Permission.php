@@ -25,8 +25,6 @@ class Permission extends Model implements Auditable
 
     protected $guarded = ['id'];
 
-
-
     protected $casts = [];
 
     /*

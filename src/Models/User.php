@@ -8,11 +8,6 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Laravel\Sanctum\HasApiTokens;
 use OwenIt\Auditing\Contracts\Auditable;
 
-/**
- * Class User
- * @package Fintech\Auth\Models
- * @property-read Profile $profile
- */
 class User extends Authenticatable implements Auditable
 {
     use BlameableTrait;

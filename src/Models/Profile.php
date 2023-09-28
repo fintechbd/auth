@@ -7,11 +7,6 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use OwenIt\Auditing\Contracts\Auditable;
 
-/**
- * Class Profile
- * @package Fintech\Auth\Models
- *
- */
 class Profile extends Model implements Auditable
 {
     use BlameableTrait;

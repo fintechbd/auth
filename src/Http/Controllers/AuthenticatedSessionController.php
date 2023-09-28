@@ -15,21 +15,21 @@ use Illuminate\Validation\ValidationException;
 class AuthenticatedSessionController extends Controller
 {
     use ApiResponseTrait;
+
     /**
      * Handle an incoming authentication request.
-     * @param LoginRequest $request
-     * @return JsonResponse
+     *
      * @throws ValidationException
      */
     public function store(LoginRequest $request): JsonResponse
     {
         $request->ensureIsNotRateLimited();
 
-        if (!Auth::attempt($request->only('login_id', 'password'))) {
+        if (! Auth::attempt($request->only('login_id', 'password'))) {
 
             $request->hitRateLimited();
 
-            return  $this->failed(__('auth.failed'));
+            return $this->failed(__('auth.failed'));
         }
 
         $request->clearRateLimited();

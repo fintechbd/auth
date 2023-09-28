@@ -3,12 +3,9 @@
 namespace Fintech\Auth\Http\Requests;
 
 use Illuminate\Auth\Events\Lockout;
-use Illuminate\Contracts\Validation\Rule;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Str;
-use Illuminate\Validation\ValidationException;
 use Symfony\Component\HttpFoundation\Response;
 
 class LoginRequest extends FormRequest
@@ -36,7 +33,6 @@ class LoginRequest extends FormRequest
 
     /**
      * clear the rate limiter if authenticated
-     *
      */
     public function clearRateLimited(): void
     {
@@ -45,7 +41,6 @@ class LoginRequest extends FormRequest
 
     /**
      * count the rate limiter if authenticated
-     *
      */
     public function hitRateLimited(): void
     {
@@ -59,7 +54,7 @@ class LoginRequest extends FormRequest
      */
     public function ensureIsNotRateLimited(): void
     {
-        if (!RateLimiter::tooManyAttempts($this->throttleKey(), 5)) {
+        if (! RateLimiter::tooManyAttempts($this->throttleKey(), 5)) {
             return;
         }
 

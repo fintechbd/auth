@@ -31,6 +31,7 @@ class AuthServiceProvider extends ServiceProvider
     {
         $this->publishes([
             __DIR__.'/../config/auth.php' => config_path('fintech/auth.php'),
+            __DIR__.'/../config/permission.php' => config_path('permission.php'),
         ]);
 
         $this->loadMigrationsFrom(__DIR__.'/../database/migrations');

@@ -25,10 +25,10 @@ class LoginRequest extends FormRequest
      */
     public function rules(): array
     {
-        return [
+        return config('fintech.auth.validation.login', [
             'login_id' => ['required', 'string'],
-            'password' => ['required', 'string'],
-        ];
+            'password' => ['required', 'string', \Illuminate\Validation\Rules\Password::default()],
+        ]);
     }
 
     /**

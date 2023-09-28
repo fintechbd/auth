@@ -2,14 +2,14 @@
 
 namespace Fintech\Auth\Http\Controllers;
 
+use Fintech\Auth\Enums\UserStatus;
 use Fintech\Auth\Http\Requests\LoginRequest;
-use Fintech\Auth\Models\User;
+use Fintech\Auth\Http\Resources\LoginResource;
 use Fintech\Core\Traits\ApiResponseTrait;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
 
 class AuthenticatedSessionController extends Controller
@@ -20,43 +20,64 @@ class AuthenticatedSessionController extends Controller
      * Handle an incoming authentication request.
      *
      * @param LoginRequest $request
-     * @return JsonResponse
+     * @return LoginResource|JsonResponse
      * @throws ValidationException
      */
-    public function store(LoginRequest $request): JsonResponse
+    public function store(LoginRequest $request): LoginResource|JsonResponse
     {
         $request->ensureIsNotRateLimited();
 
-        if (! Auth::attempt($request->only('login_id', 'password'))) {
+        $attemptUser = \Fintech\Auth\Facades\Auth::user()->list([
+            'login_id' => $request->input('login_id'),
+            'paginate' => false
+        ]);
+
+        if ($attemptUser->isEmpty()) {
+
+            return $this->failed(__('auth::messages.failed'));
+        }
+
+        $attemptUser = $attemptUser->first();
+
+        if ($attemptUser->wrong_password > config('fintech.auth.threshold.password', 10)) {
+
+            \Fintech\Auth\Facades\Auth::user()->update($attemptUser->id, [
+                'status' => UserStatus::InActive->value
+            ]);
+
+            return $this->failed(__('auth::messages.lockup'));
+        }
+
+        if (!Hash::check($request->input('password'), $attemptUser->password)) {
 
             $request->hitRateLimited();
 
-            return $this->failed(__('auth.failed'));
+            \Fintech\Auth\Facades\Auth::user()->update($attemptUser->id, [
+                'wrong_password' => $attemptUser->wrong_password + 1
+            ]);
+
+            return $this->failed(__('auth::messages.failed'));
         }
 
         $request->clearRateLimited();
 
-        /**
-         * @var User $authUser
-         */
-        $authUser = Auth::user();
+        Auth::login($attemptUser);
 
-        $token = $authUser->createToken(config('app.name'))->plainTextToken;
+        Auth::user()->tokens->each(fn($token) => $token->delete());
 
-        return response()->json(['data' => $authUser, 'token' => $token, 'message' => 'Login Successful.'], Response::HTTP_OK);
+        //permission check
+
+        return new LoginResource(Auth::user());
     }
 
     /**
      * Destroy an authenticated session.
+     * @return JsonResponse
      */
-    public function destroy(Request $request): Response
+    public function destroy(): JsonResponse
     {
         Auth::guard('web')->logout();
 
-        $request->session()->invalidate();
-
-        $request->session()->regenerateToken();
-
-        return response()->noContent();
+        return $this->deleted(__('auth::messages.logout'));
     }
 }

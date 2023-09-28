@@ -7,6 +7,11 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use OwenIt\Auditing\Contracts\Auditable;
 
+/**
+ * Class Profile
+ * @package Fintech\Auth\Models
+ *
+ */
 class Profile extends Model implements Auditable
 {
     use BlameableTrait;
@@ -25,9 +30,7 @@ class Profile extends Model implements Auditable
 
     protected $guarded = ['id'];
 
-
-
-    protected $casts = [];
+    protected $casts = ['date_of_birth' => 'datetime', 'user_profile_data' => 'json'];
 
     /*
     |--------------------------------------------------------------------------
@@ -40,6 +43,58 @@ class Profile extends Model implements Auditable
     | RELATIONS
     |--------------------------------------------------------------------------
     */
+
+    /**
+     * Permanent Address
+     */
+
+    public function country()
+    {
+        return $this->belongsTo(config('fintech.metadata.country_model'));
+    }
+
+    public function state()
+    {
+        return $this->belongsTo(config('fintech.metadata.state_model'));
+    }
+
+    public function city()
+    {
+        return $this->belongsTo(config('fintech.metadata.city_model'));
+    }
+
+    /**
+     * Present Address
+     */
+
+    public function presentCountry()
+    {
+        return $this->belongsTo(config('fintech.metadata.country_model'), 'present_country_id');
+    }
+
+    public function presentState()
+    {
+        return $this->belongsTo(config('fintech.metadata.state_model'), 'present_state_id');
+    }
+
+    public function presentCity()
+    {
+        return $this->belongsTo(config('fintech.metadata.city_model'), 'present_city_id');
+    }
+
+    /**
+     * Parental Access
+     */
+
+    public function user()
+    {
+        return $this->belongsTo(config('fintech.auth.user_model'));
+    }
+
+    public function approver()
+    {
+        return $this->belongsTo(config('fintech.auth.user_model'), 'approver_id');
+    }
 
     /*
     |--------------------------------------------------------------------------

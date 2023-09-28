@@ -24,7 +24,7 @@ class UserRepository implements InterfacesUserRepository
     {
         $model = app()->make(config('fintech.auth.user_model', User::class));
 
-        if (! $model instanceof Model) {
+        if (!$model instanceof Model) {
             throw new InvalidArgumentException("Eloquent repository require model class to be `Illuminate\Database\Eloquent\Model` instance.");
         }
 
@@ -44,7 +44,9 @@ class UserRepository implements InterfacesUserRepository
         //Handle Sorting
         $query->orderBy($filters['sort'] ?? $this->model->getKeyName(), $filters['direction'] ?? 'asc');
 
-        $query->with(['userProfile']);
+        if (isset($filters['login_id']) && !empty($filters['login_id'])) {
+            $query->where('login_id', $filters['login_id'])->limit(1);
+        }
 
         //Prepare Output
         return (isset($filters['paginate']) && $filters['paginate'] == true)
@@ -116,7 +118,7 @@ class UserRepository implements InterfacesUserRepository
     /**
      * find and delete a entry from records
      *
-     * @param  bool  $onlyTrashed
+     * @param bool $onlyTrashed
      * @return bool|null
      *
      * @throws UserRepositoryException
@@ -176,7 +178,7 @@ class UserRepository implements InterfacesUserRepository
      */
     public function restore(int|string $id)
     {
-        if (! method_exists($this->model, 'restore')) {
+        if (!method_exists($this->model, 'restore')) {
             throw new InvalidArgumentException('This model does not have `Illuminate\Database\Eloquent\SoftDeletes` trait to perform restoration.');
         }
 

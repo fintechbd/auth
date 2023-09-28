@@ -59,4 +59,41 @@ return [
     | This value will be used to across system where model is needed
     */
     'user_profile_model' => \Fintech\Auth\Models\Profile::class,
+
+    /*
+    |--------------------------------------------------------------------------
+    | Login Validation
+    |--------------------------------------------------------------------------
+    |
+    | This value will be used to across system where model is needed
+    */
+    'validation' => [
+        'login' => [
+            'login_id' => ['required', 'string'],
+            'password' => ['required', 'string', \Illuminate\Validation\Rules\Password::default()],
+        ]
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | Lock Up Threshold
+    |--------------------------------------------------------------------------
+    |
+    | This value will be used to across system where model is needed
+    */
+    'threshold' => [
+        'password' => 10,
+        'pin' => 3,
+    ],
+
+    'threshold_notification' => false,
+
+    /*
+    |--------------------------------------------------------------------------
+    | Authentication Middleware
+    |--------------------------------------------------------------------------
+    |
+    | This value will be used to across system where model is needed
+    */
+    'middleware' => ['auth:sanctum']
 ];

@@ -8,6 +8,11 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Laravel\Sanctum\HasApiTokens;
 use OwenIt\Auditing\Contracts\Auditable;
 
+/**
+ * Class User
+ * @package Fintech\Auth\Models
+ * @property-read Profile $profile
+ */
 class User extends Authenticatable implements Auditable
 {
     use BlameableTrait;
@@ -27,9 +32,10 @@ class User extends Authenticatable implements Auditable
 
     protected $guarded = ['id'];
 
-
-
-    protected $casts = [];
+    protected $casts = [
+        'email_verified_at' => 'datetime',
+        'mobile_verified_at' => 'datetime'
+    ];
 
     /*
     |--------------------------------------------------------------------------
@@ -43,9 +49,9 @@ class User extends Authenticatable implements Auditable
     |--------------------------------------------------------------------------
     */
 
-    public function userProfile()
+    public function profile()
     {
-        return $this->hasOne(Profile::class);
+        return $this->hasOne(config('fintech.auth.user_profile_model'));
     }
 
     /*

@@ -15,8 +15,7 @@ return [
     'failed' => 'These credentials do not match our records.',
     'password' => 'The provided password is incorrect.',
     'throttle' => 'Too many login attempts. Please try again in :seconds seconds.',
-    'Invalid Token' => 'Invalid Token',
-    'Your IP :user_ip is blocked. Please contact support.' => 'Your IP :user_ip is blocked. Please contact support.', //don't translate :user_ip
+    'ip_blocked' => 'Your IP :ip is blocked, Please contact support.',
     'This user are not login. Please contact support.' => 'This user are not login. Please contact support.',
     'Sorry, You entered wrong mobile number or invalid password!' => 'Sorry, You entered wrong mobile number or invalid password!',
     'warning' => 'Sorry, You entered wrong credentials! You already attempt :attempt. times out of :threshold',

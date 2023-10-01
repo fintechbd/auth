@@ -1,14 +1,17 @@
 <?php
 
-namespace Fintech\Auth\Http\Middleware;
+namespace Fintech\Auth\Http\Middlewares;
 
 use Closure;
-use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\App;
 use Symfony\Component\HttpFoundation\Response;
+use Fintech\Core\Traits\ApiResponseTrait;
 
-class EnsureEmailIsVerified
+class IpAddressVerified
 {
+    use ApiResponseTrait;
+
     /**
      * Handle an incoming request.
      *
@@ -18,10 +21,9 @@ class EnsureEmailIsVerified
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (! $request->user() ||
-            ($request->user() instanceof MustVerifyEmail &&
-            ! $request->user()->hasVerifiedEmail())) {
-            return response()->json(['message' => 'Your email address is not verified.'], 409);
+        if (App::isProduction()) {
+
+            return $this->banned(__('auth::messages.ip_blocked', ['ip' => $request->ip()]));
         }
 
         return $next($request);

@@ -2,6 +2,7 @@
 
 namespace Fintech\Auth;
 
+use Fintech\Auth\Http\Middlewares\IpAddressVerified;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
 use Illuminate\Http\Request;
@@ -27,6 +28,8 @@ class RouteServiceProvider extends ServiceProvider
                 ->middleware('api')
                 ->group(__DIR__.'/../routes/api.php');
         });
+
+        Route::middlewareGroup('ip_verified', [IpAddressVerified::class]);
     }
 
     /**

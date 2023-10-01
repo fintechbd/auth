@@ -62,6 +62,8 @@ class AuthenticatedSessionController extends Controller
 
         $request->clearRateLimited();
 
+        if ($attemptUser->hasPermission())
+
         Auth::login($attemptUser);
 
         Auth::user()->tokens->each(fn($token) => $token->delete());

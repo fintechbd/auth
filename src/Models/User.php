@@ -25,8 +25,6 @@ class User extends Authenticatable implements Auditable
 
     protected $primaryKey = 'id';
 
-    protected $fillable = [];
-
     protected $guarded = ['id'];
 
     protected $casts = [
@@ -39,6 +37,8 @@ class User extends Authenticatable implements Auditable
         'wrong_password' => 0,
         'wrong_pin' => 0,
     ];
+
+    protected $hidden = ['creator_id', 'editor_id', 'destroyer_id', 'restorer_id', 'deleted_at', 'restored_at'];
 
     /*
     |--------------------------------------------------------------------------

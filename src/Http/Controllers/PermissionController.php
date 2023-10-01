@@ -2,6 +2,7 @@
 
 namespace Fintech\Auth\Http\Controllers;
 
+use Fintech\Auth\Facades\Auth;
 use Fintech\Auth\Http\Requests\ImportPermissionRequest;
 use Fintech\Auth\Http\Requests\IndexPermissionRequest;
 use Fintech\Auth\Http\Requests\StorePermissionRequest;
@@ -31,14 +32,6 @@ class PermissionController extends Controller
     use ApiResponseTrait;
 
     /**
-     * PermissionController constructor.
-     */
-    public function __construct()
-    {
-
-    }
-
-    /**
      * @lrd:start
      * Return a listing of the permission resource as collection.
      *
@@ -51,7 +44,7 @@ class PermissionController extends Controller
         try {
             $inputs = $request->validated();
 
-            $permissionPaginate = \Auth::permission()->list($inputs);
+            $permissionPaginate = Auth::permission()->list($inputs);
 
             return new PermissionCollection($permissionPaginate);
 
@@ -74,7 +67,7 @@ class PermissionController extends Controller
         try {
             $inputs = $request->validated();
 
-            $permission = \Auth::permission()->create($inputs);
+            $permission = Auth::permission()->create($inputs);
 
             if (! $permission) {
                 throw new StoreOperationException();
@@ -103,7 +96,7 @@ class PermissionController extends Controller
     {
         try {
 
-            $permission = \Auth::permission()->read($id);
+            $permission = Auth::permission()->read($id);
 
             if (! $permission) {
                 throw new ResourceNotFoundException(__('core::messages.resource.notfound', ['model' => 'Permission', 'id' => strval($id)]));
@@ -134,7 +127,7 @@ class PermissionController extends Controller
     {
         try {
 
-            $permission = \Auth::permission()->read($id);
+            $permission = Auth::permission()->read($id);
 
             if (! $permission) {
                 throw new ResourceNotFoundException(__('core::messages.resource.notfound', ['model' => 'Permission', 'id' => strval($id)]));
@@ -142,7 +135,7 @@ class PermissionController extends Controller
 
             $inputs = $request->validated();
 
-            if (! \Auth::permission()->update($id, $inputs)) {
+            if (! Auth::permission()->update($id, $inputs)) {
 
                 throw new UpdateOperationException();
             }
@@ -174,13 +167,13 @@ class PermissionController extends Controller
     {
         try {
 
-            $permission = \Auth::permission()->read($id);
+            $permission = Auth::permission()->read($id);
 
             if (! $permission) {
                 throw new ResourceNotFoundException(__('core::messages.resource.notfound', ['model' => 'Permission', 'id' => strval($id)]));
             }
 
-            if (! \Auth::permission()->destroy($id)) {
+            if (! Auth::permission()->destroy($id)) {
 
                 throw new DeleteOperationException();
             }
@@ -210,13 +203,13 @@ class PermissionController extends Controller
     {
         try {
 
-            $permission = \Auth::permission()->read($id, true);
+            $permission = Auth::permission()->read($id, true);
 
             if (! $permission) {
                 throw new ResourceNotFoundException(__('core::messages.resource.notfound', ['model' => 'Permission', 'id' => strval($id)]));
             }
 
-            if (! \Auth::permission()->restore($id)) {
+            if (! Auth::permission()->restore($id)) {
 
                 throw new RestoreOperationException();
             }
@@ -245,7 +238,7 @@ class PermissionController extends Controller
         try {
             $inputs = $request->validated();
 
-            $permissionPaginate = \Auth::permission()->export($inputs);
+            $permissionPaginate = Auth::permission()->export($inputs);
 
             return $this->exported(__('core::messages.resource.exported', ['model' => 'Permission']));
 
@@ -269,7 +262,7 @@ class PermissionController extends Controller
         try {
             $inputs = $request->validated();
 
-            $permissionPaginate = \Auth::permission()->list($inputs);
+            $permissionPaginate = Auth::permission()->list($inputs);
 
             return new PermissionCollection($permissionPaginate);
 

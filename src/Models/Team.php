@@ -21,11 +21,11 @@ class Team extends Model implements Auditable
 
     protected $primaryKey = 'id';
 
-    protected $fillable = [];
-
     protected $guarded = ['id'];
 
     protected $casts = [];
+
+    protected $hidden = ['creator_id', 'editor_id', 'destroyer_id', 'restorer_id', 'deleted_at', 'restored_at'];
 
     /*
     |--------------------------------------------------------------------------

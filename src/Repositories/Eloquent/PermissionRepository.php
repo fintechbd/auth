@@ -4,7 +4,9 @@ namespace Fintech\Auth\Repositories\Eloquent;
 
 use Fintech\Auth\Exceptions\PermissionRepositoryException;
 use Fintech\Auth\Interfaces\PermissionRepository as InterfacesPermissionRepository;
+use Illuminate\Contracts\Database\Eloquent\Builder;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use InvalidArgumentException;
 
@@ -35,6 +37,11 @@ class PermissionRepository implements InterfacesPermissionRepository
     public function list(array $filters = [])
     {
         $query = $this->model->newQuery();
+
+        if (isset($filters['search']) && ! empty($filters['search'])) {
+            $query->where('name', 'like', "%{$filters['search']}%")
+                ->orWhere('guard_name', 'like', "%{$filters['search']}%");
+        }
 
         //Handle Sorting
         $query->orderBy($filters['sort'] ?? $this->model->getKeyName(), $filters['direction'] ?? 'asc');

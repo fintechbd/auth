@@ -6,6 +6,7 @@ use Fintech\Auth\Exceptions\TeamRepositoryException;
 use Fintech\Auth\Interfaces\TeamRepository as InterfacesTeamRepository;
 use Fintech\Auth\Models\Team;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use InvalidArgumentException;
 use Throwable;
 
@@ -56,17 +57,13 @@ class TeamRepository implements InterfacesTeamRepository
      */
     public function create(array $attributes = [])
     {
-        try {
-            $this->model->fill($attributes);
-            if ($this->model->saveOrFail()) {
+        $this->model->fill($attributes);
 
-                $this->model->refresh();
+        if ($this->model->saveOrFail()) {
 
-                return $this->model;
-            }
-        } catch (Throwable $e) {
+            $this->model->refresh();
 
-            throw new TeamRepositoryException($e->getMessage(), 0, $e);
+            return $this->model;
         }
 
         return null;

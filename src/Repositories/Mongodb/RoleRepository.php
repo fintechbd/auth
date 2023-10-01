@@ -56,17 +56,13 @@ class RoleRepository implements InterfacesRoleRepository
      */
     public function create(array $attributes = [])
     {
-        try {
-            $this->model->fill($attributes);
-            if ($this->model->saveOrFail()) {
+        $this->model->fill($attributes);
 
-                $this->model->refresh();
+        if ($this->model->saveOrFail()) {
 
-                return $this->model;
-            }
-        } catch (Throwable $e) {
+            $this->model->refresh();
 
-            throw new RoleRepositoryException($e->getMessage(), 0, $e);
+            return $this->model;
         }
 
         return null;

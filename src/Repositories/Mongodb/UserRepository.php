@@ -6,6 +6,7 @@ use Fintech\Auth\Exceptions\UserRepositoryException;
 use Fintech\Auth\Interfaces\UserRepository as InterfacesUserRepository;
 use Fintech\Auth\Models\User;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
+use Illuminate\Database\Eloquent\Model;
 use InvalidArgumentException;
 use Throwable;
 
@@ -55,22 +56,16 @@ class UserRepository implements InterfacesUserRepository
      * Create a new entry resource
      *
      * @return Model|null
-     *
-     * @throws UserRepositoryException
      */
     public function create(array $attributes = [])
     {
-        try {
-            $this->model->fill($attributes);
-            if ($this->model->saveOrFail()) {
+        $this->model->fill($attributes);
 
-                $this->model->refresh();
+        if ($this->model->saveOrFail()) {
 
-                return $this->model;
-            }
-        } catch (Throwable $e) {
+            $this->model->refresh();
 
-            throw new UserRepositoryException($e->getMessage(), 0, $e);
+            return $this->model;
         }
 
         return null;

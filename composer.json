@@ -17,7 +17,7 @@
     ],
     "require": {
         "php": "^8.1",
-        "fintech/core": "^0.0.1",
+        "fintech/core": "*",
         "illuminate/contracts": "^10.0",
         "laravel/sanctum": "^3.3",
         "owen-it/laravel-auditing": "^13.5",

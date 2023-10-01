@@ -56,17 +56,13 @@ class PermissionRepository implements InterfacesPermissionRepository
      */
     public function create(array $attributes = [])
     {
-        try {
-            $this->model->fill($attributes);
-            if ($this->model->saveOrFail()) {
+        $this->model->fill($attributes);
 
-                $this->model->refresh();
+        if ($this->model->saveOrFail()) {
 
-                return $this->model;
-            }
-        } catch (Throwable $e) {
+            $this->model->refresh();
 
-            throw new PermissionRepositoryException($e->getMessage(), 0, $e);
+            return $this->model;
         }
 
         return null;
@@ -113,7 +109,7 @@ class PermissionRepository implements InterfacesPermissionRepository
      *
      * @throws PermissionRepositoryException
      */
-    public function read(int|string $id, $onlyTrashed = false)
+    public function find(int|string $id, $onlyTrashed = false)
     {
         try {
 

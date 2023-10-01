@@ -40,13 +40,13 @@ class AuthenticatedSessionController extends Controller
         if ($attemptUser->wrong_password > config('fintech.auth.threshold.password', 10)) {
 
             \Fintech\Auth\Facades\Auth::user()->update($attemptUser->id, [
-                'status' => UserStatus::InActive->value
+                'status' => UserStatus::InActive->value,
             ]);
 
             return $this->failed(__('auth::messages.lockup'));
         }
 
-        if (!Hash::check($request->input('password'), $attemptUser->password)) {
+        if (! Hash::check($request->input('password'), $attemptUser->password)) {
 
             $request->hitRateLimited();
             $wrongPasswordCount = $attemptUser->wrong_password + 1;
@@ -56,7 +56,7 @@ class AuthenticatedSessionController extends Controller
 
             return $this->failed(__('auth::messages.warning', [
                 'attempt' => $wrongPasswordCount,
-                'threshold' => config('fintech.auth.threshold.password', 10)
+                'threshold' => config('fintech.auth.threshold.password', 10),
             ]));
         }
 
@@ -70,7 +70,7 @@ class AuthenticatedSessionController extends Controller
 
         Auth::login($attemptUser);
 
-        Auth::user()->tokens->each(fn($token) => $token->delete());
+        Auth::user()->tokens->each(fn ($token) => $token->delete());
 
         return new LoginResource(Auth::user());
     }

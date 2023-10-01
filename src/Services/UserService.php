@@ -125,10 +125,10 @@ class UserService
 
     public function update($id, array $inputs = [])
     {
-        if (isset($inputs['password']) && !empty($inputs['password'])) {
+        if (isset($inputs['password']) && ! empty($inputs['password'])) {
             $inputs['password'] = Hash::make($inputs['password']);
         }
-        if (isset($inputs['pin']) && !empty($inputs['pin'])) {
+        if (isset($inputs['pin']) && ! empty($inputs['pin'])) {
             $inputs['pin'] = Hash::make($inputs['pin']);
         }
 

@@ -3,6 +3,7 @@
 namespace Fintech\Auth\Repositories\Eloquent;
 
 use Fintech\Auth\Interfaces\PermissionRepository as InterfacesPermissionRepository;
+use Fintech\Core\Repositories\EloquentRepository;
 use Illuminate\Contracts\Database\Eloquent\Builder;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Collection;

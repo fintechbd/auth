@@ -40,7 +40,7 @@ class AuthenticatedSessionController extends Controller
         if ($attemptUser->wrong_password > config('fintech.auth.threshold.password', 10)) {
 
             \Fintech\Auth\Facades\Auth::user()->update($attemptUser->id, [
-                'status' => UserStatus::InActive->value
+                'status' => UserStatus::InActive->value,
             ]);
 
             return $this->failed(__('auth::messages.lockup'));

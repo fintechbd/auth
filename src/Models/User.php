@@ -13,9 +13,9 @@ class User extends Authenticatable implements Auditable
 {
     use BlameableTrait;
     use HasApiTokens;
+    use HasRoles;
     use \OwenIt\Auditing\Auditable;
     use SoftDeletes;
-    use HasRoles;
 
     /*
     |--------------------------------------------------------------------------

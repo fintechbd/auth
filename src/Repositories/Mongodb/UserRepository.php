@@ -55,9 +55,7 @@ class UserRepository implements InterfacesUserRepository
     /**
      * Create a new entry resource
      *
-     * @param array $attributes
      * @return Model|null
-     *
      */
     public function create(array $attributes = [])
     {

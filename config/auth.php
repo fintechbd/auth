@@ -115,7 +115,7 @@ return [
             'present_post_code' => ['string', 'nullable'],
             'note' => ['string', 'nullable'],
             'nationality' => ['string', 'nullable'],
-        ]
+        ],
     ],
 
     /*

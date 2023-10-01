@@ -51,7 +51,7 @@ Route::prefix('auth')->name('auth.')->group(function () {
     Route::middleware(config('fintech.auth.middleware'))->group(function () {
         Route::apiResource('users', \Fintech\Auth\Http\Controllers\UserController::class);
         //        Route::apiResource('roles', \Fintech\Auth\Http\Controllers\RoleController::class);
-        //        Route::apiResource('permissions', \Fintech\Auth\Http\Resources\PermissionCollection::class);
+        Route::apiResource('permissions', \Fintech\Auth\Http\Controllers\PermissionController::class);
         //        Route::apiResource('teams', \Fintech\Auth\Http\Controllers\TeamController::class);
         Route::apiSingleton('users.profile', \Fintech\Auth\Http\Controllers\ProfileController::class);
     });

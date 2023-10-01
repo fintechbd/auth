@@ -31,8 +31,8 @@ return new class extends Migration
 
         Schema::create('teams', function (Blueprint $table) {
             $table->id();
-            $table->json('name')->nullable();
-            $table->json('teams_data')->nullable();
+            $table->string('name');
+            $table->text('description')->nullable();
             $table->foreignId('creator_id')->nullable();
             $table->foreignId('editor_id')->nullable();
             $table->foreignId('destroyer_id')->nullable();

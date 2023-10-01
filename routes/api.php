@@ -28,21 +28,21 @@ Route::prefix('auth')->name('auth.')->group(function () {
         ->middleware('guest')
         ->name('login');
 
-//    Route::post('/forgot-password', [PasswordResetLinkController::class, 'store'])
-//        ->middleware('guest')
-//        ->name('password.email');
-//
-//    Route::post('/reset-password', [NewPasswordController::class, 'store'])
-//        ->middleware('guest')
-//        ->name('password.store');
-//
-//    Route::get('/verify-email/{id}/{hash}', VerifyEmailController::class)
-//        ->middleware(['auth', 'signed', 'throttle:6,1'])
-//        ->name('verification.verify');
-//
-//    Route::post('/email/verification-notification', [EmailVerificationNotificationController::class, 'store'])
-//        ->middleware(['auth', 'throttle:6,1'])
-//        ->name('verification.send');
+    //    Route::post('/forgot-password', [PasswordResetLinkController::class, 'store'])
+    //        ->middleware('guest')
+    //        ->name('password.email');
+    //
+    //    Route::post('/reset-password', [NewPasswordController::class, 'store'])
+    //        ->middleware('guest')
+    //        ->name('password.store');
+    //
+    //    Route::get('/verify-email/{id}/{hash}', VerifyEmailController::class)
+    //        ->middleware(['auth', 'signed', 'throttle:6,1'])
+    //        ->name('verification.verify');
+    //
+    //    Route::post('/email/verification-notification', [EmailVerificationNotificationController::class, 'store'])
+    //        ->middleware(['auth', 'throttle:6,1'])
+    //        ->name('verification.send');
 
     Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])
         ->middleware(config('fintech.auth.middleware'))
@@ -53,6 +53,6 @@ Route::prefix('auth')->name('auth.')->group(function () {
         //        Route::apiResource('roles', \Fintech\Auth\Http\Controllers\RoleController::class);
         Route::apiResource('permissions', \Fintech\Auth\Http\Controllers\PermissionController::class);
         //        Route::apiResource('teams', \Fintech\Auth\Http\Controllers\TeamController::class);
-//        Route::apiSingleton('users.profile', \Fintech\Auth\Http\Controllers\ProfileController::class);
+        //        Route::apiSingleton('users.profile', \Fintech\Auth\Http\Controllers\ProfileController::class);
     });
 });

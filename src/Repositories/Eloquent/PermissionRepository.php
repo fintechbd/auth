@@ -31,14 +31,14 @@ class PermissionRepository implements InterfacesPermissionRepository
     /**
      * return a list or pagination of items from
      * filtered options
-     * @param array $filters
+     *
      * @return LengthAwarePaginator|Builder[]|Collection
      */
     public function list(array $filters = [])
     {
         $query = $this->model->newQuery();
 
-        if(isset($filters['search']) && !empty($filters['search'])) {
+        if (isset($filters['search']) && ! empty($filters['search'])) {
             $query->where('name', 'like', "%{$filters['search']}%")
                 ->orWhere('guard_name', 'like', "%{$filters['search']}%");
         }

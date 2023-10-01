@@ -38,7 +38,7 @@ class User extends Authenticatable implements Auditable
         'wrong_pin' => 0,
     ];
 
-    protected $hidden = ["creator_id", "editor_id", "destroyer_id", "restorer_id", "deleted_at", "restored_at"];
+    protected $hidden = ['creator_id', 'editor_id', 'destroyer_id', 'restorer_id', 'deleted_at', 'restored_at'];
 
     /*
     |--------------------------------------------------------------------------

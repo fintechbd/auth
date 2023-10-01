@@ -48,7 +48,7 @@ interface PermissionRepository
      *
      * @throws PermissionRepositoryException
      */
-    public function read(int|string $id, $onlyTrashed = false);
+    public function find(int|string $id, $onlyTrashed = false);
 
     /**
      * find and delete a entry from records

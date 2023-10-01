@@ -6,6 +6,7 @@ use Fintech\Auth\Exceptions\TeamRepositoryException;
 use Fintech\Auth\Interfaces\TeamRepository as InterfacesTeamRepository;
 use Fintech\Auth\Models\Team;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use InvalidArgumentException;
 use Throwable;
 

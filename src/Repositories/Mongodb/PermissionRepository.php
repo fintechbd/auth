@@ -109,7 +109,7 @@ class PermissionRepository implements InterfacesPermissionRepository
      *
      * @throws PermissionRepositoryException
      */
-    public function read(int|string $id, $onlyTrashed = false)
+    public function find(int|string $id, $onlyTrashed = false)
     {
         try {
 

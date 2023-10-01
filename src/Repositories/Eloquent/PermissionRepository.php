@@ -8,6 +8,7 @@ use Illuminate\Contracts\Database\Eloquent\Builder;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use InvalidArgumentException;
 
 /**
@@ -56,24 +57,21 @@ class PermissionRepository implements InterfacesPermissionRepository
     /**
      * Create a new entry resource
      *
+     * @param array $attributes
      * @return Model|null
      *
-     * @throws PermissionRepositoryException
+     * @throws \Throwable
      */
     public function create(array $attributes = [])
     {
-        try {
             $this->model->fill($attributes);
+
             if ($this->model->saveOrFail()) {
 
                 $this->model->refresh();
 
                 return $this->model;
             }
-        } catch (\Throwable $e) {
-
-            throw new PermissionRepositoryException($e->getMessage(), 0, $e);
-        }
 
         return null;
     }
@@ -89,11 +87,13 @@ class PermissionRepository implements InterfacesPermissionRepository
     {
         try {
 
-            $this->model = $this->model->findOrFail($id);
+            $this->model = $this->model->find($id);
 
         } catch (\Throwable $exception) {
 
-            throw new ModelNotFoundException($exception->getMessage(), 0, $exception);
+            dd($this->m$exception->getMessage());
+
+//            throw new ModelNotFoundException($exception->getMessage(), 0, $exception);
         }
 
         try {
@@ -128,15 +128,6 @@ class PermissionRepository implements InterfacesPermissionRepository
         } catch (\Throwable $exception) {
 
             throw new ModelNotFoundException($exception->getMessage(), 0, $exception);
-        }
-
-        try {
-
-            return $this->model->deleteOrFail();
-
-        } catch (\Throwable $exception) {
-
-            throw new PermissionRepositoryException($exception->getMessage(), 0, $exception);
         }
 
         return null;

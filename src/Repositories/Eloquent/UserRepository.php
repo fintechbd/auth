@@ -64,19 +64,13 @@ class UserRepository implements InterfacesUserRepository
      */
     public function create(array $attributes = [])
     {
-        try {
+        $this->model->fill($attributes);
 
-            $this->model->fill($attributes);
+        if ($this->model->saveOrFail()) {
 
-            if ($this->model->saveOrFail()) {
+            $this->model->refresh();
 
-                $this->model->refresh();
-
-                return $this->model;
-            }
-        } catch (Throwable $e) {
-
-            throw new UserRepositoryException($e->getMessage(), 0, $e);
+            return $this->model;
         }
 
         return null;

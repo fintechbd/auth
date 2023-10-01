@@ -62,13 +62,15 @@ class AuthenticatedSessionController extends Controller
 
         $request->clearRateLimited();
 
-        if ($attemptUser->hasPermission())
+        if ($attemptUser->can('auth.login')) {
+            $request->session()->invalidate();
+
+            return $this->forbidden(__('auth::messages.forbidden', ['permission' => permission_format('auth.login', 'auth')]));
+        }
 
         Auth::login($attemptUser);
 
         Auth::user()->tokens->each(fn($token) => $token->delete());
-
-        //permission check
 
         return new LoginResource(Auth::user());
     }

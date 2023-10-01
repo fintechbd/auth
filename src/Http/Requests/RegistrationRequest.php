@@ -23,7 +23,7 @@ class RegistrationRequest extends FormRequest
      */
     public function rules(): array
     {
-        return [
+        return config('fintech.auth.validation.register', [
             //user
             'name' => ['required', 'string', 'min:2', 'max:255'],
             'mobile' => ['required', 'string', 'min:10'],
@@ -66,6 +66,6 @@ class RegistrationRequest extends FormRequest
             'present_post_code' => ['string', 'nullable'],
             'note' => ['string', 'nullable'],
             'nationality' => ['string', 'nullable'],
-        ];
+        ]);
     }
 }

@@ -1,6 +1,6 @@
 <?php
 
-namespace Fintech\Auth\Http\Middleware;
+namespace Fintech\Auth\Http\Middlewares;
 
 use Closure;
 use Fintech\Core\Traits\ApiResponseTrait;

@@ -118,9 +118,9 @@ class UserService
         return $data;
     }
 
-    public function read($id)
+    public function find($id)
     {
-        return $this->userRepository->read($id);
+        return $this->userRepository->find($id);
     }
 
     public function update($id, array $inputs = [])

@@ -36,9 +36,9 @@ class TeamService
         return $this->teamRepository->create($inputs);
     }
 
-    public function read($id)
+    public function find($id)
     {
-        return $this->teamRepository->read($id);
+        return $this->teamRepository->find($id);
     }
 
     public function update($id, array $inputs = [])

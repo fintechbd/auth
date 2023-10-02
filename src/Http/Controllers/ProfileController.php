@@ -103,7 +103,7 @@ class ProfileController extends Controller
     {
         try {
 
-            $userProfile = \Auth::userProfile()->read($id);
+            $userProfile = \Auth::userProfile()->find($id);
 
             if (! $userProfile) {
                 throw new ResourceNotFoundException(__('core::messages.resource.notfound', ['model' => 'UserProfile', 'id' => strval($id)]));
@@ -134,7 +134,7 @@ class ProfileController extends Controller
     {
         try {
 
-            $userProfile = \Auth::userProfile()->read($id);
+            $userProfile = \Auth::userProfile()->find($id);
 
             if (! $userProfile) {
                 throw new ResourceNotFoundException(__('core::messages.resource.notfound', ['model' => 'UserProfile', 'id' => strval($id)]));
@@ -174,7 +174,7 @@ class ProfileController extends Controller
     {
         try {
 
-            $userProfile = \Auth::userProfile()->read($id);
+            $userProfile = \Auth::userProfile()->find($id);
 
             if (! $userProfile) {
                 throw new ResourceNotFoundException(__('core::messages.resource.notfound', ['model' => 'UserProfile', 'id' => strval($id)]));

@@ -36,9 +36,9 @@ class PermissionService
         return $this->permissionRepository->create($inputs);
     }
 
-    public function read($id)
+    public function find($id)
     {
-        return $this->permissionRepository->read($id);
+        return $this->permissionRepository->find($id);
     }
 
     public function update($id, array $inputs = [])

@@ -96,7 +96,7 @@ class PermissionController extends Controller
     {
         try {
 
-            $permission = Auth::permission()->read($id);
+            $permission = Auth::permission()->find($id);
 
             if (! $permission) {
                 throw new ResourceNotFoundException(__('core::messages.resource.notfound', ['model' => 'Permission', 'id' => strval($id)]));
@@ -127,7 +127,7 @@ class PermissionController extends Controller
     {
         try {
 
-            $permission = Auth::permission()->read($id);
+            $permission = Auth::permission()->find($id);
 
             if (! $permission) {
                 throw new ResourceNotFoundException(__('core::messages.resource.notfound', ['model' => 'Permission', 'id' => strval($id)]));
@@ -167,7 +167,7 @@ class PermissionController extends Controller
     {
         try {
 
-            $permission = Auth::permission()->read($id);
+            $permission = Auth::permission()->find($id);
 
             if (! $permission) {
                 throw new ResourceNotFoundException(__('core::messages.resource.notfound', ['model' => 'Permission', 'id' => strval($id)]));

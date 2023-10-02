@@ -3,7 +3,6 @@
 namespace Fintech\Auth\Listeners;
 
 use Illuminate\Auth\Events\Lockout;
-use Symfony\Component\HttpFoundation\Response;
 
 class LockoutEventListener
 {

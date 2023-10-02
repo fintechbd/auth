@@ -2,59 +2,20 @@
 
 namespace Fintech\Auth;
 
-use Fintech\Auth\Interfaces\PermissionRepository;
-use Fintech\Auth\Interfaces\ProfileRepository;
-use Fintech\Auth\Interfaces\RoleRepository;
-use Fintech\Auth\Interfaces\TeamRepository;
-use Fintech\Auth\Interfaces\UserRepository;
-use Fintech\Auth\Repositories\Eloquent\PermissionRepository as EloquentPermissionRepository;
-use Fintech\Auth\Repositories\Eloquent\ProfileRepository as EloquentProfileRepository;
-use Fintech\Auth\Repositories\Eloquent\RoleRepository as EloquentRoleRepository;
-use Fintech\Auth\Repositories\Eloquent\TeamRepository as EloquentTeamRepository;
-use Fintech\Auth\Repositories\Eloquent\UserRepository as EloquentUserRepository;
-use Fintech\Auth\Repositories\Mongodb\PermissionRepository as MongodbPermissionRepository;
-use Fintech\Auth\Repositories\Mongodb\ProfileRepository as MongodbProfileRepository;
-use Fintech\Auth\Repositories\Mongodb\RoleRepository as MongodbRoleRepository;
-use Fintech\Auth\Repositories\Mongodb\TeamRepository as MongodbTeamRepository;
-use Fintech\Auth\Repositories\Mongodb\UserRepository as MongodbUserRepository;
 use Illuminate\Contracts\Support\DeferrableProvider;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\ServiceProvider;
 
 class RepositoryServiceProvider extends ServiceProvider implements DeferrableProvider
 {
-    public array $repositories = [
-        PermissionRepository::class => [
-            'default' => EloquentPermissionRepository::class,
-            'mongodb' => MongodbPermissionRepository::class,
-        ],
-        RoleRepository::class => [
-            'default' => EloquentRoleRepository::class,
-            'mongodb' => MongodbRoleRepository::class,
-        ],
-        TeamRepository::class => [
-            'default' => EloquentTeamRepository::class,
-            'mongodb' => MongodbTeamRepository::class,
-        ],
-        ProfileRepository::class => [
-            'default' => EloquentProfileRepository::class,
-            'mongodb' => MongodbProfileRepository::class,
-        ],
-        UserRepository::class => [
-            'default' => EloquentUserRepository::class,
-            'mongodb' => MongodbUserRepository::class,
-        ],
-    ];
-
     /**
      * Register services.
      */
     public function register(): void
     {
-        foreach ($this->repositories as $interface => $bindings) {
-            $this->app->bind($interface, function ($app) use ($bindings) {
-                return (config('database.default') == 'mongodb')
-                    ? $app->make($bindings['mongodb'])
-                    : $app->make($bindings['default']);
+        foreach (Config::get('fintech.auth.repositories') as $interface => $binding) {
+            $this->app->bind($interface, function ($app) use ($binding) {
+                return $app->make($binding);
             });
         }
     }
@@ -66,6 +27,6 @@ class RepositoryServiceProvider extends ServiceProvider implements DeferrablePro
      */
     public function provides(): array
     {
-        return array_keys($this->repositories);
+        return array_keys(Config::get('fintech.auth.repositories'));
     }
 }

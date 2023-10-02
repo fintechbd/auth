@@ -103,7 +103,7 @@ class TeamController extends Controller
     {
         try {
 
-            $team = \Auth::team()->read($id);
+            $team = \Auth::team()->find($id);
 
             if (! $team) {
                 throw new ResourceNotFoundException(__('core::messages.resource.notfound', ['model' => 'Team', 'id' => strval($id)]));
@@ -134,7 +134,7 @@ class TeamController extends Controller
     {
         try {
 
-            $team = \Auth::team()->read($id);
+            $team = \Auth::team()->find($id);
 
             if (! $team) {
                 throw new ResourceNotFoundException(__('core::messages.resource.notfound', ['model' => 'Team', 'id' => strval($id)]));
@@ -174,7 +174,7 @@ class TeamController extends Controller
     {
         try {
 
-            $team = \Auth::team()->read($id);
+            $team = \Auth::team()->find($id);
 
             if (! $team) {
                 throw new ResourceNotFoundException(__('core::messages.resource.notfound', ['model' => 'Team', 'id' => strval($id)]));

@@ -103,7 +103,7 @@ class RoleController extends Controller
     {
         try {
 
-            $role = \Auth::role()->read($id);
+            $role = \Auth::role()->find($id);
 
             if (! $role) {
                 throw new ResourceNotFoundException(__('core::messages.resource.notfound', ['model' => 'Role', 'id' => strval($id)]));
@@ -134,7 +134,7 @@ class RoleController extends Controller
     {
         try {
 
-            $role = \Auth::role()->read($id);
+            $role = \Auth::role()->find($id);
 
             if (! $role) {
                 throw new ResourceNotFoundException(__('core::messages.resource.notfound', ['model' => 'Role', 'id' => strval($id)]));
@@ -174,7 +174,7 @@ class RoleController extends Controller
     {
         try {
 
-            $role = \Auth::role()->read($id);
+            $role = \Auth::role()->find($id);
 
             if (! $role) {
                 throw new ResourceNotFoundException(__('core::messages.resource.notfound', ['model' => 'Role', 'id' => strval($id)]));

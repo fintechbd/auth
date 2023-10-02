@@ -96,7 +96,7 @@ class UserController extends Controller
     {
         try {
 
-            $user = Auth::user()->read($id);
+            $user = Auth::user()->find($id);
 
             if (! $user) {
                 throw new ResourceNotFoundException(__('core::messages.resource.notfound', ['model' => 'User', 'id' => strval($id)]));
@@ -127,7 +127,7 @@ class UserController extends Controller
     {
         try {
 
-            $user = Auth::user()->read($id);
+            $user = Auth::user()->find($id);
 
             if (! $user) {
                 throw new ResourceNotFoundException(__('core::messages.resource.notfound', ['model' => 'User', 'id' => strval($id)]));
@@ -167,7 +167,7 @@ class UserController extends Controller
     {
         try {
 
-            $user = Auth::user()->read($id);
+            $user = Auth::user()->find($id);
 
             if (! $user) {
                 throw new ResourceNotFoundException(__('core::messages.resource.notfound', ['model' => 'User', 'id' => strval($id)]));

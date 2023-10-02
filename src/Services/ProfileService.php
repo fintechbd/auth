@@ -37,9 +37,9 @@ class ProfileService
         return $this->profileRepository->create($inputs);
     }
 
-    public function read($id)
+    public function find($id)
     {
-        return $this->profileRepository->read($id);
+        return $this->profileRepository->find($id);
     }
 
     public function update($id, array $inputs = [])

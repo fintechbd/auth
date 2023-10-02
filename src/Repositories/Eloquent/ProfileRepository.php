@@ -2,21 +2,19 @@
 
 namespace Fintech\Auth\Repositories\Eloquent;
 
-use Fintech\Auth\Exceptions\ProfileRepositoryException;
 use Fintech\Auth\Interfaces\ProfileRepository as InterfacesProfileRepository;
+use Fintech\Core\Repositories\EloquentRepository;
 use Illuminate\Contracts\Database\Eloquent\Builder;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
 use InvalidArgumentException;
 
 /**
  * Class UserProfileRepository
  */
-class ProfileRepository implements InterfacesProfileRepository
+class ProfileRepository extends EloquentRepository implements InterfacesProfileRepository
 {
-    private Model $model;
 
     public function __construct()
     {
@@ -47,147 +45,5 @@ class ProfileRepository implements InterfacesProfileRepository
             ? $query->paginate(($filters['per_page'] ?? 20))
             : $query->get();
 
-    }
-
-    /**
-     * Create a new entry resource
-     *
-     * @return Model|null
-     *
-     * @throws ProfileRepositoryException
-     */
-    public function create(array $attributes = [])
-    {
-        $this->model->fill($attributes);
-
-        if ($this->model->saveOrFail()) {
-
-            $this->model->refresh();
-
-            return $this->model;
-        }
-
-        return null;
-    }
-
-    /**
-     * find and update a resource attributes
-     *
-     * @return Model|null
-     *
-     * @throws ProfileRepositoryException
-     */
-    public function update(int|string $id, array $attributes = [])
-    {
-        try {
-
-            $this->model = $this->model->findOrFail($id);
-
-        } catch (\Throwable $exception) {
-
-            throw new ModelNotFoundException($exception->getMessage(), 0, $exception);
-        }
-
-        try {
-            if ($this->model->updateOrFail($attributes)) {
-
-                $this->model->refresh();
-
-                return $this->model;
-            }
-        } catch (\Throwable $exception) {
-
-            throw new ProfileRepositoryException($exception->getMessage(), 0, $exception);
-        }
-
-        return null;
-    }
-
-    /**
-     * find and delete a entry from records
-     *
-     * @param  bool  $onlyTrashed
-     * @return Model|null
-     *
-     * @throws ProfileRepositoryException
-     */
-    public function read(int|string $id, $onlyTrashed = false)
-    {
-        try {
-
-            $this->model = $this->model->findOrFail($id);
-
-            return $this->model;
-
-        } catch (\Throwable $exception) {
-
-            throw new ModelNotFoundException($exception->getMessage(), 0, $exception);
-        }
-
-        return null;
-    }
-
-    /**
-     * find and delete a entry from records
-     *
-     * @return bool|null
-     *
-     * @throws ProfileRepositoryException
-     */
-    public function delete(int|string $id)
-    {
-        try {
-
-            $this->model = $this->model->findOrFail($id);
-
-        } catch (\Throwable $exception) {
-
-            throw new ModelNotFoundException($exception->getMessage(), 0, $exception);
-        }
-
-        try {
-
-            return $this->model->deleteOrFail();
-
-        } catch (\Throwable $exception) {
-
-            throw new ProfileRepositoryException($exception->getMessage(), 0, $exception);
-        }
-
-        return null;
-    }
-
-    /**
-     * find and restore a entry from records
-     *
-     * @return bool|null
-     *
-     * @throws ProfileRepositoryException
-     */
-    public function restore(int|string $id)
-    {
-        if (! method_exists($this->model, 'restore')) {
-            throw new InvalidArgumentException('This model does not have `Illuminate\Database\Eloquent\SoftDeletes` trait to perform restoration.');
-        }
-
-        try {
-
-            $this->model = $this->model->onlyTrashed()->findOrFail($id);
-
-        } catch (\Throwable $exception) {
-
-            throw new ModelNotFoundException($exception->getMessage(), 0, $exception);
-        }
-
-        try {
-
-            return $this->model->deleteOrFail();
-
-        } catch (\Throwable $exception) {
-
-            throw new ProfileRepositoryException($exception->getMessage(), 0, $exception);
-        }
-
-        return null;
     }
 }

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Middleware;
+namespace Fintech\Auth\Http\Middlewares;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;

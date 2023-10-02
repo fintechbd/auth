@@ -2,6 +2,8 @@
 
 namespace Fintech\Auth\Http\Controllers;
 
+use Exception;
+use Fintech\Auth\Facades\Auth;
 use Fintech\Auth\Http\Requests\ImportRoleRequest;
 use Fintech\Auth\Http\Requests\IndexRoleRequest;
 use Fintech\Auth\Http\Requests\StoreRoleRequest;
@@ -9,11 +11,11 @@ use Fintech\Auth\Http\Requests\UpdateRoleRequest;
 use Fintech\Auth\Http\Resources\RoleCollection;
 use Fintech\Auth\Http\Resources\RoleResource;
 use Fintech\Core\Exceptions\DeleteOperationException;
-use Fintech\Core\Exceptions\ResourceNotFoundException;
 use Fintech\Core\Exceptions\RestoreOperationException;
-use Fintech\Core\Exceptions\ModelOperationException;
+use Fintech\Core\Exceptions\StoreOperationException;
 use Fintech\Core\Exceptions\UpdateOperationException;
 use Fintech\Core\Traits\ApiResponseTrait;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Routing\Controller;
 
@@ -31,31 +33,25 @@ class RoleController extends Controller
     use ApiResponseTrait;
 
     /**
-     * RoleController constructor.
-     */
-    public function __construct()
-    {
-
-    }
-
-    /**
      * @lrd:start
      * Return a listing of the role resource as collection.
      *
      * *```paginate=false``` returns all resource as list not pagination*
      *
      * @lrd:end
+     * @param IndexRoleRequest $request
+     * @return RoleCollection|JsonResponse
      */
     public function index(IndexRoleRequest $request): RoleCollection|JsonResponse
     {
         try {
             $inputs = $request->validated();
 
-            $rolePaginate = \Auth::role()->list($inputs);
+            $rolePaginate = Auth::role()->list($inputs);
 
             return new RoleCollection($rolePaginate);
 
-        } catch (\Exception $exception) {
+        } catch (Exception $exception) {
 
             return $this->failed($exception->getMessage());
         }
@@ -67,17 +63,18 @@ class RoleController extends Controller
      *
      * @lrd:end
      *
-     * @throws ModelOperationException
+     * @param StoreRoleRequest $request
+     * @return JsonResponse
      */
     public function store(StoreRoleRequest $request): JsonResponse
     {
         try {
             $inputs = $request->validated();
 
-            $role = \Auth::role()->create($inputs);
+            $role = Auth::role()->create($inputs);
 
             if (! $role) {
-                throw new ModelOperationException();
+                throw (new StoreOperationException)->setModel(config('fintech.auth.role_model'));
             }
 
             return $this->created([
@@ -85,7 +82,7 @@ class RoleController extends Controller
                 'id' => $role->id,
             ]);
 
-        } catch (\Exception $exception) {
+        } catch (Exception $exception) {
 
             return $this->failed($exception->getMessage());
         }
@@ -96,26 +93,26 @@ class RoleController extends Controller
      * Return a specified role resource found by id.
      *
      * @lrd:end
-     *
-     * @throws ResourceNotFoundException
+     * @param int|string $id
+     * @return RoleResource|JsonResponse
      */
     public function show(string|int $id): RoleResource|JsonResponse
     {
         try {
 
-            $role = \Auth::role()->find($id);
+            $role = Auth::role()->find($id);
 
             if (! $role) {
-                throw new ResourceNotFoundException(__('core::messages.resource.notfound', ['model' => 'Role', 'id' => strval($id)]));
+                throw (new ModelNotFoundException)->setModel(config('fintech.auth.role_model'), $id);
             }
 
             return new RoleResource($role);
 
-        } catch (ResourceNotFoundException $exception) {
+        } catch (ModelNotFoundException $exception) {
 
             return $this->notfound($exception->getMessage());
 
-        } catch (\Exception $exception) {
+        } catch (Exception $exception) {
 
             return $this->failed($exception->getMessage());
         }
@@ -127,33 +124,34 @@ class RoleController extends Controller
      *
      * @lrd:end
      *
-     * @throws ResourceNotFoundException
-     * @throws UpdateOperationException
+     * @param UpdateRoleRequest $request
+     * @param int|string $id
+     * @return JsonResponse
      */
     public function update(UpdateRoleRequest $request, string|int $id): JsonResponse
     {
         try {
 
-            $role = \Auth::role()->find($id);
+            $role = Auth::role()->find($id);
 
             if (! $role) {
-                throw new ResourceNotFoundException(__('core::messages.resource.notfound', ['model' => 'Role', 'id' => strval($id)]));
+                throw (new ModelNotFoundException)->setModel(config('fintech.auth.role_model'), $id);
             }
 
             $inputs = $request->validated();
 
-            if (! \Auth::role()->update($id, $inputs)) {
+            if (! Auth::role()->update($id, $inputs)) {
 
-                throw new UpdateOperationException();
+                throw (new UpdateOperationException)->setModel(config('fintech.auth.role_model'), $id);
             }
 
             return $this->updated(__('core::messages.resource.updated', ['model' => 'Role']));
 
-        } catch (ResourceNotFoundException $exception) {
+        } catch (ModelNotFoundException $exception) {
 
             return $this->notfound($exception->getMessage());
 
-        } catch (\Exception $exception) {
+        } catch (Exception $exception) {
 
             return $this->failed($exception->getMessage());
         }
@@ -167,31 +165,31 @@ class RoleController extends Controller
      *
      * @return JsonResponse
      *
-     * @throws ResourceNotFoundException
+     * @throws ModelNotFoundException
      * @throws DeleteOperationException
      */
     public function destroy(string|int $id)
     {
         try {
 
-            $role = \Auth::role()->find($id);
+            $role = Auth::role()->find($id);
 
             if (! $role) {
-                throw new ResourceNotFoundException(__('core::messages.resource.notfound', ['model' => 'Role', 'id' => strval($id)]));
+                throw (new ModelNotFoundException)->setModel(config('fintech.auth.role_model'), $id);
             }
 
-            if (! \Auth::role()->destroy($id)) {
+            if (! Auth::role()->destroy($id)) {
 
-                throw new DeleteOperationException();
+                throw (new DeleteOperationException)->setModel(config('fintech.auth.role_model'), $id);
             }
 
             return $this->deleted(__('core::messages.resource.deleted', ['model' => 'Role']));
 
-        } catch (ResourceNotFoundException $exception) {
+        } catch (ModelNotFoundException $exception) {
 
             return $this->notfound($exception->getMessage());
 
-        } catch (\Exception $exception) {
+        } catch (Exception $exception) {
 
             return $this->failed($exception->getMessage());
         }
@@ -204,30 +202,31 @@ class RoleController extends Controller
      *
      * @lrd:end
      *
+     * @param int|string $id
      * @return JsonResponse
      */
     public function restore(string|int $id)
     {
         try {
 
-            $role = \Auth::role()->find($id, true);
+            $role = Auth::role()->find($id, true);
 
             if (! $role) {
-                throw new ResourceNotFoundException(__('core::messages.resource.notfound', ['model' => 'Role', 'id' => strval($id)]));
+                throw (new ModelNotFoundException)->setModel(config('fintech.auth.role_model'), $id);
             }
 
-            if (! \Auth::role()->restore($id)) {
+            if (! Auth::role()->restore($id)) {
 
-                throw new RestoreOperationException();
+                throw (new RestoreOperationException)->setModel(config('fintech.auth.role_model'), $id);
             }
 
             return $this->restored(__('core::messages.resource.restored', ['model' => 'Role']));
 
-        } catch (ResourceNotFoundException $exception) {
+        } catch (ModelNotFoundException $exception) {
 
             return $this->notfound($exception->getMessage());
 
-        } catch (\Exception $exception) {
+        } catch (Exception $exception) {
 
             return $this->failed($exception->getMessage());
         }
@@ -245,11 +244,11 @@ class RoleController extends Controller
         try {
             $inputs = $request->validated();
 
-            $rolePaginate = \Auth::role()->export($inputs);
+            $rolePaginate = Auth::role()->export($inputs);
 
             return $this->exported(__('core::messages.resource.exported', ['model' => 'Role']));
 
-        } catch (\Exception $exception) {
+        } catch (Exception $exception) {
 
             return $this->failed($exception->getMessage());
         }
@@ -269,11 +268,11 @@ class RoleController extends Controller
         try {
             $inputs = $request->validated();
 
-            $rolePaginate = \Auth::role()->list($inputs);
+            $rolePaginate = Auth::role()->list($inputs);
 
             return new RoleCollection($rolePaginate);
 
-        } catch (\Exception $exception) {
+        } catch (Exception $exception) {
 
             return $this->failed($exception->getMessage());
         }

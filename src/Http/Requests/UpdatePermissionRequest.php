@@ -22,9 +22,7 @@ class UpdatePermissionRequest extends FormRequest
      */
     public function rules(): array
     {
-        //        dd($this->route('permission'));
-
-        $uniqueRule = 'unique:'.config('fintech.auth.permission_model', \Fintech\Auth\Models\Permission::class).',name,';
+        $uniqueRule = 'unique:'.config('fintech.auth.permission_model', \Fintech\Auth\Models\Permission::class).',name';
 
         return [
             'name' => ['required', 'string', 'min:5', 'max:255', $uniqueRule],

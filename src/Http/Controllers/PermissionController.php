@@ -176,7 +176,7 @@ class PermissionController extends Controller
             $permission = Auth::permission()->find($id);
 
             if (! $permission) {
-                throw (new ModelNotFoundException())->setModel(config('fintech.auth.permission_model'), $id);
+                throw (new ModelNotFoundException)->setModel(config('fintech.auth.permission_model'), $id);
             }
 
             if (! Auth::permission()->destroy($id)) {
@@ -212,7 +212,7 @@ class PermissionController extends Controller
             $permission = Auth::permission()->find($id, true);
 
             if (! $permission) {
-                throw (new ModelNotFoundException())->setModel(config('fintech.auth.permission_model'), $id);
+                throw (new ModelNotFoundException)->setModel(config('fintech.auth.permission_model'), $id);
             }
 
             if (! Auth::permission()->restore($id)) {

@@ -13,8 +13,6 @@ use InvalidArgumentException;
  */
 class TeamRepository extends MongodbRepository implements InterfacesTeamRepository
 {
-
-
     public function __construct()
     {
         $model = app()->make(config('fintech.auth.team_model', Team::class));

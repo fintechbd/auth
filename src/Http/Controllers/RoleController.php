@@ -39,8 +39,6 @@ class RoleController extends Controller
      * *```paginate=false``` returns all resource as list not pagination*
      *
      * @lrd:end
-     * @param IndexRoleRequest $request
-     * @return RoleCollection|JsonResponse
      */
     public function index(IndexRoleRequest $request): RoleCollection|JsonResponse
     {
@@ -62,9 +60,6 @@ class RoleController extends Controller
      * Create a new role resource in storage.
      *
      * @lrd:end
-     *
-     * @param StoreRoleRequest $request
-     * @return JsonResponse
      */
     public function store(StoreRoleRequest $request): JsonResponse
     {
@@ -93,8 +88,6 @@ class RoleController extends Controller
      * Return a specified role resource found by id.
      *
      * @lrd:end
-     * @param int|string $id
-     * @return RoleResource|JsonResponse
      */
     public function show(string|int $id): RoleResource|JsonResponse
     {
@@ -123,10 +116,6 @@ class RoleController extends Controller
      * Update a specified role resource using id.
      *
      * @lrd:end
-     *
-     * @param UpdateRoleRequest $request
-     * @param int|string $id
-     * @return JsonResponse
      */
     public function update(UpdateRoleRequest $request, string|int $id): JsonResponse
     {
@@ -202,7 +191,6 @@ class RoleController extends Controller
      *
      * @lrd:end
      *
-     * @param int|string $id
      * @return JsonResponse
      */
     public function restore(string|int $id)

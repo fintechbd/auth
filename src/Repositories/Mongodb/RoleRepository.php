@@ -11,10 +11,8 @@ use InvalidArgumentException;
 /**
  * Class RoleRepository
  */
-class RoleRepository extends MongodbRepository  implements InterfacesRoleRepository
+class RoleRepository extends MongodbRepository implements InterfacesRoleRepository
 {
-
-
     public function __construct()
     {
         $model = app()->make(config('fintech.auth.role_model', Role::class));

@@ -15,7 +15,6 @@ use InvalidArgumentException;
  */
 class ProfileRepository extends EloquentRepository implements InterfacesProfileRepository
 {
-
     public function __construct()
     {
         $model = app()->make(config('fintech.auth.user_profile_model', \Fintech\Auth\Models\Profile::class));

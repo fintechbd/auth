@@ -12,10 +12,8 @@ use MongoDB\Laravel\Eloquent\Model;
 /**
  * Class UserProfileRepository
  */
-class ProfileRepository extends MongodbRepository  implements InterfacesProfileRepository
+class ProfileRepository extends MongodbRepository implements InterfacesProfileRepository
 {
-
-
     public function __construct()
     {
         $model = app()->make(config('fintech.auth.user_profile_model', Profile::class));

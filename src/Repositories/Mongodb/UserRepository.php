@@ -12,10 +12,8 @@ use InvalidArgumentException;
 /**
  * Class UserRepository
  */
-class UserRepository extends MongodbRepository  implements InterfacesUserRepository
+class UserRepository extends MongodbRepository implements InterfacesUserRepository
 {
-
-
     public function __construct()
     {
         $model = app()->make(config('fintech.auth.user_model', User::class));

@@ -12,7 +12,6 @@ use InvalidArgumentException;
  */
 class PermissionRepository extends MongodbRepository implements InterfacesPermissionRepository
 {
-
     public function __construct()
     {
         $model = app()->make(config('fintech.auth.permission_model', \Fintech\Auth\Models\Permission::class));

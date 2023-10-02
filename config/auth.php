@@ -150,20 +150,15 @@ return [
     | This value will be used to across system where model is needed
     */
     'repositories' => [
-        \Fintech\Auth\Interfaces\PermissionRepository::class
-        => \Fintech\Auth\Repositories\Eloquent\PermissionRepository::class,
+        \Fintech\Auth\Interfaces\PermissionRepository::class => \Fintech\Auth\Repositories\Eloquent\PermissionRepository::class,
 
-        \Fintech\Auth\Interfaces\RoleRepository::class
-        => \Fintech\Auth\Repositories\Eloquent\RoleRepository::class,
+        \Fintech\Auth\Interfaces\RoleRepository::class => \Fintech\Auth\Repositories\Eloquent\RoleRepository::class,
 
-        \Fintech\Auth\Interfaces\TeamRepository::class
-        => \Fintech\Auth\Repositories\Eloquent\TeamRepository::class,
+        \Fintech\Auth\Interfaces\TeamRepository::class => \Fintech\Auth\Repositories\Eloquent\TeamRepository::class,
 
-        \Fintech\Auth\Interfaces\ProfileRepository::class
-        => \Fintech\Auth\Repositories\Eloquent\ProfileRepository::class,
+        \Fintech\Auth\Interfaces\ProfileRepository::class => \Fintech\Auth\Repositories\Eloquent\ProfileRepository::class,
 
-        \Fintech\Auth\Interfaces\UserRepository::class
-        => \Fintech\Auth\Repositories\Eloquent\UserRepository::class,
+        \Fintech\Auth\Interfaces\UserRepository::class => \Fintech\Auth\Repositories\Eloquent\UserRepository::class,
     ],
 
 ];

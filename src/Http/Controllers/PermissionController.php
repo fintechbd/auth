@@ -39,8 +39,6 @@ class PermissionController extends Controller
      * *```paginate=false``` returns all resource as list not pagination*
      *
      * @lrd:end
-     * @param IndexPermissionRequest $request
-     * @return PermissionCollection|JsonResponse
      */
     public function index(IndexPermissionRequest $request): PermissionCollection|JsonResponse
     {
@@ -62,9 +60,6 @@ class PermissionController extends Controller
      * Create a new permission resource in storage.
      *
      * @lrd:end
-     *
-     * @param StorePermissionRequest $request
-     * @return JsonResponse
      */
     public function store(StorePermissionRequest $request): JsonResponse
     {
@@ -93,8 +88,6 @@ class PermissionController extends Controller
      * Return a specified permission resource found by id.
      *
      * @lrd:end
-     * @param int|string $id
-     * @return PermissionResource|JsonResponse
      */
     public function show(string|int $id): PermissionResource|JsonResponse
     {
@@ -123,10 +116,6 @@ class PermissionController extends Controller
      * Update a specified permission resource using id.
      *
      * @lrd:end
-     *
-     * @param UpdatePermissionRequest $request
-     * @param int|string $id
-     * @return JsonResponse
      */
     public function update(UpdatePermissionRequest $request, string|int $id): JsonResponse
     {
@@ -140,8 +129,7 @@ class PermissionController extends Controller
 
             $inputs = $request->validated();
 
-
-            if (!Auth::permission()->update($id, $inputs)) {
+            if (! Auth::permission()->update($id, $inputs)) {
 
                 throw (new UpdateOperationException)->setModel(config('fintech.auth.permission_model'), $id);
             }
@@ -260,9 +248,6 @@ class PermissionController extends Controller
      * After export job is done system will fire  export completed event
      *
      * @lrd:end
-     *
-     * @param ImportPermissionRequest $request
-     * @return PermissionCollection|JsonResponse
      */
     public function import(ImportPermissionRequest $request): PermissionCollection|JsonResponse
     {

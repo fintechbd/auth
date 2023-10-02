@@ -23,11 +23,11 @@ class PermissionService
      */
     public function list(array $filters = [])
     {
-        $countryList = $this->permissionRepository->list($filters);
+        $permissionList = $this->permissionRepository->list($filters);
 
         //Do Business Stuff
 
-        return $countryList;
+        return $permissionList;
 
     }
 
@@ -36,9 +36,9 @@ class PermissionService
         return $this->permissionRepository->create($inputs);
     }
 
-    public function find($id)
+    public function find($id, $onlyTrashed = false)
     {
-        return $this->permissionRepository->find($id);
+        return $this->permissionRepository->find($id, $onlyTrashed);
     }
 
     public function update($id, array $inputs = [])

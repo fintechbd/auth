@@ -11,7 +11,7 @@ use Fintech\Auth\Http\Resources\RoleResource;
 use Fintech\Core\Exceptions\DeleteOperationException;
 use Fintech\Core\Exceptions\ResourceNotFoundException;
 use Fintech\Core\Exceptions\RestoreOperationException;
-use Fintech\Core\Exceptions\StoreOperationException;
+use Fintech\Core\Exceptions\ModelOperationException;
 use Fintech\Core\Exceptions\UpdateOperationException;
 use Fintech\Core\Traits\ApiResponseTrait;
 use Illuminate\Http\JsonResponse;
@@ -67,7 +67,7 @@ class RoleController extends Controller
      *
      * @lrd:end
      *
-     * @throws StoreOperationException
+     * @throws ModelOperationException
      */
     public function store(StoreRoleRequest $request): JsonResponse
     {
@@ -77,7 +77,7 @@ class RoleController extends Controller
             $role = \Auth::role()->create($inputs);
 
             if (! $role) {
-                throw new StoreOperationException();
+                throw new ModelOperationException();
             }
 
             return $this->created([
@@ -210,7 +210,7 @@ class RoleController extends Controller
     {
         try {
 
-            $role = \Auth::role()->read($id, true);
+            $role = \Auth::role()->find($id, true);
 
             if (! $role) {
                 throw new ResourceNotFoundException(__('core::messages.resource.notfound', ['model' => 'Role', 'id' => strval($id)]));

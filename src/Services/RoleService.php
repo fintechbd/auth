@@ -36,9 +36,9 @@ class RoleService
         return $this->roleRepository->create($inputs);
     }
 
-    public function find($id)
+    public function find($id, $onlyTrashed = false)
     {
-        return $this->roleRepository->find($id);
+        return $this->roleRepository->find($id, $onlyTrashed);
     }
 
     public function update($id, array $inputs = [])

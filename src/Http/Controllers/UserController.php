@@ -12,7 +12,7 @@ use Fintech\Auth\Http\Resources\UserResource;
 use Fintech\Core\Exceptions\DeleteOperationException;
 use Fintech\Core\Exceptions\ResourceNotFoundException;
 use Fintech\Core\Exceptions\RestoreOperationException;
-use Fintech\Core\Exceptions\StoreOperationException;
+use Fintech\Core\Exceptions\ModelOperationException;
 use Fintech\Core\Exceptions\UpdateOperationException;
 use Fintech\Core\Traits\ApiResponseTrait;
 use Illuminate\Http\JsonResponse;
@@ -60,7 +60,7 @@ class UserController extends Controller
      *
      * @lrd:end
      *
-     * @throws StoreOperationException
+     * @throws ModelOperationException
      */
     public function store(StoreUserRequest $request): JsonResponse
     {
@@ -70,7 +70,7 @@ class UserController extends Controller
             $user = Auth::user()->create($inputs);
 
             if (! $user) {
-                throw new StoreOperationException();
+                throw new ModelOperationException();
             }
 
             return $this->created([
@@ -203,7 +203,7 @@ class UserController extends Controller
     {
         try {
 
-            $user = Auth::user()->read($id, true);
+            $user = Auth::user()->find($id, true);
 
             if (! $user) {
                 throw new ResourceNotFoundException(__('core::messages.resource.notfound', ['model' => 'User', 'id' => strval($id)]));

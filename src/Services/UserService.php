@@ -118,9 +118,9 @@ class UserService
         return $data;
     }
 
-    public function find($id)
+    public function find($id, $onlyTrashed = false)
     {
-        return $this->userRepository->find($id);
+        return $this->userRepository->find($id, $onlyTrashed);
     }
 
     public function update($id, array $inputs = [])

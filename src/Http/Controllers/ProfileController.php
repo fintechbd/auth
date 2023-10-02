@@ -11,7 +11,7 @@ use Fintech\Auth\Http\Resources\UserProfileResource;
 use Fintech\Core\Exceptions\DeleteOperationException;
 use Fintech\Core\Exceptions\ResourceNotFoundException;
 use Fintech\Core\Exceptions\RestoreOperationException;
-use Fintech\Core\Exceptions\StoreOperationException;
+use Fintech\Core\Exceptions\ModelOperationException;
 use Fintech\Core\Exceptions\UpdateOperationException;
 use Fintech\Core\Traits\ApiResponseTrait;
 use Illuminate\Http\JsonResponse;
@@ -67,7 +67,7 @@ class ProfileController extends Controller
      *
      * @lrd:end
      *
-     * @throws StoreOperationException
+     * @throws ModelOperationException
      */
     public function store(StoreProfileRequest $request): JsonResponse
     {
@@ -77,7 +77,7 @@ class ProfileController extends Controller
             $userProfile = \Auth::userProfile()->create($inputs);
 
             if (! $userProfile) {
-                throw new StoreOperationException();
+                throw new ModelOperationException();
             }
 
             return $this->created([
@@ -210,7 +210,7 @@ class ProfileController extends Controller
     {
         try {
 
-            $userProfile = \Auth::userProfile()->read($id, true);
+            $userProfile = \Auth::userProfile()->find($id, true);
 
             if (! $userProfile) {
                 throw new ResourceNotFoundException(__('core::messages.resource.notfound', ['model' => 'UserProfile', 'id' => strval($id)]));

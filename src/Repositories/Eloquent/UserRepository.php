@@ -37,12 +37,12 @@ class UserRepository extends EloquentRepository implements InterfacesUserReposit
     {
         $query = $this->model->newQuery();
 
+        if (isset($filters['search']) && ! empty($filters['search'])) {
+            $query->where('name', 'like', "%{$filters['search']}%");
+        }
+
         //Handle Sorting
         $query->orderBy($filters['sort'] ?? $this->model->getKeyName(), $filters['direction'] ?? 'asc');
-
-        if (isset($filters['login_id']) && ! empty($filters['login_id'])) {
-            $query->where('login_id', $filters['login_id'])->limit(1);
-        }
 
         //Prepare Output
         return (isset($filters['paginate']) && $filters['paginate'] == true)
@@ -50,5 +50,4 @@ class UserRepository extends EloquentRepository implements InterfacesUserReposit
             : $query->get();
 
     }
-
 }

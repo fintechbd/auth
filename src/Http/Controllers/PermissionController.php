@@ -2,6 +2,7 @@
 
 namespace Fintech\Auth\Http\Controllers;
 
+use Exception;
 use Fintech\Auth\Facades\Auth;
 use Fintech\Auth\Http\Requests\ImportPermissionRequest;
 use Fintech\Auth\Http\Requests\IndexPermissionRequest;
@@ -10,11 +11,11 @@ use Fintech\Auth\Http\Requests\UpdatePermissionRequest;
 use Fintech\Auth\Http\Resources\PermissionCollection;
 use Fintech\Auth\Http\Resources\PermissionResource;
 use Fintech\Core\Exceptions\DeleteOperationException;
-use Fintech\Core\Exceptions\ResourceNotFoundException;
 use Fintech\Core\Exceptions\RestoreOperationException;
 use Fintech\Core\Exceptions\StoreOperationException;
 use Fintech\Core\Exceptions\UpdateOperationException;
 use Fintech\Core\Traits\ApiResponseTrait;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Routing\Controller;
 
@@ -38,6 +39,8 @@ class PermissionController extends Controller
      * *```paginate=false``` returns all resource as list not pagination*
      *
      * @lrd:end
+     * @param IndexPermissionRequest $request
+     * @return PermissionCollection|JsonResponse
      */
     public function index(IndexPermissionRequest $request): PermissionCollection|JsonResponse
     {
@@ -48,7 +51,7 @@ class PermissionController extends Controller
 
             return new PermissionCollection($permissionPaginate);
 
-        } catch (\Exception $exception) {
+        } catch (Exception $exception) {
 
             return $this->failed($exception->getMessage());
         }
@@ -60,7 +63,8 @@ class PermissionController extends Controller
      *
      * @lrd:end
      *
-     * @throws StoreOperationException
+     * @param StorePermissionRequest $request
+     * @return JsonResponse
      */
     public function store(StorePermissionRequest $request): JsonResponse
     {
@@ -70,7 +74,7 @@ class PermissionController extends Controller
             $permission = Auth::permission()->create($inputs);
 
             if (! $permission) {
-                throw new StoreOperationException();
+                throw (new StoreOperationException)->setModel(config('fintech.auth.permission_model'));
             }
 
             return $this->created([
@@ -78,7 +82,7 @@ class PermissionController extends Controller
                 'id' => $permission->id,
             ]);
 
-        } catch (\Exception $exception) {
+        } catch (Exception $exception) {
 
             return $this->failed($exception->getMessage());
         }
@@ -89,8 +93,8 @@ class PermissionController extends Controller
      * Return a specified permission resource found by id.
      *
      * @lrd:end
-     *
-     * @throws ResourceNotFoundException
+     * @param int|string $id
+     * @return PermissionResource|JsonResponse
      */
     public function show(string|int $id): PermissionResource|JsonResponse
     {
@@ -99,16 +103,16 @@ class PermissionController extends Controller
             $permission = Auth::permission()->find($id);
 
             if (! $permission) {
-                throw new ResourceNotFoundException(__('core::messages.resource.notfound', ['model' => 'Permission', 'id' => strval($id)]));
+                throw (new ModelNotFoundException)->setModel(config('fintech.auth.permission_model'), $id);
             }
 
             return new PermissionResource($permission);
 
-        } catch (ResourceNotFoundException $exception) {
+        } catch (ModelNotFoundException $exception) {
 
             return $this->notfound($exception->getMessage());
 
-        } catch (\Exception $exception) {
+        } catch (Exception $exception) {
 
             return $this->failed($exception->getMessage());
         }
@@ -120,8 +124,9 @@ class PermissionController extends Controller
      *
      * @lrd:end
      *
-     * @throws ResourceNotFoundException
-     * @throws UpdateOperationException
+     * @param UpdatePermissionRequest $request
+     * @param int|string $id
+     * @return JsonResponse
      */
     public function update(UpdatePermissionRequest $request, string|int $id): JsonResponse
     {
@@ -130,23 +135,24 @@ class PermissionController extends Controller
             $permission = Auth::permission()->find($id);
 
             if (! $permission) {
-                throw new ResourceNotFoundException(__('core::messages.resource.notfound', ['model' => 'Permission', 'id' => strval($id)]));
+                throw (new ModelNotFoundException())->setModel(config('fintech.auth.permission_model'), $id);
             }
 
             $inputs = $request->validated();
 
-            if (! Auth::permission()->update($id, $inputs)) {
 
-                throw new UpdateOperationException();
+            if (!Auth::permission()->update($id, $inputs)) {
+
+                throw (new UpdateOperationException)->setModel(config('fintech.auth.permission_model'), $id);
             }
 
             return $this->updated(__('core::messages.resource.updated', ['model' => 'Permission']));
 
-        } catch (ResourceNotFoundException $exception) {
+        } catch (ModelNotFoundException $exception) {
 
             return $this->notfound($exception->getMessage());
 
-        } catch (\Exception $exception) {
+        } catch (Exception $exception) {
 
             return $this->failed($exception->getMessage());
         }
@@ -160,7 +166,7 @@ class PermissionController extends Controller
      *
      * @return JsonResponse
      *
-     * @throws ResourceNotFoundException
+     * @throws ModelNotFoundException
      * @throws DeleteOperationException
      */
     public function destroy(string|int $id)
@@ -170,21 +176,21 @@ class PermissionController extends Controller
             $permission = Auth::permission()->find($id);
 
             if (! $permission) {
-                throw new ResourceNotFoundException(__('core::messages.resource.notfound', ['model' => 'Permission', 'id' => strval($id)]));
+                throw (new ModelNotFoundException())->setModel(config('fintech.auth.permission_model'), $id);
             }
 
             if (! Auth::permission()->destroy($id)) {
 
-                throw new DeleteOperationException();
+                throw (new DeleteOperationException)->setModel(config('fintech.auth.permission_model'), $id);
             }
 
             return $this->deleted(__('core::messages.resource.deleted', ['model' => 'Permission']));
 
-        } catch (ResourceNotFoundException $exception) {
+        } catch (ModelNotFoundException $exception) {
 
             return $this->notfound($exception->getMessage());
 
-        } catch (\Exception $exception) {
+        } catch (Exception $exception) {
 
             return $this->failed($exception->getMessage());
         }
@@ -203,24 +209,24 @@ class PermissionController extends Controller
     {
         try {
 
-            $permission = Auth::permission()->read($id, true);
+            $permission = Auth::permission()->find($id, true);
 
             if (! $permission) {
-                throw new ResourceNotFoundException(__('core::messages.resource.notfound', ['model' => 'Permission', 'id' => strval($id)]));
+                throw (new ModelNotFoundException())->setModel(config('fintech.auth.permission_model'), $id);
             }
 
             if (! Auth::permission()->restore($id)) {
 
-                throw new RestoreOperationException();
+                throw (new RestoreOperationException)->setModel(config('fintech.auth.permission_model'), $id);
             }
 
             return $this->restored(__('core::messages.resource.restored', ['model' => 'Permission']));
 
-        } catch (ResourceNotFoundException $exception) {
+        } catch (ModelNotFoundException $exception) {
 
             return $this->notfound($exception->getMessage());
 
-        } catch (\Exception $exception) {
+        } catch (Exception $exception) {
 
             return $this->failed($exception->getMessage());
         }
@@ -242,7 +248,7 @@ class PermissionController extends Controller
 
             return $this->exported(__('core::messages.resource.exported', ['model' => 'Permission']));
 
-        } catch (\Exception $exception) {
+        } catch (Exception $exception) {
 
             return $this->failed($exception->getMessage());
         }
@@ -255,9 +261,10 @@ class PermissionController extends Controller
      *
      * @lrd:end
      *
+     * @param ImportPermissionRequest $request
      * @return PermissionCollection|JsonResponse
      */
-    public function import(ImportPermissionRequest $request): JsonResponse
+    public function import(ImportPermissionRequest $request): PermissionCollection|JsonResponse
     {
         try {
             $inputs = $request->validated();
@@ -266,7 +273,7 @@ class PermissionController extends Controller
 
             return new PermissionCollection($permissionPaginate);
 
-        } catch (\Exception $exception) {
+        } catch (Exception $exception) {
 
             return $this->failed($exception->getMessage());
         }

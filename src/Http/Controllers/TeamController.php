@@ -11,7 +11,7 @@ use Fintech\Auth\Http\Resources\TeamResource;
 use Fintech\Core\Exceptions\DeleteOperationException;
 use Fintech\Core\Exceptions\ResourceNotFoundException;
 use Fintech\Core\Exceptions\RestoreOperationException;
-use Fintech\Core\Exceptions\StoreOperationException;
+use Fintech\Core\Exceptions\ModelOperationException;
 use Fintech\Core\Exceptions\UpdateOperationException;
 use Fintech\Core\Traits\ApiResponseTrait;
 use Illuminate\Http\JsonResponse;
@@ -67,7 +67,7 @@ class TeamController extends Controller
      *
      * @lrd:end
      *
-     * @throws StoreOperationException
+     * @throws ModelOperationException
      */
     public function store(StoreTeamRequest $request): JsonResponse
     {
@@ -77,7 +77,7 @@ class TeamController extends Controller
             $team = \Auth::team()->create($inputs);
 
             if (! $team) {
-                throw new StoreOperationException();
+                throw new ModelOperationException();
             }
 
             return $this->created([
@@ -210,7 +210,7 @@ class TeamController extends Controller
     {
         try {
 
-            $team = \Auth::team()->read($id, true);
+            $team = \Auth::team()->find($id, true);
 
             if (! $team) {
                 throw new ResourceNotFoundException(__('core::messages.resource.notfound', ['model' => 'Team', 'id' => strval($id)]));

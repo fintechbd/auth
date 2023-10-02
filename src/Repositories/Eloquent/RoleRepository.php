@@ -34,6 +34,10 @@ class RoleRepository extends EloquentRepository implements InterfacesRoleReposit
     {
         $query = $this->model->newQuery();
 
+        if (isset($filters['search']) && ! empty($filters['search'])) {
+            $query->where('name', 'like', "%{$filters['search']}%");
+        }
+
         //Handle Sorting
         $query->orderBy($filters['sort'] ?? $this->model->getKeyName(), $filters['direction'] ?? 'asc');
 

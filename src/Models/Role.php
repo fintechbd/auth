@@ -42,8 +42,6 @@ class Role extends Model implements Auditable, RoleContract
 
     protected $hidden = ['creator_id', 'editor_id', 'destroyer_id', 'restorer_id', 'deleted_at', 'restored_at'];
 
-    protected $with = ['permissions'];
-
     /*
     |--------------------------------------------------------------------------
     | FUNCTIONS
@@ -222,7 +220,7 @@ class Role extends Model implements Auditable, RoleContract
             config('permission.table_names.role_has_permissions'),
             PermissionRegistrar::$pivotRole,
             PermissionRegistrar::$pivotPermission
-        );
+        )->withTimestamps()->without('pivot');
     }
 
     /**

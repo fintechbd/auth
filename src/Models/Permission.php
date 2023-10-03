@@ -74,15 +74,16 @@ class Permission extends Model implements Auditable, PermissionContract
     /**
      * Find a permission by its name (and optionally guardName).
      *
-     * @param  string|null  $guardName
+     * @param string $name
+     * @param null $guardName
      *
-     * @throws \Spatie\Permission\Exceptions\PermissionDoesNotExist
+     * @return PermissionContract
      */
     public static function findByName(string $name, $guardName = null): PermissionContract
     {
         $guardName = $guardName ?? Guard::getDefaultName(static::class);
         $permission = static::getPermission(['name' => $name, 'guard_name' => $guardName]);
-        if (! $permission) {
+        if (!$permission) {
             throw PermissionDoesNotExist::create($name, $guardName);
         }
 
@@ -92,16 +93,17 @@ class Permission extends Model implements Auditable, PermissionContract
     /**
      * Find a permission by its id (and optionally guardName).
      *
-     * @param  string|null  $guardName
+     * @param int $id
+     * @param null $guardName
      *
-     * @throws \Spatie\Permission\Exceptions\PermissionDoesNotExist
+     * @return PermissionContract
      */
     public static function findById(int $id, $guardName = null): PermissionContract
     {
         $guardName = $guardName ?? Guard::getDefaultName(static::class);
         $permission = static::getPermission([(new static())->getKeyName() => $id, 'guard_name' => $guardName]);
 
-        if (! $permission) {
+        if (!$permission) {
             throw PermissionDoesNotExist::withId($id, $guardName);
         }
 
@@ -111,14 +113,16 @@ class Permission extends Model implements Auditable, PermissionContract
     /**
      * Find or create permission by its name (and optionally guardName).
      *
-     * @param  string|null  $guardName
+     * @param string $name
+     * @param null $guardName
+     * @return PermissionContract
      */
     public static function findOrCreate(string $name, $guardName = null): PermissionContract
     {
         $guardName = $guardName ?? Guard::getDefaultName(static::class);
         $permission = static::getPermission(['name' => $name, 'guard_name' => $guardName]);
 
-        if (! $permission) {
+        if (!$permission) {
             return static::query()->create(['name' => $name, 'guard_name' => $guardName]);
         }
 
@@ -127,6 +131,9 @@ class Permission extends Model implements Auditable, PermissionContract
 
     /**
      * Get the current cached permissions.
+     * @param array $params
+     * @param bool $onlyOne
+     * @return Collection
      */
     protected static function getPermissions(array $params = [], bool $onlyOne = false): Collection
     {
@@ -138,7 +145,7 @@ class Permission extends Model implements Auditable, PermissionContract
     /**
      * Get the current cached first permission.
      *
-     * @return \Spatie\Permission\Contracts\Permission
+     * @return PermissionContract
      */
     protected static function getPermission(array $params = []): ?PermissionContract
     {

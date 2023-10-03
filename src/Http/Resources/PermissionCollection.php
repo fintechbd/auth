@@ -2,6 +2,7 @@
 
 namespace Fintech\Auth\Http\Resources;
 
+use Fintech\Core\Supports\Constant;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\ResourceCollection;
 
@@ -10,7 +11,7 @@ class PermissionCollection extends ResourceCollection
     /**
      * Transform the resource collection into an array.
      *
-     * @param  Request  $request
+     * @param Request $request
      * @return array
      */
     public function toArray($request)
@@ -26,9 +27,12 @@ class PermissionCollection extends ResourceCollection
     public function with(Request $request): array
     {
         return [
-            'meta' => [
-                'query' => $request->all(),
+            'options' => [
+                'dir' => Constant::SORT_DIRECTIONS,
+                'per_page' => Constant::PAGINATE_LENGTHS,
+                'sort' => ['id', 'name', 'guard_name', 'created_at', 'updated_at'],
             ],
+            'query' => $request->all(),
         ];
     }
 }

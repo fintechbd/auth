@@ -2,6 +2,7 @@
 
 namespace Fintech\Auth\Http\Resources;
 
+use Fintech\Core\Supports\Constant;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\ResourceCollection;
 
@@ -26,9 +27,12 @@ class UserCollection extends ResourceCollection
     public function with(Request $request): array
     {
         return [
-            'meta' => [
-                'query' => $request->all(),
+            'options' => [
+                'dir' => Constant::SORT_DIRECTIONS,
+                'per_page' => Constant::PAGINATE_LENGTHS,
+                'sort' => ['id', 'name', 'created_at', 'updated_at'],
             ],
+            'query' => $request->all(),
         ];
     }
 }

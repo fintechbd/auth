@@ -5,7 +5,9 @@ namespace Fintech\Auth\Repositories\Eloquent;
 use Fintech\Auth\Interfaces\RoleRepository as InterfacesRoleRepository;
 use Fintech\Auth\Models\Role;
 use Fintech\Core\Repositories\EloquentRepository;
-use Illuminate\Contracts\Pagination\LengthAwarePaginator;
+use Illuminate\Contracts\Pagination\Paginator;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Collection;
 use InvalidArgumentException;
 
 /**
@@ -28,7 +30,7 @@ class RoleRepository extends EloquentRepository implements InterfacesRoleReposit
      * return a list or pagination of items from
      * filtered options
      *
-     * @return LengthAwarePaginator|Builder[]|Collection
+     * @return Paginator|Collection
      */
     public function list(array $filters = [])
     {
@@ -43,7 +45,7 @@ class RoleRepository extends EloquentRepository implements InterfacesRoleReposit
 
         //Prepare Output
         return (isset($filters['paginate']) && $filters['paginate'] == true)
-            ? $query->paginate(($filters['per_page'] ?? 20))
+            ? $query->simplePaginate(($filters['per_page'] ?? 20))
             : $query->get();
 
     }

@@ -23,11 +23,11 @@ class RoleService
      */
     public function list(array $filters = [])
     {
-        $countryList = $this->roleRepository->list($filters);
+        $roleList = $this->roleRepository->list($filters);
 
         //Do Business Stuff
 
-        return $countryList;
+        return $roleList;
 
     }
 

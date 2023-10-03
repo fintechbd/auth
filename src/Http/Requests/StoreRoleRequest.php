@@ -3,6 +3,7 @@
 namespace Fintech\Auth\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class StoreRoleRequest extends FormRequest
 {
@@ -25,6 +26,7 @@ class StoreRoleRequest extends FormRequest
 
         return [
             'name' => ['required', 'string', 'min:5', 'max:255', $uniqueRule],
+            'team_id' => ['required', 'integer'],
             'guard_name' => ['required', 'string', Rule::in(array_keys(config('auth.guards', ['web', 'api'])))],
             'permissions' => ['nullable', 'array'],
             'permissions.*' => ['nullable', 'integer'],

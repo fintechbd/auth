@@ -42,25 +42,27 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->dropColumn('parent_id');
-            $table->dropColumn('mobile');
-            $table->dropColumn('login_id');
-            $table->dropColumn('wrong_password');
-            $table->dropColumn('pin');
-            $table->dropColumn('wrong_pin');
-            $table->dropColumn('status');
-            $table->dropColumn('language');
-            $table->dropColumn('currency');
-            $table->dropColumn('app_version');
-            $table->dropColumn('fcm_token');
-            $table->dropColumn('mobile_verified_at');
-            $table->dropColumn('creator_id');
-            $table->dropColumn('editor_id');
-            $table->dropColumn('destroyer_id');
-            $table->dropColumn('restorer_id');
-            $table->dropColumn('deleted_at');
-            $table->dropColumn('restored_at');
-        });
+        if (Schema::hasTable('users')) {
+            Schema::table('users', function (Blueprint $table) {
+                $table->dropColumn('parent_id');
+                $table->dropColumn('mobile');
+                $table->dropColumn('login_id');
+                $table->dropColumn('wrong_password');
+                $table->dropColumn('pin');
+                $table->dropColumn('wrong_pin');
+                $table->dropColumn('status');
+                $table->dropColumn('language');
+                $table->dropColumn('currency');
+                $table->dropColumn('app_version');
+                $table->dropColumn('fcm_token');
+                $table->dropColumn('mobile_verified_at');
+                $table->dropColumn('creator_id');
+                $table->dropColumn('editor_id');
+                $table->dropColumn('destroyer_id');
+                $table->dropColumn('restorer_id');
+                $table->dropColumn('deleted_at');
+                $table->dropColumn('restored_at');
+            });
+        }
     }
 };

@@ -1,11 +1,7 @@
 <?php
 
 use Fintech\Auth\Http\Controllers\AuthenticatedSessionController;
-use Fintech\Auth\Http\Controllers\EmailVerificationNotificationController;
-use Fintech\Auth\Http\Controllers\NewPasswordController;
-use Fintech\Auth\Http\Controllers\PasswordResetLinkController;
 use Fintech\Auth\Http\Controllers\RegisteredUserController;
-use Fintech\Auth\Http\Controllers\VerifyEmailController;
 use Illuminate\Support\Facades\Route;
 
 /*

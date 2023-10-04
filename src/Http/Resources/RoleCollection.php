@@ -25,6 +25,7 @@ class RoleCollection extends ResourceCollection
                 "permissions" => [],
                 "created_at" => $role->created_at,
                 "updated_at" => $role->updated_at,
+                "links" => $role->links,
             ];
 
             if (!$role->permissions->isEmpty()) {

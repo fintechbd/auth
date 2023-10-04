@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateAuditsTable extends Migration
+return new class extends Migration
 {
     /**
      * Run the migrations.
@@ -47,6 +47,6 @@ class CreateAuditsTable extends Migration
         $connection = config('audit.drivers.database.connection', config('database.default'));
         $table = config('audit.drivers.database.table', 'audits');
 
-        Schema::connection($connection)->drop($table);
+        Schema::connection($connection)->dropIfExists($table);
     }
-}
+};

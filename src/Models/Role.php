@@ -42,6 +42,7 @@ class Role extends Model implements Auditable, RoleContract
 
     protected $hidden = ['creator_id', 'editor_id', 'destroyer_id', 'restorer_id', 'deleted_at', 'restored_at'];
 
+    protected $appends = ['links'];
     /*
     |--------------------------------------------------------------------------
     | FUNCTIONS
@@ -201,7 +202,7 @@ class Role extends Model implements Auditable, RoleContract
             throw GuardDoesNotMatch::create($permission->guard_name, $this->getGuardNames());
         }
 
-        return $this->permissions->contains($permission->getKeyName(), $permission->getKey());
+        return $this->roles->contains($permission->getKeyName(), $permission->getKey());
     }
 
     /*
@@ -248,6 +249,26 @@ class Role extends Model implements Auditable, RoleContract
     | ACCESSORS
     |--------------------------------------------------------------------------
     */
+
+    public function getLinksAttribute()
+    {
+        $primaryKey = $this->getKey();
+
+        $links = [
+            'show' => action_link(route('auth.roles.show', $primaryKey), __('core::messages.action.show'), 'get'),
+            'update' => action_link(route('auth.roles.update', $primaryKey), __('core::messages.action.update'), 'put'),
+            'destroy' => action_link(route('auth.roles.destroy', $primaryKey), __('core::messages.action.destroy'), 'delete'),
+            'restore' => action_link(route('auth.roles.restore', $primaryKey), __('core::messages.action.restore'), 'post'),
+        ];
+
+        if ($this->getAttribute('deleted_at') == null) {
+            unset($links['restore']);
+        } else {
+            unset($links['destroy']);
+        }
+
+        return $links;
+    }
 
     /*
     |--------------------------------------------------------------------------

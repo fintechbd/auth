@@ -2,6 +2,7 @@
 
 namespace Fintech\Auth\Http\Resources;
 
+use Fintech\Auth\Facades\Auth;
 use Fintech\Core\Supports\Constant;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\ResourceCollection;
@@ -20,6 +21,7 @@ class RoleCollection extends ResourceCollection
             $return = [
                 "id" => $role->id,
                 "team_id" => $role->team_id ?? null,
+                "team_name" => ($role->team != null) ? $role->team->name : null,
                 "name" => $role->name ?? null,
                 "guard_name" => $role->guard_name ?? null,
                 "permissions" => [],
@@ -52,11 +54,19 @@ class RoleCollection extends ResourceCollection
      */
     public function with(Request $request): array
     {
+        $teams = [];
+
+        Auth::team()->list(['paginate' => false])
+            ->each(function ($team) use (&$teams) {
+                $teams[$team->id] = $team->name;
+            });
+
         return [
             'options' => [
                 'dir' => Constant::SORT_DIRECTIONS,
                 'per_page' => Constant::PAGINATE_LENGTHS,
-                'sort' => ['id', 'name', 'guard_name', 'created_at', 'updated_at'],
+                'team_id' => $teams,
+                'sort' => ['id', 'team_id', 'name', 'guard_name', 'created_at', 'updated_at'],
             ],
             'query' => $request->all(),
         ];

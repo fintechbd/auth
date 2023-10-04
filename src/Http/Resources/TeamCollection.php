@@ -11,12 +11,36 @@ class TeamCollection extends ResourceCollection
     /**
      * Transform the resource collection into an array.
      *
-     * @param  Request  $request
+     * @param Request $request
      * @return array
      */
     public function toArray($request)
     {
-        return parent::toArray($request);
+        return $this->collection->map(function ($team) {
+            $return = [
+                "id" => $team->id,
+                "name" => $team->name ?? null,
+                "roles" => [],
+                "created_at" => $team->created_at,
+                "updated_at" => $team->updated_at,
+                "links" => $team->links,
+            ];
+
+            if (!$team->roles->isEmpty()) {
+                foreach ($team->roles as $role) {
+                    $return['roles'][] = [
+                        'id' => $role->id,
+                        'name' => $role->name ?? null,
+                        'guard_name' => $role->guard_name ?? null,
+                        'created_at' => $role->created_at,
+                        'updated_at' => $role->updated_at,
+                    ];
+                }
+            }
+
+            return $return;
+
+        })->toArray();
     }
 
     /**

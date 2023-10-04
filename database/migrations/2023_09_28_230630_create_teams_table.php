@@ -31,7 +31,7 @@ return new class extends Migration
 
         Schema::create('teams', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
+            $table->string('name')->index();
             $table->text('description')->nullable();
             $table->foreignId('creator_id')->nullable();
             $table->foreignId('editor_id')->nullable();

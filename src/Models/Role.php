@@ -7,6 +7,7 @@ use Illuminate\Config\Repository;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use OwenIt\Auditing\Contracts\Auditable;
@@ -43,6 +44,9 @@ class Role extends Model implements Auditable, RoleContract
     protected $hidden = ['creator_id', 'editor_id', 'destroyer_id', 'restorer_id', 'deleted_at', 'restored_at'];
 
     protected $appends = ['links'];
+
+    protected $with = ['permissions'];
+
     /*
     |--------------------------------------------------------------------------
     | FUNCTIONS
@@ -103,7 +107,7 @@ class Role extends Model implements Auditable, RoleContract
 
         $role = static::findByParam(['name' => $name, 'guard_name' => $guardName]);
 
-        if (! $role) {
+        if (!$role) {
             throw RoleDoesNotExist::named($name);
         }
 
@@ -123,7 +127,7 @@ class Role extends Model implements Auditable, RoleContract
 
         $role = static::findByParam([(new static())->getKeyName() => $id, 'guard_name' => $guardName]);
 
-        if (! $role) {
+        if (!$role) {
             throw RoleDoesNotExist::withId($id);
         }
 
@@ -143,7 +147,7 @@ class Role extends Model implements Auditable, RoleContract
 
         $role = static::findByParam(['name' => $name, 'guard_name' => $guardName]);
 
-        if (! $role) {
+        if (!$role) {
             return static::query()->create(['name' => $name, 'guard_name' => $guardName] + (PermissionRegistrar::$teams ? [PermissionRegistrar::$teamsKey => getPermissionsTeamId()] : []));
         }
 
@@ -198,7 +202,7 @@ class Role extends Model implements Auditable, RoleContract
             $permission = $permissionClass->findById($permission, $this->getDefaultGuardName());
         }
 
-        if (! $this->getGuardNames()->contains($permission->guard_name)) {
+        if (!$this->getGuardNames()->contains($permission->guard_name)) {
             throw GuardDoesNotMatch::create($permission->guard_name, $this->getGuardNames());
         }
 
@@ -238,6 +242,16 @@ class Role extends Model implements Auditable, RoleContract
         );
     }
 
+    /**
+     * parent team that this role belongs to
+     *
+     * @return BelongsTo
+     */
+    public function team(): BelongsTo
+    {
+        return $this->belongsTo(config('fintech.auth.team_model', \Fintech\Auth\Models\Team::class));
+    }
+
     /*
     |--------------------------------------------------------------------------
     | SCOPES
@@ -250,6 +264,9 @@ class Role extends Model implements Auditable, RoleContract
     |--------------------------------------------------------------------------
     */
 
+    /**
+     * @return array
+     */
     public function getLinksAttribute()
     {
         $primaryKey = $this->getKey();

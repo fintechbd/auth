@@ -116,6 +116,9 @@ class RoleController extends Controller
      * Update a specified role resource using id.
      *
      * @lrd:end
+     * @param UpdateRoleRequest $request
+     * @param int|string $id
+     * @return JsonResponse
      */
     public function update(UpdateRoleRequest $request, string|int $id): JsonResponse
     {

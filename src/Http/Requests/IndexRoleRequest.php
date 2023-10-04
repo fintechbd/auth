@@ -25,7 +25,8 @@ class IndexRoleRequest extends FormRequest
     {
         return [
             'search' => ['string', 'nullable', 'max:255'],
-            'per_page' => ['integer', 'nullable', 'min:1', 'max:255'],
+            'team_id' => ['integer', 'nullable', 'min:1', 'max:255'],
+            'per_page' => ['integer', 'nullable', 'min:10', 'max:500'],
             'page' => ['integer', 'nullable', 'min:1'],
             'paginate' => ['boolean'],
             'sort' => ['string', 'nullable', 'min:2', 'max:255'],
@@ -33,27 +34,4 @@ class IndexRoleRequest extends FormRequest
         ];
     }
 
-    /**
-     * Get the validation attributes that apply to the request.
-     *
-     * @return array
-     */
-    public function attributes()
-    {
-        return [
-            //
-        ];
-    }
-
-    /**
-     * Get the validation messages that apply to the request.
-     *
-     * @return array
-     */
-    public function messages()
-    {
-        return [
-            //
-        ];
-    }
 }

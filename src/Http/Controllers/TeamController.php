@@ -2,6 +2,7 @@
 
 namespace Fintech\Auth\Http\Controllers;
 
+use Fintech\Auth\Facades\Auth;
 use Fintech\Auth\Http\Requests\ImportTeamRequest;
 use Fintech\Auth\Http\Requests\IndexTeamRequest;
 use Fintech\Auth\Http\Requests\StoreTeamRequest;
@@ -9,11 +10,11 @@ use Fintech\Auth\Http\Requests\UpdateTeamRequest;
 use Fintech\Auth\Http\Resources\TeamCollection;
 use Fintech\Auth\Http\Resources\TeamResource;
 use Fintech\Core\Exceptions\DeleteOperationException;
-use Fintech\Core\Exceptions\ModelOperationException;
-use Fintech\Core\Exceptions\ResourceNotFoundException;
 use Fintech\Core\Exceptions\RestoreOperationException;
+use Fintech\Core\Exceptions\StoreOperationException;
 use Fintech\Core\Exceptions\UpdateOperationException;
 use Fintech\Core\Traits\ApiResponseTrait;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Routing\Controller;
 
@@ -31,14 +32,6 @@ class TeamController extends Controller
     use ApiResponseTrait;
 
     /**
-     * TeamController constructor.
-     */
-    public function __construct()
-    {
-
-    }
-
-    /**
      * @lrd:start
      * Return a listing of the team resource as collection.
      *
@@ -51,7 +44,7 @@ class TeamController extends Controller
         try {
             $inputs = $request->validated();
 
-            $teamPaginate = \Auth::team()->list($inputs);
+            $teamPaginate = Auth::team()->list($inputs);
 
             return new TeamCollection($teamPaginate);
 
@@ -67,17 +60,18 @@ class TeamController extends Controller
      *
      * @lrd:end
      *
-     * @throws ModelOperationException
+     * @param StoreTeamRequest $request
+     * @return JsonResponse
      */
     public function store(StoreTeamRequest $request): JsonResponse
     {
         try {
             $inputs = $request->validated();
 
-            $team = \Auth::team()->create($inputs);
+            $team = Auth::team()->create($inputs);
 
-            if (! $team) {
-                throw new ModelOperationException();
+            if (!$team) {
+                throw (new StoreOperationException)->setModel(config('fintech.auth.team_model'));
             }
 
             return $this->created([
@@ -96,22 +90,22 @@ class TeamController extends Controller
      * Return a specified team resource found by id.
      *
      * @lrd:end
-     *
-     * @throws ResourceNotFoundException
+     * @param int|string $id
+     * @return TeamResource|JsonResponse
      */
     public function show(string|int $id): TeamResource|JsonResponse
     {
         try {
 
-            $team = \Auth::team()->find($id);
+            $team = Auth::team()->find($id);
 
-            if (! $team) {
-                throw new ResourceNotFoundException(__('core::messages.resource.notfound', ['model' => 'Team', 'id' => strval($id)]));
+            if (!$team) {
+                throw (new ModelNotFoundException)->setModel(config('fintech.auth.team_model'), $id);
             }
 
             return new TeamResource($team);
 
-        } catch (ResourceNotFoundException $exception) {
+        } catch (ModelNotFoundException $exception) {
 
             return $this->notfound($exception->getMessage());
 
@@ -127,29 +121,30 @@ class TeamController extends Controller
      *
      * @lrd:end
      *
-     * @throws ResourceNotFoundException
-     * @throws UpdateOperationException
+     * @param UpdateTeamRequest $request
+     * @param int|string $id
+     * @return JsonResponse
      */
     public function update(UpdateTeamRequest $request, string|int $id): JsonResponse
     {
         try {
 
-            $team = \Auth::team()->find($id);
+            $team = Auth::team()->find($id);
 
-            if (! $team) {
-                throw new ResourceNotFoundException(__('core::messages.resource.notfound', ['model' => 'Team', 'id' => strval($id)]));
+            if (!$team) {
+                throw (new ModelNotFoundException)->setModel(config('fintech.auth.team_model'), $id);
             }
 
             $inputs = $request->validated();
 
-            if (! \Auth::team()->update($id, $inputs)) {
+            if (!Auth::team()->update($id, $inputs)) {
 
-                throw new UpdateOperationException();
+                throw (new UpdateOperationException)->setModel(config('fintech.auth.team_model'), $id);
             }
 
             return $this->updated(__('core::messages.resource.updated', ['model' => 'Team']));
 
-        } catch (ResourceNotFoundException $exception) {
+        } catch (ModelNotFoundException $exception) {
 
             return $this->notfound($exception->getMessage());
 
@@ -165,29 +160,28 @@ class TeamController extends Controller
      *
      * @lrd:end
      *
+     * @param int|string $id
      * @return JsonResponse
      *
-     * @throws ResourceNotFoundException
-     * @throws DeleteOperationException
      */
     public function destroy(string|int $id)
     {
         try {
 
-            $team = \Auth::team()->find($id);
+            $team = Auth::team()->find($id);
 
-            if (! $team) {
-                throw new ResourceNotFoundException(__('core::messages.resource.notfound', ['model' => 'Team', 'id' => strval($id)]));
+            if (!$team) {
+                throw (new ModelNotFoundException)->setModel(config('fintech.auth.team_model'), $id);
             }
 
-            if (! \Auth::team()->destroy($id)) {
+            if (!Auth::team()->destroy($id)) {
 
-                throw new DeleteOperationException();
+                throw (new DeleteOperationException)->setModel(config('fintech.auth.team_model'), $id);
             }
 
             return $this->deleted(__('core::messages.resource.deleted', ['model' => 'Team']));
 
-        } catch (ResourceNotFoundException $exception) {
+        } catch (ModelNotFoundException $exception) {
 
             return $this->notfound($exception->getMessage());
 
@@ -210,20 +204,20 @@ class TeamController extends Controller
     {
         try {
 
-            $team = \Auth::team()->find($id, true);
+            $team = Auth::team()->find($id, true);
 
-            if (! $team) {
-                throw new ResourceNotFoundException(__('core::messages.resource.notfound', ['model' => 'Team', 'id' => strval($id)]));
+            if (!$team) {
+                throw (new ModelNotFoundException)->setModel(config('fintech.auth.team_model'), $id);
             }
 
-            if (! \Auth::team()->restore($id)) {
+            if (!Auth::team()->restore($id)) {
 
-                throw new RestoreOperationException();
+                throw (new RestoreOperationException)->setModel(config('fintech.auth.team_model'), $id);
             }
 
             return $this->restored(__('core::messages.resource.restored', ['model' => 'Team']));
 
-        } catch (ResourceNotFoundException $exception) {
+        } catch (ModelNotFoundException $exception) {
 
             return $this->notfound($exception->getMessage());
 
@@ -245,7 +239,7 @@ class TeamController extends Controller
         try {
             $inputs = $request->validated();
 
-            $teamPaginate = \Auth::team()->export($inputs);
+            $teamPaginate = Auth::team()->export($inputs);
 
             return $this->exported(__('core::messages.resource.exported', ['model' => 'Team']));
 
@@ -269,7 +263,7 @@ class TeamController extends Controller
         try {
             $inputs = $request->validated();
 
-            $teamPaginate = \Auth::team()->list($inputs);
+            $teamPaginate = Auth::team()->list($inputs);
 
             return new TeamCollection($teamPaginate);
 

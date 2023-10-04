@@ -53,7 +53,8 @@ Route::prefix('auth')->name('auth.')->group(function () {
         Route::apiResource('permissions', \Fintech\Auth\Http\Controllers\PermissionController::class);
         Route::post('permissions/{permission}/restore', [\Fintech\Auth\Http\Controllers\PermissionController::class, 'restore'])->name('permissions.restore');
 
-        //        Route::apiResource('teams', \Fintech\Auth\Http\Controllers\TeamController::class);
+        Route::apiResource('teams', \Fintech\Auth\Http\Controllers\TeamController::class);
+        Route::post('teams/{team}/restore', [\Fintech\Auth\Http\Controllers\TeamController::class, 'restore'])->name('teams.restore');
         //        Route::apiSingleton('users.profile', \Fintech\Auth\Http\Controllers\ProfileController::class);
     });
 });

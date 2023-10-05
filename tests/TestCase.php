@@ -29,9 +29,8 @@ class TestCase extends Orchestra
         config()->set('database.default', 'testing');
         config()->set('audit.drivers.database.connection', 'testing');
 
-
         $migrations = [
-            include __DIR__ . '/../../../database/migrations/2014_10_12_000000_create_users_table.php'
+            include __DIR__.'/../../../database/migrations/2014_10_12_000000_create_users_table.php',
         ];
 
         foreach ($migrations as $migration) {

@@ -11,22 +11,22 @@ class TeamCollection extends ResourceCollection
     /**
      * Transform the resource collection into an array.
      *
-     * @param Request $request
+     * @param  Request  $request
      * @return array
      */
     public function toArray($request)
     {
         return $this->collection->map(function ($team) {
             $return = [
-                "id" => $team->id,
-                "name" => $team->name ?? null,
-                "roles" => [],
-                "created_at" => $team->created_at,
-                "updated_at" => $team->updated_at,
-                "links" => $team->links,
+                'id' => $team->id,
+                'name' => $team->name ?? null,
+                'roles' => [],
+                'created_at' => $team->created_at,
+                'updated_at' => $team->updated_at,
+                'links' => $team->links,
             ];
 
-            if (!$team->roles->isEmpty()) {
+            if (! $team->roles->isEmpty()) {
                 foreach ($team->roles as $role) {
                     $return['roles'][] = [
                         'id' => $role->id,

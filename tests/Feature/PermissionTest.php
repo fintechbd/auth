@@ -14,7 +14,7 @@ test('permission create validation', function () {
 
     $response = Http::post(BASE_URL.'/permissions', [
         'name' => Str::random(20),
-        'guard_name' => 'web3'
+        'guard_name' => 'web3',
     ]);
     expect($response->status())->toEqual(422);
 });
@@ -23,7 +23,7 @@ test('permission created', function () {
 
     $response = Http::post(BASE_URL.'/permissions', [
         'name' => Str::random(20),
-        'guard_name' => 'web'
+        'guard_name' => 'web',
     ]);
     expect($response->status())->toEqual(201);
 });
@@ -42,7 +42,7 @@ test('permission update validation', function () {
 
     $response = Http::post(BASE_URL.'/permissions', [
         'name' => 'abcd',
-        'guard_name' => 'web3'
+        'guard_name' => 'web3',
     ]);
     expect($response->status())->toEqual(422);
 });

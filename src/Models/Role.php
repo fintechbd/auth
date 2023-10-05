@@ -24,10 +24,10 @@ use Spatie\Permission\Traits\RefreshesPermissionCache;
 class Role extends Model implements Auditable, RoleContract
 {
     use BlameableTrait;
-    use \OwenIt\Auditing\Auditable;
-    use SoftDeletes;
     use HasPermissions;
+    use \OwenIt\Auditing\Auditable;
     use RefreshesPermissionCache;
+    use SoftDeletes;
 
     /*
     |--------------------------------------------------------------------------
@@ -71,7 +71,6 @@ class Role extends Model implements Auditable, RoleContract
     }
 
     /**
-     * @param array $attributes
      * @return Builder|Model
      */
     public static function create(array $attributes = [])
@@ -96,10 +95,7 @@ class Role extends Model implements Auditable, RoleContract
     /**
      * Find a role by its name and guard name.
      *
-     * @param string $name
-     * @param null $guardName
-     * @return RoleContract
-     *
+     * @param  null  $guardName
      */
     public static function findByName(string $name, $guardName = null): RoleContract
     {
@@ -107,7 +103,7 @@ class Role extends Model implements Auditable, RoleContract
 
         $role = static::findByParam(['name' => $name, 'guard_name' => $guardName]);
 
-        if (!$role) {
+        if (! $role) {
             throw RoleDoesNotExist::named($name);
         }
 
@@ -117,9 +113,7 @@ class Role extends Model implements Auditable, RoleContract
     /**
      * Find a role by its id (and optionally guardName).
      *
-     * @param int $id
-     * @param null $guardName
-     * @return RoleContract
+     * @param  null  $guardName
      */
     public static function findById(int $id, $guardName = null): RoleContract
     {
@@ -127,7 +121,7 @@ class Role extends Model implements Auditable, RoleContract
 
         $role = static::findByParam([(new static())->getKeyName() => $id, 'guard_name' => $guardName]);
 
-        if (!$role) {
+        if (! $role) {
             throw RoleDoesNotExist::withId($id);
         }
 
@@ -137,9 +131,7 @@ class Role extends Model implements Auditable, RoleContract
     /**
      * Find or create role by its name (and optionally guardName).
      *
-     * @param string $name
-     * @param null $guardName
-     * @return RoleContract
+     * @param  null  $guardName
      */
     public static function findOrCreate(string $name, $guardName = null): RoleContract
     {
@@ -147,7 +139,7 @@ class Role extends Model implements Auditable, RoleContract
 
         $role = static::findByParam(['name' => $name, 'guard_name' => $guardName]);
 
-        if (!$role) {
+        if (! $role) {
             return static::query()->create(['name' => $name, 'guard_name' => $guardName] + (PermissionRegistrar::$teams ? [PermissionRegistrar::$teamsKey => getPermissionsTeamId()] : []));
         }
 
@@ -156,7 +148,7 @@ class Role extends Model implements Auditable, RoleContract
 
     /**
      * Find a role by its params (and optionally guardName).
-     * @param array $params
+     *
      * @return Builder|Model|object|null
      */
     protected static function findByParam(array $params = [])
@@ -181,9 +173,8 @@ class Role extends Model implements Auditable, RoleContract
     /**
      * Determine if the user may perform the given permission.
      *
-     * @param string|Permission $permission
+     * @param  string|Permission  $permission
      *
-     * @return bool
      * @throws GuardDoesNotMatch
      */
     public function hasPermissionTo($permission): bool
@@ -202,7 +193,7 @@ class Role extends Model implements Auditable, RoleContract
             $permission = $permissionClass->findById($permission, $this->getDefaultGuardName());
         }
 
-        if (!$this->getGuardNames()->contains($permission->guard_name)) {
+        if (! $this->getGuardNames()->contains($permission->guard_name)) {
             throw GuardDoesNotMatch::create($permission->guard_name, $this->getGuardNames());
         }
 
@@ -244,8 +235,6 @@ class Role extends Model implements Auditable, RoleContract
 
     /**
      * parent team that this role belongs to
-     *
-     * @return BelongsTo
      */
     public function team(): BelongsTo
     {

@@ -35,5 +35,4 @@ class IndexRoleRequest extends FormRequest
             'dir' => ['string', 'min:3', 'max:4'],
         ];
     }
-
 }

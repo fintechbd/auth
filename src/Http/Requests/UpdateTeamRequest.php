@@ -3,7 +3,6 @@
 namespace Fintech\Auth\Http\Requests;
 
 use Fintech\Auth\Models\Team;
-use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 
 class UpdateTeamRequest extends FormRequest
@@ -23,7 +22,7 @@ class UpdateTeamRequest extends FormRequest
      */
     public function rules(): array
     {
-        $uniqueRule = 'unique:' . config('fintech.auth.team_model', Team::class) . ',name';
+        $uniqueRule = 'unique:'.config('fintech.auth.team_model', Team::class).',name';
 
         return [
             'name' => ['required', 'string', 'min:5', 'max:255', $uniqueRule],

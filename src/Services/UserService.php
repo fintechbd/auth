@@ -57,10 +57,14 @@ class UserService
             $this->profileRepository->create($profileData);
 
             DB::commit();
+
+            return $user;
+
         } catch (\Exception $exception) {
             DB::rollBack();
             throw new \PDOException($exception->getMessage(), 0, $exception);
         }
+
     }
 
     private function formatUserDataFromInput($inputs)
@@ -125,10 +129,10 @@ class UserService
 
     public function update($id, array $inputs = [])
     {
-        if (isset($inputs['password']) && ! empty($inputs['password'])) {
+        if (isset($inputs['password']) && !empty($inputs['password'])) {
             $inputs['password'] = Hash::make($inputs['password']);
         }
-        if (isset($inputs['pin']) && ! empty($inputs['pin'])) {
+        if (isset($inputs['pin']) && !empty($inputs['pin'])) {
             $inputs['pin'] = Hash::make($inputs['pin']);
         }
 

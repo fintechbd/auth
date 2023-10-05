@@ -64,7 +64,7 @@ class TeamSeeder extends Seeder
                 'destroyer_id' => null,
                 'created_at' => '2023-08-14 13:11:03',
                 'updated_at' => '2023-08-14 13:11:03',
-            ]
+            ],
         ];
     }
 }

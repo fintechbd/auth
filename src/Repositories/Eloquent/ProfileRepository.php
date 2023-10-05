@@ -4,8 +4,7 @@ namespace Fintech\Auth\Repositories\Eloquent;
 
 use Fintech\Auth\Interfaces\ProfileRepository as InterfacesProfileRepository;
 use Fintech\Core\Repositories\EloquentRepository;
-use Illuminate\Contracts\Database\Eloquent\Builder;
-use Illuminate\Contracts\Pagination\LengthAwarePaginator;
+use Illuminate\Contracts\Pagination\Paginator;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use InvalidArgumentException;
@@ -30,7 +29,7 @@ class ProfileRepository extends EloquentRepository implements InterfacesProfileR
      * return a list or pagination of items from
      * filtered options
      *
-     * @return LengthAwarePaginator|Builder[]|Collection
+     * @return Paginator|Collection
      */
     public function list(array $filters = [])
     {
@@ -45,7 +44,7 @@ class ProfileRepository extends EloquentRepository implements InterfacesProfileR
 
         //Prepare Output
         return (isset($filters['paginate']) && $filters['paginate'] == true)
-            ? $query->paginate(($filters['per_page'] ?? 20))
+            ? $query->simplePaginate(($filters['per_page'] ?? 20))
             : $query->get();
 
     }

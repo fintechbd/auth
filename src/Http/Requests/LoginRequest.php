@@ -3,9 +3,12 @@
 namespace Fintech\Auth\Http\Requests;
 
 use Illuminate\Auth\Events\Lockout;
+use Illuminate\Contracts\Validation\Rule;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Str;
+use Illuminate\Validation\Rules\Password;
+use Illuminate\Validation\ValidationException;
 use Symfony\Component\HttpFoundation\Response;
 
 class LoginRequest extends FormRequest
@@ -27,7 +30,7 @@ class LoginRequest extends FormRequest
     {
         return config('fintech.auth.validation.login', [
             'login_id' => ['required', 'string'],
-            'password' => ['required', 'string', \Illuminate\Validation\Rules\Password::default()],
+            'password' => ['required', 'string', Password::default()],
         ]);
     }
 
@@ -37,6 +40,14 @@ class LoginRequest extends FormRequest
     public function clearRateLimited(): void
     {
         RateLimiter::clear($this->throttleKey());
+    }
+
+    /**
+     * Get the rate limiting throttle key for the request.
+     */
+    public function throttleKey(): string
+    {
+        return Str::transliterate(Str::lower($this->input('login_id')) . '|' . $this->ip());
     }
 
     /**
@@ -50,11 +61,11 @@ class LoginRequest extends FormRequest
     /**
      * Ensure the login request is not rate limited.
      *
-     * @throws \Illuminate\Validation\ValidationException
+     * @throws ValidationException
      */
     public function ensureIsNotRateLimited(): void
     {
-        if (! RateLimiter::tooManyAttempts($this->throttleKey(), 5)) {
+        if (!RateLimiter::tooManyAttempts($this->throttleKey(), 5)) {
             return;
         }
 
@@ -67,13 +78,5 @@ class LoginRequest extends FormRequest
             'minutes' => ceil($seconds / 60),
         ]));
 
-    }
-
-    /**
-     * Get the rate limiting throttle key for the request.
-     */
-    public function throttleKey(): string
-    {
-        return Str::transliterate(Str::lower($this->input('login_id')).'|'.$this->ip());
     }
 }

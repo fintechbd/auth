@@ -2,6 +2,8 @@
 
 namespace Fintech\Auth\Http\Requests;
 
+use Fintech\Auth\Models\Role;
+use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
@@ -22,7 +24,7 @@ class StoreRoleRequest extends FormRequest
      */
     public function rules(): array
     {
-        $uniqueRule = 'unique:'.config('fintech.auth.role_model', \Fintech\Auth\Models\Role::class).',name';
+        $uniqueRule = 'unique:' . config('fintech.auth.role_model', Role::class) . ',name';
 
         return [
             'name' => ['required', 'string', 'min:5', 'max:255', $uniqueRule],

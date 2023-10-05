@@ -2,6 +2,7 @@
 
 namespace Fintech\Auth\Http\Requests;
 
+use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 
 class ImportUserRequest extends FormRequest

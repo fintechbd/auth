@@ -6,8 +6,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 use Spatie\Permission\PermissionRegistrar;
 
-return new class extends Migration
-{
+return new class () extends Migration {
     /**
      * Run the migrations.
      */
@@ -58,8 +57,10 @@ return new class extends Migration
                     $table->dropForeign([PermissionRegistrar::$pivotPermission]);
                 }
                 $table->dropPrimary();
-                $table->primary([$columnNames['team_foreign_key'], PermissionRegistrar::$pivotPermission, $columnNames['model_morph_key'], 'model_type'],
-                    'model_has_permissions_permission_model_type_primary');
+                $table->primary(
+                    [$columnNames['team_foreign_key'], PermissionRegistrar::$pivotPermission, $columnNames['model_morph_key'], 'model_type'],
+                    'model_has_permissions_permission_model_type_primary'
+                );
                 if (DB::getDriverName() !== 'sqlite') {
                     $table->foreign(PermissionRegistrar::$pivotPermission)
                         ->references('id')->on($tableNames['permissions'])->onDelete('cascade');
@@ -75,8 +76,10 @@ return new class extends Migration
                 }
                 $table->dropPrimary();
 
-                $table->primary([$columnNames['team_foreign_key'], PermissionRegistrar::$pivotRole, $columnNames['model_morph_key'], 'model_type'],
-                    'model_has_roles_role_model_type_primary');
+                $table->primary(
+                    [$columnNames['team_foreign_key'], PermissionRegistrar::$pivotRole, $columnNames['model_morph_key'], 'model_type'],
+                    'model_has_roles_role_model_type_primary'
+                );
 
                 if (DB::getDriverName() !== 'sqlite') {
                     $table->foreign(PermissionRegistrar::$pivotRole)

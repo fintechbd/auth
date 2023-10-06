@@ -7,15 +7,16 @@ use Fintech\Auth\Interfaces\TeamRepository;
 /**
  * Class TeamService
  *
- * @property-read TeamRepository $teamRepository
  */
 class TeamService
 {
     /**
      * TeamService constructor.
+     * @param TeamRepository $teamRepository
      */
-    public function __construct(private TeamRepository $teamRepository)
+    public function __construct(TeamRepository $teamRepository)
     {
+        $this->teamRepository = $teamRepository;
     }
 
     /**

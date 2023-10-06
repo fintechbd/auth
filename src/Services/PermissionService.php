@@ -7,15 +7,21 @@ use Fintech\Auth\Interfaces\PermissionRepository;
 /**
  * Class PermissionService
  *
- * @property-read PermissionRepository $permissionRepository
  */
 class PermissionService
 {
     /**
-     * PermissionService constructor.
+     * @var PermissionRepository
      */
-    public function __construct(private PermissionRepository $permissionRepository)
+    private PermissionRepository $permissionRepository;
+
+    /**
+     * PermissionService constructor.
+     * @param PermissionRepository $permissionRepository
+     */
+    public function __construct(PermissionRepository $permissionRepository)
     {
+        $this->permissionRepository = $permissionRepository;
     }
 
     /**

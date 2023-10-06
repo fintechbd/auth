@@ -10,8 +10,6 @@ use Illuminate\Support\Facades\Hash;
 /**
  * Class UserService
  *
- * @property-read UserRepository $userRepository
- * @property-read ProfileRepository $profileRepository
  */
 class UserService
 {
@@ -21,8 +19,11 @@ class UserService
 
     /**
      * UserService constructor.
+     * @param UserRepository $userRepository
+     * @param ProfileRepository $profileRepository
      */
-    public function __construct(UserRepository $userRepository, ProfileRepository $profileRepository)
+    public function __construct(UserRepository $userRepository,
+                                ProfileRepository $profileRepository)
     {
         $this->userRepository = $userRepository;
         $this->profileRepository = $profileRepository;

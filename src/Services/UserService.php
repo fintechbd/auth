@@ -22,9 +22,10 @@ class UserService
      * @param UserRepository $userRepository
      * @param ProfileRepository $profileRepository
      */
-    public function __construct(UserRepository $userRepository,
-                                ProfileRepository $profileRepository)
-    {
+    public function __construct(
+        UserRepository $userRepository,
+        ProfileRepository $profileRepository
+    ) {
         $this->userRepository = $userRepository;
         $this->profileRepository = $profileRepository;
     }

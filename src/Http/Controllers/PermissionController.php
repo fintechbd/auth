@@ -39,6 +39,8 @@ class PermissionController extends Controller
      * *```paginate=false``` returns all resource as list not pagination*
      *
      * @lrd:end
+     * @param IndexPermissionRequest $request
+     * @return PermissionCollection|JsonResponse
      */
     public function index(IndexPermissionRequest $request): PermissionCollection|JsonResponse
     {
@@ -60,6 +62,8 @@ class PermissionController extends Controller
      * Create a new permission resource in storage.
      *
      * @lrd:end
+     * @param StorePermissionRequest $request
+     * @return JsonResponse
      */
     public function store(StorePermissionRequest $request): JsonResponse
     {
@@ -88,6 +92,8 @@ class PermissionController extends Controller
      * Return a specified permission resource found by id.
      *
      * @lrd:end
+     * @param int|string $id
+     * @return PermissionResource|JsonResponse
      */
     public function show(string|int $id): PermissionResource|JsonResponse
     {

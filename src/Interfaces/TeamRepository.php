@@ -2,7 +2,6 @@
 
 namespace Fintech\Auth\Interfaces;
 
-use Fintech\Auth\Exceptions\TeamRepositoryException;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
@@ -27,7 +26,6 @@ interface TeamRepository
      *
      * @return EloquentModel|MongodbModel|null
      *
-     * @throws TeamRepositoryException
      */
     public function create(array $attributes = []);
 
@@ -36,7 +34,6 @@ interface TeamRepository
      *
      * @return EloquentModel|MongodbModel|null
      *
-     * @throws TeamRepositoryException
      */
     public function update(int|string $id, array $attributes = []);
 
@@ -46,14 +43,12 @@ interface TeamRepository
      * @param  bool  $onlyTrashed
      * @return EloquentModel|MongodbModel|null
      *
-     * @throws TeamRepositoryException
      */
     public function find(int|string $id, $onlyTrashed = false);
 
     /**
      * find and delete a entry from records
      *
-     * @throws TeamRepositoryException
      */
     public function delete(int|string $id);
 
@@ -61,7 +56,6 @@ interface TeamRepository
      * find and restore a entry from records
      *
      * @throws \InvalidArgumentException
-     * @throws TeamRepositoryException
      */
     public function restore(int|string $id);
 }

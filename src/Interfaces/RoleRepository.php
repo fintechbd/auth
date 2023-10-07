@@ -2,7 +2,6 @@
 
 namespace Fintech\Auth\Interfaces;
 
-use Fintech\Auth\Exceptions\RoleRepositoryException;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
@@ -27,7 +26,6 @@ interface RoleRepository
      *
      * @return EloquentModel|MongodbModel|null
      *
-     * @throws RoleRepositoryException
      */
     public function create(array $attributes = []);
 
@@ -36,7 +34,6 @@ interface RoleRepository
      *
      * @return EloquentModel|MongodbModel|null
      *
-     * @throws RoleRepositoryException
      */
     public function update(int|string $id, array $attributes = []);
 
@@ -46,14 +43,12 @@ interface RoleRepository
      * @param  bool  $onlyTrashed
      * @return EloquentModel|MongodbModel|null
      *
-     * @throws RoleRepositoryException
      */
     public function find(int|string $id, $onlyTrashed = false);
 
     /**
      * find and delete a entry from records
      *
-     * @throws RoleRepositoryException
      */
     public function delete(int|string $id);
 
@@ -61,7 +56,6 @@ interface RoleRepository
      * find and restore a entry from records
      *
      * @throws \InvalidArgumentException
-     * @throws RoleRepositoryException
      */
     public function restore(int|string $id);
 }

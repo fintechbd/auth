@@ -17,7 +17,7 @@ class Auth
      */
     public function user()
     {
-        return app()->make(UserService::class);
+        return app(UserService::class);
     }
 
     /**
@@ -27,7 +27,7 @@ class Auth
      */
     public function role()
     {
-        return app()->make(RoleService::class);
+        return app(RoleService::class);
     }
 
     /**
@@ -37,7 +37,7 @@ class Auth
      */
     public function permission()
     {
-        return app()->make(PermissionService::class);
+        return app(PermissionService::class);
     }
 
     /**
@@ -47,6 +47,6 @@ class Auth
      */
     public function team()
     {
-        return app()->make(TeamService::class);
+        return app(TeamService::class);
     }
 }

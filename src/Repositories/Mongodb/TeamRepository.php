@@ -15,7 +15,7 @@ class TeamRepository extends MongodbRepository implements InterfacesTeamReposito
 {
     public function __construct()
     {
-        $model = app()->make(config('fintech.auth.team_model', Team::class));
+        $model = app(config('fintech.auth.team_model', Team::class));
 
         if (! $model instanceof Model) {
             throw new InvalidArgumentException("Eloquent repository require model class to be `Illuminate\Database\Eloquent\Model` instance.");

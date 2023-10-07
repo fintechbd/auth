@@ -17,7 +17,7 @@ class UserRepository extends EloquentRepository implements InterfacesUserReposit
 {
     public function __construct()
     {
-        $model = app()->make(config('fintech.auth.user_model', User::class));
+        $model = app(config('fintech.auth.user_model', User::class));
 
         if (! $model instanceof Model) {
             throw new InvalidArgumentException("Eloquent repository require model class to be `Illuminate\Database\Eloquent\Model` instance.");

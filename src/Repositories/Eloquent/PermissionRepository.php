@@ -16,7 +16,7 @@ class PermissionRepository extends EloquentRepository implements InterfacesPermi
 {
     public function __construct()
     {
-        $model = app()->make(config('fintech.auth.permission_model', \Fintech\Auth\Models\Permission::class));
+        $model = app(config('fintech.auth.permission_model', \Fintech\Auth\Models\Permission::class));
 
         if (! $model instanceof Model) {
             throw new InvalidArgumentException("Eloquent repository require model class to be `Illuminate\Database\Eloquent\Model` instance.");

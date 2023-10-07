@@ -24,13 +24,11 @@ class Team extends Model implements Auditable
 
     protected $guarded = ['id'];
 
-    protected $casts = [];
+    protected $casts = ['restored_at' => 'datetime'];
 
-    protected $hidden = ['creator_id', 'editor_id', 'destroyer_id', 'restorer_id', 'deleted_at', 'restored_at'];
+    protected $hidden = ['creator_id', 'editor_id', 'destroyer_id', 'restorer_id'];
 
     protected $appends = ['links'];
-
-    protected $with = ['roles'];
 
     /*
     |--------------------------------------------------------------------------

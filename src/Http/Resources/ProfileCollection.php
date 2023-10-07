@@ -10,7 +10,7 @@ class ProfileCollection extends ResourceCollection
     /**
      * Transform the resource collection into an array.
      *
-     * @param  Request  $request
+     * @param Request $request
      * @return array
      */
     public function toArray($request)
@@ -26,9 +26,7 @@ class ProfileCollection extends ResourceCollection
     public function with(Request $request): array
     {
         return [
-            'meta' => [
-                'query' => $request->all(),
-            ],
+            'query' => $request->all(),
         ];
     }
 }

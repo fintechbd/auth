@@ -27,6 +27,8 @@ class RoleCollection extends ResourceCollection
                 'permissions' => [],
                 'created_at' => $role->created_at,
                 'updated_at' => $role->updated_at,
+                'deleted_at' => $role->deleted_at,
+                'restored_at' => $role->restored_at,
                 'links' => $role->links,
             ];
 

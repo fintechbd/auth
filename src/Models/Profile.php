@@ -25,7 +25,7 @@ class Profile extends Model implements Auditable
 
     protected $guarded = ['id'];
 
-    protected $casts = ['date_of_birth' => 'datetime', 'user_profile_data' => 'json'];
+    protected $casts = [ 'restored_at' => 'datetime', 'date_of_birth' => 'datetime', 'user_profile_data' => 'json'];
 
     /*
     |--------------------------------------------------------------------------

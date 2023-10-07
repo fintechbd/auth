@@ -6,6 +6,7 @@ use Fintech\Auth\Interfaces\PermissionRepository as InterfacesPermissionReposito
 use Fintech\Core\Repositories\MongodbRepository;
 use Illuminate\Contracts\Pagination\Paginator;
 use InvalidArgumentException;
+use MongoDB\Laravel\Collection;
 
 /**
  * Class PermissionRepository

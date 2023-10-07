@@ -7,6 +7,7 @@ use Fintech\Auth\Models\Profile;
 use Fintech\Core\Repositories\MongodbRepository;
 use Illuminate\Contracts\Pagination\Paginator;
 use InvalidArgumentException;
+use MongoDB\Laravel\Collection;
 use MongoDB\Laravel\Eloquent\Model;
 
 /**

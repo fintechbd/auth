@@ -38,10 +38,14 @@ class TeamRepository extends EloquentRepository implements InterfacesTeamReposit
         $query = $this->model->newQuery();
 
         if (isset($filters['search']) && ! empty($filters['search'])) {
-            $query->where('name', 'like', "%{$filters['search']}%")
-                ->orWhereHas('roles', function (Builder $query) use ($filters) {
-                    return $query->where('name', 'like', "%{$filters['search']}%");
-                });
+            if (is_numeric($filters['search'])) {
+                $query->where($this->model->getKeyName(), 'like', "%{$filters['search']}%");
+            } else {
+                $query->where('name', 'like', "%{$filters['search']}%")
+                    ->orWhereHas('roles', function (Builder $query) use ($filters) {
+                        return $query->where('name', 'like', "%{$filters['search']}%");
+                    });
+            }
         }
 
         //Handle Sorting

@@ -5,7 +5,7 @@ namespace Fintech\Auth\Repositories\Mongodb;
 use Fintech\Auth\Interfaces\UserRepository as InterfacesUserRepository;
 use Fintech\Auth\Models\User;
 use Fintech\Core\Repositories\MongodbRepository;
-use Illuminate\Contracts\Pagination\LengthAwarePaginator;
+use Illuminate\Contracts\Pagination\Paginator;
 use Illuminate\Database\Eloquent\Model;
 use InvalidArgumentException;
 

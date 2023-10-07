@@ -5,7 +5,7 @@ namespace Fintech\Auth\Repositories\Mongodb;
 use Fintech\Auth\Interfaces\RoleRepository as InterfacesRoleRepository;
 use Fintech\Auth\Models\Role;
 use Fintech\Core\Repositories\MongodbRepository;
-use Illuminate\Contracts\Pagination\LengthAwarePaginator;
+use Illuminate\Contracts\Pagination\Paginator;
 use InvalidArgumentException;
 
 /**

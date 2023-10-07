@@ -5,7 +5,7 @@ namespace Fintech\Auth\Repositories\Mongodb;
 use Fintech\Auth\Interfaces\ProfileRepository as InterfacesProfileRepository;
 use Fintech\Auth\Models\Profile;
 use Fintech\Core\Repositories\MongodbRepository;
-use Illuminate\Contracts\Pagination\LengthAwarePaginator;
+use Illuminate\Contracts\Pagination\Paginator;
 use InvalidArgumentException;
 use MongoDB\Laravel\Eloquent\Model;
 

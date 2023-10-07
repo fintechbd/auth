@@ -28,7 +28,7 @@ class RoleRepository extends MongodbRepository implements InterfacesRoleReposito
      * return a list or pagination of items from
      * filtered options
      *
-     * @return LengthAwarePaginator|Builder[]|Collection
+     * @return Paginator|Collection
      */
     public function list(array $filters = [])
     {

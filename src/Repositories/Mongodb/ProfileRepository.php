@@ -29,7 +29,7 @@ class ProfileRepository extends MongodbRepository implements InterfacesProfileRe
      * return a list or pagination of items from
      * filtered options
      *
-     * @return LengthAwarePaginator|Builder[]|Collection
+     * @return Paginator|Collection
      */
     public function list(array $filters = [])
     {

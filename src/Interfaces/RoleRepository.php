@@ -3,7 +3,6 @@
 namespace Fintech\Auth\Interfaces;
 
 use Illuminate\Contracts\Pagination\Paginator;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model as EloquentModel;
 use MongoDB\Laravel\Eloquent\Model as MongodbModel;
@@ -17,7 +16,7 @@ interface RoleRepository
      * return a list or pagination of items from
      * filtered options
      *
-     * @return LengthAwarePaginator|Builder[]|Collection
+     * @return Paginator|Collection
      */
     public function list(array $filters = []);
 

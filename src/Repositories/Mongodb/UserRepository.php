@@ -29,7 +29,7 @@ class UserRepository extends MongodbRepository implements InterfacesUserReposito
      * return a list or pagination of items from
      * filtered options
      *
-     * @return LengthAwarePaginator|Builder[]|Collection
+     * @return Paginator|Collection
      */
     public function list(array $filters = [])
     {

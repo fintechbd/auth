@@ -7,7 +7,7 @@ use Fintech\Auth\Http\Requests\IndexProfileRequest;
 use Fintech\Auth\Http\Requests\StoreProfileRequest;
 use Fintech\Auth\Http\Requests\UpdateProfileRequest;
 use Fintech\Auth\Http\Resources\ProfileCollection;
-use Fintech\Auth\Http\Resources\UserProfileResource;
+use Fintech\Auth\Http\Resources\ProfileResource;
 use Fintech\Core\Exceptions\DeleteOperationException;
 use Fintech\Core\Exceptions\ResourceNotFoundException;
 use Fintech\Core\Exceptions\RestoreOperationException;
@@ -98,7 +98,7 @@ class ProfileController extends Controller
      *
      * @throws ResourceNotFoundException
      */
-    public function show(string|int $id): UserProfileResource|JsonResponse
+    public function show(string|int $id): ProfileResource|JsonResponse
     {
         try {
 
@@ -108,7 +108,7 @@ class ProfileController extends Controller
                 throw new ResourceNotFoundException(__('core::messages.resource.notfound', ['model' => 'UserProfile', 'id' => strval($id)]));
             }
 
-            return new UserProfileResource($userProfile);
+            return new ProfileResource($userProfile);
 
         } catch (ResourceNotFoundException $exception) {
 

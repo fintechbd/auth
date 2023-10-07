@@ -36,7 +36,7 @@ class UserRepository extends MongodbRepository implements InterfacesUserReposito
         $query = $this->model->newQuery();
 
         //Handle Sorting
-        $query->orderBy($filters['sort'] ?? $this->model->getKeyName(), $filters['direction'] ?? 'asc');
+        $query->orderBy($filters['sort'] ?? $this->model->getKeyName(), $filters['dir'] ?? 'asc');
 
         if (isset($filters['login_id']) && ! empty($filters['login_id'])) {
             $query->where('login_id', $filters['login_id'])->limit(1);

@@ -61,7 +61,7 @@ class RoleRepository extends EloquentRepository implements InterfacesRoleReposit
         }
 
         //Handle Sorting
-        $query->orderBy($filters['sort'] ?? $this->model->getKeyName(), $filters['direction'] ?? 'asc');
+        $query->orderBy($filters['sort'] ?? $this->model->getKeyName(), $filters['dir'] ?? 'asc');
 
         //Prepare Output
         return (isset($filters['paginate']) && $filters['paginate'] == true)

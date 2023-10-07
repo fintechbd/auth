@@ -55,6 +55,11 @@ class RoleRepository extends EloquentRepository implements InterfacesRoleReposit
             $query->where('team_id', '=', $filters['team_id']);
         }
 
+        //Display Trashed
+        if (isset($filters['trashed']) && !empty($filters['trashed'])) {
+            $query->onlyTrashed();
+        }
+
         //Handle Sorting
         $query->orderBy($filters['sort'] ?? $this->model->getKeyName(), $filters['direction'] ?? 'asc');
 

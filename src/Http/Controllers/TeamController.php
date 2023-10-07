@@ -55,6 +55,8 @@ class TeamController extends Controller
     }
 
     /**
+     * @LRDparam trashed boolean|nullable
+     *
      * @lrd:start
      * Create a new team resource in storage.
      *

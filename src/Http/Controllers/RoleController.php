@@ -84,6 +84,8 @@ class RoleController extends Controller
     }
 
     /**
+     * @LRDparam trashed boolean|nullable
+     *
      * @lrd:start
      * Return a specified role resource found by id.
      *

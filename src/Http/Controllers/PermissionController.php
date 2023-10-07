@@ -88,6 +88,8 @@ class PermissionController extends Controller
     }
 
     /**
+     * @LRDparam trashed boolean|nullable
+     *
      * @lrd:start
      * Return a specified permission resource found by id.
      *

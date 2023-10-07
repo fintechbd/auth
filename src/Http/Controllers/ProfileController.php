@@ -9,7 +9,6 @@ use Fintech\Auth\Http\Requests\UpdateProfileRequest;
 use Fintech\Auth\Http\Resources\ProfileCollection;
 use Fintech\Auth\Http\Resources\UserProfileResource;
 use Fintech\Core\Exceptions\DeleteOperationException;
-use Fintech\Core\Exceptions\ModelOperationException;
 use Fintech\Core\Exceptions\ResourceNotFoundException;
 use Fintech\Core\Exceptions\RestoreOperationException;
 use Fintech\Core\Exceptions\UpdateOperationException;

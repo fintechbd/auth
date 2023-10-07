@@ -10,7 +10,6 @@ use Fintech\Auth\Http\Requests\UpdateUserRequest;
 use Fintech\Auth\Http\Resources\UserCollection;
 use Fintech\Auth\Http\Resources\UserResource;
 use Fintech\Core\Exceptions\DeleteOperationException;
-use Fintech\Core\Exceptions\ModelOperationException;
 use Fintech\Core\Exceptions\ResourceNotFoundException;
 use Fintech\Core\Exceptions\RestoreOperationException;
 use Fintech\Core\Exceptions\UpdateOperationException;
@@ -55,6 +54,8 @@ class UserController extends Controller
     }
 
     /**
+     * @LRDparam trashed boolean|nullable
+     *
      * @lrd:start
      * Create a new user resource in storage.
      *

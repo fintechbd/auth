@@ -31,8 +31,7 @@ class AuthenticatedSessionController extends Controller
         $authField = config('fintech.auth.auth_field', 'login_id');
 
         $attemptUser = \Fintech\Auth\Facades\Auth::user()->list([
-            $authField => $request->input($authField),
-            'paginate' => false,
+            $authField => $request->input($authField)
         ]);
 
         if ($attemptUser->isEmpty()) {
@@ -87,7 +86,7 @@ class AuthenticatedSessionController extends Controller
     }
 
     /**
-     * Destroy an authenticated session.
+     * Destroy an authenticated session
      */
     public function destroy(): JsonResponse
     {

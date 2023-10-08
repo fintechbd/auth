@@ -69,6 +69,7 @@ class UserController extends Controller
         try {
             $inputs = $request->validated();
 
+
             $user = Auth::user()->create($inputs);
 
             if (! $user) {

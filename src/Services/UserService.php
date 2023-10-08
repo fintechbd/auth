@@ -87,6 +87,7 @@ class UserService
         $data['fcm_token'] = $inputs['fcm_token'] ?? null;
         $data['language'] = $inputs['language'] ?? null;
         $data['currency'] = $inputs['currency'] ?? null;
+        $data['roles'] = $inputs['roles'] ?? [];
 
         return $data;
     }

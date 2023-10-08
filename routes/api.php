@@ -27,21 +27,21 @@ Route::prefix('auth')->name('auth.')->group(function () {
         ->middleware('guest')
         ->name('login');
 
-        Route::post('/forgot-password', [PasswordResetController::class, 'store'])
-            ->middleware('guest')
-            ->name('forgot-password');
+    Route::post('/forgot-password', [PasswordResetController::class, 'store'])
+        ->middleware('guest')
+        ->name('forgot-password');
 
-        Route::post('/reset-password', [PasswordResetController::class, 'update'])
-            ->middleware('guest')
-            ->name('reset-password');
+    Route::post('/reset-password', [PasswordResetController::class, 'update'])
+        ->middleware('guest')
+        ->name('reset-password');
 
-        Route::get('/verify-email/{id}/{hash}', VerifyEmailController::class)
-            ->middleware(['auth', 'signed', 'throttle:6,1'])
-            ->name('verification.verify');
+    Route::get('/verify-email/{id}/{hash}', VerifyEmailController::class)
+        ->middleware(['auth', 'signed', 'throttle:6,1'])
+        ->name('verification.verify');
 
-        Route::post('/email/verification-notification', [EmailVerificationNotificationController::class, 'store'])
-            ->middleware(['auth', 'throttle:6,1'])
-            ->name('verification.send');
+    Route::post('/email/verification-notification', [EmailVerificationNotificationController::class, 'store'])
+        ->middleware(['auth', 'throttle:6,1'])
+        ->name('verification.send');
 
     Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])
         ->middleware(config('fintech.auth.middleware'))

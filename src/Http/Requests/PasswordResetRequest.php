@@ -1,6 +1,8 @@
 <?php
 
-namespace Fintech\Auth\Http\Requests;;
+namespace Fintech\Auth\Http\Requests;
+
+;
 
 use Illuminate\Foundation\Http\FormRequest;
 

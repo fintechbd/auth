@@ -12,8 +12,10 @@ use Fintech\Auth\Http\Resources\UserResource;
 use Fintech\Core\Exceptions\DeleteOperationException;
 use Fintech\Core\Exceptions\ResourceNotFoundException;
 use Fintech\Core\Exceptions\RestoreOperationException;
+use Fintech\Core\Exceptions\StoreOperationException;
 use Fintech\Core\Exceptions\UpdateOperationException;
 use Fintech\Core\Traits\ApiResponseTrait;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Routing\Controller;
 
@@ -54,14 +56,13 @@ class UserController extends Controller
     }
 
     /**
-     * @LRDparam trashed boolean|nullable
      *
      * @lrd:start
      * Create a new user resource in storage.
      *
      * @lrd:end
-     *
-     * @throws ModelOperationException
+     * @param StoreUserRequest $request
+     * @return JsonResponse
      */
     public function store(StoreUserRequest $request): JsonResponse
     {
@@ -71,7 +72,7 @@ class UserController extends Controller
             $user = Auth::user()->create($inputs);
 
             if (! $user) {
-                throw new ModelOperationException();
+                throw (new StoreOperationException())->setModel(config('fintech.auth.user_model'));
             }
 
             return $this->created([
@@ -86,6 +87,8 @@ class UserController extends Controller
     }
 
     /**
+     * @LRDparam trashed boolean|nullable
+     *
      * @lrd:start
      * Return a specified user resource found by id.
      *
@@ -100,12 +103,12 @@ class UserController extends Controller
             $user = Auth::user()->find($id);
 
             if (! $user) {
-                throw new ResourceNotFoundException(__('core::messages.resource.notfound', ['model' => 'User', 'id' => strval($id)]));
+                throw (new ModelNotFoundException())->setModel(config('fintech.auth.user_model'), $id);
             }
 
             return new UserResource($user);
 
-        } catch (ResourceNotFoundException $exception) {
+        } catch (ModelNotFoundException $exception) {
 
             return $this->notfound($exception->getMessage());
 
@@ -131,19 +134,19 @@ class UserController extends Controller
             $user = Auth::user()->find($id);
 
             if (! $user) {
-                throw new ResourceNotFoundException(__('core::messages.resource.notfound', ['model' => 'User', 'id' => strval($id)]));
+                throw (new ModelNotFoundException())->setModel(config('fintech.auth.user_model'), $id);
             }
 
             $inputs = $request->validated();
 
             if (! Auth::user()->update($id, $inputs)) {
 
-                throw new UpdateOperationException();
+                throw (new UpdateOperationException())->setModel(config('fintech.auth.user_model'), $id);
             }
 
             return $this->updated(__('core::messages.resource.updated', ['model' => 'User']));
 
-        } catch (ResourceNotFoundException $exception) {
+        } catch (ModelNotFoundException $exception) {
 
             return $this->notfound($exception->getMessage());
 
@@ -161,7 +164,6 @@ class UserController extends Controller
      *
      * @return JsonResponse
      *
-     * @throws ResourceNotFoundException
      * @throws DeleteOperationException
      */
     public function destroy(string|int $id)
@@ -171,17 +173,17 @@ class UserController extends Controller
             $user = Auth::user()->find($id);
 
             if (! $user) {
-                throw new ResourceNotFoundException(__('core::messages.resource.notfound', ['model' => 'User', 'id' => strval($id)]));
+                throw (new ModelNotFoundException())->setModel(config('fintech.auth.user_model'), $id);
             }
 
             if (! Auth::user()->destroy($id)) {
 
-                throw new DeleteOperationException();
+                throw (new DeleteOperationException())->setModel(config('fintech.auth.user_model'), $id);
             }
 
             return $this->deleted(__('core::messages.resource.deleted', ['model' => 'User']));
 
-        } catch (ResourceNotFoundException $exception) {
+        } catch (ModelNotFoundException $exception) {
 
             return $this->notfound($exception->getMessage());
 
@@ -207,17 +209,17 @@ class UserController extends Controller
             $user = Auth::user()->find($id, true);
 
             if (! $user) {
-                throw new ResourceNotFoundException(__('core::messages.resource.notfound', ['model' => 'User', 'id' => strval($id)]));
+                throw (new ModelNotFoundException())->setModel(config('fintech.auth.user_model'), $id);
             }
 
             if (! Auth::user()->restore($id)) {
 
-                throw new RestoreOperationException();
+                throw (new RestoreOperationException())->setModel(config('fintech.auth.user_model'), $id);
             }
 
             return $this->restored(__('core::messages.resource.restored', ['model' => 'User']));
 
-        } catch (ResourceNotFoundException $exception) {
+        } catch (ModelNotFoundException $exception) {
 
             return $this->notfound($exception->getMessage());
 

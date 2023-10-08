@@ -15,6 +15,11 @@ class ProfileResource extends JsonResource
      */
     public function toArray($request)
     {
+        $this->resource->load([
+            'country', 'state', 'city',
+            'presentCountry', 'presentState', 'presentCity',
+        ]);
+
         return [
             'user_profile_data' => $this->user_profile_data ?? null,
             'id_type' => $this->id_type ?? null,

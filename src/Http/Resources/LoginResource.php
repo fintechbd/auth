@@ -16,10 +16,7 @@ class LoginResource extends JsonResource
      */
     public function toArray($request)
     {
-        $this->resource->load([
-            'profile.country', 'profile.state', 'profile.city',
-            'profile.presentCountry', 'profile.presentState', 'profile.presentCity',
-        ]);
+        $this->resource->load(['profile', 'roles']);
 
         return [
             'id' => $this->id,
@@ -32,6 +29,7 @@ class LoginResource extends JsonResource
             'currency' => $this->currency,
             'app_version' => $this->app_version,
             'total_balance' => 0,
+            'roles' => $this->roles,
             'email_verified_at' => $this->email_verified_at,
             'mobile_verified_at' => $this->mobile_verified_at,
             'created_at' => $this->created_at,

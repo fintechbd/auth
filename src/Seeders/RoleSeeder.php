@@ -23,7 +23,6 @@ class RoleSeeder extends Seeder
             [
                 'id' => '1',
                 'name' => 'Super Admin',
-                'team_id' => 1,
                 'creator_id' => null,
                 'editor_id' => null,
                 'destroyer_id' => null,
@@ -33,7 +32,6 @@ class RoleSeeder extends Seeder
             [
                 'id' => '2',
                 'name' => 'Admin',
-                'team_id' => 1,
                 'creator_id' => null,
                 'editor_id' => null,
                 'destroyer_id' => null,
@@ -43,7 +41,6 @@ class RoleSeeder extends Seeder
             [
                 'id' => '3',
                 'name' => 'Executive',
-                'team_id' => 1,
                 'creator_id' => null,
                 'editor_id' => null,
                 'destroyer_id' => null,
@@ -53,7 +50,6 @@ class RoleSeeder extends Seeder
             [
                 'id' => '4',
                 'name' => 'Customer',
-                'team_id' => 1,
                 'creator_id' => null,
                 'editor_id' => null,
                 'destroyer_id' => null,

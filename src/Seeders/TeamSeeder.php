@@ -12,6 +12,11 @@ class TeamSeeder extends Seeder
      */
     public function run(): void
     {
+        //don't run seeder unless team feature is enabled
+        if (!config('permission.teams', false)) {
+            return;
+        }
+
         foreach ($this->data() as $team) {
             Auth::team()->create($team);
         }

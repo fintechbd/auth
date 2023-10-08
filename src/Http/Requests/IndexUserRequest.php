@@ -25,6 +25,7 @@ class IndexUserRequest extends FormRequest
     public function rules(): array
     {
         return [
+            'roles' => ['array', 'nullable', 'min:1'],
             'search' => ['string', 'nullable', 'max:255'],
             'per_page' => ['integer', 'nullable', 'min:10', 'max:500'],
             'page' => ['integer', 'nullable', 'min:1'],

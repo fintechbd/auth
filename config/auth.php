@@ -62,23 +62,39 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Auth Field Validation
+    |--------------------------------------------------------------------------
+    |
+    | This value will be used to across system where model is needed
+    | Example: login_id, email, mobile
+    */
+    'auth_field' => 'login_id',
+    'auth_field_rules' => ['required', 'string', 'min:6', 'max:255'],
+
+    /*
+    |--------------------------------------------------------------------------
+    | Password Validation
+    |--------------------------------------------------------------------------
+    |
+    | This value will be used to across system where model is needed
+    | Example: login_id, email, mobile
+    */
+
+    'password_field' => 'password',
+    'password_field_rules' => ['required', 'string', \Illuminate\Validation\Rules\Password::default()],
+    /*
+    |--------------------------------------------------------------------------
     | Login Validation
     |--------------------------------------------------------------------------
     |
     | This value will be used to across system where model is needed
+    | Exclude auth fields
     */
-    'validation' => [
-        'login' => [
-            'login_id' => ['required', 'string'],
-            'password' => ['required', 'string', \Illuminate\Validation\Rules\Password::default()],
-        ],
-        'register' => [
+    'register_rules' => [
             //user
             'name' => ['required', 'string', 'min:2', 'max:255'],
             'mobile' => ['required', 'string', 'min:10'],
             'email' => ['required', 'string', 'email:rfc,dns', 'min:2', 'max:255'],
-            'login_id' => ['required', 'string', 'min:6', 'max:255'],
-            'password' => ['required', 'string', \Illuminate\Validation\Rules\Password::default()],
             'pin' => ['required', 'string', 'min:4', 'max:16'],
             'parent_id' => ['nullable', 'integer'],
             'app_version' => ['nullable', 'string'],
@@ -116,7 +132,6 @@ return [
             'note' => ['string', 'nullable'],
             'nationality' => ['string', 'nullable'],
         ],
-    ],
 
     /*
     |--------------------------------------------------------------------------
@@ -125,11 +140,8 @@ return [
     |
     | This value will be used to across system where model is needed
     */
-    'threshold' => [
-        'password' => 10,
-        'pin' => 3,
-    ],
-
+    'password_threshold' => 10,
+    'pin_threshold' => 3,
     'threshold_notification' => false,
 
     /*

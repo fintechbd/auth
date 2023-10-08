@@ -1,7 +1,10 @@
 <?php
 
 use Fintech\Auth\Http\Controllers\AuthenticatedSessionController;
+use Fintech\Auth\Http\Controllers\EmailVerificationNotificationController;
+use Fintech\Auth\Http\Controllers\PasswordResetController;
 use Fintech\Auth\Http\Controllers\RegisteredUserController;
+use Fintech\Auth\Http\Controllers\VerifyEmailController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -24,21 +27,21 @@ Route::prefix('auth')->name('auth.')->group(function () {
         ->middleware('guest')
         ->name('login');
 
-    //    Route::post('/forgot-password', [PasswordResetLinkController::class, 'store'])
-    //        ->middleware('guest')
-    //        ->name('password.email');
-    //
-    //    Route::post('/reset-password', [NewPasswordController::class, 'store'])
-    //        ->middleware('guest')
-    //        ->name('password.store');
-    //
-    //    Route::get('/verify-email/{id}/{hash}', VerifyEmailController::class)
-    //        ->middleware(['auth', 'signed', 'throttle:6,1'])
-    //        ->name('verification.verify');
-    //
-    //    Route::post('/email/verification-notification', [EmailVerificationNotificationController::class, 'store'])
-    //        ->middleware(['auth', 'throttle:6,1'])
-    //        ->name('verification.send');
+        Route::post('/forgot-password', [PasswordResetController::class, 'store'])
+            ->middleware('guest')
+            ->name('forgot-password');
+
+        Route::post('/reset-password', [PasswordResetController::class, 'update'])
+            ->middleware('guest')
+            ->name('reset-password');
+
+        Route::get('/verify-email/{id}/{hash}', VerifyEmailController::class)
+            ->middleware(['auth', 'signed', 'throttle:6,1'])
+            ->name('verification.verify');
+
+        Route::post('/email/verification-notification', [EmailVerificationNotificationController::class, 'store'])
+            ->middleware(['auth', 'throttle:6,1'])
+            ->name('verification.send');
 
     Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])
         ->middleware(config('fintech.auth.middleware'))

@@ -37,10 +37,7 @@ class TeamRepository extends MongodbRepository implements InterfacesTeamReposito
         //Handle Sorting
         $query->orderBy($filters['sort'] ?? $this->model->getKeyName(), $filters['dir'] ?? 'asc');
 
-        //Prepare Output
-        return (isset($filters['paginate']) && $filters['paginate'] == true)
-            ? $query->paginate(($filters['per_page'] ?? 20))
-            : $query->get();
-
+        //Execute Output
+        return $this->executeQuery($query);
     }
 }

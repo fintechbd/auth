@@ -2,6 +2,7 @@
 
 namespace Fintech\Auth\Http\Controllers;
 
+use Fintech\Auth\Events\AccountFreezed;
 use Fintech\Auth\Enums\UserStatus;
 use Fintech\Auth\Http\Requests\LoginRequest;
 use Fintech\Auth\Http\Resources\LoginResource;
@@ -19,14 +20,18 @@ class AuthenticatedSessionController extends Controller
     /**
      * Handle an incoming authentication request.
      *
+     * @param LoginRequest $request
+     * @return LoginResource|JsonResponse
      * @throws ValidationException
      */
     public function store(LoginRequest $request): LoginResource|JsonResponse
     {
         $request->ensureIsNotRateLimited();
 
+        $authField = config('fintech.auth.auth_field', 'login_id');
+
         $attemptUser = \Fintech\Auth\Facades\Auth::user()->list([
-            'login_id' => $request->input('login_id'),
+            $authField => $request->input($authField),
             'paginate' => false,
         ]);
 
@@ -37,19 +42,25 @@ class AuthenticatedSessionController extends Controller
 
         $attemptUser = $attemptUser->first();
 
-        if ($attemptUser->wrong_password > config('fintech.auth.threshold.password', 10)) {
+        if ($attemptUser->wrong_password > config('fintech.auth.password_threshold', 10)) {
 
             \Fintech\Auth\Facades\Auth::user()->update($attemptUser->id, [
                 'status' => UserStatus::InActive->value,
             ]);
 
+            event(new AccountFreezed($attemptUser));
+
             return $this->failed(__('auth::messages.lockup'));
         }
 
-        if (! Hash::check($request->input('password'), $attemptUser->password)) {
+        $passwordField = config('fintech.auth.password_field', 'password');
+
+        if (!Hash::check($request->input($passwordField), $attemptUser->{$passwordField})) {
 
             $request->hitRateLimited();
+
             $wrongPasswordCount = $attemptUser->wrong_password + 1;
+
             \Fintech\Auth\Facades\Auth::user()->update($attemptUser->id, [
                 'wrong_password' => $wrongPasswordCount,
             ]);
@@ -70,9 +81,9 @@ class AuthenticatedSessionController extends Controller
 
         Auth::login($attemptUser);
 
-        Auth::user()->tokens->each(fn ($token) => $token->delete());
+        $attemptUser->tokens->each(fn($token) => $token->delete());
 
-        return new LoginResource(Auth::user());
+        return new LoginResource($attemptUser);
     }
 
     /**

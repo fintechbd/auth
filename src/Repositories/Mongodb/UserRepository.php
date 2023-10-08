@@ -42,10 +42,8 @@ class UserRepository extends MongodbRepository implements InterfacesUserReposito
             $query->where('login_id', $filters['login_id'])->limit(1);
         }
 
-        //Prepare Output
-        return (isset($filters['paginate']) && $filters['paginate'] == true)
-            ? $query->paginate(($filters['per_page'] ?? 20))
-            : $query->get();
+        //Execute Output
+        return $this->executeQuery($query);
 
     }
 }

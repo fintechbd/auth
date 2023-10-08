@@ -27,10 +27,13 @@ class LoginRequest extends FormRequest
      */
     public function rules(): array
     {
-        return config('fintech.auth.validation.login', [
-            'login_id' => ['required', 'string'],
-            'password' => ['required', 'string', Password::default()],
-        ]);
+        return [
+            config('fintech.auth.auth_field', 'login_id')
+            => config('fintech.auth.auth_field_rules', ['required', 'string', 'min:6', 'max:255']),
+
+            config('fintech.auth.password_field', 'login_id')
+            => config('fintech.auth.password_field_rules', ['required', 'string', Password::default()])
+        ];
     }
 
     /**
@@ -46,7 +49,7 @@ class LoginRequest extends FormRequest
      */
     public function throttleKey(): string
     {
-        return Str::transliterate(Str::lower($this->input('login_id')).'|'.$this->ip());
+        return Str::transliterate(Str::lower($this->input(config('fintech.auth.auth_field', 'login_id'))) . '|' . $this->ip());
     }
 
     /**
@@ -64,7 +67,7 @@ class LoginRequest extends FormRequest
      */
     public function ensureIsNotRateLimited(): void
     {
-        if (! RateLimiter::tooManyAttempts($this->throttleKey(), 5)) {
+        if (!RateLimiter::tooManyAttempts($this->throttleKey(), 5)) {
             return;
         }
 

@@ -51,14 +51,18 @@ class LoginResource extends JsonResource
     {
         $origin = Str::slug(config('app.name'));
 
+        $permissions = [];
+
+        if (!$this->permissions->isEmpty()) {
+            $permissions = $this->permissions->pluck('name')->toArray();
+        }
+
+
         return [
             'access' => [
                 'token' => $this->createToken($origin)->plainTextToken,
                 'type' => 'bearer',
-                'permissions' => [
-                    'login',
-                    'dashboard',
-                ],
+                'permissions' => $permissions,
             ],
             'message' => trans('auth::messages.success'),
         ];

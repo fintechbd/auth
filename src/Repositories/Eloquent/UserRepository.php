@@ -34,6 +34,8 @@ class UserRepository extends EloquentRepository implements InterfacesUserReposit
      */
     public function list(array $filters = [])
     {
+        $authField = config('fintech.auth.auth_field', 'login_id');
+
         $query = $this->model->newQuery();
 
         if (isset($filters['search']) && ! empty($filters['search'])) {
@@ -44,17 +46,21 @@ class UserRepository extends EloquentRepository implements InterfacesUserReposit
             }
         }
 
+        //auth field search
+        if (isset($filters[$authField]) && !empty($filters[$authField])) {
+            $query->where($authField, '=', $filters[$authField]);
+        }
+
         if (isset($filters['trashed']) && !empty($filters['trashed'])) {
+
             $query->onlyTrashed();
         }
 
         //Handle Sorting
         $query->orderBy($filters['sort'] ?? $this->model->getKeyName(), $filters['dir'] ?? 'asc');
 
-        //Prepare Output
-        return (isset($filters['paginate']) && $filters['paginate'] == true)
-            ? $query->simplePaginate(($filters['per_page'] ?? 20))
-            : $query->get();
+        //Execute Output
+        return $this->executeQuery($query);
 
     }
 }

@@ -4,7 +4,6 @@ namespace Fintech\Auth\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-
 class OneTimePin extends Model
 {
     /*
@@ -13,7 +12,7 @@ class OneTimePin extends Model
     |--------------------------------------------------------------------------
     */
 
-    const UPDATED_AT = null;
+    public const UPDATED_AT = null;
 
     protected $primaryKey = 'email';
 

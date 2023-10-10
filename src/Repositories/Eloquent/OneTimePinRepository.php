@@ -95,7 +95,8 @@ class OneTimePinRepository implements InterfacesOneTimePinRepository
      * @param CanResetPasswordContract $user
      * @return void
      */
-    public function delete(CanResetPasswordContract $user){
+    public function delete(CanResetPasswordContract $user)
+    {
 
     }
 
@@ -105,9 +106,10 @@ class OneTimePinRepository implements InterfacesOneTimePinRepository
      * @param string $authField
      * @return void
      */
-    public function deleteExpired(string $authField) {
+    public function deleteExpired(string $authField)
+    {
         $this->model->where('email', $authField)->get()->each(function ($entry) {
-           $entry->delete();
+            $entry->delete();
         });
     }
 }

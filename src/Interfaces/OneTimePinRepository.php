@@ -1,8 +1,6 @@
 <?php
 
-
 namespace Fintech\Auth\Interfaces;
-
 
 interface OneTimePinRepository
 {

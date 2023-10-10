@@ -47,11 +47,12 @@ class User extends Authenticatable implements Auditable
      *
      * @return string
      */
-    public function getEmailForPasswordReset() {
+    public function getEmailForPasswordReset()
+    {
 
         $authField = config('fintech.auth.auth_field', 'login_id');
 
-       return $this->{$authField};
+        return $this->{$authField};
     }
 
     /**
@@ -60,7 +61,8 @@ class User extends Authenticatable implements Auditable
      * @param  string  $token
      * @return void
      */
-    public function sendPasswordResetNotification($token) {
+    public function sendPasswordResetNotification($token)
+    {
         dd($token);
     }
 

@@ -62,6 +62,16 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | One Time Password/Pin Model
+    |--------------------------------------------------------------------------
+    |
+    | This value will be used to across system where model is needed
+    */
+    'otp_model' => \Fintech\Auth\Models\OneTimePin::class,
+    'otp_length' => 4,
+
+    /*
+    |--------------------------------------------------------------------------
     | Auth Field Validation
     |--------------------------------------------------------------------------
     |
@@ -171,6 +181,8 @@ return [
         \Fintech\Auth\Interfaces\ProfileRepository::class => \Fintech\Auth\Repositories\Eloquent\ProfileRepository::class,
 
         \Fintech\Auth\Interfaces\UserRepository::class => \Fintech\Auth\Repositories\Eloquent\UserRepository::class,
+
+        \Fintech\Auth\Interfaces\OneTimePinRepository::class => \Fintech\Auth\Repositories\Eloquent\OneTimePinRepository::class,
     ],
 
 ];

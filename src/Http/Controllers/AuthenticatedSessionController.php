@@ -2,8 +2,8 @@
 
 namespace Fintech\Auth\Http\Controllers;
 
-use Fintech\Auth\Events\AccountFreezed;
 use Fintech\Auth\Enums\UserStatus;
+use Fintech\Auth\Events\AccountFreezed;
 use Fintech\Auth\Http\Requests\LoginRequest;
 use Fintech\Auth\Http\Resources\LoginResource;
 use Fintech\Core\Traits\ApiResponseTrait;

@@ -70,6 +70,8 @@ return [
     'otp_model' => \Fintech\Auth\Models\OneTimePin::class,
     'otp_length' => 4,
 
+    //** Model Config Point Do not Remove **//
+
     /*
     |--------------------------------------------------------------------------
     | Auth Field Validation
@@ -183,6 +185,8 @@ return [
         \Fintech\Auth\Interfaces\UserRepository::class => \Fintech\Auth\Repositories\Eloquent\UserRepository::class,
 
         \Fintech\Auth\Interfaces\OneTimePinRepository::class => \Fintech\Auth\Repositories\Eloquent\OneTimePinRepository::class,
-    ],
+
+        //** Repository Binding Config Point Do not Remove **//
+        ],
 
 ];

@@ -3,8 +3,8 @@
 namespace Fintech\Auth\Repositories\Eloquent;
 
 use Exception;
-use Illuminate\Database\Eloquent\Model;
 use Fintech\Auth\Interfaces\OneTimePinRepository as InterfacesOneTimePinRepository;
+use Illuminate\Database\Eloquent\Model;
 use InvalidArgumentException;
 
 /**

@@ -20,8 +20,8 @@ class RoleCollection extends ResourceCollection
         return $this->collection->map(function ($role) {
             $return = [
                 'id' => $role->id,
-                'team_id' => $role->team_id ?? null,
-                'team_name' => ($role->team != null) ? $role->team->name : null,
+//                'team_id' => $role->team_id ?? null,
+//                'team_name' => ($role->team != null) ? $role->team->name : null,
                 'name' => $role->name ?? null,
                 'guard_name' => $role->guard_name ?? null,
                 'permissions' => [],
@@ -58,17 +58,17 @@ class RoleCollection extends ResourceCollection
     {
         $teams = [];
 
-        Auth::team()->list(['paginate' => false])
-            ->each(function ($team) use (&$teams) {
-                $teams[$team->id] = $team->name;
-            });
+//        Auth::team()->list(['paginate' => false])
+//            ->each(function ($team) use (&$teams) {
+//                $teams[$team->id] = $team->name;
+//            });
 
         return [
             'options' => [
                 'dir' => Constant::SORT_DIRECTIONS,
                 'per_page' => Constant::PAGINATE_LENGTHS,
-                'team_id' => $teams,
-                'sort' => ['id', 'team_id', 'name', 'guard_name', 'created_at', 'updated_at'],
+//                'team_id' => $teams,
+                'sort' => ['id', /*'team_id',*/ 'name', 'guard_name', 'created_at', 'updated_at'],
             ],
             'query' => $request->all(),
         ];

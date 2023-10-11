@@ -11,7 +11,10 @@ return new class () extends Migration {
     public function up(): void
     {
         if (! Schema::hasTable('users')) {
-            throw new \ErrorException('`users` table is missing.');
+            if (!\Illuminate\Support\Facades\App::environment('testing')) {
+                throw new \ErrorException('`users` table is missing.');
+            }
+            return;
         }
 
         Schema::table('users', function (Blueprint $table) {

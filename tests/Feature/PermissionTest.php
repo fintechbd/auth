@@ -1,65 +1,55 @@
 <?php
 
-use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Str;
-
-define('BASE_URL', 'http://devstarter.test/api/auth');
+use function Pest\Laravel\deleteJson;
+use function Pest\Laravel\getJson;
+use function Pest\Laravel\postJson;
+use function Pest\Laravel\putJson;
 
 test('permission list', function () {
-    $response = Http::get(BASE_URL.'/permissions');
-    expect($response->status())->toEqual(200);
+    getJson('/api/auth/permissions')->assertStatus(200);
 });
 
 test('permission create validation', function () {
-
-    $response = Http::post(BASE_URL.'/permissions', [
+    postJson('/api/auth/permissions', [
         'name' => Str::random(20),
         'guard_name' => 'web3',
-    ]);
-    expect($response->status())->toEqual(422);
+    ])->assertStatus(422);
 });
 
 test('permission created', function () {
-
-    $response = Http::post(BASE_URL.'/permissions', [
+    postJson('/api/auth/permissions', [
         'name' => Str::random(20),
         'guard_name' => 'web',
-    ]);
-    expect($response->status())->toEqual(201);
+    ])->assertStatus(201);
 });
 
 test('permission not found', function () {
-    $response = Http::get(BASE_URL.'/permissions/100');
-    expect($response->status())->toEqual(404);
+    getJson('/api/auth/permissions/100')->assertStatus(404);
 });
 
 test('permission detail', function () {
-    $response = Http::get(BASE_URL.'/permissions/1');
-    expect($response->status())->toEqual(200);
+    getJson('/api/auth/permissions/1')->assertStatus(200);
 });
 
 test('permission update validation', function () {
 
-    $response = Http::post(BASE_URL.'/permissions', [
+    putJson('/api/auth/permissions', [
         'name' => 'abcd',
         'guard_name' => 'web3',
-    ]);
-    expect($response->status())->toEqual(422);
+    ])->assertStatus(422);
 });
 
 test('permission updated', function () {
-    $response = Http::put(BASE_URL.'/permissions/1', [
+    putJson('/api/auth/permissions/1', [
         'name' => Str::random(20),
-    ]);
-    expect($response->status())->toEqual(200);
+    ])->assertStatus(200);
 });
 
 test('permission deleted', function () {
-    $response = Http::delete(BASE_URL.'/permissions/1');
-    expect($response->status())->toEqual(200);
+    deleteJson('/api/auth/permissions/1')->assertStatus(200);
 });
 
 test('permission restored', function () {
-    $response = Http::delete(BASE_URL.'/permissions/1');
-    expect($response->status())->toEqual(200);
+    postJson('/api/auth/permissions/1')->assertStatus(200);
 });

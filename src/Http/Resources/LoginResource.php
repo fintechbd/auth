@@ -18,7 +18,7 @@ class LoginResource extends JsonResource
     {
         $this->resource->load(['profile', 'roles']);
 
-        return [
+        $return = [
             'id' => $this->id,
             'name' => $this->name,
             'mobile' => $this->mobile,
@@ -29,7 +29,8 @@ class LoginResource extends JsonResource
             'currency' => $this->currency,
             'app_version' => $this->app_version,
             'total_balance' => 0,
-            'roles' => $this->roles,
+            'role_id' => null,
+            'role_name' => null,
             'email_verified_at' => $this->email_verified_at,
             'mobile_verified_at' => $this->mobile_verified_at,
             'created_at' => $this->created_at,
@@ -38,6 +39,14 @@ class LoginResource extends JsonResource
                 ? (new ProfileResource($this->profile))
                 : (new \stdClass())),
         ];
+
+        if ($this->roles != null) {
+            $role = $this->roles->first();
+            $return['role_id'] = $role->id ?? null;
+            $return['role_name'] = $role->name ?? null;
+        }
+
+        return $return;
     }
 
     /**
@@ -51,8 +60,10 @@ class LoginResource extends JsonResource
 
         $permissions = [];
 
-        if (!$this->permissions->isEmpty()) {
-            $permissions = $this->permissions->pluck('name')->toArray();
+        $permissionCollection = $this->getAllPermissions();
+
+        if (!$permissionCollection->isEmpty()) {
+            $permissions = $permissionCollection->pluck('name')->toArray();
         }
 
 

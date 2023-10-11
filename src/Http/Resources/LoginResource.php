@@ -31,13 +31,13 @@ class LoginResource extends JsonResource
             'total_balance' => 0,
             'role_id' => null,
             'role_name' => null,
+            'profile' => (($this->profile != null)
+                ? (new ProfileResource($this->profile))
+                : (new \stdClass())),
             'email_verified_at' => $this->email_verified_at,
             'mobile_verified_at' => $this->mobile_verified_at,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
-            'profile' => (($this->profile != null)
-                ? (new ProfileResource($this->profile))
-                : (new \stdClass())),
         ];
 
         if ($this->roles != null) {

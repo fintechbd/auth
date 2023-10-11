@@ -58,10 +58,10 @@ class RoleCollection extends ResourceCollection
     {
         $teams = [];
 
-//        Auth::team()->list(['paginate' => false])
-//            ->each(function ($team) use (&$teams) {
-//                $teams[$team->id] = $team->name;
-//            });
+        //        Auth::team()->list(['paginate' => false])
+        //            ->each(function ($team) use (&$teams) {
+        //                $teams[$team->id] = $team->name;
+        //            });
 
         return [
             'options' => [

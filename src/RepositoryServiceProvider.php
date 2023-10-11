@@ -27,6 +27,6 @@ class RepositoryServiceProvider extends ServiceProvider implements DeferrablePro
      */
     public function provides(): array
     {
-        return array_keys(Config::get('fintech.auth.repositories',[]));
+        return array_keys(Config::get('fintech.auth.repositories', []));
     }
 }

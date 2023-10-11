@@ -23,6 +23,7 @@ class UserSeeder extends Seeder
     {
         return [
             [
+                "roles" => [1],
                 "name" => "Hafijul Islam",
                 "mobile" => "8801600000001",
                 "email" => "hafijul233@gmail.com",
@@ -65,6 +66,7 @@ class UserSeeder extends Seeder
 
             ],
             [
+                "roles" => [2],
                 "name" => "Ariful Islam",
                 "mobile" => "8801600000002",
                 "email" => "mah.shamim@gmail.com",
@@ -107,9 +109,10 @@ class UserSeeder extends Seeder
 
             ],
             [
-                "name" => "Ariful Islam",
+                "roles" => [3],
+                "name" => "Tarif Islam",
                 "mobile" => "8801600000003",
-                "email" => "mah.shamim3@gmail.com",
+                "email" => "tarif@gmail.com",
                 "login_id" => "01600000003",
                 "password" => "12345678",
                 "pin" => "123456",

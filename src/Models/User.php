@@ -2,19 +2,19 @@
 
 namespace Fintech\Auth\Models;
 
-use Fintech\Core\Traits\BlameableTrait;
+
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Laravel\Sanctum\HasApiTokens;
-use OwenIt\Auditing\Contracts\Auditable;
+
 use Spatie\Permission\Traits\HasRoles;
 
-class User extends Authenticatable implements Auditable
+class User extends Authenticatable
 {
-    use BlameableTrait;
+
     use HasApiTokens;
     use HasRoles;
-    use \OwenIt\Auditing\Auditable;
+    use \Fintech\Core\Traits\AuditableTrait;
     use SoftDeletes;
 
     /*

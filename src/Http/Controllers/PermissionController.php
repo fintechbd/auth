@@ -199,6 +199,7 @@ class PermissionController extends Controller
      *
      * @lrd:end
      *
+     * @param int|string $id
      * @return JsonResponse
      */
     public function restore(string|int $id)
@@ -234,6 +235,8 @@ class PermissionController extends Controller
      * After export job is done system will fire  export completed event
      *
      * @lrd:end
+     * @param IndexPermissionRequest $request
+     * @return JsonResponse
      */
     public function export(IndexPermissionRequest $request): JsonResponse
     {
@@ -256,6 +259,8 @@ class PermissionController extends Controller
      * After export job is done system will fire  export completed event
      *
      * @lrd:end
+     * @param ImportPermissionRequest $request
+     * @return PermissionCollection|JsonResponse
      */
     public function import(ImportPermissionRequest $request): PermissionCollection|JsonResponse
     {

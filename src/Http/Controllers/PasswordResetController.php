@@ -20,7 +20,6 @@ class PasswordResetController extends Controller
      *
      * @param ForgotPasswordRequest $request
      * @return JsonResponse
-     * @throws ValidationException
      */
     public function store(ForgotPasswordRequest $request): JsonResponse
     {

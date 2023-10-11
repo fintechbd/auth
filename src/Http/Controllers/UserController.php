@@ -262,7 +262,7 @@ class UserController extends Controller
      *
      * @return UserCollection|JsonResponse
      */
-    public function import(ImportUserRequest $request): JsonResponse
+    public function import(ImportUserRequest $request): UserCollection|JsonResponse
     {
         try {
             $inputs = $request->validated();

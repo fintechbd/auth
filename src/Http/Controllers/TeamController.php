@@ -62,6 +62,8 @@ class TeamController extends Controller
      * Create a new team resource in storage.
      *
      * @lrd:end
+     * @param StoreTeamRequest $request
+     * @return JsonResponse
      */
     public function store(StoreTeamRequest $request): JsonResponse
     {
@@ -90,6 +92,8 @@ class TeamController extends Controller
      * Return a specified team resource found by id.
      *
      * @lrd:end
+     * @param int|string $id
+     * @return TeamResource|JsonResponse
      */
     public function show(string|int $id): TeamResource|JsonResponse
     {
@@ -118,6 +122,9 @@ class TeamController extends Controller
      * Update a specified team resource using id.
      *
      * @lrd:end
+     * @param UpdateTeamRequest $request
+     * @param int|string $id
+     * @return JsonResponse
      */
     public function update(UpdateTeamRequest $request, string|int $id): JsonResponse
     {
@@ -154,6 +161,7 @@ class TeamController extends Controller
      *
      * @lrd:end
      *
+     * @param int|string $id
      * @return JsonResponse
      */
     public function destroy(string|int $id)
@@ -190,6 +198,7 @@ class TeamController extends Controller
      *
      * @lrd:end
      *
+     * @param int|string $id
      * @return JsonResponse
      */
     public function restore(string|int $id)
@@ -225,6 +234,8 @@ class TeamController extends Controller
      * After export job is done system will fire  export completed event
      *
      * @lrd:end
+     * @param IndexTeamRequest $request
+     * @return JsonResponse
      */
     public function export(IndexTeamRequest $request): JsonResponse
     {
@@ -248,9 +259,10 @@ class TeamController extends Controller
      *
      * @lrd:end
      *
+     * @param ImportTeamRequest $request
      * @return TeamCollection|JsonResponse
      */
-    public function import(ImportTeamRequest $request): JsonResponse
+    public function import(ImportTeamRequest $request): TeamCollection|JsonResponse
     {
         try {
             $inputs = $request->validated();

@@ -27,7 +27,7 @@ class UpdatePermissionRequest extends FormRequest
 
         return [
             'name' => ['required', 'string', 'min:5', 'max:255', $uniqueRule],
-            'guard_name' => ['required', 'string', Rule::in(array_keys(config('auth.guards', ['web', 'api'])))],
+            'guard_name' => ['nullable', 'string', Rule::in(array_keys(config('auth.guards', ['web', 'api'])))],
         ];
     }
 

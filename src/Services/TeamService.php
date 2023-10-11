@@ -11,6 +11,11 @@ use Fintech\Auth\Interfaces\TeamRepository;
 class TeamService
 {
     /**
+     * @var TeamRepository
+     */
+    private TeamRepository $teamRepository;
+
+    /**
      * TeamService constructor.
      * @param TeamRepository $teamRepository
      */
@@ -55,5 +60,15 @@ class TeamService
     public function restore($id)
     {
         return $this->teamRepository->restore($id);
+    }
+
+    public function export(array $filters)
+    {
+        return $this->teamRepository->list($filters);
+    }
+
+    public function import(array $filters)
+    {
+        return $this->teamRepository->create($filters);
     }
 }

@@ -11,6 +11,11 @@ use Fintech\Auth\Interfaces\RoleRepository;
 class RoleService
 {
     /**
+     * @var RoleRepository
+     */
+    private RoleRepository $roleRepository;
+
+    /**
      * RoleService constructor.
      * @param RoleRepository $roleRepository
      */
@@ -55,5 +60,15 @@ class RoleService
     public function restore($id)
     {
         return $this->roleRepository->restore($id);
+    }
+
+    public function export(array $filters)
+    {
+        return $this->roleRepository->list($filters);
+    }
+
+    public function import(array $filters)
+    {
+        return $this->roleRepository->create($filters);
     }
 }

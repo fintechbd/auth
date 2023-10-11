@@ -61,4 +61,14 @@ class PermissionService
     {
         return $this->permissionRepository->restore($id);
     }
+
+    public function export(array $filters)
+    {
+        return $this->permissionRepository->list($filters);
+    }
+
+    public function import(array $filters)
+    {
+        return $this->permissionRepository->create($filters);
+    }
 }

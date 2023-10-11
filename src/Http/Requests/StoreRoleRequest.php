@@ -27,7 +27,7 @@ class StoreRoleRequest extends FormRequest
 
         return [
             'name' => ['required', 'string', 'min:5', 'max:255', $uniqueRule],
-            'team_id' => ['required', 'integer'],
+            'team_id' => ['nullable', 'integer'],
             'guard_name' => ['required', 'string', Rule::in(array_keys(config('auth.guards', ['web', 'api'])))],
             'permissions' => ['nullable', 'array'],
             'permissions.*' => ['nullable', 'integer'],

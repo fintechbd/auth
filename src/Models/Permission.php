@@ -38,6 +38,8 @@ class Permission extends Model implements PermissionContract
 
     protected $appends = ['links'];
 
+    protected $attributes = ['guard_name' => 'web'];
+
     /*
     |--------------------------------------------------------------------------
     | FUNCTIONS

@@ -253,7 +253,7 @@ class RoleController extends Controller
      *
      * @return RoleCollection|JsonResponse
      */
-    public function import(ImportRoleRequest $request): JsonResponse
+    public function import(ImportRoleRequest $request): RoleCollection|JsonResponse
     {
         try {
             $inputs = $request->validated();

@@ -13,9 +13,14 @@ use Illuminate\Support\Facades\Hash;
  */
 class UserService
 {
-    public $userRepository;
-
-    private $profileRepository;
+    /**
+     * @var UserRepository
+     */
+    private UserRepository $userRepository;
+    /**
+     * @var ProfileRepository
+     */
+    private ProfileRepository $profileRepository;
 
     /**
      * UserService constructor.
@@ -150,5 +155,15 @@ class UserService
     public function restore($id)
     {
         return $this->userRepository->restore($id);
+    }
+
+    public function export(array $filters)
+    {
+        return $this->userRepository->list($filters);
+    }
+
+    public function import(array $filters)
+    {
+        return $this->userRepository->create($filters);
     }
 }

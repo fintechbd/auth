@@ -45,6 +45,8 @@ class Role extends Model implements RoleContract
 
     protected $with = ['permissions'];
 
+    protected $attributes = ['guard_name' => 'web'];
+
     /*
     |--------------------------------------------------------------------------
     | FUNCTIONS

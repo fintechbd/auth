@@ -11,4 +11,5 @@ parameters:
     checkModelProperties: true
     checkMissingIterableValueType: false
     ignoreErrors:
-        - '#^(.+) has invalid return type MongoDB\\Laravel\\Eloquent\\Model\.$#'
+        - '#^(.*) has invalid return type MongoDB\\Laravel\\Eloquent\\Model\.$#'
+        - '#^(.*)Illuminate\\Database\\Eloquent\\Builder::onlyTrashed\(\)\.#'

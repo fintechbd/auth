@@ -2,16 +2,39 @@
 
 namespace Fintech\Auth\Http\Resources;
 
+use Carbon\Carbon;
+use Fintech\Auth\Models\Profile;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
-use stdClass;
+use Illuminate\Support\Collection;
 
+/**
+ * Class UserResource
+ * @package Fintech\Auth\Http\Resources
+ *
+ * @property-read int $id
+ * @property-read string $name
+ * @property-read string $mobile
+ * @property-read string $email
+ * @property-read string $login_id
+ * @property-read string $status
+ * @property-read string $language
+ * @property-read string $currency
+ * @property-read string $app_version
+ * @property-read float $total_balance
+ * @property-read Collection $roles
+ * @property-read Profile|null $profile
+ * @property-read Carbon $email_verified_at
+ * @property-read Carbon $mobile_verified_at
+ * @property-read Carbon $created_at
+ * @property-read Carbon $updated_at
+ */
 class UserResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
      *
-     * @param Request
+     * @param Request $request
      * @return array
      */
     public function toArray($request)
@@ -34,7 +57,7 @@ class UserResource extends JsonResource
             'updated_at' => $this->updated_at,
             'profile' => (($this->profile != null)
                 ? (new ProfileResource($this->profile))
-                : (new stdClass())),
+                : (new \stdClass())),
         ];
     }
 }

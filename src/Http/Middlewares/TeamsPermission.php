@@ -11,15 +11,14 @@ class TeamsPermission
     /**
      * Handle an incoming request.
      *
+     * @see https://spatie.be/docs/laravel-permission/v5/basic-usage/teams-permissions
      * @param Request $request
-     * @param Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
+     * @param Closure $next
      * @return Response
      */
     public function handle($request, Closure $next)
     {
-        if (!empty(auth('api')->user())) {
-            setPermissionsTeamId(auth('api')->user()->getTeamIdFromToken());
-        }
+        //TODO: team ID pull to use for permissions
 
         return $next($request);
     }

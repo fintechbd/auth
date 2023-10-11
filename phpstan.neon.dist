@@ -1,5 +1,4 @@
 includes:
-    - phpstan-baseline.neon
 
 parameters:
     level: 4
@@ -11,4 +10,5 @@ parameters:
     checkOctaneCompatibility: true
     checkModelProperties: true
     checkMissingIterableValueType: false
-
+    ignoreErrors:
+        - '#^(.+) has invalid return type MongoDB\\Laravel\\Eloquent\\Model\.$#'

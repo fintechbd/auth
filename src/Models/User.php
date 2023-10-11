@@ -3,17 +3,24 @@
 namespace Fintech\Auth\Models;
 
 
+use Fintech\Core\Traits\AuditableTrait;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
 
+/**
+ * Class User
+ * @package Fintech\Auth\Models
+ * @method getTeamIdFromToken()
+ */
 class User extends Authenticatable
 {
 
     use HasApiTokens;
     use HasRoles;
-    use \Fintech\Core\Traits\AuditableTrait;
+    use AuditableTrait;
     use SoftDeletes;
 
     /*
@@ -41,29 +48,6 @@ class User extends Authenticatable
     |--------------------------------------------------------------------------
     */
 
-    /**
-     * Get the e-mail address where password reset links are sent.
-     *
-     * @return string
-     */
-    public function getEmailForPasswordReset()
-    {
-
-        $authField = config('fintech.auth.auth_field', 'login_id');
-
-        return $this->{$authField};
-    }
-
-    /**
-     * Send the password reset notification.
-     *
-     * @param  string  $token
-     * @return void
-     */
-    public function sendPasswordResetNotification($token)
-    {
-        dd($token);
-    }
 
     /*
     |--------------------------------------------------------------------------
@@ -71,7 +55,7 @@ class User extends Authenticatable
     |--------------------------------------------------------------------------
     */
 
-    public function profile()
+    public function profile(): HasOne
     {
         return $this->hasOne(config('fintech.auth.user_profile_model'));
     }

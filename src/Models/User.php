@@ -2,7 +2,6 @@
 
 namespace Fintech\Auth\Models;
 
-
 use Fintech\Core\Traits\AuditableTrait;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -17,7 +16,6 @@ use Spatie\Permission\Traits\HasRoles;
  */
 class User extends Authenticatable
 {
-
     use HasApiTokens;
     use HasRoles;
     use AuditableTrait;

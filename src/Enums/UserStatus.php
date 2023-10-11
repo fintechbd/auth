@@ -4,14 +4,14 @@ namespace Fintech\Auth\Enums;
 
 enum UserStatus: string
 {
-case
+    case
     Active = 'ACTIVE';
-case
+    case
     InActive = 'INACTIVE';
-case
+    case
     Banned = 'BANNED';
-case
+    case
     Flagged = 'FLAGGED';
-case
+    case
     Terminated = 'TERMINATED';
 }

@@ -2,14 +2,11 @@
 
 namespace Fintech\Auth\Models;
 
-
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-
 class Profile extends Model
 {
-
     use \Fintech\Core\Traits\AuditableTrait;
     use SoftDeletes;
 

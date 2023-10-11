@@ -2,7 +2,6 @@
 
 namespace Fintech\Auth\Models;
 
-
 use Fintech\Core\Traits\AuditableTrait;
 use Illuminate\Config\Repository;
 use Illuminate\Contracts\Foundation\Application;
@@ -23,7 +22,6 @@ use Spatie\Permission\Traits\RefreshesPermissionCache;
 
 class Role extends Model implements RoleContract
 {
-
     use HasPermissions;
     use AuditableTrait;
     use RefreshesPermissionCache;

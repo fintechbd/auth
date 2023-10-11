@@ -2,15 +2,12 @@
 
 namespace Fintech\Auth\Models;
 
-
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-
 class Team extends Model
 {
-
     use \Fintech\Core\Traits\AuditableTrait;
     use SoftDeletes;
 

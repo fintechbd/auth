@@ -22,7 +22,7 @@ class StoreTeamRequest extends FormRequest
      */
     public function rules(): array
     {
-        $uniqueRule = 'unique:'.config('fintech.auth.team_model', Team::class).',name';
+        $uniqueRule = 'unique:' . config('fintech.auth.team_model', Team::class) . ',name';
 
         return [
             'name' => ['required', 'string', 'min:5', 'max:255', $uniqueRule],

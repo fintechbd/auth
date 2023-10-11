@@ -2,6 +2,7 @@
 
 namespace Fintech\Auth\Http\Controllers;
 
+use Exception;
 use Fintech\Auth\Facades\Auth;
 use Fintech\Auth\Http\Requests\ImportUserRequest;
 use Fintech\Auth\Http\Requests\IndexUserRequest;
@@ -49,7 +50,7 @@ class UserController extends Controller
 
             return new UserCollection($userPaginate);
 
-        } catch (\Exception $exception) {
+        } catch (Exception $exception) {
 
             return $this->failed($exception->getMessage());
         }
@@ -72,7 +73,7 @@ class UserController extends Controller
 
             $user = Auth::user()->create($inputs);
 
-            if (! $user) {
+            if (!$user) {
                 throw (new StoreOperationException())->setModel(config('fintech.auth.user_model'));
             }
 
@@ -81,7 +82,7 @@ class UserController extends Controller
                 'id' => $user->id,
             ]);
 
-        } catch (\Exception $exception) {
+        } catch (Exception $exception) {
 
             return $this->failed($exception->getMessage());
         }
@@ -103,7 +104,7 @@ class UserController extends Controller
 
             $user = Auth::user()->find($id);
 
-            if (! $user) {
+            if (!$user) {
                 throw (new ModelNotFoundException())->setModel(config('fintech.auth.user_model'), $id);
             }
 
@@ -113,7 +114,7 @@ class UserController extends Controller
 
             return $this->notfound($exception->getMessage());
 
-        } catch (\Exception $exception) {
+        } catch (Exception $exception) {
 
             return $this->failed($exception->getMessage());
         }
@@ -134,13 +135,13 @@ class UserController extends Controller
 
             $user = Auth::user()->find($id);
 
-            if (! $user) {
+            if (!$user) {
                 throw (new ModelNotFoundException())->setModel(config('fintech.auth.user_model'), $id);
             }
 
             $inputs = $request->validated();
 
-            if (! Auth::user()->update($id, $inputs)) {
+            if (!Auth::user()->update($id, $inputs)) {
 
                 throw (new UpdateOperationException())->setModel(config('fintech.auth.user_model'), $id);
             }
@@ -151,7 +152,7 @@ class UserController extends Controller
 
             return $this->notfound($exception->getMessage());
 
-        } catch (\Exception $exception) {
+        } catch (Exception $exception) {
 
             return $this->failed($exception->getMessage());
         }
@@ -173,11 +174,11 @@ class UserController extends Controller
 
             $user = Auth::user()->find($id);
 
-            if (! $user) {
+            if (!$user) {
                 throw (new ModelNotFoundException())->setModel(config('fintech.auth.user_model'), $id);
             }
 
-            if (! Auth::user()->destroy($id)) {
+            if (!Auth::user()->destroy($id)) {
 
                 throw (new DeleteOperationException())->setModel(config('fintech.auth.user_model'), $id);
             }
@@ -188,7 +189,7 @@ class UserController extends Controller
 
             return $this->notfound($exception->getMessage());
 
-        } catch (\Exception $exception) {
+        } catch (Exception $exception) {
 
             return $this->failed($exception->getMessage());
         }
@@ -209,11 +210,11 @@ class UserController extends Controller
 
             $user = Auth::user()->find($id, true);
 
-            if (! $user) {
+            if (!$user) {
                 throw (new ModelNotFoundException())->setModel(config('fintech.auth.user_model'), $id);
             }
 
-            if (! Auth::user()->restore($id)) {
+            if (!Auth::user()->restore($id)) {
 
                 throw (new RestoreOperationException())->setModel(config('fintech.auth.user_model'), $id);
             }
@@ -224,7 +225,7 @@ class UserController extends Controller
 
             return $this->notfound($exception->getMessage());
 
-        } catch (\Exception $exception) {
+        } catch (Exception $exception) {
 
             return $this->failed($exception->getMessage());
         }
@@ -246,7 +247,7 @@ class UserController extends Controller
 
             return $this->exported(__('core::messages.resource.exported', ['model' => 'User']));
 
-        } catch (\Exception $exception) {
+        } catch (Exception $exception) {
 
             return $this->failed($exception->getMessage());
         }
@@ -270,7 +271,7 @@ class UserController extends Controller
 
             return new UserCollection($userPaginate);
 
-        } catch (\Exception $exception) {
+        } catch (Exception $exception) {
 
             return $this->failed($exception->getMessage());
         }

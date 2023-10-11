@@ -45,7 +45,7 @@ class AuthenticatedSessionController extends Controller
 
             \Fintech\Auth\Facades\Auth::user()->update($attemptUser->id, [
                 'status' => UserStatus::InActive->value,
-            ]);
+            ])
 
             event(new AccountFreezed($attemptUser));
 
@@ -80,7 +80,7 @@ class AuthenticatedSessionController extends Controller
 
         Auth::login($attemptUser);
 
-        $attemptUser->tokens->each(fn ($token) => $token->delete());
+        $attemptUser->tokens->each(fn($token) => $token->delete());
 
         return new LoginResource($attemptUser);
     }

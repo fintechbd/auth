@@ -23,7 +23,7 @@ class ForgotPasswordRequest extends FormRequest
     {
         return [
             config('fintech.auth.auth_field', 'login_id')
-            =>  config('fintech.auth.auth_field_rules', ['required', 'string', 'min:6', 'max:255'])
+            => config('fintech.auth.auth_field_rules', ['required', 'string', 'min:6', 'max:255'])
         ];
     }
 }

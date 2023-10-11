@@ -2,6 +2,7 @@
 
 namespace Fintech\Auth\Http\Requests;
 
+use Fintech\Auth\Models\Permission;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
@@ -22,7 +23,7 @@ class StorePermissionRequest extends FormRequest
      */
     public function rules(): array
     {
-        $uniqueRule = 'unique:'.config('fintech.auth.permission_model', \Fintech\Auth\Models\Permission::class).',name';
+        $uniqueRule = 'unique:' . config('fintech.auth.permission_model', Permission::class) . ',name';
 
         return [
             'name' => ['required', 'string', 'min:5', 'max:255', $uniqueRule],

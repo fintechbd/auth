@@ -72,7 +72,7 @@ class PermissionController extends Controller
 
             $permission = Auth::permission()->create($inputs);
 
-            if (! $permission) {
+            if (!$permission) {
                 throw (new StoreOperationException())->setModel(config('fintech.auth.permission_model'));
             }
 
@@ -103,7 +103,7 @@ class PermissionController extends Controller
 
             $permission = Auth::permission()->find($id);
 
-            if (! $permission) {
+            if (!$permission) {
                 throw (new ModelNotFoundException())->setModel(config('fintech.auth.permission_model'), $id);
             }
 
@@ -131,13 +131,13 @@ class PermissionController extends Controller
 
             $permission = Auth::permission()->find($id);
 
-            if (! $permission) {
+            if (!$permission) {
                 throw (new ModelNotFoundException())->setModel(config('fintech.auth.permission_model'), $id);
             }
 
             $inputs = $request->validated();
 
-            if (! Auth::permission()->update($id, $inputs)) {
+            if (!Auth::permission()->update($id, $inputs)) {
 
                 throw (new UpdateOperationException())->setModel(config('fintech.auth.permission_model'), $id);
             }
@@ -171,11 +171,11 @@ class PermissionController extends Controller
 
             $permission = Auth::permission()->find($id);
 
-            if (! $permission) {
+            if (!$permission) {
                 throw (new ModelNotFoundException())->setModel(config('fintech.auth.permission_model'), $id);
             }
 
-            if (! Auth::permission()->destroy($id)) {
+            if (!Auth::permission()->destroy($id)) {
 
                 throw (new DeleteOperationException())->setModel(config('fintech.auth.permission_model'), $id);
             }
@@ -207,11 +207,11 @@ class PermissionController extends Controller
 
             $permission = Auth::permission()->find($id, true);
 
-            if (! $permission) {
+            if (!$permission) {
                 throw (new ModelNotFoundException())->setModel(config('fintech.auth.permission_model'), $id);
             }
 
-            if (! Auth::permission()->restore($id)) {
+            if (!Auth::permission()->restore($id)) {
 
                 throw (new RestoreOperationException())->setModel(config('fintech.auth.permission_model'), $id);
             }

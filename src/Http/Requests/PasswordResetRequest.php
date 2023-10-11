@@ -2,8 +2,6 @@
 
 namespace Fintech\Auth\Http\Requests;
 
-;
-
 use Illuminate\Foundation\Http\FormRequest;
 
 class PasswordResetRequest extends FormRequest

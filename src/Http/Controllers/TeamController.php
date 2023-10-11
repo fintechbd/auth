@@ -2,6 +2,7 @@
 
 namespace Fintech\Auth\Http\Controllers;
 
+use Exception;
 use Fintech\Auth\Facades\Auth;
 use Fintech\Auth\Http\Requests\ImportTeamRequest;
 use Fintech\Auth\Http\Requests\IndexTeamRequest;
@@ -48,7 +49,7 @@ class TeamController extends Controller
 
             return new TeamCollection($teamPaginate);
 
-        } catch (\Exception $exception) {
+        } catch (Exception $exception) {
 
             return $this->failed($exception->getMessage());
         }
@@ -69,7 +70,7 @@ class TeamController extends Controller
 
             $team = Auth::team()->create($inputs);
 
-            if (! $team) {
+            if (!$team) {
                 throw (new StoreOperationException())->setModel(config('fintech.auth.team_model'));
             }
 
@@ -78,7 +79,7 @@ class TeamController extends Controller
                 'id' => $team->id,
             ]);
 
-        } catch (\Exception $exception) {
+        } catch (Exception $exception) {
 
             return $this->failed($exception->getMessage());
         }
@@ -96,7 +97,7 @@ class TeamController extends Controller
 
             $team = Auth::team()->find($id);
 
-            if (! $team) {
+            if (!$team) {
                 throw (new ModelNotFoundException())->setModel(config('fintech.auth.team_model'), $id);
             }
 
@@ -106,7 +107,7 @@ class TeamController extends Controller
 
             return $this->notfound($exception->getMessage());
 
-        } catch (\Exception $exception) {
+        } catch (Exception $exception) {
 
             return $this->failed($exception->getMessage());
         }
@@ -124,13 +125,13 @@ class TeamController extends Controller
 
             $team = Auth::team()->find($id);
 
-            if (! $team) {
+            if (!$team) {
                 throw (new ModelNotFoundException())->setModel(config('fintech.auth.team_model'), $id);
             }
 
             $inputs = $request->validated();
 
-            if (! Auth::team()->update($id, $inputs)) {
+            if (!Auth::team()->update($id, $inputs)) {
 
                 throw (new UpdateOperationException())->setModel(config('fintech.auth.team_model'), $id);
             }
@@ -141,7 +142,7 @@ class TeamController extends Controller
 
             return $this->notfound($exception->getMessage());
 
-        } catch (\Exception $exception) {
+        } catch (Exception $exception) {
 
             return $this->failed($exception->getMessage());
         }
@@ -161,11 +162,11 @@ class TeamController extends Controller
 
             $team = Auth::team()->find($id);
 
-            if (! $team) {
+            if (!$team) {
                 throw (new ModelNotFoundException())->setModel(config('fintech.auth.team_model'), $id);
             }
 
-            if (! Auth::team()->destroy($id)) {
+            if (!Auth::team()->destroy($id)) {
 
                 throw (new DeleteOperationException())->setModel(config('fintech.auth.team_model'), $id);
             }
@@ -176,7 +177,7 @@ class TeamController extends Controller
 
             return $this->notfound($exception->getMessage());
 
-        } catch (\Exception $exception) {
+        } catch (Exception $exception) {
 
             return $this->failed($exception->getMessage());
         }
@@ -197,11 +198,11 @@ class TeamController extends Controller
 
             $team = Auth::team()->find($id, true);
 
-            if (! $team) {
+            if (!$team) {
                 throw (new ModelNotFoundException())->setModel(config('fintech.auth.team_model'), $id);
             }
 
-            if (! Auth::team()->restore($id)) {
+            if (!Auth::team()->restore($id)) {
 
                 throw (new RestoreOperationException())->setModel(config('fintech.auth.team_model'), $id);
             }
@@ -212,7 +213,7 @@ class TeamController extends Controller
 
             return $this->notfound($exception->getMessage());
 
-        } catch (\Exception $exception) {
+        } catch (Exception $exception) {
 
             return $this->failed($exception->getMessage());
         }
@@ -234,7 +235,7 @@ class TeamController extends Controller
 
             return $this->exported(__('core::messages.resource.exported', ['model' => 'Team']));
 
-        } catch (\Exception $exception) {
+        } catch (Exception $exception) {
 
             return $this->failed($exception->getMessage());
         }
@@ -258,7 +259,7 @@ class TeamController extends Controller
 
             return new TeamCollection($teamPaginate);
 
-        } catch (\Exception $exception) {
+        } catch (Exception $exception) {
 
             return $this->failed($exception->getMessage());
         }

@@ -2,6 +2,8 @@
 
 namespace Fintech\Auth\Http\Controllers;
 
+use Auth;
+use Exception;
 use Fintech\Auth\Http\Requests\ImportProfileRequest;
 use Fintech\Auth\Http\Requests\IndexProfileRequest;
 use Fintech\Auth\Http\Requests\StoreProfileRequest;
@@ -50,11 +52,11 @@ class ProfileController extends Controller
         try {
             $inputs = $request->validated();
 
-            $userProfilePaginate = \Auth::userProfile()->list($inputs);
+            $userProfilePaginate = Auth::userProfile()->list($inputs);
 
             return new ProfileCollection($userProfilePaginate);
 
-        } catch (\Exception $exception) {
+        } catch (Exception $exception) {
 
             return $this->failed($exception->getMessage());
         }
@@ -73,9 +75,9 @@ class ProfileController extends Controller
         try {
             $inputs = $request->validated();
 
-            $userProfile = \Auth::userProfile()->create($inputs);
+            $userProfile = Auth::userProfile()->create($inputs);
 
-            if (! $userProfile) {
+            if (!$userProfile) {
                 throw new ModelOperationException();
             }
 
@@ -84,7 +86,7 @@ class ProfileController extends Controller
                 'id' => $userProfile->id,
             ]);
 
-        } catch (\Exception $exception) {
+        } catch (Exception $exception) {
 
             return $this->failed($exception->getMessage());
         }
@@ -102,9 +104,9 @@ class ProfileController extends Controller
     {
         try {
 
-            $userProfile = \Auth::userProfile()->find($id);
+            $userProfile = Auth::userProfile()->find($id);
 
-            if (! $userProfile) {
+            if (!$userProfile) {
                 throw new ResourceNotFoundException(__('core::messages.resource.notfound', ['model' => 'UserProfile', 'id' => strval($id)]));
             }
 
@@ -114,7 +116,7 @@ class ProfileController extends Controller
 
             return $this->notfound($exception->getMessage());
 
-        } catch (\Exception $exception) {
+        } catch (Exception $exception) {
 
             return $this->failed($exception->getMessage());
         }
@@ -133,15 +135,15 @@ class ProfileController extends Controller
     {
         try {
 
-            $userProfile = \Auth::userProfile()->find($id);
+            $userProfile = Auth::userProfile()->find($id);
 
-            if (! $userProfile) {
+            if (!$userProfile) {
                 throw new ResourceNotFoundException(__('core::messages.resource.notfound', ['model' => 'UserProfile', 'id' => strval($id)]));
             }
 
             $inputs = $request->validated();
 
-            if (! \Auth::userProfile()->update($id, $inputs)) {
+            if (!Auth::userProfile()->update($id, $inputs)) {
 
                 throw new UpdateOperationException();
             }
@@ -152,7 +154,7 @@ class ProfileController extends Controller
 
             return $this->notfound($exception->getMessage());
 
-        } catch (\Exception $exception) {
+        } catch (Exception $exception) {
 
             return $this->failed($exception->getMessage());
         }
@@ -173,13 +175,13 @@ class ProfileController extends Controller
     {
         try {
 
-            $userProfile = \Auth::userProfile()->find($id);
+            $userProfile = Auth::userProfile()->find($id);
 
-            if (! $userProfile) {
+            if (!$userProfile) {
                 throw new ResourceNotFoundException(__('core::messages.resource.notfound', ['model' => 'UserProfile', 'id' => strval($id)]));
             }
 
-            if (! \Auth::userProfile()->destroy($id)) {
+            if (!Auth::userProfile()->destroy($id)) {
 
                 throw new DeleteOperationException();
             }
@@ -190,7 +192,7 @@ class ProfileController extends Controller
 
             return $this->notfound($exception->getMessage());
 
-        } catch (\Exception $exception) {
+        } catch (Exception $exception) {
 
             return $this->failed($exception->getMessage());
         }
@@ -209,13 +211,13 @@ class ProfileController extends Controller
     {
         try {
 
-            $userProfile = \Auth::userProfile()->find($id, true);
+            $userProfile = Auth::userProfile()->find($id, true);
 
-            if (! $userProfile) {
+            if (!$userProfile) {
                 throw new ResourceNotFoundException(__('core::messages.resource.notfound', ['model' => 'UserProfile', 'id' => strval($id)]));
             }
 
-            if (! \Auth::userProfile()->restore($id)) {
+            if (!Auth::userProfile()->restore($id)) {
 
                 throw new RestoreOperationException();
             }
@@ -226,7 +228,7 @@ class ProfileController extends Controller
 
             return $this->notfound($exception->getMessage());
 
-        } catch (\Exception $exception) {
+        } catch (Exception $exception) {
 
             return $this->failed($exception->getMessage());
         }
@@ -244,11 +246,11 @@ class ProfileController extends Controller
         try {
             $inputs = $request->validated();
 
-            $userProfilePaginate = \Auth::userProfile()->export($inputs);
+            $userProfilePaginate = Auth::userProfile()->export($inputs);
 
             return $this->exported(__('core::messages.resource.exported', ['model' => 'UserProfile']));
 
-        } catch (\Exception $exception) {
+        } catch (Exception $exception) {
 
             return $this->failed($exception->getMessage());
         }
@@ -268,11 +270,11 @@ class ProfileController extends Controller
         try {
             $inputs = $request->validated();
 
-            $userProfilePaginate = \Auth::userProfile()->list($inputs);
+            $userProfilePaginate = Auth::userProfile()->list($inputs);
 
             return new ProfileCollection($userProfilePaginate);
 
-        } catch (\Exception $exception) {
+        } catch (Exception $exception) {
 
             return $this->failed($exception->getMessage());
         }

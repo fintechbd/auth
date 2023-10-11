@@ -3,6 +3,7 @@
 namespace Fintech\Auth\Models;
 
 
+use Fintech\Core\Traits\AuditableTrait;
 use Illuminate\Config\Repository;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Database\Eloquent\Builder;
@@ -10,7 +11,6 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
-
 use Spatie\Permission\Contracts\Role as RoleContract;
 use Spatie\Permission\Exceptions\GuardDoesNotMatch;
 use Spatie\Permission\Exceptions\RoleAlreadyExists;
@@ -21,11 +21,11 @@ use Spatie\Permission\PermissionRegistrar;
 use Spatie\Permission\Traits\HasPermissions;
 use Spatie\Permission\Traits\RefreshesPermissionCache;
 
-class Role extends Model, RoleContract
+class Role extends Model implements RoleContract
 {
 
     use HasPermissions;
-    use \Fintech\Core\Traits\AuditableTrait;
+    use AuditableTrait;
     use RefreshesPermissionCache;
     use SoftDeletes;
 
@@ -95,7 +95,7 @@ class Role extends Model, RoleContract
     /**
      * Find a role by its name and guard name.
      *
-     * @param  null  $guardName
+     * @param null $guardName
      */
     public static function findByName(string $name, $guardName = null): RoleContract
     {
@@ -103,7 +103,7 @@ class Role extends Model, RoleContract
 
         $role = static::findByParam(['name' => $name, 'guard_name' => $guardName]);
 
-        if (! $role) {
+        if (!$role) {
             throw RoleDoesNotExist::named($name);
         }
 
@@ -113,7 +113,7 @@ class Role extends Model, RoleContract
     /**
      * Find a role by its id (and optionally guardName).
      *
-     * @param  null  $guardName
+     * @param null $guardName
      */
     public static function findById(int $id, $guardName = null): RoleContract
     {
@@ -121,7 +121,7 @@ class Role extends Model, RoleContract
 
         $role = static::findByParam([(new static())->getKeyName() => $id, 'guard_name' => $guardName]);
 
-        if (! $role) {
+        if (!$role) {
             throw RoleDoesNotExist::withId($id);
         }
 
@@ -131,7 +131,7 @@ class Role extends Model, RoleContract
     /**
      * Find or create role by its name (and optionally guardName).
      *
-     * @param  null  $guardName
+     * @param null $guardName
      */
     public static function findOrCreate(string $name, $guardName = null): RoleContract
     {
@@ -139,7 +139,7 @@ class Role extends Model, RoleContract
 
         $role = static::findByParam(['name' => $name, 'guard_name' => $guardName]);
 
-        if (! $role) {
+        if (!$role) {
             return static::query()->create(['name' => $name, 'guard_name' => $guardName] + (PermissionRegistrar::$teams ? [PermissionRegistrar::$teamsKey => getPermissionsTeamId()] : []));
         }
 
@@ -173,7 +173,7 @@ class Role extends Model, RoleContract
     /**
      * Determine if the user may perform the given permission.
      *
-     * @param  string|Permission  $permission
+     * @param string|Permission $permission
      *
      * @throws GuardDoesNotMatch
      */
@@ -193,7 +193,7 @@ class Role extends Model, RoleContract
             $permission = $permissionClass->findById($permission, $this->getDefaultGuardName());
         }
 
-        if (! $this->getGuardNames()->contains($permission->guard_name)) {
+        if (!$this->getGuardNames()->contains($permission->guard_name)) {
             throw GuardDoesNotMatch::create($permission->guard_name, $this->getGuardNames());
         }
 

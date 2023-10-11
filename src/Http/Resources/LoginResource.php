@@ -5,6 +5,7 @@ namespace Fintech\Auth\Http\Resources;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Str;
+use stdClass;
 
 class LoginResource extends JsonResource
 {
@@ -33,7 +34,7 @@ class LoginResource extends JsonResource
             'role_name' => null,
             'profile' => (($this->profile != null)
                 ? (new ProfileResource($this->profile))
-                : (new \stdClass())),
+                : (new stdClass())),
             'email_verified_at' => $this->email_verified_at,
             'mobile_verified_at' => $this->mobile_verified_at,
             'created_at' => $this->created_at,

@@ -2,6 +2,7 @@
 
 namespace Fintech\Auth\Http\Controllers;
 
+use Exception;
 use Fintech\Auth\Facades\Auth;
 use Fintech\Auth\Http\Requests\RegistrationRequest;
 use Fintech\Core\Traits\ApiResponseTrait;
@@ -26,7 +27,7 @@ class RegisteredUserController extends Controller
 
             return $this->created('Registration Successful.');
 
-        } catch (\Exception $exception) {
+        } catch (Exception $exception) {
 
             return $this->failed($exception->getMessage());
         }

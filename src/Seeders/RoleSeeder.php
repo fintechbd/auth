@@ -15,6 +15,8 @@ class RoleSeeder extends Seeder
         foreach ($this->data() as $role) {
             Auth::role()->create($role);
         }
+        $permissions = Auth::permission()->list()->pluck('id')->toArray();
+        Auth::role()->find(1)->permissions()->sync($permissions);
     }
 
     private function data()

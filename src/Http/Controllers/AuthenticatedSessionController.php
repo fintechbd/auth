@@ -72,7 +72,7 @@ class AuthenticatedSessionController extends Controller
 
         $request->clearRateLimited();
 
-        if ($attemptUser->can('auth.login')) {
+        if (!$attemptUser->can('auth.login')) {
             $request->session()->invalidate();
 
             return $this->forbidden(__('auth::messages.forbidden', ['permission' => permission_format('auth.login', 'auth')]));

@@ -66,7 +66,7 @@ class UserSeeder extends Seeder
 
             ],
             [
-                "roles" => [2],
+                "roles" => [1],
                 "name" => "Ariful Islam",
                 "mobile" => "8801600000002",
                 "email" => "mah.shamim@gmail.com",
@@ -109,7 +109,7 @@ class UserSeeder extends Seeder
 
             ],
             [
-                "roles" => [3],
+                "roles" => [1],
                 "name" => "Tarif Islam",
                 "mobile" => "8801600000003",
                 "email" => "tarif@gmail.com",

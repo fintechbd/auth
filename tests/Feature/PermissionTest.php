@@ -34,17 +34,17 @@ test('permission created', function () {
 });
 
 test('permission not found', function () {
-    createFreshSubRegion();
+    createFreshPermission();
     getJson('/api/auth/permissions/100')->assertStatus(404);
 });
 
 test('permission detail', function () {
-    createFreshSubRegion();
+    createFreshPermission();
     getJson('/api/auth/permissions/1')->assertStatus(200);
 });
 
 test('permission update validation', function () {
-    createFreshSubRegion();
+    createFreshPermission();
     putJson('/api/auth/permissions/1', [
         'name' => 'abcd',
         'guard_name' => 'web3',
@@ -52,19 +52,19 @@ test('permission update validation', function () {
 });
 
 test('permission updated', function () {
-    createFreshSubRegion();
+    createFreshPermission();
     putJson('/api/auth/permissions/1', [
         'name' => Str::random(20),
     ])->assertStatus(200);
 });
 
 test('permission deleted', function () {
-    createFreshSubRegion();
+    createFreshPermission();
     deleteJson('/api/auth/permissions/1')->assertStatus(200);
 });
 
 test('permission restored', function () {
-    $permission = createFreshSubRegion();
+    $permission = createFreshPermission();
     $permission->delete();
 
     postJson('/api/auth/permissions/1/restore')->assertStatus(200);

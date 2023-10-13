@@ -27,7 +27,7 @@ return new class () extends Migration {
             $table->string('status')->nullable()->after('wrong_pin');
             $table->string('language')->nullable()->after('status');
             $table->string('currency')->nullable()->after('language');
-            $table->string('app_version')->default('1');
+            $table->string('app_version')->default('1')->nullable();
             $table->string('fcm_token')->nullable()->after('remember_token');
             $table->timestamp('mobile_verified_at')->nullable()->after('email_verified_at');
             $table->foreignId('creator_id')->nullable()->after('mobile_verified_at');

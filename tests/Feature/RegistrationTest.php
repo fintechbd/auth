@@ -37,6 +37,5 @@ test('registration', function () {
             "present_country_id" => "18",
             "present_post_code" => "1100",
             "nationality" => "BANGLADESHI"
-        ])->dd();
-    //assertStatus(201);
+        ])->assertStatus(201);
 });

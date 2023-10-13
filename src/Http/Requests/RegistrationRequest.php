@@ -23,13 +23,11 @@ class RegistrationRequest extends FormRequest
      */
     public function rules(): array
     {
-        return config('fintech.auth.register_rules', [
+        $rules = config('fintech.auth.register_rules', [
             //user
             'name' => ['required', 'string', 'min:2', 'max:255'],
             'mobile' => ['required', 'string', 'min:10'],
             'email' => ['required', 'string', 'email:rfc,dns', 'min:2', 'max:255'],
-            'login_id' => ['required', 'string', 'min:6', 'max:255'],
-            'password' => ['required', 'string', Password::default()],
             'pin' => ['required', 'string', 'min:4', 'max:16'],
             'parent_id' => ['nullable', 'integer'],
             'app_version' => ['nullable', 'string'],
@@ -67,5 +65,11 @@ class RegistrationRequest extends FormRequest
             'note' => ['string', 'nullable'],
             'nationality' => ['string', 'nullable'],
         ]);
+
+        $rules[config('fintech.auth.auth_field', 'login_id')] = config('fintech.auth.auth_field_rules', ['required', 'string', 'min:6', 'max:255']);
+
+        $rules[config('fintech.auth.password_field', 'password')] = config('fintech.auth.password_field_rules', ['required', 'string', Password::default()]);
+
+        return $rules;
     }
 }

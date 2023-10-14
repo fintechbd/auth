@@ -19,6 +19,16 @@ test('Test that the login when login id and password blank', function () {
     //assertStatus(201);
 });
 
+test('Test that the login id field is present', function () {
+    $login = postJson('/api/auth/login', [
+        'login_id' => '',
+        'password' => '12345678',
+    ])->dd();
+    //$this->assertSame('The email field must be a valid email address.', $login['message']);
+    expect($login['message'])->toBe('The login id field is required.');
+    //assertStatus(201);
+});
+
 test('Test that the password field  is present', function () {
     $login = postJson('/api/auth/login', [
         'login_id' => '01700000001',

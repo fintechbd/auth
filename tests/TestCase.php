@@ -3,7 +3,6 @@
 namespace Fintech\Auth\Tests;
 
 use Fintech\Auth\AuthServiceProvider;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Orchestra\Testbench\TestCase as Orchestra;
 use Spatie\Permission\PermissionServiceProvider;
 

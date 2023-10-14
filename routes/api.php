@@ -58,5 +58,7 @@ Route::prefix('auth')->name('auth.')->group(function () {
 
         //        Route::apiResource('teams', \Fintech\Auth\Http\Controllers\TeamController::class);
         //        Route::post('teams/{team}/restore', [\Fintech\Auth\Http\Controllers\TeamController::class, 'restore'])->name('teams.restore');
+
+        Route::apiResource('settings', \Fintech\Auth\Http\Controllers\SettingController::class)->only(['index', 'store']);
     });
 });

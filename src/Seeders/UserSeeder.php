@@ -41,7 +41,7 @@ class UserSeeder extends Seeder
                 "marital_status" => "unmarried",
                 "occupation" => "service",
                 "source_of_income" => "salary",
-                "id_type" => "password",
+                "id_type" => "passport",
                 "id_no" => "12345678",
                 "id_issue_country" => "Bangladesh",
                 "id_expired_at" => now()->addYears(5)->format('Y-m-d'),
@@ -62,7 +62,7 @@ class UserSeeder extends Seeder
                 "present_country_id" => "1",
                 "present_post_code" => "1234",
                 "note" => "Testing",
-                "nationality" => "Bangladesh"
+                "nationality" => "Bangladeshi"
 
             ],
             [
@@ -84,7 +84,7 @@ class UserSeeder extends Seeder
                 "marital_status" => "unmarried",
                 "occupation" => "service",
                 "source_of_income" => "salary",
-                "id_type" => "password",
+                "id_type" => "passport",
                 "id_no" => "12345678",
                 "id_issue_country" => "Bangladesh",
                 "id_expired_at" => now()->addYears(5)->format('Y-m-d'),
@@ -105,7 +105,7 @@ class UserSeeder extends Seeder
                 "present_country_id" => "1",
                 "present_post_code" => "1234",
                 "note" => "Testing",
-                "nationality" => "Bangladesh"
+                "nationality" => "Bangladeshi"
 
             ],
             [
@@ -127,7 +127,7 @@ class UserSeeder extends Seeder
                 "marital_status" => "unmarried",
                 "occupation" => "service",
                 "source_of_income" => "salary",
-                "id_type" => "password",
+                "id_type" => "passport",
                 "id_no" => "12345678",
                 "id_issue_country" => "Bangladesh",
                 "id_expired_at" => now()->addYears(5)->format('Y-m-d'),
@@ -148,7 +148,7 @@ class UserSeeder extends Seeder
                 "present_country_id" => "1",
                 "present_post_code" => "1234",
                 "note" => "Testing",
-                "nationality" => "Bangladesh"
+                "nationality" => "Bangladeshi"
 
             ]
         ];

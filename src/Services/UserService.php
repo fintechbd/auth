@@ -59,7 +59,7 @@ class UserService
 
             $user = $this->userRepository->create($userData);
 
-            $profileData['user_id'] = $user->id;
+            $profileData['user_id'] = $user->getKey();
 
             $this->profileRepository->create($profileData);
 

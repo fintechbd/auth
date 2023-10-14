@@ -22,7 +22,7 @@ class Profile extends Model
 
     protected $guarded = ['id'];
 
-    protected $casts = [ 'restored_at' => 'datetime', 'date_of_birth' => 'datetime', 'user_profile_data' => 'json'];
+    protected $casts = [ 'restored_at' => 'datetime', 'date_of_birth' => 'datetime', 'id_expired_at' => 'datetime', 'id_issue_at' => 'datetime', 'user_profile_data' => 'array'];
 
     /*
     |--------------------------------------------------------------------------

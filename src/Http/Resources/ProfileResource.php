@@ -12,7 +12,7 @@ use Illuminate\Support\Collection;
  * Class ProfileResource
  * @package Fintech\Auth\Http\Resources
  *
- * @property-read mixed $user_profile_data
+ * @property-read mixed $profile_data
  * @property-read string $id_type
  * @property-read string|int $id_no
  * @property-read string $id_issue_country

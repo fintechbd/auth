@@ -71,8 +71,9 @@ class SettingController extends Controller
 
             $inputs = $request->except('package');
 
-            foreach ($inputs as $key => $value)
+            foreach ($inputs as $key => $value) {
                 Core::setting()->setValue($configuration, $key, $value, null, auth()->id());
+            }
 
             return $this->updated(__('core::messages.setting.saved', ['package' => config("fintech.core.packages.{$configuration}", 'System')]));
 
@@ -96,8 +97,9 @@ class SettingController extends Controller
 
             $settings = Core::setting()->list(['package' => $configuration]);
 
-            foreach ($settings as $setting)
+            foreach ($settings as $setting) {
                 Core::setting()->destroy($setting->id);
+            }
 
             return $this->deleted(__('core::messages.setting.deleted', ['model' => 'Setting']));
 

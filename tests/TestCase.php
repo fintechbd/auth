@@ -32,7 +32,6 @@ class TestCase extends Orchestra
 
         $migrations = [
             include __DIR__ . '/../database/migrations/2014_10_12_000000_create_users_table.php',
-            include __DIR__ . '/../database/migrations/2023_09_25_201621_update_add_columns_in_users_table.php',
             include __DIR__ . '/../database/migrations/2023_09_25_201631_create_user_profiles_table.php',
             include __DIR__ . '/../database/migrations/2023_09_28_224955_create_permission_tables.php',
             include __DIR__ . '/../database/migrations/2023_09_28_230630_create_teams_table.php'

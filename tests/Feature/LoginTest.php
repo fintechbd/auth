@@ -13,7 +13,7 @@ test('Test that the login when login id and password blank', function () {
     $login = postJson('/api/auth/login', [
         'login_id' => '',
         'password' => '',
-    ])->dd();
+    ]);
     //$this->assertSame('The email field must be a valid email address.', $login['message']);
     expect($login['message'])->toBe('The login id field is required. (and 1 more error)');
     //assertStatus(201);
@@ -23,7 +23,7 @@ test('Test that the login id field is present', function () {
     $login = postJson('/api/auth/login', [
         'login_id' => '',
         'password' => '12345678',
-    ])->dd();
+    ]);
     //$this->assertSame('The email field must be a valid email address.', $login['message']);
     expect($login['message'])->toBe('The login id field is required.');
     //assertStatus(201);
@@ -36,6 +36,16 @@ test('Test that the password field  is present', function () {
     ]);
     //$this->assertSame('The email field must be a valid email address.', $login['message']);
     expect($login['message'])->toBe('The password field is required.');
+    //assertStatus(201);
+});
+
+test('Test that the password field correctly validates input when 6 characters', function () {
+    $login = postJson('/api/auth/login', [
+        'login_id' => '01700000001',
+        'password' => '123456',
+    ]);
+    //$this->assertSame('The email field must be a valid email address.', $login['message']);
+    expect($login['message'])->toBe('The password field must be at least 8 characters.');
     //assertStatus(201);
 });
 

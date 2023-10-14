@@ -9,6 +9,15 @@ test('login failed', function () {
     ])->assertStatus(422);
 });
 
+test('Test that the password field  is present', function () {
+    $login = postJson('/api/auth/login', [
+        'login_id' => '01700000001',
+        'password' => '',
+    ]);
+    //$this->assertSame('The email field must be a valid email address.', $login['message']);
+    expect($login['message'])->toBe('The password field is required.');
+    //assertStatus(201);
+});
 
 test('Test that the password field correctly validates input when submitting the form', function () {
 

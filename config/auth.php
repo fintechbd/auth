@@ -17,6 +17,19 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Login Validation
+    |--------------------------------------------------------------------------
+    |
+    | This value will be used to across system where model is needed
+    | Exclude auth fields
+    | Example: reset_link, otp, temporary_password
+    */
+
+    'password_reset_method' => '',
+    'temporary_password_length' => 8,
+
+    /*
+    |--------------------------------------------------------------------------
     | Permission Model
     |--------------------------------------------------------------------------
     |

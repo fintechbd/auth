@@ -3,6 +3,7 @@
 namespace Fintech\Auth;
 
 use Fintech\Auth\Services\OneTimePinService;
+use Fintech\Auth\Services\PasswordResetService;
 use Fintech\Auth\Services\PermissionService;
 use Fintech\Auth\Services\RoleService;
 use Fintech\Auth\Services\TeamService;
@@ -52,5 +53,13 @@ class Auth
     public function otp()
     {
         return app(OneTimePinService::class);
+    }
+
+    /**
+     * @return PasswordResetService
+     */
+    public function passwordReset()
+    {
+        return app(PasswordResetService::class);
     }
 }

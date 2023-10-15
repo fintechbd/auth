@@ -3,7 +3,6 @@
 namespace Fintech\Auth\Services;
 
 use Fintech\Auth\Interfaces\OneTimePinRepository;
-use Illuminate\Support\Facades\Password;
 
 /**
  * Class PermissionService

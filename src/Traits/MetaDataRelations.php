@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Fintech\Auth\Traits;
 
 use Fintech\Core\Facades\Core;
@@ -48,6 +47,5 @@ if (Core::packageExists('MetaData')) {
 } else {
     trait MetaDataRelations
     {
-
     }
 }

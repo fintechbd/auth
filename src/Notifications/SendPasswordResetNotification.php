@@ -29,7 +29,7 @@ class SendPasswordResetNotification extends Notification
      */
     public function via(object $notifiable): array
     {
-        return ['array'];
+        return ['mail'];
     }
 
     /**
@@ -41,6 +41,7 @@ class SendPasswordResetNotification extends Notification
     {
         return (new MailMessage())
             ->line('The introduction to the notification.')
+            ->line('Your Password Reset OTP: ' . $this->otpModel->token)
             ->action('Notification Action', url('/'))
             ->line('Thank you for using our application!');
     }

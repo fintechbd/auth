@@ -36,7 +36,7 @@ class PasswordResetController extends Controller
 
         $attemptUser = $attemptUser->first();
 
-        if(Auth::otp()->create($authFieldValue)) {
+        if(Auth::otp()->create($attemptUser)) {
 
         }
 

@@ -52,7 +52,7 @@ class User extends Authenticatable
     {
         $authField = config('fintech.auth.auth_field', 'login_id');
 
-        if (property_exists($this, $authField)) {
+        if ($this->{$authField} != null) {
             return $this->{$authField};
         }
 

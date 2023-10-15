@@ -33,25 +33,20 @@ class OneTimePinRepository implements InterfacesOneTimePinRepository
     /**
      * Create a new token.
      *
-     * @param string $authField
-     * @return null|string
+     * @param array $attributes ']
+     * @return null|Model
      * @throws Exception
      */
-    public function create(string $authField)
+    public function create(string $authField, string $token)
     {
         try {
 
             $this->deleteExpired($authField);
 
-            $min = (int)str_pad('1', config('fintech.auth.otp_length', 4), "0");
-            $max = (int)str_pad('9', config('fintech.auth.otp_length', 4), "9");
-
-            $token = mt_rand($min, $max);
-
             $this->model->fill(['email' => $authField, 'token' => $token]);
 
             if ($this->model->save()) {
-                return $token;
+                return $this->model;
             }
         } catch (Exception $exception) {
             throw new Exception($exception->getMessage(), $exception->getCode(), $exception);

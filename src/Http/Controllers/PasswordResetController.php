@@ -20,18 +20,25 @@ class PasswordResetController extends Controller
      *
      * @param ForgotPasswordRequest $request
      * @return JsonResponse
+     * @throws \Exception
      */
     public function store(ForgotPasswordRequest $request): JsonResponse
     {
         $authField = config('fintech.auth.auth_field', 'login_id');
 
-        $attemptUser = Auth::user()->list([$authField => $request->input($authField), 'paginate' => false]);
+        $authFieldValue = $request->input($authField);
+
+        $attemptUser = Auth::user()->list([$authField => $authFieldValue]);
 
         if ($attemptUser->isEmpty()) {
             return $this->failed(__('auth::messages.failed'));
         }
 
-        dd(Auth::otp()->create($request->input($authField)));
+        $attemptUser = $attemptUser->first();
+
+        if(Auth::otp()->create($authFieldValue)) {
+
+        }
 
         return response()->json(['status' => __($status)]);
 

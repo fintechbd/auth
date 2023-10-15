@@ -96,7 +96,7 @@ class UserController extends Controller
      *
      * @lrd:end
      *
-     * @throws ResourceNotFoundException
+     * @throws ModelNotFoundException
      */
     public function show(string|int $id): UserResource|JsonResponse
     {

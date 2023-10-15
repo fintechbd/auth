@@ -125,8 +125,6 @@ class UserService
         $data['present_country_id'] = $inputs['present_country_id'] ?? null;
         $data['present_post_code'] = $inputs['present_post_code'] ?? null;
 
-        $data['user_profile_data'] = json_encode($data['user_profile_data']);
-
         return $data;
     }
 

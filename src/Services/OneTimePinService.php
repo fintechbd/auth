@@ -3,6 +3,7 @@
 namespace Fintech\Auth\Services;
 
 use Fintech\Auth\Interfaces\OneTimePinRepository;
+use Illuminate\Support\Facades\Password;
 
 /**
  * Class PermissionService
@@ -24,9 +25,25 @@ class OneTimePinService
         $this->oneTimePinRepository = $oneTimePinRepository;
     }
 
-    public function create(string $inputs)
+    /**
+     * @param $user
+     * @return void
+     * @throws \Exception
+     */
+    public function create($user)
     {
-        return $this->oneTimePinRepository->create($inputs);
+        $authField = $user->authField();
+
+        $this->oneTimePinRepository->deleteExpired($authField);
+
+        $min = (int)str_pad('1', config('fintech.auth.otp_length', 4), "0");
+        $max = (int)str_pad('9', config('fintech.auth.otp_length', 4), "9");
+
+        $token = (string)mt_rand($min, $max);
+
+        if($this->oneTimePinRepository->create($authField, $token)) {
+            $user->notify();
+        }
     }
 
     //    public function find($id, $onlyTrashed = false)
@@ -48,4 +65,8 @@ class OneTimePinService
     //    {
     //        return $this->oneTimePinRepository->restore($id);
     //    }
+
+    private function getUser(string $authField)
+    {
+    }
 }

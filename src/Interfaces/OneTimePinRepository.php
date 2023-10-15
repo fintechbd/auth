@@ -8,10 +8,10 @@ interface OneTimePinRepository
      * Create a new token.
      *
      * @param string $authField
-     * @return null|string
+     * @param string $token
      * @throws \Exception
      */
-    public function create(string $authField);
+    public function create(string $authField, string $token);
 
     /**
      * Determine if a token record exists and is valid.
@@ -21,4 +21,12 @@ interface OneTimePinRepository
      * @return bool
      */
     public function exists(string $authField, string $token);
+
+    /**
+     * Delete expired tokens.
+     *
+     * @param string $authField
+     * @return void
+     */
+    public function deleteExpired(string $authField);
 }

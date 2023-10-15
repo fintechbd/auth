@@ -6,6 +6,7 @@ use Fintech\Core\Traits\AuditableTrait;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
 
@@ -20,6 +21,7 @@ class User extends Authenticatable
     use HasRoles;
     use AuditableTrait;
     use SoftDeletes;
+    use Notifiable;
 
     /*
     |--------------------------------------------------------------------------
@@ -46,6 +48,17 @@ class User extends Authenticatable
     |--------------------------------------------------------------------------
     */
 
+    public function authField()
+    {
+        $authField = config('fintech.auth.auth_field', 'login_id');
+
+        if (property_exists($this, $authField)) {
+            return $this->{$authField};
+        }
+
+        throw new \InvalidArgumentException("Invalid authentication field ($authField) configured for User.");
+
+    }
 
     /*
     |--------------------------------------------------------------------------

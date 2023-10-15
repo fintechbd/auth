@@ -4,11 +4,13 @@ namespace Fintech\Auth\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Fintech\Auth\Traits\MetaDataRelations;
 
 class Profile extends Model
 {
     use \Fintech\Core\Traits\AuditableTrait;
     use SoftDeletes;
+    use MetaDataRelations;
 
     /*
     |--------------------------------------------------------------------------
@@ -35,42 +37,6 @@ class Profile extends Model
     | RELATIONS
     |--------------------------------------------------------------------------
     */
-
-    /**
-     * Permanent Address
-     */
-    public function country()
-    {
-        return $this->belongsTo(config('fintech.metadata.country_model'));
-    }
-
-    public function state()
-    {
-        return $this->belongsTo(config('fintech.metadata.state_model'));
-    }
-
-    public function city()
-    {
-        return $this->belongsTo(config('fintech.metadata.city_model'));
-    }
-
-    /**
-     * Present Address
-     */
-    public function presentCountry()
-    {
-        return $this->belongsTo(config('fintech.metadata.country_model'), 'present_country_id');
-    }
-
-    public function presentState()
-    {
-        return $this->belongsTo(config('fintech.metadata.state_model'), 'present_state_id');
-    }
-
-    public function presentCity()
-    {
-        return $this->belongsTo(config('fintech.metadata.city_model'), 'present_city_id');
-    }
 
     /**
      * Parental Access

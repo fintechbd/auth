@@ -8,7 +8,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 
-class EmailVerificationNotificationController extends Controller
+class EmailVerificationController extends Controller
 {
     /**
      * Send a new email verification notification.

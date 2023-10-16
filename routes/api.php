@@ -1,7 +1,7 @@
 <?php
 
 use Fintech\Auth\Http\Controllers\AuthenticatedSessionController;
-use Fintech\Auth\Http\Controllers\EmailVerificationNotificationController;
+use Fintech\Auth\Http\Controllers\EmailVerificationController;
 use Fintech\Auth\Http\Controllers\PasswordResetController;
 use Fintech\Auth\Http\Controllers\RegisteredUserController;
 use Fintech\Auth\Http\Controllers\VerifyEmailController;
@@ -42,7 +42,7 @@ Route::prefix('auth')->name('auth.')->group(function () {
         ->middleware(['auth', 'signed', 'throttle:6,1'])
         ->name('verification.verify');
 
-    Route::post('/email/verification-notification', [EmailVerificationNotificationController::class, 'store'])
+    Route::post('/email/verification-notification', [EmailVerificationController::class, 'store'])
         ->middleware(['auth', 'throttle:6,1'])
         ->name('verification.send');
 

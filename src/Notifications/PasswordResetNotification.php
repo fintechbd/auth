@@ -41,10 +41,10 @@ class PasswordResetNotification extends Notification
     {
         logger('payload', $this->data);
 
-        $mailable = (new MailMessage)
+        $mailable = (new MailMessage())
             ->line('You recently requested to reset the password for your ' . ucwords(config('app.name')) . ' account.');
 
-        if ($this->data['method'] == 'temporary_password')
+        if ($this->data['method'] == 'temporary_password') {
             $mailable = $mailable->lines([
                 'We have sent you a completely automated and randomized password as you requested.
                 System or authority does not a plain copy of this information and password will expired within '
@@ -56,8 +56,7 @@ class PasswordResetNotification extends Notification
                 ->action('Log into Account', $this->data['url'])
                 ->line('If you did not request a password reset,
                 Please contact system administrator for further action.');
-
-        elseif ($this->data['method'] == 'reset_link')
+        } elseif ($this->data['method'] == 'reset_link') {
             $mailable = $mailable->lines([
                 '**No changes have been made to your account yet.**',
                 'System or authority does not a plain copy of this information and reset link will expired within '
@@ -65,8 +64,7 @@ class PasswordResetNotification extends Notification
                 Click the button below to proceed.'])
                 ->action('Reset Password', $this->data['url'])
                 ->line('If you did not request a password reset, no further action is required.');
-
-        elseif ($this->data['method'] == 'otp')
+        } elseif ($this->data['method'] == 'otp') {
             $mailable = $mailable->lines([
                 '**No changes have been made to your account yet.**',
                 'System or authority does not a plain copy of this information and **One Time Password** verification
@@ -74,6 +72,7 @@ class PasswordResetNotification extends Notification
             ])
                 ->line("Your account verification OTP is: *{$this->data['value']}*")
                 ->line('If you did not request a password reset, no further action is required.');
+        }
 
 
         return $mailable;

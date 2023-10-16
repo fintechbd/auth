@@ -15,7 +15,6 @@ use Illuminate\Support\Str;
  */
 class PasswordResetService
 {
-
     /**
      * @var mixed|string
      */
@@ -51,15 +50,15 @@ class PasswordResetService
         try {
 
             switch ($this->resetMethod) {
-                case 'temporary_password' :
+                case 'temporary_password':
                     $notification_data = $this->viaTemporaryPassword($user);
                     break;
 
-                case 'otp' :
+                case 'otp':
                     $notification_data = $this->viaOneTimePin($user);
                     break;
 
-                default :
+                default:
                     $notification_data = $this->viaResetLink($user);
             }
 

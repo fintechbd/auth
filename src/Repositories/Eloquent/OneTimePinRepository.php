@@ -12,9 +12,6 @@ use InvalidArgumentException;
  */
 class OneTimePinRepository implements InterfacesOneTimePinRepository
 {
-    /**
-     * @var \Illuminate\Contracts\Foundation\Application|Model|\Illuminate\Foundation\Application
-     */
     private $model;
 
     public function __construct()
@@ -60,11 +57,10 @@ class OneTimePinRepository implements InterfacesOneTimePinRepository
      *
      * @param string $authField
      * @param string $token
-     * @return bool
      */
-    public function exists(string $authField, string $token)
+    public function exists(string $token)
     {
-        return $this->model->where(['email' => $authField, 'token' => $token])->first();
+        return $this->model->where(['token' => $token])->first();
     }
 
     /**
@@ -74,9 +70,9 @@ class OneTimePinRepository implements InterfacesOneTimePinRepository
      * @param string $token
      * @return void
      */
-    private function recentlyCreatedToken(string $authField, string $token)
+    private function recentlyCreatedToken(string $token)
     {
-        $token = $this->exists($authField, $token);
+        $token = $this->exists($token);
 
         $expireInSeconds = config('auth.passwords.users.expire', 5) * 60;
 
@@ -87,12 +83,14 @@ class OneTimePinRepository implements InterfacesOneTimePinRepository
     /**
      * Delete a token record.
      *
-     * @param CanResetPasswordContract $user
+     * @param string $authField
      * @return void
      */
-    public function delete(CanResetPasswordContract $user)
+    public function delete(string $authField)
     {
-
+        $this->model->where('email', $authField)->get()->each(function ($entry) {
+            $entry->delete();
+        });
     }
 
     /**
@@ -103,7 +101,7 @@ class OneTimePinRepository implements InterfacesOneTimePinRepository
      */
     public function deleteExpired(string $authField)
     {
-        $this->model->where('email', $authField)->get()->each(function ($entry) {
+        $this->model->where('created_at', '<', now()->subMinutes(config('auth.passwords.users.expire')))->get()->each(function ($entry) {
             $entry->delete();
         });
     }

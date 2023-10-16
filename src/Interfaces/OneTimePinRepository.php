@@ -16,11 +16,10 @@ interface OneTimePinRepository
     /**
      * Determine if a token record exists and is valid.
      *
-     * @param string $authField
      * @param string $token
      * @return bool
      */
-    public function exists(string $authField, string $token);
+    public function exists(string $token);
 
     /**
      * Delete expired tokens.
@@ -29,4 +28,12 @@ interface OneTimePinRepository
      * @return void
      */
     public function deleteExpired(string $authField);
+
+    /**
+     * Delete existing old tokens.
+     *
+     * @param string $authField
+     * @return void
+     */
+    public function delete(string $authField);
 }

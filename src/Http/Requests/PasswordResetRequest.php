@@ -11,7 +11,7 @@ class PasswordResetRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,9 @@ class PasswordResetRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'token' => ['required', 'string'],
+            config('fintech.auth.password_field', 'password')
+            => [...config('fintech.auth.password_field_rules', ['required', 'string', 'min:8']), 'confirmed']
         ];
     }
 }

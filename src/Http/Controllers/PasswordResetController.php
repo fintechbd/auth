@@ -5,19 +5,21 @@ namespace Fintech\Auth\Http\Controllers;
 use Fintech\Auth\Facades\Auth;
 use Fintech\Auth\Http\Requests\ForgotPasswordRequest;
 use Fintech\Auth\Http\Requests\PasswordResetRequest;
+use Fintech\Core\Exceptions\UpdateOperationException;
 use Fintech\Core\Traits\ApiResponseTrait;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Routing\Controller;
-use Illuminate\Support\Facades\Password;
-use Illuminate\Validation\ValidationException;
 
 class PasswordResetController extends Controller
 {
     use ApiResponseTrait;
 
     /**
-     * Handle an incoming password reset link request.
-     *
+     * @lrd:start
+     * This api receive `login_id` as unique user then as per configuration
+     * and send temporary password or reset link or One Time Pin verifcation
+     * to proceed
+     * @lrd:end
      * @param ForgotPasswordRequest $request
      * @return JsonResponse
      * @throws \Exception
@@ -36,7 +38,7 @@ class PasswordResetController extends Controller
                 return $this->failed(__('auth::messages.failed'));
             }
 
-            $response = Auth::passwordReset()->notify($attemptUser->first());
+            $response = Auth::passwordReset()->notifyUser($attemptUser->first());
 
             if (!$response['status']) {
                 throw new \Exception($response['message']);
@@ -51,39 +53,43 @@ class PasswordResetController extends Controller
     }
 
     /**
-     * Handle an incoming new password request.
-     *
-     * @throws ValidationException
+     * @LRDparam password_confirmation string|required|min:8
+     * @lrd:start
+     * This api receive `token`, `password` & `password_confirmation` to reset
+     * user with given password. If otp or token didn't match throws exception
+     * to proceed
+     * @lrd:end
+     * @param PasswordResetRequest $request
+     * @return JsonResponse
      */
     public function update(PasswordResetRequest $request): JsonResponse
     {
-        $request->validate([
-            'token' => ['required'],
-            'login_id' => ['required', 'email'],
-            'password' => ['required', 'confirmed', 'min:8'],
-        ]);
+        $passwordField = config('fintech.auth.password_field', 'password');
 
-        // Here we will attempt to reset the user's password. If it is successful we
-        // will update the password on an actual user model and persist it to the
-        // database. Otherwise we will parse the error and return the response.
-        $status = Password::reset(
-            $request->only('email', 'password', 'password_confirmation', 'token'),
-            function ($user) use ($request) {
-                $user->forceFill([
-                    'password' => Hash::make($request->password),
-                    'remember_token' => Str::random(60),
-                ])->save();
+        $token = $request->input('token');
 
-                event(new PasswordReset($user));
+        $password = $request->input($passwordField);
+
+        try {
+
+            $activeToken = Auth::passwordReset()->verifyToken($token);
+
+            $targetedUser = Auth::user()->list([config('fintech.auth.auth_field', 'login_id'), $activeToken->email]);
+
+            if ($targetedUser->isEmpty()) {
+                throw new \ErrorException(__('auth::messages.reset.user_not_found'));
             }
-        );
 
-        if ($status != Password::PASSWORD_RESET) {
-            throw ValidationException::withMessages([
-                'email' => [__($status)],
-            ]);
+            $targetedUser = $targetedUser->first();
+
+            if (!Auth::user()->update($targetedUser->getKey(), [$passwordField => $password])) {
+                throw (new UpdateOperationException)->setModel(config('fintech.auth.user_model'), $targetedUser->getKey());
+            }
+
+            return $this->updated(__('auth::messages.reset.success'));
+
+        } catch (\Exception $exception) {
+            return $this->failed($exception->getMessage());
         }
-
-        return response()->json(['status' => __($status)]);
     }
 }

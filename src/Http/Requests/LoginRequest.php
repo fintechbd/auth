@@ -30,7 +30,7 @@ class LoginRequest extends FormRequest
             config('fintech.auth.auth_field', 'login_id')
             => config('fintech.auth.auth_field_rules', ['required', 'string', 'min:6', 'max:255']),
 
-            config('fintech.auth.password_field', 'login_id')
+            config('fintech.auth.password_field', 'password')
             => config('fintech.auth.password_field_rules', ['required', 'string', 'min:8'])
         ];
     }

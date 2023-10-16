@@ -26,7 +26,7 @@ class PasswordResetService
     /**
      * @var string|null
      */
-    private string  $resetMethod;
+    private ?string  $resetMethod;
 
     /**
      * OneTimePinService constructor.
@@ -45,7 +45,7 @@ class PasswordResetService
      * @param $user
      * @return array
      */
-    public function notify($user)
+    public function notifyUser($user)
     {
         try {
 
@@ -79,6 +79,10 @@ class PasswordResetService
         }
     }
 
+    /**
+     * @param $user
+     * @return array
+     */
     private function viaTemporaryPassword($user): array
     {
         $password = Str::random(config('fintech.auth.temporary_password_length', 8));
@@ -104,6 +108,11 @@ class PasswordResetService
         ];
     }
 
+    /**
+     * @param $user
+     * @return array
+     * @throws \Exception
+     */
     private function viaResetLink($user)
     {
         $authField = $user->authField();
@@ -136,11 +145,16 @@ class PasswordResetService
         ];
     }
 
+    /**
+     * @param $user
+     * @return array
+     * @throws \Exception
+     */
     private function viaOneTimePin($user)
     {
         $authField = $user->authField();
 
-        $this->oneTimePinRepository->deleteExpired($authField);
+        $this->oneTimePinRepository->delete($authField);
 
         $min = (int)str_pad('1', config('fintech.auth.otp_length', 4), "0");
         $max = (int)str_pad('9', config('fintech.auth.otp_length', 4), "9");
@@ -169,23 +183,46 @@ class PasswordResetService
         ];
     }
 
-    //    public function find($id, $onlyTrashed = false)
-    //    {
-    //        return $this->oneTimePinRepository->find($id, $onlyTrashed);
-    //    }
-    //
-    //    public function update($id, array $inputs = [])
-    //    {
-    //        return $this->oneTimePinRepository->update($id, $inputs);
-    //    }
-    //
-    //    public function destroy($id)
-    //    {
-    //        return $this->oneTimePinRepository->delete($id);
-    //    }
-    //
-    //    public function restore($id)
-    //    {
-    //        return $this->oneTimePinRepository->restore($id);
-    //    }
+    /**
+     * @param string $token
+     * @return bool
+     * @throws \Exception
+     */
+    public function verifyToken(string $token)
+    {
+
+        if ($this->resetMethod == 'reset_link') {
+            try {
+                $token = json_decode(base64_decode($token), true, 512, JSON_THROW_ON_ERROR);
+
+                if (!is_array($token)) {
+                    throw new \JsonException(__('auth::messages.reset.invalid_token'));
+                }
+
+                $token = array_key_first($token);
+
+            } catch (\Exception $exception) {
+                throw new \Exception($exception->getMessage());
+            }
+        }
+
+
+        if ($passwordResetToken = $this->oneTimePinRepository->exists($token)) {
+
+            $expireInSeconds = config('auth.passwords.users.expire', 5) * 60;
+
+            $duration = now()->diffInSeconds($passwordResetToken->created_at);
+
+            if ($expireInSeconds < $duration) {
+
+                $this->oneTimePinRepository->delete($passwordResetToken->email);
+
+                throw new \Exception(__('auth::messages.reset.expired_token'));
+            }
+
+            return $passwordResetToken;
+        }
+
+        throw new \Exception(__('auth::messages.reset.invalid_token'));
+    }
 }

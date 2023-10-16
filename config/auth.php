@@ -24,8 +24,8 @@ return [
     | Exclude auth fields
     | Example: reset_link, otp, temporary_password
     */
-    'self_password_reset' => true,
-    'password_reset_method' => 'otp',
+    'self_password_reset' => false,
+    'password_reset_method' => 'temporary_password',
     'temporary_password_length' => 8,
 
 

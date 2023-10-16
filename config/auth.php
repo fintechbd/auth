@@ -17,16 +17,17 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Login Validation
+    | Forgot Password
     |--------------------------------------------------------------------------
     |
     | This value will be used to across system where model is needed
     | Exclude auth fields
     | Example: reset_link, otp, temporary_password
     */
-
-    'password_reset_method' => '',
+    'self_password_reset' => true,
+    'password_reset_method' => 'otp',
     'temporary_password_length' => 8,
+
 
     /*
     |--------------------------------------------------------------------------

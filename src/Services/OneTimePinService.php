@@ -3,7 +3,7 @@
 namespace Fintech\Auth\Services;
 
 use Fintech\Auth\Interfaces\OneTimePinRepository;
-use Fintech\Auth\Notifications\SendPasswordResetNotification;
+use Fintech\Auth\Notifications\PasswordResetNotification;
 
 /**
  * Class PermissionService
@@ -42,7 +42,7 @@ class OneTimePinService
         $token = (string)mt_rand($min, $max);
 
         if($otp = $this->oneTimePinRepository->create($authField, $token)) {
-            $user->notify(new SendPasswordResetNotification($otp));
+            $user->notify(new PasswordResetNotification($otp));
         }
 
         return true;

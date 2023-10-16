@@ -27,13 +27,16 @@ Route::prefix('auth')->name('auth.')->group(function () {
         ->middleware('guest')
         ->name('login');
 
-    Route::post('/forgot-password', [PasswordResetController::class, 'store'])
-        ->middleware('guest')
-        ->name('forgot-password');
+    if (config('fintech.auth.self_password_reset')) {
 
-    Route::post('/reset-password', [PasswordResetController::class, 'update'])
-        ->middleware('guest')
-        ->name('reset-password');
+        Route::post('/forgot-password', [PasswordResetController::class, 'store'])
+            ->middleware('guest')
+            ->name('forgot-password');
+
+        Route::post('/reset-password', [PasswordResetController::class, 'update'])
+            ->middleware('guest')
+            ->name('reset-password');
+    }
 
     Route::get('/verify-email/{id}/{hash}', VerifyEmailController::class)
         ->middleware(['auth', 'signed', 'throttle:6,1'])

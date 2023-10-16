@@ -1,6 +1,6 @@
 <?php
 
-// config for Fintech/Auth
+// config for fintech/auth
 return [
 
     /*
@@ -106,7 +106,7 @@ return [
     */
 
     'password_field' => 'password',
-    'password_field_rules' => ['required', 'string', \Illuminate\Validation\Rules\Password::default()],
+    'password_field_rules' => ['required', 'string', 'min:8'],
     /*
     |--------------------------------------------------------------------------
     | Login Validation
@@ -168,6 +168,18 @@ return [
     'password_threshold' => 10,
     'pin_threshold' => 3,
     'threshold_notification' => false,
+
+    /*
+    |--------------------------------------------------------------------------
+    | Frontend Auth Routes
+    |--------------------------------------------------------------------------
+    |
+    | This value will be used to across system where model is needed
+    */
+
+    'frontend_login_url' => env('FRONTEND_LOGIN_URL', env('APP_URL', '')),
+
+    'frontend_reset_url' => env('FRONTEND_RESET_URL', env('APP_URL', '')),
 
     /*
     |--------------------------------------------------------------------------

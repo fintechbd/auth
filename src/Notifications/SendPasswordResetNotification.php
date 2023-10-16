@@ -10,15 +10,15 @@ class SendPasswordResetNotification extends Notification
 {
     use Queueable;
 
-    private $otpModel;
+    private $data;
 
     /**
      * Create a new notification instance.
-     * @param $otpModel
+     * @param array <method:string, value:string, status:bool>
      */
-    public function __construct($otpModel)
+    public function __construct(array $data)
     {
-        $this->otpModel = $otpModel;
+        $this->data = $data;
     }
 
     /**
@@ -39,11 +39,42 @@ class SendPasswordResetNotification extends Notification
      */
     public function toMail(object $notifiable): MailMessage
     {
-        return (new MailMessage())
-            ->line('The introduction to the notification.')
-            ->line('Your Password Reset OTP: ' . $this->otpModel->token)
-            ->action('Notification Action', url('/'))
-            ->line('Thank you for using our application!');
+        $mailable = (new MailMessage)
+            ->line('You recently requested to reset the password for your ' . ucwords(config('app.name')) . ' account.');
+
+        if ($this->data['method'] == 'temporary_password')
+            $mailable->lines([
+                'Your account existing password as been reset.',
+                'We have sent you a completely automated and randomized password as you requested',
+                'System or authority does not a plain copy of this information and password will expired within '
+                . config('auth.passwords.users.expire') . 'minutes.',
+                'Please log into your account using the temporary password, and reset after first successful logged in.',
+                'Your account new password will be **' . $this->data['value'] . '**',
+            ])
+                ->action('Log into Account', $this->data['url'])
+                ->line('If you did not request a password reset,
+                Please contact system administrator for further action.');
+
+        elseif ($this->data['method'] == 'reset_link')
+            $mailable->lines([
+                'No changes have been made to your account yet.',
+                'System or authority does not a plain copy of this information and reset link will expired within '
+                . config('auth.passwords.users.expire') . 'minutes.',
+                'Click the button below to proceed.'])
+                ->action('Reset Password', $this->data['url'])
+                ->line('If you did not request a password reset, no further action is required.');
+
+        elseif ($this->data['method'] == 'otp')
+            $mailable->lines([
+                'No changes have been made to your account yet.',
+                'System or authority does not a plain copy of this information and *One Time Password* verification
+                will expired within ' . config('auth.passwords.users.expire') . 'minutes.'
+            ])
+                ->line("Your account verification OTP is: *{$this->data['value']}*")
+                ->line('If you did not request a password reset, no further action is required.');
+
+
+        return $mailable;
     }
 
     /**
@@ -55,7 +86,7 @@ class SendPasswordResetNotification extends Notification
     public function toArray(object $notifiable): array
     {
         return [
-            'otp' => $this->otpModel->token
+            'otp' => $this->data
         ];
     }
 }

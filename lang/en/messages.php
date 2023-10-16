@@ -19,6 +19,10 @@ return [
     'ip_blocked' => 'Your IP :ip is blocked, Please contact support.',
     'warning' => 'Sorry, You entered wrong credentials! You already attempt :attempt. times out of :threshold',
     'lockup' => 'Sorry, Your Account is has been Locked. Please contact support!',
-    'Sorry, You entered wrong mobile number or invalid pin!' => 'Sorry, You entered wrong mobile number or invalid pin!',
-    'Sorry, You entered wrong mobile number or pin! You already attempt :wrong_pin_password. times out of :password_retry_limit' => 'Sorry, You entered wrong mobile number or pin! You already attempt :wrong_pin_password. times out of :password_retry_limit',
+    'reset' => [
+        'temporary_password' => 'We have send you a temporary password. Please log into you account with credentials.',
+        'reset_link' => 'We have send you a password reset link. Please follow that instruction to proceed.',
+        'otp' => 'We have send you a verification code. Please verify your account with given code.',
+        'notification_failed' => 'There is a error while processing your request. Please try again later',
+    ]
 ];

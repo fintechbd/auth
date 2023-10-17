@@ -25,4 +25,20 @@ class MobileVerificationController extends Controller
 
         return response()->json(['status' => 'verification-link-sent']);
     }
+
+    /**
+     * Send a new email verification notification.
+     * @param Request $request
+     * @return JsonResponse|RedirectResponse
+     */
+    public function update(Request $request): JsonResponse|RedirectResponse
+    {
+        if ($request->user()->hasVerifiedEmail()) {
+            return redirect()->intended(RouteServiceProvider::HOME);
+        }
+
+        $request->user()->sendEmailVerificationNotification();
+
+        return response()->json(['status' => 'verification-link-sent']);
+    }
 }

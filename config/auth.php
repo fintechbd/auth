@@ -46,7 +46,7 @@ return [
     | This value will be used to across system where model is needed
     */
     'role_model' => \Fintech\Auth\Models\Role::class,
-
+    'default_roles_customer' => [],
     /*
     |--------------------------------------------------------------------------
     | Team Model

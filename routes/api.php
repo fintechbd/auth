@@ -5,6 +5,7 @@ use Fintech\Auth\Http\Controllers\EmailVerificationController;
 use Fintech\Auth\Http\Controllers\PasswordResetController;
 use Fintech\Auth\Http\Controllers\RegisteredUserController;
 use Fintech\Auth\Http\Controllers\VerifyEmailController;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -17,51 +18,52 @@ use Illuminate\Support\Facades\Route;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-
-Route::prefix('auth')->name('auth.')->group(function () {
-    Route::post('/register', [RegisteredUserController::class, 'store'])
-        ->middleware('guest')
-        ->name('register');
-
-    Route::post('/login', [AuthenticatedSessionController::class, 'store'])
-        ->middleware('guest')
-        ->name('login');
-
-    if (config('fintech.auth.self_password_reset')) {
-
-        Route::post('/forgot-password', [PasswordResetController::class, 'store'])
+if (Config::get('fintech.auth.enabled')) {
+    Route::prefix('auth')->name('auth.')->group(function () {
+        Route::post('/register', [RegisteredUserController::class, 'store'])
             ->middleware('guest')
-            ->name('forgot-password');
+            ->name('register');
 
-        Route::post('/reset-password', [PasswordResetController::class, 'update'])
+        Route::post('/login', [AuthenticatedSessionController::class, 'store'])
             ->middleware('guest')
-            ->name('reset-password');
-    }
+            ->name('login');
 
-    Route::get('/verify-email/{id}/{hash}', VerifyEmailController::class)
-        ->middleware(['auth', 'signed', 'throttle:6,1'])
-        ->name('verification.verify');
+        if (config('fintech.auth.self_password_reset')) {
 
-    Route::post('/email/verification-notification', [EmailVerificationController::class, 'store'])
-        ->middleware(['auth', 'throttle:6,1'])
-        ->name('verification.send');
+            Route::post('/forgot-password', [PasswordResetController::class, 'store'])
+                ->middleware('guest')
+                ->name('forgot-password');
 
-    Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])
-        ->middleware(config('fintech.auth.middleware'))
-        ->name('logout');
+            Route::post('/reset-password', [PasswordResetController::class, 'update'])
+                ->middleware('guest')
+                ->name('reset-password');
+        }
 
-    Route::middleware(config('fintech.auth.middleware'))->group(function () {
-        Route::apiResource('users', \Fintech\Auth\Http\Controllers\UserController::class);
+        Route::get('/verify-email/{id}/{hash}', VerifyEmailController::class)
+            ->middleware(['auth', 'signed', 'throttle:6,1'])
+            ->name('verification.verify');
 
-        Route::apiResource('roles', \Fintech\Auth\Http\Controllers\RoleController::class);
-        Route::post('roles/{role}/restore', [\Fintech\Auth\Http\Controllers\RoleController::class, 'restore'])->name('roles.restore');
+        Route::post('/email/verification-notification', [EmailVerificationController::class, 'store'])
+            ->middleware(['auth', 'throttle:6,1'])
+            ->name('verification.send');
 
-        Route::apiResource('permissions', \Fintech\Auth\Http\Controllers\PermissionController::class);
-        Route::post('permissions/{permission}/restore', [\Fintech\Auth\Http\Controllers\PermissionController::class, 'restore'])->name('permissions.restore');
+        Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])
+            ->middleware(config('fintech.auth.middleware'))
+            ->name('logout');
 
-        //        Route::apiResource('teams', \Fintech\Auth\Http\Controllers\TeamController::class);
-        //        Route::post('teams/{team}/restore', [\Fintech\Auth\Http\Controllers\TeamController::class, 'restore'])->name('teams.restore');
+        Route::middleware(config('fintech.auth.middleware'))->group(function () {
+            Route::apiResource('users', \Fintech\Auth\Http\Controllers\UserController::class);
 
-        Route::apiResource('settings', \Fintech\Auth\Http\Controllers\SettingController::class)->only(['index', 'store']);
+            Route::apiResource('roles', \Fintech\Auth\Http\Controllers\RoleController::class);
+            Route::post('roles/{role}/restore', [\Fintech\Auth\Http\Controllers\RoleController::class, 'restore'])->name('roles.restore');
+
+            Route::apiResource('permissions', \Fintech\Auth\Http\Controllers\PermissionController::class);
+            Route::post('permissions/{permission}/restore', [\Fintech\Auth\Http\Controllers\PermissionController::class, 'restore'])->name('permissions.restore');
+
+            //        Route::apiResource('teams', \Fintech\Auth\Http\Controllers\TeamController::class);
+            //        Route::post('teams/{team}/restore', [\Fintech\Auth\Http\Controllers\TeamController::class, 'restore'])->name('teams.restore');
+
+            Route::apiResource('settings', \Fintech\Auth\Http\Controllers\SettingController::class)->only(['index', 'store']);
+        });
     });
-});
+}

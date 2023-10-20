@@ -11,7 +11,6 @@ use Fintech\Auth\Http\Requests\UpdateUserRequest;
 use Fintech\Auth\Http\Resources\UserCollection;
 use Fintech\Auth\Http\Resources\UserResource;
 use Fintech\Core\Exceptions\DeleteOperationException;
-use Fintech\Core\Exceptions\ResourceNotFoundException;
 use Fintech\Core\Exceptions\RestoreOperationException;
 use Fintech\Core\Exceptions\StoreOperationException;
 use Fintech\Core\Exceptions\UpdateOperationException;

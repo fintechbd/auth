@@ -3,11 +3,16 @@
 namespace Fintech\Auth\Models;
 
 use Fintech\Core\Traits\AuditableTrait;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use Spatie\Image\Manipulations;
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Spatie\Permission\Traits\HasRoles;
 
 /**
@@ -15,13 +20,14 @@ use Spatie\Permission\Traits\HasRoles;
  * @package Fintech\Auth\Models
  * @method getTeamIdFromToken()
  */
-class User extends Authenticatable
+class User extends Authenticatable implements HasMedia
 {
     use HasApiTokens;
     use HasRoles;
     use AuditableTrait;
     use SoftDeletes;
     use Notifiable;
+    use InteractsWithMedia;
 
     /*
     |--------------------------------------------------------------------------
@@ -42,6 +48,10 @@ class User extends Authenticatable
 
     protected $hidden = ['creator_id', 'editor_id', 'destroyer_id', 'restorer_id'];
 
+    protected $appends = ['links'];
+
+    protected $files = ['profile_photo'];
+
     /*
     |--------------------------------------------------------------------------
     | FUNCTIONS
@@ -60,11 +70,43 @@ class User extends Authenticatable
 
     }
 
+    public function registerMediaConversions(Media $media = null): void
+    {
+        $this
+            ->addMediaConversion('preview')
+            ->fit(Manipulations::FIT_CROP, 300, 300)
+            ->nonQueued();
+    }
+
+    public function registerMediaCollections(): void
+    {
+        $this
+            ->addMediaCollection('profile_photo')
+            ->acceptsMimeTypes(['image/jpeg', 'image/png', 'image/gif', 'image/jpg', 'image/svg+xml'])
+            ->useFallbackUrl('/images/anonymous-user.jpg')
+            ->useFallbackPath(storage_path('/app/public/images/anonymous-user.jpg'))
+            ->useFallbackUrl('/images/anonymous-user.jpg', 'thumb')
+            ->useFallbackPath(storage_path('/app/public/images/anonymous-user.jpg'), 'thumb')
+            ->useDisk('public')
+            ->singleFile()
+            ->registerMediaConversions(function (Media $media) {
+                $this
+                    ->addMediaConversion('thumb')
+                    ->width(128)
+                    ->height(128);
+            });
+    }
+
     /*
     |--------------------------------------------------------------------------
     | RELATIONS
     |--------------------------------------------------------------------------
     */
+
+    public function parent(): BelongsTo
+    {
+        return $this->belongsTo(self::class, 'parent_id', 'id');
+    }
 
     public function profile(): HasOne
     {
@@ -82,6 +124,31 @@ class User extends Authenticatable
     | ACCESSORS
     |--------------------------------------------------------------------------
     */
+
+    /**
+     * return all resource link for this object
+     *
+     * @return array[]
+     */
+    public function getLinksAttribute()
+    {
+        $primaryKey = $this->getKey();
+
+        $links = [
+            'show' => action_link(route('auth.users.show', $primaryKey), __('core::messages.action.show'), 'get'),
+            'update' => action_link(route('auth.users.update', $primaryKey), __('core::messages.action.update'), 'put'),
+            'destroy' => action_link(route('auth.users.destroy', $primaryKey), __('core::messages.action.destroy'), 'delete'),
+            'restore' => action_link(route('auth.users.restore', $primaryKey), __('core::messages.action.restore'), 'post'),
+        ];
+
+        if ($this->getAttribute('deleted_at') == null) {
+            unset($links['restore']);
+        } else {
+            unset($links['destroy']);
+        }
+
+        return $links;
+    }
 
     /*
     |--------------------------------------------------------------------------

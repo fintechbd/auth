@@ -2,13 +2,14 @@
 
 namespace Fintech\Auth\Models;
 
+use Fintech\Auth\Traits\MetaDataRelations;
+use Fintech\Core\Traits\AuditableTrait;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Fintech\Auth\Traits\MetaDataRelations;
 
 class Profile extends Model
 {
-    use \Fintech\Core\Traits\AuditableTrait;
+    use AuditableTrait;
     use SoftDeletes;
     use MetaDataRelations;
 

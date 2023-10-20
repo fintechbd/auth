@@ -53,6 +53,7 @@ if (Config::get('fintech.auth.enabled')) {
 
         Route::middleware(config('fintech.auth.middleware'))->group(function () {
             Route::apiResource('users', \Fintech\Auth\Http\Controllers\UserController::class);
+            Route::post('users/{user}/restore', [\Fintech\Auth\Http\Controllers\UserController::class, 'restore'])->name('users.restore');
 
             Route::apiResource('roles', \Fintech\Auth\Http\Controllers\RoleController::class);
             Route::post('roles/{role}/restore', [\Fintech\Auth\Http\Controllers\RoleController::class, 'restore'])->name('roles.restore');

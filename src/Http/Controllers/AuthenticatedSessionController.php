@@ -14,13 +14,24 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
 
+/**
+ * Class AuthenticatedSessionController
+ *
+ * @lrd:start
+ * This class handle login and logout of a user from
+ * admin, frontend and mobile application
+ *
+ * @lrd:end
+ */
 class AuthenticatedSessionController extends Controller
 {
     use ApiResponseTrait;
     use GuessAuthFieldTrait;
 
     /**
+     * @lrd:start
      * Handle an incoming authentication request.
+     * @lrd:end
      *
      * @param LoginRequest $request
      * @return LoginResource|JsonResponse
@@ -78,7 +89,7 @@ class AuthenticatedSessionController extends Controller
 
         Auth::login($attemptUser);
 
-        $attemptUser->tokens->each(fn ($token) => $token->delete());
+        $attemptUser->tokens->each(fn($token) => $token->delete());
 
         return new LoginResource($attemptUser);
     }

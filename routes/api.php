@@ -39,13 +39,12 @@ if (Config::get('fintech.auth.enabled')) {
                 ->name('reset-password');
         }
 
-        Route::get('/verify-email/{id}/{hash}', VerifyEmailController::class)
-            ->middleware(['auth', 'signed', 'throttle:6,1'])
+        Route::post('verify', [\Fintech\Auth\Http\Controllers\VerificationController::class, 'store'])
+            ->name('verification.send');
+
+        Route::put('/verify', [\Fintech\Auth\Http\Controllers\VerificationController::class, 'update'])
             ->name('verification.verify');
 
-        Route::post('/email/verification-notification', [EmailVerificationController::class, 'store'])
-            ->middleware(['auth', 'throttle:6,1'])
-            ->name('verification.send');
 
         Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])
             ->middleware(config('fintech.auth.middleware'))

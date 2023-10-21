@@ -1,8 +1,6 @@
 <?php
 
-
 namespace Fintech\Auth\Traits;
-
 
 trait GuessAuthFieldTrait
 {

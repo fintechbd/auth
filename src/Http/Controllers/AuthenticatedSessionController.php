@@ -6,6 +6,7 @@ use Fintech\Auth\Enums\UserStatus;
 use Fintech\Auth\Events\AccountFreezed;
 use Fintech\Auth\Http\Requests\LoginRequest;
 use Fintech\Auth\Http\Resources\LoginResource;
+use Fintech\Auth\Traits\GuessAuthFieldTrait;
 use Fintech\Core\Traits\ApiResponseTrait;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Routing\Controller;
@@ -16,6 +17,7 @@ use Illuminate\Validation\ValidationException;
 class AuthenticatedSessionController extends Controller
 {
     use ApiResponseTrait;
+    use GuessAuthFieldTrait;
 
     /**
      * Handle an incoming authentication request.
@@ -28,11 +30,7 @@ class AuthenticatedSessionController extends Controller
     {
         $request->ensureIsNotRateLimited();
 
-        $authField = config('fintech.auth.auth_field', 'login_id');
-
-        $attemptUser = \Fintech\Auth\Facades\Auth::user()->list([
-            $authField => $request->input($authField)
-        ]);
+        $attemptUser = \Fintech\Auth\Facades\Auth::user()->list($this->getAuthFieldFromInput($request));
 
         if ($attemptUser->isEmpty()) {
 
@@ -80,7 +78,7 @@ class AuthenticatedSessionController extends Controller
 
         Auth::login($attemptUser);
 
-        $attemptUser->tokens->each(fn ($token) => $token->delete());
+        $attemptUser->tokens->each(fn($token) => $token->delete());
 
         return new LoginResource($attemptUser);
     }

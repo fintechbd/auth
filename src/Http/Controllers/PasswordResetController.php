@@ -5,6 +5,7 @@ namespace Fintech\Auth\Http\Controllers;
 use Fintech\Auth\Facades\Auth;
 use Fintech\Auth\Http\Requests\ForgotPasswordRequest;
 use Fintech\Auth\Http\Requests\PasswordResetRequest;
+use Fintech\Auth\Traits\GuessAuthFieldTrait;
 use Fintech\Core\Exceptions\UpdateOperationException;
 use Fintech\Core\Traits\ApiResponseTrait;
 use Illuminate\Http\JsonResponse;
@@ -13,6 +14,7 @@ use Illuminate\Routing\Controller;
 class PasswordResetController extends Controller
 {
     use ApiResponseTrait;
+    use GuessAuthFieldTrait;
 
     /**
      * @lrd:start
@@ -28,11 +30,7 @@ class PasswordResetController extends Controller
     {
         try {
 
-            $authField = config('fintech.auth.auth_field', 'login_id');
-
-            $authFieldValue = $request->input($authField);
-
-            $attemptUser = Auth::user()->list([$authField => $authFieldValue]);
+            $attemptUser = Auth::user()->list($this->getAuthFieldFromInput($request));
 
             if ($attemptUser->isEmpty()) {
                 return $this->failed(__('auth::messages.failed'));
@@ -92,4 +90,5 @@ class PasswordResetController extends Controller
             return $this->failed($exception->getMessage());
         }
     }
+
 }

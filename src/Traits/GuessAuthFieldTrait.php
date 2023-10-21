@@ -24,4 +24,11 @@ trait GuessAuthFieldTrait
             return [config('fintech.auth.auth_field', 'login_id') => $authFieldValue];
         }
     }
+
+    private function getAuthFieldTypeFromInput($request)
+    {
+        $credentials = $this->getAuthFieldFromInput($request);
+
+        return array_key_first($credentials);
+    }
 }

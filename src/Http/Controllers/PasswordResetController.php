@@ -9,6 +9,7 @@ use Fintech\Auth\Traits\GuessAuthFieldTrait;
 use Fintech\Core\Exceptions\UpdateOperationException;
 use Fintech\Core\Traits\ApiResponseTrait;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 
 class PasswordResetController extends Controller
@@ -72,7 +73,9 @@ class PasswordResetController extends Controller
 
             $activeToken = Auth::passwordReset()->verifyToken($token);
 
-            $targetedUser = Auth::user()->list([config('fintech.auth.auth_field', 'login_id'), $activeToken->email]);
+            $subRequest = app()->make(Request::class, [config('fintech.auth.auth_field', 'login_id') => $activeToken->email]);
+
+            $targetedUser = Auth::user()->list($this->getAuthFieldFromInput($subRequest));
 
             if ($targetedUser->isEmpty()) {
                 throw new \ErrorException(__('auth::messages.reset.user_not_found'));

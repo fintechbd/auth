@@ -22,7 +22,7 @@ class StoreVerificationRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'identifier' => 'required|string',
+            'identifier' => 'required|string|in:email,mobile,user',
             'value' => 'required|string'
         ];
     }

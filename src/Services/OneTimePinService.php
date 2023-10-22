@@ -3,7 +3,6 @@
 namespace Fintech\Auth\Services;
 
 use Fintech\Auth\Interfaces\OneTimePinRepository;
-use Fintech\Auth\Notifications\PasswordResetNotification;
 
 /**
  * Class PermissionService
@@ -34,41 +33,18 @@ class OneTimePinService
     {
         $authField = $user->authField();
 
-        $this->oneTimePinRepository->deleteExpired($authField);
+        $this->oneTimePinRepository->delete($authField);
 
         $min = (int)str_pad('1', config('fintech.auth.otp_length', 4), "0");
         $max = (int)str_pad('9', config('fintech.auth.otp_length', 4), "9");
 
         $token = (string)mt_rand($min, $max);
 
-        if($otp = $this->oneTimePinRepository->create($authField, $token)) {
-            $user->notify(new PasswordResetNotification($otp));
-        }
-
-        return true;
+        return (bool)$this->oneTimePinRepository->create($authField, $token);
     }
 
-    //    public function find($id, $onlyTrashed = false)
-    //    {
-    //        return $this->oneTimePinRepository->find($id, $onlyTrashed);
-    //    }
-    //
-    //    public function update($id, array $inputs = [])
-    //    {
-    //        return $this->oneTimePinRepository->update($id, $inputs);
-    //    }
-    //
-    //    public function destroy($id)
-    //    {
-    //        return $this->oneTimePinRepository->delete($id);
-    //    }
-    //
-    //    public function restore($id)
-    //    {
-    //        return $this->oneTimePinRepository->restore($id);
-    //    }
-
-    private function getUser(string $authField)
+    public function verify($id, $onlyTrashed = false)
     {
+        return $this->oneTimePinRepository->find($id, $onlyTrashed);
     }
 }

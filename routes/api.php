@@ -39,11 +39,11 @@ if (Config::get('fintech.auth.enabled')) {
                 ->name('reset-password');
         }
 
-        Route::post('verify', [\Fintech\Auth\Http\Controllers\VerificationController::class, 'store'])
-            ->name('verification.send');
+        Route::post('/request-otp', [\Fintech\Auth\Http\Controllers\VerificationController::class, 'store'])
+            ->name('request-otp');
 
-        Route::put('/verify', [\Fintech\Auth\Http\Controllers\VerificationController::class, 'update'])
-            ->name('verification.verify');
+        Route::post('/verify-otp', [\Fintech\Auth\Http\Controllers\VerificationController::class, 'update'])
+            ->name('verify-otp');
 
 
         Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])

@@ -9,7 +9,7 @@ return [
     |--------------------------------------------------------------------------
     | this setting enable the api will be available or not
     */
-    'enabled' => true,
+    'enabled' => env('PACKAGE_AUTH_ENABLED', true),
 
     /*
     |--------------------------------------------------------------------------
@@ -54,7 +54,7 @@ return [
     | This value will be used to across system where model is needed
     */
     'role_model' => \Fintech\Auth\Models\Role::class,
-    'default_roles_customer' => [],
+    'customer_roles' => [],
     /*
     |--------------------------------------------------------------------------
     | Team Model

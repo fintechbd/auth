@@ -1,10 +1,8 @@
 <?php
 
 use Fintech\Auth\Http\Controllers\AuthenticatedSessionController;
-use Fintech\Auth\Http\Controllers\EmailVerificationController;
 use Fintech\Auth\Http\Controllers\PasswordResetController;
 use Fintech\Auth\Http\Controllers\RegisteredUserController;
-use Fintech\Auth\Http\Controllers\VerifyEmailController;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Route;
 

@@ -91,7 +91,8 @@ return [
     */
     'otp_model' => \Fintech\Auth\Models\OneTimePin::class,
     'otp_length' => 4,
-
+    //values 'otp' or 'link'
+    'otp_method' => 'otp',
     //** Model Config Point Do not Remove **//
 
     /*

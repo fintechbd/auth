@@ -28,5 +28,13 @@ return [
         'invalid_token' => 'The reset link token is invalid. Please try again later.',
         'expired_token' => 'The password reset token has expired. Please try again later.',
         'user_not_found' => 'Unable to find valid user associated with this token',
+    ],
+    'verify' => [
+        'link' => 'We have send you a password reset link. Please follow that instruction to proceed.',
+        'otp' => 'We have send you a verification code. Please verify your account with given code.',
+        'failed' => 'There is a error while processing your request. Please try again later',
+        'invalid' => 'The verification link token is invalid. Please try again later.',
+        'expired' => 'The verification token has expired. Please try again later.',
+        'success' => 'OTP Verification successful.',
     ]
 ];

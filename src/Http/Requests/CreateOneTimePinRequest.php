@@ -9,7 +9,7 @@ use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
 use Symfony\Component\HttpFoundation\Response;
 
-class OneTimePinRequest extends FormRequest
+class CreateOneTimePinRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.

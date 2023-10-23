@@ -17,6 +17,8 @@ class OneTimePinService
      */
     private OneTimePinRepository $oneTimePinRepository;
 
+    private string $otpMethod;
+
     /**
      * OneTimePinService constructor.
      * @param OneTimePinRepository $oneTimePinRepository
@@ -24,11 +26,13 @@ class OneTimePinService
     public function __construct(OneTimePinRepository $oneTimePinRepository)
     {
         $this->oneTimePinRepository = $oneTimePinRepository;
+
+        $this->otpMethod = config('fintech.auth.verification_method', 'otp');
     }
 
     /**
      * @param string $authField
-     * @return void
+     * @return array
      * @throws \Exception
      */
     public function create(string $authField)
@@ -44,24 +48,61 @@ class OneTimePinService
         $channel = 'mail';
 
         $notification_data = [
-            'method' => 'otp',
+            'method' => $this->otpMethod,
             'url' => null,
             'value' => $token
         ];
 
         if ($this->oneTimePinRepository->create($authField, $token)) {
+
             Notification::route($channel, $authField)->notify(new OTPNotification($notification_data));
+
+            return ['status' => true, 'message' => __('auth::messages.verify.' . $this->otpMethod)];
         }
+
+        return ['status' => false, 'message' => __('auth::messages.verify.failed')];
     }
 
     /**
      *
      * @param string $token
      * @return mixed
+     * @throws \Exception
      */
     public function exists(string $token)
     {
-        return $this->oneTimePinRepository->exists($token);
+        if ($this->otpMethod == 'link') {
+            try {
+                $token = json_decode(base64_decode($token), true, 512, JSON_THROW_ON_ERROR);
+
+                if (!is_array($token)) {
+                    throw new \JsonException(__('auth::messages.reset.invalid_token'));
+                }
+
+                $token = array_key_first($token);
+
+            } catch (\Exception $exception) {
+                throw new \Exception($exception->getMessage());
+            }
+        }
+
+        if ($verificationToken = $this->oneTimePinRepository->exists($token)) {
+
+            $expireInSeconds = config('auth.passwords.users.expire', 5) * 60;
+
+            $duration = now()->diffInSeconds($verificationToken->created_at);
+
+            if ($expireInSeconds < $duration) {
+
+                $this->delete($verificationToken->email);
+
+                throw new \Exception(__('auth::messages.verify.expired'));
+            }
+
+            return $verificationToken;
+        }
+
+        throw new \Exception(__('auth::messages.verify.invalid'));
     }
 
     /**

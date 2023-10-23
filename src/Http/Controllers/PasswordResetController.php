@@ -34,7 +34,7 @@ class PasswordResetController extends Controller
             $attemptUser = Auth::user()->list($this->getAuthFieldFromInput($request));
 
             if ($attemptUser->isEmpty()) {
-                return $this->failed(__('auth::messages.failed'));
+                throw new \Exception(__('auth::messages.failed'));
             }
 
             $response = Auth::passwordReset()->notifyUser($attemptUser->first());
@@ -93,5 +93,4 @@ class PasswordResetController extends Controller
             return $this->failed($exception->getMessage());
         }
     }
-
 }

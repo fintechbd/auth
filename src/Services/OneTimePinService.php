@@ -3,6 +3,8 @@
 namespace Fintech\Auth\Services;
 
 use Fintech\Auth\Interfaces\OneTimePinRepository;
+use Fintech\Auth\Notifications\OTPNotification;
+use Illuminate\Support\Facades\Notification;
 
 /**
  * Class PermissionService
@@ -25,26 +27,48 @@ class OneTimePinService
     }
 
     /**
-     * @param $user
-     * @return bool
+     * @param string $authField
+     * @return void
      * @throws \Exception
      */
-    public function create($user)
+    public function create(string $authField)
     {
-        $authField = $user->authField();
-
-        $this->oneTimePinRepository->delete($authField);
+        $this->delete($authField);
 
         $min = (int)str_pad('1', config('fintech.auth.otp_length', 4), "0");
         $max = (int)str_pad('9', config('fintech.auth.otp_length', 4), "9");
 
         $token = (string)mt_rand($min, $max);
 
-        return (bool)$this->oneTimePinRepository->create($authField, $token);
+        //$channel = (filter_var($authField, FILTER_VALIDATE_EMAIL) !== false) ? 'mail' : '';
+        $channel = 'mail';
+
+        $notification_data = [
+            'method' => 'otp',
+            'url' => null,
+            'value' => $token
+        ];
+
+        if ($this->oneTimePinRepository->create($authField, $token)) {
+            Notification::route($channel, $authField)->notify(new OTPNotification($notification_data));
+        }
     }
 
-    public function verify($id, $onlyTrashed = false)
+    /**
+     *
+     * @param string $token
+     * @return mixed
+     */
+    public function exists(string $token)
     {
-        return $this->oneTimePinRepository->find($id, $onlyTrashed);
+        return $this->oneTimePinRepository->exists($token);
+    }
+
+    /**
+     * @param string $authField
+     */
+    public function delete(string $authField)
+    {
+        $this->oneTimePinRepository->delete($authField);
     }
 }

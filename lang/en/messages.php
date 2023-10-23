@@ -15,7 +15,7 @@ return [
     'logout' => 'Logout successful. Thank you for using our services',
     'failed' => 'These credentials do not match our records.',
     'password' => 'The provided password is incorrect.',
-    'throttle' => 'Too many login attempts. Please try again in :seconds seconds.',
+    'throttle' => 'Too many request attempts. Please try again in :seconds seconds.',
     'ip_blocked' => 'Your IP :ip is blocked, Please contact support.',
     'warning' => 'Sorry, You entered wrong credentials! You already attempt :attempt. times out of :threshold',
     'lockup' => 'Sorry, Your Account is has been Locked. Please contact support!',

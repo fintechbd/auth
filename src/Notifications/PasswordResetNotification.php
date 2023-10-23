@@ -39,17 +39,13 @@ class PasswordResetNotification extends Notification
      */
     public function toMail(object $notifiable): MailMessage
     {
-        logger('payload', $this->data);
-
         $mailable = (new MailMessage())
             ->line('You recently requested to reset the password for your ' . ucwords(config('app.name')) . ' account.');
 
         if ($this->data['method'] == 'temporary_password') {
             $mailable = $mailable->lines([
-                'We have sent you a completely automated and randomized password as you requested.
-                System or authority does not a plain copy of this information and password will expired within '
-                . config('auth.passwords.users.expire') . ' minutes.
-                Please log into your account using the temporary password afterwards reset after first successful logged in.',
+                'We have sent you a completely automated and randomized password as you requested.',
+                'Please log into your account using the temporary password afterwards reset after first successful logged in.',
                 '',
                 'Your account new password will be `' . $this->data['value'] . '`',
             ])
@@ -59,22 +55,24 @@ class PasswordResetNotification extends Notification
         } elseif ($this->data['method'] == 'reset_link') {
             $mailable = $mailable->lines([
                 '**No changes have been made to your account yet.**',
-                'System or authority does not a plain copy of this information and reset link will expired within '
-                . config('auth.passwords.users.expire') . ' minutes.
-                Click the button below to proceed.'])
+                'Click the button below to proceed.'])
                 ->action('Reset Password', $this->data['url'])
                 ->line('If you did not request a password reset, no further action is required.');
         } elseif ($this->data['method'] == 'otp') {
             $mailable = $mailable->lines([
                 '**No changes have been made to your account yet.**',
-                'System or authority does not a plain copy of this information and **One Time Password** verification
-                will expired within ' . config('auth.passwords.users.expire') . ' minutes.'
-            ])
-                ->line("Your account verification OTP is: *{$this->data['value']}*")
-                ->line('If you did not request a password reset, no further action is required.');
+                "Your account verification OTP is: *{$this->data['value']}*",
+                'If you did not request a password reset, no further action is required.'
+            ]);
         }
 
-
+        $mailable = $mailable
+            ->lines([
+                'This is a automated system generated message authority does not a plain copy of this information and will expired within '
+                . config('auth.passwords.users.expire') . ' minutes.',
+                'This email and any attachments are confidential and may also be privileged.
+            If you are not the intended recipient, please delete all copies and notify the sender immediately.'
+            ]);
         return $mailable;
     }
 

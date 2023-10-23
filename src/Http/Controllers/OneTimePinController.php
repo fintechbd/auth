@@ -4,7 +4,7 @@ namespace Fintech\Auth\Http\Controllers;
 
 use App\Providers\RouteServiceProvider;
 use Fintech\Auth\Facades\Auth;
-use Fintech\Auth\Http\Requests\StoreVerificationRequest;
+use Fintech\Auth\Http\Requests\OneTimePinRequest;
 use Fintech\Auth\Http\Requests\UpdateVerificationRequest;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
@@ -19,13 +19,15 @@ class OneTimePinController extends Controller
      * field value can only between **email|mobile|user**
      * send verification link or otp as per configuration
      * @lrd:end
-     * @param StoreVerificationRequest $request
+     * @param OneTimePinRequest $request
      * @return JsonResponse
      * @throws \Exception
      */
-    public function store(StoreVerificationRequest $request): JsonResponse
+    public function store(OneTimePinRequest $request): JsonResponse
     {
-        Auth::otp()->create();
+        $targetField = $request->input('mobile');
+
+        Auth::otp()->create($targetField);
 
         return response()->json($request->all());
     }

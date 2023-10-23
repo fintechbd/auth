@@ -37,10 +37,10 @@ if (Config::get('fintech.auth.enabled')) {
                 ->name('reset-password');
         }
 
-        Route::post('/request-otp', [\Fintech\Auth\Http\Controllers\VerificationController::class, 'store'])
+        Route::post('/request-otp', [\Fintech\Auth\Http\Controllers\OneTimePinController::class, 'store'])
             ->name('request-otp');
 
-        Route::post('/verify-otp', [\Fintech\Auth\Http\Controllers\VerificationController::class, 'update'])
+        Route::post('/verify-otp', [\Fintech\Auth\Http\Controllers\OneTimePinController::class, 'update'])
             ->name('verify-otp');
 
 

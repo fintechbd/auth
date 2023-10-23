@@ -2,6 +2,7 @@
 
 namespace Fintech\Auth\Notifications;
 
+use Fintech\Auth\Enums\OTPOption;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
@@ -45,11 +46,11 @@ class OTPNotification extends Notification
                 ucwords(config('app.name')) . ' system requested information verification of your account.'
             ]);
 
-        if ($this->data['method'] == 'link') {
+        if ($this->data['method'] == OTPOption::Link->value) {
             $mailable = $mailable->lines([
                 'To verify you account please click on the button below to proceed.'])
                 ->action('Verify Account', $this->data['url']);
-        } elseif ($this->data['method'] == 'otp') {
+        } elseif ($this->data['method'] == OTPOption::Otp->value) {
             $mailable = $mailable->line("Your account verification OTP.")
                 ->action($this->data['value'], '#');
         }

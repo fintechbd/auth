@@ -108,6 +108,18 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Pin Validation
+    |--------------------------------------------------------------------------
+    |
+    | This value will be used to across system where model is needed
+    | Example: login_id, email, mobile
+    */
+
+    'pin_field' => 'pin',
+    'pin_field_rules' => ['required', 'string', 'min:6'],
+    'temporary_pin_length' => 5,
+    /*
+    |--------------------------------------------------------------------------
     | Password Validation
     |--------------------------------------------------------------------------
     |

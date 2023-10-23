@@ -28,6 +28,11 @@ return [
         'invalid_token' => 'The reset link token is invalid. Please try again later.',
         'expired_token' => 'The password reset token has expired. Please try again later.',
         'user_not_found' => 'Unable to find valid user associated with this token',
+        'button' => [
+            'pin' => 'Reset Pin',
+            'password' => 'Reset Password',
+            'both' => 'Reset Password & Pin',
+        ]
     ],
     'verify' => [
         'link' => 'We have send you a password reset link. Please follow that instruction to proceed.',

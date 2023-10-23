@@ -139,6 +139,9 @@ class User extends Authenticatable implements HasMedia
             'update' => action_link(route('auth.users.update', $primaryKey), __('core::messages.action.update'), 'put'),
             'destroy' => action_link(route('auth.users.destroy', $primaryKey), __('core::messages.action.destroy'), 'delete'),
             'restore' => action_link(route('auth.users.restore', $primaryKey), __('core::messages.action.restore'), 'post'),
+            'reset-pin' => action_link(route('auth.users.reset-password-pin', [$primaryKey, 'pin']), __('auth::messages.reset.button.pin'), 'get'),
+            'reset-password' => action_link(route('auth.users.reset-password-pin', [$primaryKey, 'password']), __('auth::messages.reset.button.password'), 'get'),
+            'reset-both' => action_link(route('auth.users.reset-password-pin', [$primaryKey, 'both']), __('auth::messages.reset.button.both'), 'get'),
         ];
 
         if ($this->getAttribute('deleted_at') == null) {

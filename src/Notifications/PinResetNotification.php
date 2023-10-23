@@ -7,7 +7,7 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class PasswordResetNotification extends Notification
+class PinResetNotification extends Notification
 {
     use Queueable;
 
@@ -41,7 +41,7 @@ class PasswordResetNotification extends Notification
     public function toMail(object $notifiable): MailMessage
     {
         $mailable = (new MailMessage())
-            ->line('You recently requested to reset the password for your ' . ucwords(config('app.name')) . ' account.');
+            ->line('You recently requested to reset the pin for your ' . ucwords(config('app.name')) . ' account.');
 
         if ($this->data['method'] == PasswordResetOption::TemporaryPassword->value) {
             $mailable = $mailable->lines([

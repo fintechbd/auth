@@ -3,6 +3,7 @@
 namespace Fintech\Auth\Http\Controllers;
 
 use Exception;
+use Fintech\Auth\Enums\PasswordResetOption;
 use Fintech\Auth\Facades\Auth;
 use Fintech\Auth\Http\Requests\ImportUserRequest;
 use Fintech\Auth\Http\Requests\IndexUserRequest;
@@ -125,7 +126,6 @@ class UserController extends Controller
      *
      * @lrd:end
      *
-     * @throws ResourceNotFoundException
      * @throws UpdateOperationException
      */
     public function update(UpdateUserRequest $request, string|int $id): JsonResponse
@@ -269,6 +269,45 @@ class UserController extends Controller
             $userPaginate = Auth::user()->list($inputs);
 
             return new UserCollection($userPaginate);
+
+        } catch (Exception $exception) {
+
+            return $this->failed($exception->getMessage());
+        }
+    }
+
+    /**
+     * @lrd:start
+     * Reset user pin, password or both from admin panel
+     * and send a updated value to targeted user
+     *
+     * @lrd:end
+     *
+     * @param int|string $id
+     * @param string $field
+     * @return JsonResponse
+     */
+    public function reset(string|int $id, string $field): JsonResponse
+    {
+        try {
+
+            $user = Auth::user()->find($id);
+
+            if (!$user) {
+                throw (new ModelNotFoundException())->setModel(config('fintech.auth.user_model'), $id);
+            }
+
+            $response = Auth::user()->reset($user, $field);
+
+            if (!$response['status']) {
+                throw new Exception($response['response']);
+            }
+
+            return $this->success($response['message']);
+
+        } catch (ModelNotFoundException $exception) {
+
+            return $this->notfound($exception->getMessage());
 
         } catch (Exception $exception) {
 

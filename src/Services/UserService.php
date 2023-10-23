@@ -2,8 +2,11 @@
 
 namespace Fintech\Auth\Services;
 
+use Fintech\Auth\Enums\PasswordResetOption;
+use Fintech\Auth\Facades\Auth;
 use Fintech\Auth\Interfaces\ProfileRepository;
 use Fintech\Auth\Interfaces\UserRepository;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 
@@ -30,12 +33,14 @@ class UserService
     public function __construct(
         UserRepository $userRepository,
         ProfileRepository $profileRepository
-    ) {
+    )
+    {
         $this->userRepository = $userRepository;
         $this->profileRepository = $profileRepository;
     }
 
     /**
+     * @param array $filters
      * @return mixed
      */
     public function list(array $filters = [])
@@ -76,7 +81,6 @@ class UserService
 
     private function formatUserDataFromInput($inputs)
     {
-        $data = [];
         $data['name'] = $inputs['name'] ?? null;
         $data['mobile'] = $inputs['mobile'] ?? null;
         $data['email'] = $inputs['email'] ?? null;
@@ -99,9 +103,17 @@ class UserService
 
     private function formatProfileDataFromInput($inputs)
     {
-        $data = [];
         $data['user_profile_data']['father_name'] = $inputs['father_name'] ?? null;
         $data['user_profile_data']['mother_name'] = $inputs['mother_name'] ?? null;
+
+        if (isset($inputs['password'])) {
+            $data['user_profile_data']['password_updated_at'] = now();
+        }
+
+        if (isset($inputs['pin'])) {
+            $data['user_profile_data']['pin_updated_at'] = now();
+        }
+
         $data['user_profile_data']['gender'] = $inputs['gender'] ?? null;
         $data['user_profile_data']['marital_status'] = $inputs['marital_status'] ?? null;
         $data['user_profile_data']['occupation'] = $inputs['occupation'] ?? null;
@@ -135,14 +147,27 @@ class UserService
 
     public function update($id, array $inputs = [])
     {
-        if (isset($inputs['password']) && !empty($inputs['password'])) {
-            $inputs['password'] = Hash::make($inputs['password']);
-        }
-        if (isset($inputs['pin']) && !empty($inputs['pin'])) {
-            $inputs['pin'] = Hash::make($inputs['pin']);
-        }
+        try {
+            $userData = $this->formatUserDataFromInput($inputs);
 
-        return $this->userRepository->update($id, $inputs);
+            $profileData = $this->formatProfileDataFromInput($inputs);
+
+            DB::beginTransaction();
+
+            $user = $this->userRepository->update($id, $userData);
+
+            $profileData['user_id'] = $user->getKey();
+
+            $this->profileRepository->update($user->getKey(), $profileData);
+
+            DB::commit();
+
+            return $user;
+
+        } catch (\Exception $exception) {
+            DB::rollBack();
+            throw new \PDOException($exception->getMessage(), 0, $exception);
+        }
     }
 
     public function destroy($id)
@@ -163,5 +188,55 @@ class UserService
     public function import(array $filters)
     {
         return $this->userRepository->create($filters);
+    }
+
+    /**
+     * @param $user
+     * @param $field
+     * @return array
+     * @throws \Exception
+     */
+    public function reset($user, $field)
+    {
+
+        Config::set('fintech.auth.password_reset_method', PasswordResetOption::TemporaryPassword->value);
+
+            if ($field == 'pin') {
+
+                $response = Auth::pinReset()->notifyUser($user);
+
+                if (!$response['status']) {
+                    throw new \Exception($response['message']);
+                }
+
+                return $response;
+            }
+
+            if ($field == 'password') {
+
+                $response = Auth::passwordReset()->notifyUser($user);
+
+                if (!$response['status']) {
+                    throw new \Exception($response['message']);
+                }
+
+                return $response;
+            }
+
+            if ($field == 'both') {
+
+                $pinResponse = Auth::pinReset()->notifyUser($user);
+                $passwordResponse = Auth::passwordReset()->notifyUser($user);
+
+                if (!$pinResponse['status'] || !$passwordResponse['status']) {
+                    throw new \Exception("Failed");
+                }
+
+                return ['status' => true, 'message' => "{$pinResponse['messages']} {$passwordResponse['message']}"];
+
+            }
+
+            return ['status' => false, 'message' => 'No Action Selected'];
+
     }
 }

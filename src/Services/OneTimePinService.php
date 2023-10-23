@@ -2,6 +2,7 @@
 
 namespace Fintech\Auth\Services;
 
+use Fintech\Auth\Enums\OTPOption;
 use Fintech\Auth\Interfaces\OneTimePinRepository;
 use Fintech\Auth\Notifications\OTPNotification;
 use Illuminate\Support\Facades\Notification;
@@ -27,7 +28,7 @@ class OneTimePinService
     {
         $this->oneTimePinRepository = $oneTimePinRepository;
 
-        $this->otpMethod = config('fintech.auth.verification_method', 'otp');
+        $this->otpMethod = config('fintech.auth.verification_method', OTPOption::Otp->value);
     }
 
     /**
@@ -71,7 +72,7 @@ class OneTimePinService
      */
     public function exists(string $token)
     {
-        if ($this->otpMethod == 'link') {
+        if ($this->otpMethod == OTPOption::Link->value) {
             try {
                 $token = json_decode(base64_decode($token), true, 512, JSON_THROW_ON_ERROR);
 

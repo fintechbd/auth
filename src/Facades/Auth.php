@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Facade;
  * @method static \Fintech\Auth\Services\TeamService team()
  * @method static \Fintech\Auth\Services\OneTimePinService otp()
  * @method static \Fintech\Auth\Services\PasswordResetService passwordReset()
+ * @method static \Fintech\Auth\Services\PinResetService pinReset()
  */
 class Auth extends Facade
 {

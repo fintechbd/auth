@@ -5,7 +5,7 @@ namespace Fintech\Auth\Services;
 use Fintech\Auth\Enums\PasswordResetOption;
 use Fintech\Auth\Interfaces\OneTimePinRepository;
 use Fintech\Auth\Interfaces\UserRepository;
-use Fintech\Auth\Notifications\PasswordResetNotification;
+use Fintech\Auth\Notifications\PinResetNotification;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
@@ -14,7 +14,7 @@ use Illuminate\Support\Str;
  * Class PermissionService
  *
  */
-class PasswordResetService
+class PinResetService
 {
     /**
      * @var mixed|string
@@ -45,7 +45,7 @@ class PasswordResetService
 
         $this->userRepository = $userRepository;
 
-        $this->passwordField = config('fintech.auth.password_field', 'password');
+        $this->passwordField = config('fintech.auth.pin_field', 'pin');
 
         $this->resetMethod = config('fintech.auth.password_reset_method', PasswordResetOption::ResetLink->value);
     }
@@ -60,7 +60,7 @@ class PasswordResetService
 
             switch ($this->resetMethod) {
                 case PasswordResetOption::TemporaryPassword->value:
-                    $notification_data = $this->viaTemporaryPassword($user);
+                    $notification_data = $this->viaTemporaryPin($user);
                     break;
 
                 case PasswordResetOption::Otp->value:
@@ -75,7 +75,7 @@ class PasswordResetService
 
             if ($notification_data['status']) {
 
-                $user->notify(new PasswordResetNotification($notification_data));
+                $user->notify(new PinResetNotification($notification_data));
 
                 return ['message' => $notification_data['message'], 'status' => true];
             }
@@ -92,12 +92,12 @@ class PasswordResetService
      * @param $user
      * @return array
      */
-    private function viaTemporaryPassword($user): array
+    private function viaTemporaryPin($user): array
     {
-        $password = Str::random(config('fintech.auth.temporary_password_length', 8));
+        $password = Str::random(config('fintech.auth.temporary_pin_length', 8));
 
         if (App::environment('local')) {
-            Log::info("User ID: {$user->getKey()}, Temporary Password: {$password}");
+            Log::info("User ID: {$user->getKey()}, Temporary Pin: {$password}");
         }
 
         if ($this->userRepository->update($user->getKey(), [$this->passwordField => $password])) {
@@ -133,7 +133,7 @@ class PasswordResetService
         $token_url = url(config('fintech.auth.frontend_reset_url')) . '?token=' . base64_encode(json_encode([$token => $authField]));
 
         if (App::environment('local')) {
-            Log::info("User ID: {$user->getKey()}, Password Link: {$token_url}");
+            Log::info("User ID: {$user->getKey()}, Pin Link: {$token_url}");
         }
 
         if ($this->oneTimePinRepository->create($authField, $token)) {
@@ -194,7 +194,7 @@ class PasswordResetService
 
     /**
      * @param string $token
-     * @return bool
+     * @return \Illuminate\Database\Eloquent\Model|\MongoDB\Laravel\Eloquent\Model|null
      * @throws \Exception
      */
     public function verifyToken(string $token)

@@ -20,6 +20,9 @@ class UserService
      * @var UserRepository
      */
     private UserRepository $userRepository;
+    /**
+     * @var ProfileRepository
+     */
     private ProfileRepository $profileRepository;
 
     /**
@@ -27,8 +30,10 @@ class UserService
      * @param UserRepository $userRepository
      * @param ProfileRepository $profileRepository
      */
-    public function __construct(UserRepository $userRepository, ProfileRepository $profileRepository)
-    {
+    public function __construct(
+        UserRepository $userRepository,
+        ProfileRepository $profileRepository
+    ) {
         $this->userRepository = $userRepository;
         $this->profileRepository = $profileRepository;
     }

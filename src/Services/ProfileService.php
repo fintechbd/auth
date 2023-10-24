@@ -2,12 +2,8 @@
 
 namespace Fintech\Auth\Services;
 
-use Fintech\Auth\Enums\PasswordResetOption;
-use Fintech\Auth\Facades\Auth;
 use Fintech\Auth\Interfaces\ProfileRepository;
-use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Hash;
 
 /**
  * Class UserService
@@ -26,8 +22,7 @@ class ProfileService
      */
     public function __construct(
         ProfileRepository $profileRepository
-    )
-    {
+    ) {
         $this->profileRepository = $profileRepository;
     }
     public function create(array $inputs = [])

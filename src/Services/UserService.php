@@ -33,8 +33,7 @@ class UserService
     public function __construct(
         UserRepository $userRepository,
         ProfileRepository $profileRepository
-    )
-    {
+    ) {
         $this->userRepository = $userRepository;
         $this->profileRepository = $profileRepository;
     }
@@ -201,42 +200,42 @@ class UserService
 
         Config::set('fintech.auth.password_reset_method', PasswordResetOption::TemporaryPassword->value);
 
-            if ($field == 'pin') {
+        if ($field == 'pin') {
 
-                $response = Auth::pinReset()->notifyUser($user);
+            $response = Auth::pinReset()->notifyUser($user);
 
-                if (!$response['status']) {
-                    throw new \Exception($response['message']);
-                }
-
-                return $response;
+            if (!$response['status']) {
+                throw new \Exception($response['message']);
             }
 
-            if ($field == 'password') {
+            return $response;
+        }
 
-                $response = Auth::passwordReset()->notifyUser($user);
+        if ($field == 'password') {
 
-                if (!$response['status']) {
-                    throw new \Exception($response['message']);
-                }
+            $response = Auth::passwordReset()->notifyUser($user);
 
-                return $response;
+            if (!$response['status']) {
+                throw new \Exception($response['message']);
             }
 
-            if ($field == 'both') {
+            return $response;
+        }
 
-                $pinResponse = Auth::pinReset()->notifyUser($user);
-                $passwordResponse = Auth::passwordReset()->notifyUser($user);
+        if ($field == 'both') {
 
-                if (!$pinResponse['status'] || !$passwordResponse['status']) {
-                    throw new \Exception("Failed");
-                }
+            $pinResponse = Auth::pinReset()->notifyUser($user);
+            $passwordResponse = Auth::passwordReset()->notifyUser($user);
 
-                return ['status' => true, 'message' => "{$pinResponse['messages']} {$passwordResponse['message']}"];
-
+            if (!$pinResponse['status'] || !$passwordResponse['status']) {
+                throw new \Exception("Failed");
             }
 
-            return ['status' => false, 'message' => 'No Action Selected'];
+            return ['status' => true, 'message' => "{$pinResponse['messages']} {$passwordResponse['message']}"];
+
+        }
+
+        return ['status' => false, 'message' => 'No Action Selected'];
 
     }
 }

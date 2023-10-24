@@ -3,7 +3,6 @@
 namespace Fintech\Auth\Http\Controllers;
 
 use Exception;
-use Fintech\Auth\Enums\PasswordResetOption;
 use Fintech\Auth\Facades\Auth;
 use Fintech\Auth\Http\Requests\ImportUserRequest;
 use Fintech\Auth\Http\Requests\IndexUserRequest;

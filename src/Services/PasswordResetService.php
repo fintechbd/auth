@@ -38,9 +38,10 @@ class PasswordResetService
      * @param OneTimePinRepository $oneTimePinRepository
      * @param UserRepository $userRepository
      */
-    public function __construct(OneTimePinRepository $oneTimePinRepository,
-                                UserRepository $userRepository)
-    {
+    public function __construct(
+        OneTimePinRepository $oneTimePinRepository,
+        UserRepository $userRepository
+    ) {
         $this->oneTimePinRepository = $oneTimePinRepository;
 
         $this->userRepository = $userRepository;

@@ -6,6 +6,7 @@ use Fintech\Auth\Services\OneTimePinService;
 use Fintech\Auth\Services\PasswordResetService;
 use Fintech\Auth\Services\PermissionService;
 use Fintech\Auth\Services\PinResetService;
+use Fintech\Auth\Services\ProfileService;
 use Fintech\Auth\Services\RoleService;
 use Fintech\Auth\Services\TeamService;
 use Fintech\Auth\Services\UserService;
@@ -19,6 +20,15 @@ class Auth
     public function user()
     {
         return app(UserService::class);
+    }
+
+    /**
+     * @return UserService
+     *
+     */
+    public function profile()
+    {
+        return app(ProfileService::class);
     }
 
     /**

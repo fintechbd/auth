@@ -4,7 +4,6 @@ namespace Fintech\Auth\Services;
 
 use Fintech\Auth\Enums\PasswordResetOption;
 use Fintech\Auth\Facades\Auth;
-use Fintech\Auth\Interfaces\ProfileRepository;
 use Fintech\Auth\Interfaces\UserRepository;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
@@ -51,7 +50,7 @@ class UserService
         DB::beginTransaction();
 
         try {
-            $userData = $this->formatUserDataFromInput($inputs);
+            $userData = $this->formatDataFromInput($inputs);
 
             if ($user = $this->userRepository->create($userData)) {
 
@@ -68,51 +67,21 @@ class UserService
         }
     }
 
-    private function formatUserDataFromInput($inputs)
+    private function formatDataFromInput($inputs)
     {
-        $data = [];
+        $data = $inputs;
 
-        if (isset($inputs['name'])) {
-            $data['name'] = $inputs['name'];
-        }
-        if (isset($inputs['mobile'])) {
-            $data['mobile'] = $inputs['mobile'];
-        }
-        if (isset($inputs['email'])) {
-            $data['email'] = $inputs['email'];
-        }
-        if (isset($inputs['login_id'])) {
-            $data['login_id'] = $inputs['login_id'];
-        }
         if (isset($inputs['password'])) {
             $data['password'] = Hash::make($inputs['password'] ?? config('fintech.auth.default_password', '12345678'));
         }
         if (isset($inputs['pin'])) {
             $data['pin'] = Hash::make($inputs['pin'] ?? config('fintech.auth.default_pin', '123456'));
         }
-        if (isset($inputs['parent_id'])) {
-            $data['parent_id'] = $inputs['parent_id'];
-        }
-        if (isset($inputs['app_version'])) {
-            $data['app_version'] = $inputs['app_version'];
-        }
-        if (isset($inputs['fcm_token'])) {
-            $data['fcm_token'] = $inputs['fcm_token'];
-        }
-        if (isset($inputs['language'])) {
-            $data['language'] = $inputs['language'];
-        }
-        if (isset($inputs['currency'])) {
-            $data['currency'] = $inputs['currency'];
-        }
-        if (isset($inputs['wrong_password'])) {
-            $data['wrong_password'] = $inputs['wrong_password'];
-        }
-        if (isset($inputs['wrong_pin'])) {
-            $data['wrong_pin'] = $inputs['wrong_pin'];
-        }
+
         if (isset($inputs['roles'])) {
-            $data['roles'] = $inputs['roles'] ?? config('fintech.auth.customer_roles', []);
+            $data['roles'] = empty($inputs['roles'])
+                ? config('fintech.auth.customer_roles', [])
+                : $inputs['roles'];
         }
 
         return $data;
@@ -128,7 +97,7 @@ class UserService
         DB::beginTransaction();
 
         try {
-            $userData = $this->formatUserDataFromInput($inputs);
+            $userData = $this->formatDataFromInput($inputs);
 
             logger("user data", [$userData]);
 

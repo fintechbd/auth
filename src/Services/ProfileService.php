@@ -22,67 +22,23 @@ class ProfileService
 
     /**
      * UserService constructor.
-     * @param UserRepository $userRepository
      * @param ProfileRepository $profileRepository
      */
     public function __construct(
-        UserRepository $userRepository,
         ProfileRepository $profileRepository
     )
     {
-        $this->userRepository = $userRepository;
         $this->profileRepository = $profileRepository;
     }
-
-    /**
-     * @param array $filters
-     * @return mixed
-     */
-    public function list(array $filters = [])
-    {
-        $countryList = $this->userRepository->list($filters);
-
-        //Do Business Stuff
-
-        return $countryList;
-
-    }
-
-    public function register(array $inputs = [])
-    {
-        try {
-            $userData = $this->formatUserDataFromInput($inputs);
-
-            $profileData = $this->formatProfileDataFromInput($inputs);
-
-            DB::beginTransaction();
-
-            $user = $this->userRepository->create($userData);
-
-            $profileData['user_id'] = $user->getKey();
-
-            $this->profileRepository->create($profileData);
-
-            DB::commit();
-
-            return $user;
-
-        } catch (\Exception $exception) {
-            DB::rollBack();
-            throw new \PDOException($exception->getMessage(), 0, $exception);
-        }
-    }
-
     public function create(array $inputs = [])
     {
         try {
-            $userData = $this->formatUserDataFromInput($inputs);
 
-            $profileData = $this->formatProfileDataFromInput($inputs);
+            $profileData = $this->formatDataFromInput($inputs);
 
             DB::beginTransaction();
 
-            $user = $this->userRepository->create($userData);
+            $user = $this->userRepository->create($profileData);
 
             $profileData['user_id'] = $user->getKey();
 
@@ -99,29 +55,7 @@ class ProfileService
 
     }
 
-    private function formatUserDataFromInput($inputs)
-    {
-        $data['name'] = $inputs['name'] ?? null;
-        $data['mobile'] = $inputs['mobile'] ?? null;
-        $data['email'] = $inputs['email'] ?? null;
-        $data['login_id'] = $inputs['login_id'] ?? null;
-        if (isset($inputs['password'])) {
-            $data['password'] = Hash::make($inputs['password'] ?? '');
-        }
-        if (isset($inputs['pin'])) {
-            $data['pin'] = Hash::make($inputs['pin'] ?? '');
-        }
-        $data['parent_id'] = $inputs['parent_id'] ?? null;
-        $data['app_version'] = $inputs['app_version'] ?? null;
-        $data['fcm_token'] = $inputs['fcm_token'] ?? null;
-        $data['language'] = $inputs['language'] ?? null;
-        $data['currency'] = $inputs['currency'] ?? null;
-        $data['roles'] = $inputs['roles'] ?? config('fintech.auth.customer_roles', []);
-
-        return $data;
-    }
-
-    private function formatProfileDataFromInput($inputs)
+    private function formatDataFromInput($inputs)
     {
         $data['user_profile_data']['father_name'] = $inputs['father_name'] ?? null;
         $data['user_profile_data']['mother_name'] = $inputs['mother_name'] ?? null;
@@ -160,19 +94,14 @@ class ProfileService
         return $data;
     }
 
-    public function find($id, $onlyTrashed = false)
-    {
-        return $this->userRepository->find($id, $onlyTrashed);
-    }
-
-    public function update($id, array $inputs = [])
+    public function update($user_id, array $inputs = [])
     {
         try {
             DB::beginTransaction();
 
-            $userData = $this->formatUserDataFromInput($inputs);
+            $profileData = $this->formatDataFromInput($inputs);
 
-            $user = $this->userRepository->update($id, $userData);
+            $user = $this->profileRepository->update($user_id, $profileData);
 
             DB::commit();
 
@@ -186,71 +115,12 @@ class ProfileService
 
     public function destroy($id)
     {
-        return $this->userRepository->delete($id);
+        return $this->profileRepository->delete($id);
     }
 
     public function restore($id)
     {
-        return $this->userRepository->restore($id);
+        return $this->profileRepository->restore($id);
     }
 
-    public function export(array $filters)
-    {
-        return $this->userRepository->list($filters);
-    }
-
-    public function import(array $filters)
-    {
-        return $this->userRepository->create($filters);
-    }
-
-    /**
-     * @param $user
-     * @param $field
-     * @return array
-     * @throws \Exception
-     */
-    public function reset($user, $field)
-    {
-
-        Config::set('fintech.auth.password_reset_method', PasswordResetOption::TemporaryPassword->value);
-
-            if ($field == 'pin') {
-
-                $response = Auth::pinReset()->notifyUser($user);
-
-                if (!$response['status']) {
-                    throw new \Exception($response['message']);
-                }
-
-                return $response;
-            }
-
-            if ($field == 'password') {
-
-                $response = Auth::passwordReset()->notifyUser($user);
-
-                if (!$response['status']) {
-                    throw new \Exception($response['message']);
-                }
-
-                return $response;
-            }
-
-            if ($field == 'both') {
-
-                $pinResponse = Auth::pinReset()->notifyUser($user);
-                $passwordResponse = Auth::passwordReset()->notifyUser($user);
-
-                if (!$pinResponse['status'] || !$passwordResponse['status']) {
-                    throw new \Exception("Failed");
-                }
-
-                return ['status' => true, 'message' => "{$pinResponse['messages']} {$passwordResponse['message']}"];
-
-            }
-
-            return ['status' => false, 'message' => 'No Action Selected'];
-
-    }
 }

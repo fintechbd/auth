@@ -4,6 +4,7 @@ namespace Fintech\Auth\Services;
 
 use Fintech\Auth\Enums\PasswordResetOption;
 use Fintech\Auth\Facades\Auth;
+use Fintech\Auth\Interfaces\ProfileRepository;
 use Fintech\Auth\Interfaces\UserRepository;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
@@ -19,16 +20,17 @@ class UserService
      * @var UserRepository
      */
     private UserRepository $userRepository;
+    private ProfileRepository $profileRepository;
 
     /**
      * UserService constructor.
      * @param UserRepository $userRepository
+     * @param ProfileRepository $profileRepository
      */
-    public function __construct(
-        UserRepository $userRepository
-    )
+    public function __construct(UserRepository $userRepository, ProfileRepository $profileRepository)
     {
         $this->userRepository = $userRepository;
+        $this->profileRepository = $profileRepository;
     }
 
     /**
@@ -118,12 +120,12 @@ class UserService
 
     public function destroy($id)
     {
-        return $this->userRepository->delete($id);
+        return ($this->userRepository->delete($id) && $this->profileRepository->delete($id));
     }
 
     public function restore($id)
     {
-        return $this->userRepository->restore($id);
+        return ($this->userRepository->restore($id) && $this->profileRepository->restore($id));
     }
 
     public function export(array $filters)

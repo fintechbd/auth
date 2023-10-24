@@ -112,15 +112,4 @@ class ProfileService
             throw new \PDOException($exception->getMessage(), 0, $exception);
         }
     }
-
-    public function destroy($id)
-    {
-        return $this->profileRepository->delete($id);
-    }
-
-    public function restore($id)
-    {
-        return $this->profileRepository->restore($id);
-    }
-
 }

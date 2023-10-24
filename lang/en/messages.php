@@ -17,7 +17,7 @@ return [
     'password' => 'The provided password is incorrect.',
     'throttle' => 'Too many request attempts. Please try again in :seconds seconds.',
     'ip_blocked' => 'Your IP :ip is blocked, Please contact support.',
-    'warning' => 'Sorry, You entered wrong credentials! You already attempt :attempt. times out of :threshold',
+    'warning' => 'Sorry, You entered wrong credentials! You already attempt :attempt times out of :threshold',
     'lockup' => 'Sorry, Your Account is has been Locked. Please contact support!',
     'reset' => [
         'success' => 'Your account password reset successful.',

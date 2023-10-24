@@ -7,6 +7,7 @@ use Fintech\Auth\Interfaces\OneTimePinRepository;
 use Fintech\Auth\Interfaces\UserRepository;
 use Fintech\Auth\Notifications\PinResetNotification;
 use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 
@@ -19,7 +20,7 @@ class PinResetService
     /**
      * @var mixed|string
      */
-    private string $passwordField;
+    private string $pinField;
     /**
      * @var OneTimePinRepository
      */
@@ -45,7 +46,7 @@ class PinResetService
 
         $this->userRepository = $userRepository;
 
-        $this->passwordField = config('fintech.auth.pin_field', 'pin');
+        $this->pinField = config('fintech.auth.pin_field', 'pin');
 
         $this->resetMethod = config('fintech.auth.password_reset_method', PasswordResetOption::ResetLink->value);
     }
@@ -94,16 +95,16 @@ class PinResetService
      */
     private function viaTemporaryPin($user): array
     {
-        $password = Str::random(config('fintech.auth.temporary_pin_length', 8));
+        $pin = Str::random(config('fintech.auth.temporary_pin_length', 8));
 
         if (App::environment('local')) {
-            Log::info("User ID: {$user->getKey()}, Temporary Pin: {$password}");
+            Log::info("User ID: {$user->getKey()}, Temporary Pin: {$pin}");
         }
 
-        if ($this->userRepository->update($user->getKey(), [$this->passwordField => $password])) {
+        if ($this->userRepository->update($user->getKey(), [$this->pinField => Hash::make($pin)])) {
             return [
                 'message' => __('auth::messages.reset.temporary_password'),
-                'value' => $password,
+                'value' => $pin,
                 'url' => url(config('fintech.auth.frontend_login_url')),
                 'status' => true
             ];

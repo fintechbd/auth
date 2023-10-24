@@ -52,7 +52,7 @@ if (Config::get('fintech.auth.enabled')) {
             Route::apiResource('users', \Fintech\Auth\Http\Controllers\UserController::class);
             Route::post('users/{user}/restore', [\Fintech\Auth\Http\Controllers\UserController::class, 'restore'])->name('users.restore');
 
-            Route::get('users/{user}/reset/{field}', [\Fintech\Auth\Http\Controllers\UserController::class, 'reset'])
+            Route::post('users/{user}/reset/{field}', [\Fintech\Auth\Http\Controllers\UserController::class, 'reset'])
                 ->name('users.reset-password-pin')->whereIn('field', ['pin', 'password', 'both']);
 
             Route::apiResource('roles', \Fintech\Auth\Http\Controllers\RoleController::class);

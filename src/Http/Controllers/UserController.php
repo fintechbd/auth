@@ -9,6 +9,7 @@ use Fintech\Auth\Http\Requests\ImportUserRequest;
 use Fintech\Auth\Http\Requests\IndexUserRequest;
 use Fintech\Auth\Http\Requests\StoreUserRequest;
 use Fintech\Auth\Http\Requests\UpdateUserRequest;
+use Fintech\Auth\Http\Requests\UserAuthResetRequest;
 use Fintech\Auth\Http\Resources\UserCollection;
 use Fintech\Auth\Http\Resources\UserResource;
 use Fintech\Core\Exceptions\DeleteOperationException;
@@ -279,16 +280,19 @@ class UserController extends Controller
     /**
      * @lrd:start
      * Reset user pin, password or both from admin panel
-     * and send a updated value to targeted user
-     *
+     * and send an updated value to targeted user
+     * system will also verify which user is requesting
      * @lrd:end
      *
      * @param int|string $id
-     * @param string $field
+     * @param UserAuthResetRequest $request
      * @return JsonResponse
      */
-    public function reset(string|int $id, string $field): JsonResponse
+    public function reset(string|int $id, string $field, UserAuthResetRequest $request): JsonResponse
     {
+
+        $requestUser = $request->user();
+
         try {
 
             $user = Auth::user()->find($id);

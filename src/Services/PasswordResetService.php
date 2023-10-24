@@ -7,6 +7,7 @@ use Fintech\Auth\Interfaces\OneTimePinRepository;
 use Fintech\Auth\Interfaces\UserRepository;
 use Fintech\Auth\Notifications\PasswordResetNotification;
 use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 
@@ -27,7 +28,7 @@ class PasswordResetService
     /**
      * @var string|null
      */
-    private ?string  $resetMethod;
+    private ?string $resetMethod;
     /**
      * @var UserRepository
      */
@@ -39,7 +40,7 @@ class PasswordResetService
      * @param UserRepository $userRepository
      */
     public function __construct(OneTimePinRepository $oneTimePinRepository,
-                                UserRepository $userRepository)
+                                UserRepository       $userRepository)
     {
         $this->oneTimePinRepository = $oneTimePinRepository;
 
@@ -100,7 +101,8 @@ class PasswordResetService
             Log::info("User ID: {$user->getKey()}, Temporary Password: {$password}");
         }
 
-        if ($this->userRepository->update($user->getKey(), [$this->passwordField => $password])) {
+        if ($this->userRepository->update($user->getKey(),
+            [$this->passwordField => Hash::make($password)])) {
             return [
                 'message' => __('auth::messages.reset.temporary_password'),
                 'value' => $password,

@@ -117,6 +117,7 @@ return [
 
     'pin_field' => 'pin',
     'pin_field_rules' => ['required', 'string', 'min:6'],
+    'default_pin' => '123456',
     'temporary_pin_length' => 5,
     /*
     |--------------------------------------------------------------------------
@@ -129,6 +130,7 @@ return [
 
     'password_field' => 'password',
     'password_field_rules' => ['required', 'string', 'min:8'],
+    'default_password' => '12345678',
     /*
     |--------------------------------------------------------------------------
     | Login Validation
@@ -138,47 +140,47 @@ return [
     | Exclude auth fields
     */
     'register_rules' => [
-            //user
-            'name' => ['required', 'string', 'min:2', 'max:255'],
-            'mobile' => ['required', 'string', 'min:10'],
-            'email' => ['required', 'string', 'email:rfc,dns', 'min:2', 'max:255'],
-            'pin' => ['required', 'string', 'min:4', 'max:16'],
-            'parent_id' => ['nullable', 'integer'],
-            'app_version' => ['nullable', 'string'],
-            'fcm_token' => ['nullable', 'string'],
-            'language' => ['nullable', 'string'],
-            'currency' => ['nullable', 'string'],
+        //user
+        'name' => ['required', 'string', 'min:2', 'max:255'],
+        'mobile' => ['required', 'string', 'min:10'],
+        'email' => ['required', 'string', 'email:rfc,dns', 'min:2', 'max:255'],
+        'pin' => ['required', 'string', 'min:4', 'max:16'],
+        'parent_id' => ['nullable', 'integer'],
+        'app_version' => ['nullable', 'string'],
+        'fcm_token' => ['nullable', 'string'],
+        'language' => ['nullable', 'string'],
+        'currency' => ['nullable', 'string'],
 
-            //profile
-            'father_name' => ['string', 'nullable'],
-            'mother_name' => ['string', 'nullable'],
-            'gender' => ['string', 'nullable'],
-            'marital_status' => ['string', 'nullable'],
-            'occupation' => ['string', 'nullable'],
-            'source_of_income' => ['string', 'nullable'],
-            'id_type' => ['string', 'nullable'],
-            'id_no' => ['string', 'nullable'],
-            'id_issue_country' => ['string', 'nullable'],
-            'id_expired_at' => ['string', 'nullable'],
-            'id_issue_at' => ['string', 'nullable'],
-            'profile_photo' => [\Illuminate\Validation\Rules\File::image(), 'nullable'],
-            'scan' => [\Illuminate\Validation\Rules\File::types(['application/pdf', 'image/*']), 'nullable'],
-            'scan_1' => [\Illuminate\Validation\Rules\File::types(['application/pdf', 'image/*']), 'nullable'],
-            'scan_2' => [\Illuminate\Validation\Rules\File::types(['application/pdf', 'image/*']), 'nullable'],
-            'date_of_birth' => ['date', 'nullable'],
-            'permanent_address' => ['string', 'nullable'],
-            'city_id' => ['integer', 'nullable'],
-            'state_id' => ['integer', 'nullable'],
-            'country_id' => ['integer', 'nullable'],
-            'post_code' => ['string', 'nullable'],
-            'present_address' => ['string', 'nullable'],
-            'present_city_id' => ['integer', 'nullable'],
-            'present_state_id' => ['integer', 'nullable'],
-            'present_country_id' => ['integer', 'nullable'],
-            'present_post_code' => ['string', 'nullable'],
-            'note' => ['string', 'nullable'],
-            'nationality' => ['string', 'nullable'],
-        ],
+        //profile
+        'father_name' => ['string', 'nullable'],
+        'mother_name' => ['string', 'nullable'],
+        'gender' => ['string', 'nullable'],
+        'marital_status' => ['string', 'nullable'],
+        'occupation' => ['string', 'nullable'],
+        'source_of_income' => ['string', 'nullable'],
+        'id_type' => ['string', 'nullable'],
+        'id_no' => ['string', 'nullable'],
+        'id_issue_country' => ['string', 'nullable'],
+        'id_expired_at' => ['string', 'nullable'],
+        'id_issue_at' => ['string', 'nullable'],
+        'profile_photo' => [\Illuminate\Validation\Rules\File::image(), 'nullable'],
+        'scan' => [\Illuminate\Validation\Rules\File::types(['application/pdf', 'image/*']), 'nullable'],
+        'scan_1' => [\Illuminate\Validation\Rules\File::types(['application/pdf', 'image/*']), 'nullable'],
+        'scan_2' => [\Illuminate\Validation\Rules\File::types(['application/pdf', 'image/*']), 'nullable'],
+        'date_of_birth' => ['date', 'nullable'],
+        'permanent_address' => ['string', 'nullable'],
+        'city_id' => ['integer', 'nullable'],
+        'state_id' => ['integer', 'nullable'],
+        'country_id' => ['integer', 'nullable'],
+        'post_code' => ['string', 'nullable'],
+        'present_address' => ['string', 'nullable'],
+        'present_city_id' => ['integer', 'nullable'],
+        'present_state_id' => ['integer', 'nullable'],
+        'present_country_id' => ['integer', 'nullable'],
+        'present_post_code' => ['string', 'nullable'],
+        'note' => ['string', 'nullable'],
+        'nationality' => ['string', 'nullable'],
+    ],
 
     /*
     |--------------------------------------------------------------------------
@@ -210,8 +212,8 @@ return [
     |
     | This value will be used to across system where model is needed
     */
-    //    'middleware' => ['auth:sanctum'],
-    'middleware' => [],
+    'middleware' => ['auth:sanctum'],
+//    'middleware' => [],
 
     /*
     |--------------------------------------------------------------------------
@@ -234,6 +236,6 @@ return [
         \Fintech\Auth\Interfaces\OneTimePinRepository::class => \Fintech\Auth\Repositories\Eloquent\OneTimePinRepository::class,
 
         //** Repository Binding Config Point Do not Remove **//
-        ],
+    ],
 
 ];

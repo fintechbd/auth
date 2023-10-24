@@ -20,23 +20,16 @@ class UserService
      * @var UserRepository
      */
     private UserRepository $userRepository;
-    /**
-     * @var ProfileRepository
-     */
-    private ProfileRepository $profileRepository;
 
     /**
      * UserService constructor.
      * @param UserRepository $userRepository
-     * @param ProfileRepository $profileRepository
      */
     public function __construct(
-        UserRepository $userRepository,
-        ProfileRepository $profileRepository
+        UserRepository $userRepository
     )
     {
         $this->userRepository = $userRepository;
-        $this->profileRepository = $profileRepository;
     }
 
     /**
@@ -55,87 +48,72 @@ class UserService
 
     public function create(array $inputs = [])
     {
+        DB::beginTransaction();
+
         try {
             $userData = $this->formatUserDataFromInput($inputs);
 
-            $profileData = $this->formatProfileDataFromInput($inputs);
+            if ($user = $this->userRepository->create($userData)) {
 
-            DB::beginTransaction();
+                DB::commit();
 
-            $user = $this->userRepository->create($userData);
+                return $user;
+            }
 
-            $profileData['user_id'] = $user->getKey();
-
-            $this->profileRepository->create($profileData);
-
-            DB::commit();
-
-            return $user;
+            return null;
 
         } catch (\Exception $exception) {
             DB::rollBack();
             throw new \PDOException($exception->getMessage(), 0, $exception);
         }
-
     }
 
     private function formatUserDataFromInput($inputs)
     {
-        $data['name'] = $inputs['name'] ?? null;
-        $data['mobile'] = $inputs['mobile'] ?? null;
-        $data['email'] = $inputs['email'] ?? null;
-        $data['login_id'] = $inputs['login_id'] ?? null;
+        $data = [];
+
+        if (isset($inputs['name'])) {
+            $data['name'] = $inputs['name'];
+        }
+        if (isset($inputs['mobile'])) {
+            $data['mobile'] = $inputs['mobile'];
+        }
+        if (isset($inputs['email'])) {
+            $data['email'] = $inputs['email'];
+        }
+        if (isset($inputs['login_id'])) {
+            $data['login_id'] = $inputs['login_id'];
+        }
         if (isset($inputs['password'])) {
-            $data['password'] = Hash::make($inputs['password'] ?? '');
+            $data['password'] = Hash::make($inputs['password'] ?? config('fintech.auth.default_password', '12345678'));
         }
         if (isset($inputs['pin'])) {
-            $data['pin'] = Hash::make($inputs['pin'] ?? '');
+            $data['pin'] = Hash::make($inputs['pin'] ?? config('fintech.auth.default_pin', '123456'));
         }
-        $data['parent_id'] = $inputs['parent_id'] ?? null;
-        $data['app_version'] = $inputs['app_version'] ?? null;
-        $data['fcm_token'] = $inputs['fcm_token'] ?? null;
-        $data['language'] = $inputs['language'] ?? null;
-        $data['currency'] = $inputs['currency'] ?? null;
-        $data['roles'] = $inputs['roles'] ?? config('fintech.auth.customer_roles', []);
-
-        return $data;
-    }
-
-    private function formatProfileDataFromInput($inputs)
-    {
-        $data['user_profile_data']['father_name'] = $inputs['father_name'] ?? null;
-        $data['user_profile_data']['mother_name'] = $inputs['mother_name'] ?? null;
-
-        if (isset($inputs['password'])) {
-            $data['user_profile_data']['password_updated_at'] = now();
+        if (isset($inputs['parent_id'])) {
+            $data['parent_id'] = $inputs['parent_id'];
         }
-
-        if (isset($inputs['pin'])) {
-            $data['user_profile_data']['pin_updated_at'] = now();
+        if (isset($inputs['app_version'])) {
+            $data['app_version'] = $inputs['app_version'];
         }
-
-        $data['user_profile_data']['gender'] = $inputs['gender'] ?? null;
-        $data['user_profile_data']['marital_status'] = $inputs['marital_status'] ?? null;
-        $data['user_profile_data']['occupation'] = $inputs['occupation'] ?? null;
-        $data['user_profile_data']['source_of_income'] = $inputs['source_of_income'] ?? null;
-        $data['user_profile_data']['note'] = $inputs['note'] ?? null;
-        $data['user_profile_data']['nationality'] = $inputs['nationality'] ?? null;
-        $data['id_type'] = $inputs['id_type'] ?? null;
-        $data['id_no'] = $inputs['id_no'] ?? null;
-        $data['id_issue_country'] = $inputs['id_issue_country'] ?? null;
-        $data['id_expired_at'] = $inputs['id_expired_at'] ?? null;
-        $data['id_issue_at'] = $inputs['id_issue_at'] ?? null;
-        $data['date_of_birth'] = $inputs['date_of_birth'] ?? null;
-        $data['permanent_address'] = $inputs['permanent_address'] ?? null;
-        $data['city_id'] = $inputs['city_id'] ?? null;
-        $data['state_id'] = $inputs['state_id'] ?? null;
-        $data['country_id'] = $inputs['country_id'] ?? null;
-        $data['post_code'] = $inputs['post_code'] ?? null;
-        $data['present_address'] = $inputs['present_address'] ?? null;
-        $data['present_city_id'] = $inputs['present_city_id'] ?? null;
-        $data['present_state_id'] = $inputs['present_state_id'] ?? null;
-        $data['present_country_id'] = $inputs['present_country_id'] ?? null;
-        $data['present_post_code'] = $inputs['present_post_code'] ?? null;
+        if (isset($inputs['fcm_token'])) {
+            $data['fcm_token'] = $inputs['fcm_token'];
+        }
+        if (isset($inputs['language'])) {
+            $data['language'] = $inputs['language'];
+        }
+        if (isset($inputs['currency'])) {
+            $data['currency'] = $inputs['currency'];
+        }
+        if (isset($inputs['wrong_password'])) {
+            $data['wrong_password'] = $inputs['wrong_password'];
+        }
+        if (isset($inputs['wrong_pin'])) {
+            $data['wrong_pin'] = $inputs['wrong_pin'];
+        }
+        if (isset($inputs['roles'])) {
+            $data['roles'] = $inputs['roles'] ?? config('fintech.auth.customer_roles', []);
+        }
 
         return $data;
     }
@@ -147,22 +125,21 @@ class UserService
 
     public function update($id, array $inputs = [])
     {
+        DB::beginTransaction();
+
         try {
             $userData = $this->formatUserDataFromInput($inputs);
 
-            $profileData = $this->formatProfileDataFromInput($inputs);
+            logger("user data", [$userData]);
 
-            DB::beginTransaction();
+            if ($user = $this->userRepository->update($id, $userData)) {
 
-            $user = $this->userRepository->update($id, $userData);
+                DB::commit();
 
-            $profileData['user_id'] = $user->getKey();
+                return $user;
+            }
 
-            $this->profileRepository->update($user->getKey(), $profileData);
-
-            DB::commit();
-
-            return $user;
+            return null;
 
         } catch (\Exception $exception) {
             DB::rollBack();
@@ -201,42 +178,42 @@ class UserService
 
         Config::set('fintech.auth.password_reset_method', PasswordResetOption::TemporaryPassword->value);
 
-            if ($field == 'pin') {
+        if ($field == 'pin') {
 
-                $response = Auth::pinReset()->notifyUser($user);
+            $response = Auth::pinReset()->notifyUser($user);
 
-                if (!$response['status']) {
-                    throw new \Exception($response['message']);
-                }
-
-                return $response;
+            if (!$response['status']) {
+                throw new \Exception($response['message']);
             }
 
-            if ($field == 'password') {
+            return $response;
+        }
 
-                $response = Auth::passwordReset()->notifyUser($user);
+        if ($field == 'password') {
 
-                if (!$response['status']) {
-                    throw new \Exception($response['message']);
-                }
+            $response = Auth::passwordReset()->notifyUser($user);
 
-                return $response;
+            if (!$response['status']) {
+                throw new \Exception($response['message']);
             }
 
-            if ($field == 'both') {
+            return $response;
+        }
 
-                $pinResponse = Auth::pinReset()->notifyUser($user);
-                $passwordResponse = Auth::passwordReset()->notifyUser($user);
+        if ($field == 'both') {
 
-                if (!$pinResponse['status'] || !$passwordResponse['status']) {
-                    throw new \Exception("Failed");
-                }
+            $pinResponse = Auth::pinReset()->notifyUser($user);
+            $passwordResponse = Auth::passwordReset()->notifyUser($user);
 
-                return ['status' => true, 'message' => "{$pinResponse['messages']} {$passwordResponse['message']}"];
-
+            if (!$pinResponse['status'] || !$passwordResponse['status']) {
+                throw new \Exception("Failed");
             }
 
-            return ['status' => false, 'message' => 'No Action Selected'];
+            return ['status' => true, 'message' => "{$pinResponse['messages']} {$passwordResponse['message']}"];
+
+        }
+
+        return ['status' => false, 'message' => 'No Action Selected'];
 
     }
 }

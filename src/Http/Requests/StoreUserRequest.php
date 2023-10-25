@@ -35,6 +35,7 @@ class StoreUserRequest extends FormRequest
             'fcm_token' => ['nullable', 'string'],
             'language' => ['nullable', 'string'],
             'currency' => ['nullable', 'string'],
+            'photo' => ['nullable', 'string'],
             'roles' => ['array', 'required'],
             'roles.*' => ['integer', 'required']
         ];

@@ -3,6 +3,7 @@
 namespace Fintech\Auth\Models;
 
 use Fintech\Core\Traits\AuditableTrait;
+use Fintech\Core\Traits\HasUploadFiles;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -50,7 +51,7 @@ class User extends Authenticatable implements HasMedia
 
     protected $appends = ['links'];
 
-    protected $files = ['profile_photo'];
+    public $files = ['photo'];
 
     /*
     |--------------------------------------------------------------------------
@@ -70,18 +71,10 @@ class User extends Authenticatable implements HasMedia
 
     }
 
-    public function registerMediaConversions(Media $media = null): void
-    {
-        $this
-            ->addMediaConversion('preview')
-            ->fit(Manipulations::FIT_CROP, 300, 300)
-            ->nonQueued();
-    }
-
     public function registerMediaCollections(): void
     {
         $this
-            ->addMediaCollection('profile_photo')
+            ->addMediaCollection('photo')
             ->acceptsMimeTypes(['image/jpeg', 'image/png', 'image/gif', 'image/jpg', 'image/svg+xml'])
             ->useFallbackUrl('/images/anonymous-user.jpg')
             ->useFallbackPath(storage_path('/app/public/images/anonymous-user.jpg'))

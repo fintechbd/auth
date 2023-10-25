@@ -30,23 +30,20 @@ class ProfileService
     {
         $this->profileRepository = $profileRepository;
     }
-    public function create(array $inputs = [])
+    public function create($user_id, array $inputs = [])
     {
         try {
 
             $profileData = $this->formatDataFromInput($inputs);
+            $profileData['user_id'] = $user_id;
 
             DB::beginTransaction();
 
-            $user = $this->userRepository->create($profileData);
-
-            $profileData['user_id'] = $user->getKey();
-
-            $this->profileRepository->create($profileData);
+            $profile = $this->profileRepository->create($profileData);
 
             DB::commit();
 
-            return $user;
+            return $profile;
 
         } catch (\Exception $exception) {
             DB::rollBack();

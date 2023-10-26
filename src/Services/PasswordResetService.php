@@ -39,9 +39,10 @@ class PasswordResetService
      * @param OneTimePinRepository $oneTimePinRepository
      * @param UserRepository $userRepository
      */
-    public function __construct(OneTimePinRepository $oneTimePinRepository,
-                                UserRepository       $userRepository)
-    {
+    public function __construct(
+        OneTimePinRepository $oneTimePinRepository,
+        UserRepository       $userRepository
+    ) {
         $this->oneTimePinRepository = $oneTimePinRepository;
 
         $this->userRepository = $userRepository;
@@ -101,8 +102,10 @@ class PasswordResetService
             Log::info("User ID: {$user->getKey()}, Temporary Password: {$password}");
         }
 
-        if ($this->userRepository->update($user->getKey(),
-            [$this->passwordField => Hash::make($password)])) {
+        if ($this->userRepository->update(
+            $user->getKey(),
+            [$this->passwordField => Hash::make($password)]
+        )) {
             return [
                 'message' => __('auth::messages.reset.temporary_password'),
                 'value' => $password,

@@ -26,9 +26,9 @@ class Auth
      * @return UserService
      *
      */
-    public function profile()
+    public function profile(string|int $userId)
     {
-        return app(ProfileService::class);
+        return app(ProfileService::class, [$userId]);
     }
 
     /**

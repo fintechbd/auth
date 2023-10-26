@@ -11,17 +11,11 @@ use Fintech\Auth\Interfaces\RoleRepository;
 class RoleService
 {
     /**
-     * @var RoleRepository
-     */
-    private RoleRepository $roleRepository;
-
-    /**
      * RoleService constructor.
      * @param RoleRepository $roleRepository
      */
-    public function __construct(RoleRepository $roleRepository)
+    public function __construct(private RoleRepository $roleRepository)
     {
-        $this->roleRepository = $roleRepository;
     }
 
     /**

@@ -21,18 +21,12 @@ class PasswordResetService
      * @var mixed|string
      */
     private string $passwordField;
-    /**
-     * @var OneTimePinRepository
-     */
-    private OneTimePinRepository $oneTimePinRepository;
+
     /**
      * @var string|null
      */
     private ?string $resetMethod;
-    /**
-     * @var UserRepository
-     */
-    private UserRepository $userRepository;
+
 
     /**
      * OneTimePinService constructor.
@@ -40,13 +34,10 @@ class PasswordResetService
      * @param UserRepository $userRepository
      */
     public function __construct(
-        OneTimePinRepository $oneTimePinRepository,
-        UserRepository       $userRepository
-    ) {
-        $this->oneTimePinRepository = $oneTimePinRepository;
-
-        $this->userRepository = $userRepository;
-
+        private OneTimePinRepository $oneTimePinRepository,
+        private UserRepository       $userRepository
+    )
+    {
         $this->passwordField = config('fintech.auth.password_field', 'password');
 
         $this->resetMethod = config('fintech.auth.password_reset_method', PasswordResetOption::ResetLink->value);

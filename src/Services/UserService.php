@@ -81,6 +81,7 @@ class UserService
         if (isset($inputs['password'])) {
             $data['password'] = Hash::make($inputs['password'] ?? config('fintech.auth.default_password', '12345678'));
         }
+
         if (isset($inputs['pin'])) {
             $data['pin'] = Hash::make($inputs['pin'] ?? config('fintech.auth.default_pin', '123456'));
         }
@@ -143,12 +144,6 @@ class UserService
         return $this->userRepository->create($filters);
     }
 
-    /**
-     * @param $user
-     * @param $field
-     * @return array
-     * @throws \Exception
-     */
     public function reset($user, $field)
     {
 

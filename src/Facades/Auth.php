@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Facade;
  * @see \Fintech\Auth\Auth
  *
  * @method static \Fintech\Auth\Services\UserService user()
- * @method static \Fintech\Auth\Services\ProfileService profile()
+ * @method static \Fintech\Auth\Services\ProfileService profile(string|int $userId)
  * @method static \Fintech\Auth\Services\RoleService role()
  * @method static \Fintech\Auth\Services\PermissionService permission()
  * @method static \Fintech\Auth\Services\TeamService team()

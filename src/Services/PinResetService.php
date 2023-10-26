@@ -22,17 +22,9 @@ class PinResetService
      */
     private string $pinField;
     /**
-     * @var OneTimePinRepository
-     */
-    private OneTimePinRepository $oneTimePinRepository;
-    /**
      * @var string|null
      */
-    private ?string  $resetMethod;
-    /**
-     * @var UserRepository
-     */
-    private UserRepository $userRepository;
+    private ?string $resetMethod;
 
     /**
      * OneTimePinService constructor.
@@ -40,9 +32,10 @@ class PinResetService
      * @param UserRepository $userRepository
      */
     public function __construct(
-        OneTimePinRepository $oneTimePinRepository,
-        UserRepository $userRepository
-    ) {
+        private OneTimePinRepository $oneTimePinRepository,
+        private UserRepository       $userRepository
+    )
+    {
         $this->oneTimePinRepository = $oneTimePinRepository;
 
         $this->userRepository = $userRepository;

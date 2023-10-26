@@ -13,21 +13,14 @@ use Illuminate\Support\Facades\Notification;
  */
 class OneTimePinService
 {
-    /**
-     * @var OneTimePinRepository
-     */
-    private OneTimePinRepository $oneTimePinRepository;
-
     private string $otpMethod;
 
     /**
      * OneTimePinService constructor.
      * @param OneTimePinRepository $oneTimePinRepository
      */
-    public function __construct(OneTimePinRepository $oneTimePinRepository)
+    public function __construct(private OneTimePinRepository $oneTimePinRepository)
     {
-        $this->oneTimePinRepository = $oneTimePinRepository;
-
         $this->otpMethod = config('fintech.auth.verification_method', OTPOption::Otp->value);
     }
 

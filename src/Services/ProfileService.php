@@ -12,25 +12,22 @@ use Illuminate\Support\Facades\DB;
 class ProfileService
 {
     /**
-     * @var ProfileRepository
-     */
-    private ProfileRepository $profileRepository;
-
-    /**
      * UserService constructor.
      * @param ProfileRepository $profileRepository
      */
     public function __construct(
-        ProfileRepository $profileRepository
-    ) {
-        $this->profileRepository = $profileRepository;
+        private string|int        $userId,
+        private ProfileRepository $profileRepository
+    )
+    {
     }
-    public function create($user_id, array $inputs = [])
+
+    public function create(array $inputs = [])
     {
         try {
 
             $profileData = $this->formatDataFromInput($inputs);
-            $profileData['user_id'] = $user_id;
+            $profileData['user_id'] = $this->userId;
 
             DB::beginTransaction();
 
@@ -86,7 +83,7 @@ class ProfileService
         return $data;
     }
 
-    public function update($user_id, array $inputs = [])
+    public function update(array $inputs = [])
     {
         try {
             DB::beginTransaction();

@@ -23,7 +23,10 @@ class RegisterController extends Controller
     {
 
         try {
+
             $user = Auth::user()->create($request->validated());
+
+            $profile = Auth::profile($user->getKey())->create($request->validated());
 
             event(new Registered($user));
 

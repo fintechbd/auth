@@ -74,7 +74,7 @@ class UserService
         }
     }
 
-    private function formatDataFromInput($inputs)
+    private function formatDataFromInput($inputs, bool $forCreate = false)
     {
         $data = $inputs;
 

@@ -21,12 +21,16 @@ class RegisterController extends Controller
      */
     public function __invoke(RegistrationRequest $request): JsonResponse
     {
+        $userFields = [
+            'name', 'mobile', 'email', 'login_id', 'password', 'pin',
+            'language', 'currency', 'app_version', 'fcm_token', 'photo'
+        ];
 
         try {
 
-            $user = Auth::user()->create($request->validated());
+            $user = Auth::user()->create($request->only($userFields));
 
-            $profile = Auth::profile($user->getKey())->create($request->validated());
+            $profile = Auth::profile($user->getKey())->create($request->except($userFields));
 
             event(new Registered($user));
 

@@ -44,7 +44,7 @@ class ProfileService
 
     }
 
-    private function formatDataFromInput($inputs)
+    private function formatDataFromInput($inputs, bool $forCreate = false)
     {
         $data['user_profile_data']['father_name'] = $inputs['father_name'] ?? null;
         $data['user_profile_data']['mother_name'] = $inputs['mother_name'] ?? null;
@@ -79,6 +79,9 @@ class ProfileService
         $data['present_state_id'] = $inputs['present_state_id'] ?? null;
         $data['present_country_id'] = $inputs['present_country_id'] ?? null;
         $data['present_post_code'] = $inputs['present_post_code'] ?? null;
+
+
+
 
         return $data;
     }

@@ -3,7 +3,6 @@
 namespace Fintech\Auth\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Validation\Rules\File;
 use Illuminate\Validation\Rules\Password;
 
 class RegistrationRequest extends FormRequest
@@ -47,10 +46,10 @@ class RegistrationRequest extends FormRequest
             'id_issue_country' => ['string', 'nullable'],
             'id_expired_at' => ['string', 'nullable'],
             'id_issue_at' => ['string', 'nullable'],
-            'profile_photo' => [File::image(), 'nullable'],
-            'scan' => [File::types(['application/pdf', 'image/*']), 'nullable'],
-            'scan_1' => [File::types(['application/pdf', 'image/*']), 'nullable'],
-            'scan_2' => [File::types(['application/pdf', 'image/*']), 'nullable'],
+            'photo' => ['string', 'nullable'],
+            'scan' => ['string', 'nullable'],
+            'scan_1' => ['string', 'nullable'],
+            'scan_2' => ['string', 'nullable'],
             'date_of_birth' => ['date', 'nullable'],
             'permanent_address' => ['string', 'nullable'],
             'city_id' => ['integer', 'nullable'],

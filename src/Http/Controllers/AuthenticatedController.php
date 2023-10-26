@@ -23,7 +23,7 @@ use Illuminate\Validation\ValidationException;
  *
  * @lrd:end
  */
-class AuthenticatedSessionController extends Controller
+class AuthenticatedController extends Controller
 {
     use ApiResponseTrait;
     use GuessAuthFieldTrait;
@@ -37,7 +37,7 @@ class AuthenticatedSessionController extends Controller
      * @return LoginResource|JsonResponse
      * @throws ValidationException
      */
-    public function store(LoginRequest $request): LoginResource|JsonResponse
+    public function login(LoginRequest $request): LoginResource|JsonResponse
     {
         $request->ensureIsNotRateLimited();
 
@@ -97,7 +97,7 @@ class AuthenticatedSessionController extends Controller
     /**
      * Destroy an authenticated session
      */
-    public function destroy(): JsonResponse
+    public function logout(): JsonResponse
     {
         Auth::guard('web')->logout();
 

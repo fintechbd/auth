@@ -10,7 +10,7 @@ use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Routing\Controller;
 
-class RegisteredUserController extends Controller
+class RegisterController extends Controller
 {
     use ApiResponseTrait;
 
@@ -19,7 +19,7 @@ class RegisteredUserController extends Controller
      * @param RegistrationRequest $request
      * @return JsonResponse
      */
-    public function store(RegistrationRequest $request): JsonResponse
+    public function __invoke(RegistrationRequest $request): JsonResponse
     {
 
         try {

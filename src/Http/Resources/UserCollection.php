@@ -19,6 +19,7 @@ class UserCollection extends ResourceCollection
     {
         return $this->collection->map(function ($user) {
             $data = [
+                'id' => $user->id ?? null,
                 'parent_id' => $user->parent_id ?? null,
                 'parent_name' => ($user->parent) ? $user->parent->name : null,
                 'name' => $user->name ?? null,
@@ -68,7 +69,6 @@ class UserCollection extends ResourceCollection
                 'present_country_name' => null,
                 'present_post_code' => $profile->present_post_code ?? null,
                 'blacklisted' => $profile->blacklisted ?? null,
-                'metadata_available' => Core::packageExists('MetaData')
             ];
 
             if (class_exists(\Fintech\MetaData\Facades\MetaData::class)) {

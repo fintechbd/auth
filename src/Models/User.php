@@ -51,8 +51,6 @@ class User extends Authenticatable implements HasMedia
 
     protected $appends = ['links'];
 
-    public $files = ['photo'];
-
     /*
     |--------------------------------------------------------------------------
     | FUNCTIONS

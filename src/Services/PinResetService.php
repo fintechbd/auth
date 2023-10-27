@@ -34,8 +34,7 @@ class PinResetService
     public function __construct(
         private OneTimePinRepository $oneTimePinRepository,
         private UserRepository       $userRepository
-    )
-    {
+    ) {
         $this->oneTimePinRepository = $oneTimePinRepository;
 
         $this->userRepository = $userRepository;

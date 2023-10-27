@@ -36,8 +36,7 @@ class PasswordResetService
     public function __construct(
         private OneTimePinRepository $oneTimePinRepository,
         private UserRepository       $userRepository
-    )
-    {
+    ) {
         $this->passwordField = config('fintech.auth.password_field', 'password');
 
         $this->resetMethod = config('fintech.auth.password_reset_method', PasswordResetOption::ResetLink->value);

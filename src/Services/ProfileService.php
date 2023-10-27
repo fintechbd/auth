@@ -18,8 +18,7 @@ class ProfileService
     public function __construct(
         private string|int        $userId,
         private ProfileRepository $profileRepository
-    )
-    {
+    ) {
     }
 
     public function create(array $inputs = [])

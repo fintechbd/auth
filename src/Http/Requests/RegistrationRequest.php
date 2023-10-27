@@ -28,7 +28,6 @@ class RegistrationRequest extends FormRequest
             'mobile' => ['required', 'string', 'min:10'],
             'email' => ['required', 'string', 'email:rfc,dns', 'min:2', 'max:255'],
             'pin' => ['required', 'string', 'min:4', 'max:16'],
-            'parent_id' => ['nullable', 'integer'],
             'app_version' => ['nullable', 'string'],
             'fcm_token' => ['nullable', 'string'],
             'language' => ['nullable', 'string'],
@@ -49,6 +48,8 @@ class RegistrationRequest extends FormRequest
             'photo' => ['string', 'nullable'],
             'documents' => ['array', 'required', 'min:1'],
             'documents.*.type' => ['string', 'required'],
+            'documents.*.front' => ['string', 'required'],
+            'documents.*.back' => ['string', 'nullable'],
             'date_of_birth' => ['date', 'nullable'],
             'permanent_address' => ['string', 'nullable'],
             'city_id' => ['integer', 'nullable'],
@@ -60,7 +61,6 @@ class RegistrationRequest extends FormRequest
             'present_state_id' => ['integer', 'nullable'],
             'present_country_id' => ['integer', 'nullable'],
             'present_post_code' => ['string', 'nullable'],
-            'note' => ['string', 'nullable'],
             'nationality' => ['string', 'nullable'],
         ]);
 

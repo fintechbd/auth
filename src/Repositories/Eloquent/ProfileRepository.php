@@ -16,7 +16,7 @@ class ProfileRepository extends EloquentRepository implements InterfacesProfileR
 {
     public function __construct()
     {
-        $model = app(config('fintech.auth.user_profile_model', \Fintech\Auth\Models\Profile::class));
+        $model = app(config('fintech.auth.profile_model', \Fintech\Auth\Models\Profile::class));
 
         if (! $model instanceof Model) {
             throw new InvalidArgumentException("Eloquent repository require model class to be `Illuminate\Database\Eloquent\Model` instance.");

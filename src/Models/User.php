@@ -99,7 +99,7 @@ class User extends Authenticatable implements HasMedia
 
     public function profile(): HasOne
     {
-        return $this->hasOne(config('fintech.auth.user_profile_model'));
+        return $this->hasOne(config('fintech.auth.profile_model'));
     }
 
     /*

@@ -78,12 +78,12 @@ class User extends Authenticatable implements HasMedia
             ->useFallbackPath(storage_path('/app/public/images/anonymous-user.jpg'), 'thumb')
             ->useDisk(config('filesystems.default', 'public'))
             ->singleFile();
-            /*->registerMediaConversions(function (Media $media) {
-                $this
-                    ->addMediaConversion('thumb')
-                    ->width(128)
-                    ->height(128);
-            });*/
+        /*->registerMediaConversions(function (Media $media) {
+            $this
+                ->addMediaConversion('thumb')
+                ->width(128)
+                ->height(128);
+        });*/
     }
 
     /*

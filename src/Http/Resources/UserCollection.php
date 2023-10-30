@@ -2,6 +2,7 @@
 
 namespace Fintech\Auth\Http\Resources;
 
+use Fintech\Core\Facades\Core;
 use Fintech\Core\Supports\Constant;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\ResourceCollection;
@@ -25,6 +26,7 @@ class UserCollection extends ResourceCollection
                 'mobile' => $user->mobile ?? null,
                 'email' => $user->email ?? null,
                 'login_id' => $user->login_id ?? null,
+                'photo' => $user->getFirstMediaUrl('photo'),
                 'wrong_password' => $user->wrong_password ?? null,
                 'wrong_pin' => $user->wrong_pin ?? null,
                 'status' => $user->status ?? null,
@@ -33,7 +35,7 @@ class UserCollection extends ResourceCollection
                 'app_version' => $user->app_version ?? null,
                 'remember_token' => $user->remember_token ?? null,
                 'fcm_token' => $user->fcm_token ?? null,
-                'roles' => ($user->roles) ? $user->roles : [],
+                'roles' => ($user->roles) ? $user->roles->pluck('name')->toArray() : [],
                 'links' => $user->links,
                 'created_at' => $user->created_at,
                 'updated_at' => $user->updated_at,
@@ -42,7 +44,6 @@ class UserCollection extends ResourceCollection
             $profile = $user->profile;
 
             $profile_data = [
-                'profile_photo' => $user->getFirstMediaUrl('profile_data'),
                 'user_profile_data' => $profile->user_profile_data ?? null,
                 'id_type' => $profile->id_type ?? null,
                 'id_no' => $profile->id_no ?? null,
@@ -68,9 +69,12 @@ class UserCollection extends ResourceCollection
                 'present_country_name' => null,
                 'present_post_code' => $profile->present_post_code ?? null,
                 'blacklisted' => $profile->blacklisted ?? null,
+                ''
             ];
 
-            if (class_exists(\Fintech\MetaData\Facades\MetaData::class)) {
+            if (Core::packageExists('MetaData')) {
+
+                $profile->load(['city', 'state', 'country']);
 
                 $profile_data['city_name'] = $profile->city?->name ?? null;
                 $profile_data['state_name'] = $profile->state?->name ?? null;

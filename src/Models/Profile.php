@@ -42,6 +42,11 @@ class Profile extends Model implements HasMedia
             ->useDisk(config('filesystems.default', 'public'));
     }
 
+    public function mediaDocumentsResolver()
+    {
+
+    }
+
     /*
     |--------------------------------------------------------------------------
     | RELATIONS

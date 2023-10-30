@@ -72,18 +72,18 @@ class User extends Authenticatable implements HasMedia
         $this
             ->addMediaCollection('photo')
             ->acceptsMimeTypes(['image/jpeg', 'image/png', 'image/gif', 'image/jpg', 'image/svg+xml'])
-            ->useFallbackUrl('/images/anonymous-user.jpg')
+            ->useFallbackUrl(asset('storage/images/anonymous-user.jpg'))
             ->useFallbackPath(storage_path('/app/public/images/anonymous-user.jpg'))
-            ->useFallbackUrl('/images/anonymous-user.jpg', 'thumb')
+            ->useFallbackUrl(asset('storage/images/anonymous-user.jpg'), 'thumb')
             ->useFallbackPath(storage_path('/app/public/images/anonymous-user.jpg'), 'thumb')
             ->useDisk(config('filesystems.default', 'public'))
-            ->singleFile()
-            ->registerMediaConversions(function (Media $media) {
+            ->singleFile();
+            /*->registerMediaConversions(function (Media $media) {
                 $this
                     ->addMediaConversion('thumb')
                     ->width(128)
                     ->height(128);
-            });
+            });*/
     }
 
     /*

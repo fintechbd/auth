@@ -3,15 +3,13 @@
 namespace Fintech\Auth\Models;
 
 use Fintech\Core\Traits\AuditableTrait;
+use Fintech\Core\Traits\HasUploadFiles;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
-use Spatie\MediaLibrary\HasMedia;
-use Spatie\MediaLibrary\InteractsWithMedia;
-use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Spatie\Permission\Traits\HasRoles;
 
 /**
@@ -19,14 +17,15 @@ use Spatie\Permission\Traits\HasRoles;
  * @package Fintech\Auth\Models
  * @method getTeamIdFromToken()
  */
-class User extends Authenticatable implements HasMedia
+class User extends Authenticatable
 {
     use HasApiTokens;
     use HasRoles;
     use AuditableTrait;
     use SoftDeletes;
     use Notifiable;
-    use InteractsWithMedia;
+    use HasUploadFiles;
+
 
     /*
     |--------------------------------------------------------------------------

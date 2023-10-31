@@ -43,7 +43,7 @@ class UserRepository extends MongodbRepository implements InterfacesUserReposito
         }
 
         //Execute Output
-        return $this->executeQuery($query);
+        return $this->executeQuery($query, $filters);
 
     }
 }

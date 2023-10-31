@@ -45,7 +45,7 @@ class LoginResource extends JsonResource
         $this->resource->load(['profile', 'roles']);
 
         $return = [
-            'id' => $this->id,
+            'id' => $this->getKey(),
             'name' => $this->name,
             'mobile' => $this->mobile,
             'email' => $this->email,

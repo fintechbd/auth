@@ -52,7 +52,7 @@ class AuthenticatedController extends Controller
 
         if ($attemptUser->wrong_password > config('fintech.auth.password_threshold', 10)) {
 
-            \Fintech\Auth\Facades\Auth::user()->update($attemptUser->id, [
+            \Fintech\Auth\Facades\Auth::user()->update($attemptUser->getKey(), [
                 'status' => UserStatus::InActive->value,
             ]);
 
@@ -69,7 +69,7 @@ class AuthenticatedController extends Controller
 
             $wrongPasswordCount = $attemptUser->wrong_password + 1;
 
-            \Fintech\Auth\Facades\Auth::user()->update($attemptUser->id, [
+            \Fintech\Auth\Facades\Auth::user()->update($attemptUser->getKey(), [
                 'wrong_password' => $wrongPasswordCount,
             ]);
 

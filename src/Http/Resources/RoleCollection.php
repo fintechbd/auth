@@ -18,7 +18,7 @@ class RoleCollection extends ResourceCollection
     {
         return $this->collection->map(function ($role) {
             $return = [
-                'id' => $role->id,
+                'id' => $role->getKey(),
 //                'team_id' => $role->team_id ?? null,
 //                'team_name' => ($role->team != null) ? $role->team->name : null,
                 'name' => $role->name ?? null,
@@ -34,7 +34,7 @@ class RoleCollection extends ResourceCollection
             if (!$role->permissions->isEmpty()) {
                 foreach ($role->permissions as $permission) {
                     $return['permissions'][] = [
-                        'id' => $permission->id,
+                        'id' => $permission->getKey(),
                         'name' => $permission->name ?? null,
                         'guard_name' => $permission->guard_name ?? null,
                         'created_at' => $permission->pivot->created_at,
@@ -59,7 +59,7 @@ class RoleCollection extends ResourceCollection
 
         //        Auth::team()->list(['paginate' => false])
         //            ->each(function ($team) use (&$teams) {
-        //                $teams[$team->id] = $team->name;
+        //                $teams[$team->getKey()] = $team->name;
         //            });
 
         return [

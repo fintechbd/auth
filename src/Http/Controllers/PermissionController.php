@@ -78,7 +78,7 @@ class PermissionController extends Controller
 
             return $this->created([
                 'message' => __('core::messages.resource.created', ['model' => 'Permission']),
-                'id' => $permission->id,
+                'id' => $permission->getKey(),
             ]);
 
         } catch (Exception $exception) {

@@ -19,7 +19,7 @@ class UserCollection extends ResourceCollection
     {
         return $this->collection->map(function ($user) {
             $data = [
-                'id' => $user->id ?? null,
+                'id' => $user->getKey() ?? null,
                 'parent_id' => $user->parent_id ?? null,
                 'parent_name' => ($user->parent) ? $user->parent->name : null,
                 'name' => $user->name ?? null,

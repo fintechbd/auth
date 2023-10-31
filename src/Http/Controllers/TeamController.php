@@ -78,7 +78,7 @@ class TeamController extends Controller
 
             return $this->created([
                 'message' => __('core::messages.resource.created', ['model' => 'Team']),
-                'id' => $team->id,
+                'id' => $team->getKey(),
             ]);
 
         } catch (Exception $exception) {

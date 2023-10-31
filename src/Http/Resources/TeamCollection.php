@@ -18,7 +18,7 @@ class TeamCollection extends ResourceCollection
     {
         return $this->collection->map(function ($team) {
             $return = [
-                'id' => $team->id,
+                'id' => $team->getKey(),
                 'name' => $team->name ?? null,
                 'roles' => [],
                 'created_at' => $team->created_at,
@@ -29,7 +29,7 @@ class TeamCollection extends ResourceCollection
             if (!$team->roles->isEmpty()) {
                 foreach ($team->roles as $role) {
                     $return['roles'][] = [
-                        'id' => $role->id,
+                        'id' => $role->getKey(),
                         'name' => $role->name ?? null,
                         'guard_name' => $role->guard_name ?? null,
                         'created_at' => $role->created_at,

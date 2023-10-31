@@ -79,7 +79,7 @@ class UserController extends Controller
 
             return $this->created([
                 'message' => __('core::messages.resource.created', ['model' => 'User']),
-                'id' => $user->id,
+                'id' => $user->getKey(),
             ]);
 
         } catch (Exception $exception) {

@@ -74,7 +74,7 @@ class RoleController extends Controller
 
             return $this->created([
                 'message' => __('core::messages.resource.created', ['model' => 'Role']),
-                'id' => $role->id,
+                'id' => $role->getKey(),
             ]);
 
         } catch (Exception $exception) {

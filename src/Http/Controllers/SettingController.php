@@ -98,7 +98,7 @@ class SettingController extends Controller
             $settings = Core::setting()->list(['package' => $configuration]);
 
             foreach ($settings as $setting) {
-                Core::setting()->destroy($setting->id);
+                Core::setting()->destroy($setting->getKey());
             }
 
             return $this->deleted(__('core::messages.setting.deleted', ['model' => 'Setting']));

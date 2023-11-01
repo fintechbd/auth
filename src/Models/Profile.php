@@ -42,9 +42,25 @@ class Profile extends Model implements HasMedia
             ->useDisk(config('filesystems.default', 'public'));
     }
 
-    public function mediaDocumentsResolver()
+    /**
+     * @param $file
+     * @return array<string, array>
+     */
+    protected function documentsMediaResolve($file)
     {
+        $attributes = ['type' => $file['type']];
 
+        if ($file['front']) {
+            $attributes['side'] = "front";
+            return [$file['front'], $attributes];
+        }
+
+        if ($file['back']) {
+            $attributes['side'] = "back";
+            return [$file['back'], $attributes];
+        }
+
+        return [$file, $attributes];
     }
 
     /*

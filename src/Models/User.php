@@ -3,13 +3,14 @@
 namespace Fintech\Auth\Models;
 
 use Fintech\Core\Traits\AuditableTrait;
-use Fintech\Core\Traits\HasUploadFiles;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\Permission\Traits\HasRoles;
 
 /**
@@ -17,14 +18,14 @@ use Spatie\Permission\Traits\HasRoles;
  * @package Fintech\Auth\Models
  * @method getTeamIdFromToken()
  */
-class User extends Authenticatable
+class User extends Authenticatable implements HasMedia
 {
     use HasApiTokens;
     use HasRoles;
     use AuditableTrait;
     use SoftDeletes;
     use Notifiable;
-    use HasUploadFiles;
+    use InteractsWithMedia;
 
 
     /*
@@ -68,8 +69,7 @@ class User extends Authenticatable
 
     public function registerMediaCollections(): void
     {
-        $this
-            ->addMediaCollection('photo')
+        $this->addMediaCollection('photo')
             ->acceptsMimeTypes(['image/jpeg', 'image/png', 'image/gif', 'image/jpg', 'image/svg+xml'])
             ->useFallbackUrl(asset('storage/images/anonymous-user.jpg'))
             ->useFallbackPath(storage_path('/app/public/images/anonymous-user.jpg'))
@@ -77,12 +77,6 @@ class User extends Authenticatable
             ->useFallbackPath(storage_path('/app/public/images/anonymous-user.jpg'), 'thumb')
             ->useDisk(config('filesystems.default', 'public'))
             ->singleFile();
-        /*->registerMediaConversions(function (Media $media) {
-            $this
-                ->addMediaConversion('thumb')
-                ->width(128)
-                ->height(128);
-        });*/
     }
 
     /*

@@ -81,11 +81,11 @@ class UserCollection extends ResourceCollection
             ];
 
             if (Core::packageExists('MetaData')) {
-//                $profile_data['permanent_address']['city_name'] = $profile->city?->name ?? null;
-//                $profile_data['permanent_address']['state_name'] = $profile->state?->name ?? null;
-//                $profile_data['permanent_address']['country_name'] = $profile->country?->name ?? null;
-//                $profile_data['present_address']['city_name'] = $profile->presentCity?->name ?? null;
-//                $profile_data['present_address']['state_name'] = $profile->presentState?->name ?? null;
+                //                $profile_data['permanent_address']['city_name'] = $profile->city?->name ?? null;
+                //                $profile_data['permanent_address']['state_name'] = $profile->state?->name ?? null;
+                //                $profile_data['permanent_address']['country_name'] = $profile->country?->name ?? null;
+                //                $profile_data['present_address']['city_name'] = $profile->presentCity?->name ?? null;
+                //                $profile_data['present_address']['state_name'] = $profile->presentState?->name ?? null;
                 $profile_data['present_address']['country_name'] = $profile->presentCountry?->name ?? null;
             }
 

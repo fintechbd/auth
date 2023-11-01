@@ -22,23 +22,57 @@ class StoreUserRequest extends FormRequest
      */
     public function rules(): array
     {
-        return [
-            'parent_id' => ['nullable', 'integer'],
+        $rules = config('fintech.auth.register_rules', [
+            //user
             'name' => ['required', 'string', 'min:2', 'max:255'],
             'mobile' => ['required', 'string', 'min:10'],
             'email' => ['required', 'string', 'email:rfc,dns', 'min:2', 'max:255'],
-            'login_id' => ['required', 'string', 'min:6', 'max:255'],
-            'password' => ['required', 'string', Password::default()],
             'pin' => ['required', 'string', 'min:4', 'max:16'],
-            'status' => ['required', 'string'],
             'app_version' => ['nullable', 'string'],
             'fcm_token' => ['nullable', 'string'],
             'language' => ['nullable', 'string'],
             'currency' => ['nullable', 'string'],
-            'photo' => ['nullable', 'string'],
-            'roles' => ['array', 'required'],
-            'roles.*' => ['integer', 'required']
-        ];
+
+            //profile
+            'father_name' => ['string', 'nullable'],
+            'mother_name' => ['string', 'nullable'],
+            'gender' => ['string', 'nullable'],
+            'marital_status' => ['string', 'nullable'],
+            'occupation' => ['string', 'nullable'],
+            'source_of_income' => ['string', 'nullable'],
+            'id_type' => ['string', 'nullable'],
+            'id_no' => ['string', 'nullable'],
+            'id_issue_country' => ['string', 'nullable'],
+            'id_expired_at' => ['string', 'nullable'],
+            'id_issue_at' => ['string', 'nullable'],
+            'photo' => ['string', 'nullable'],
+            'documents' => ['array', 'required', 'min:1'],
+            'documents.*.type' => ['string', 'required'],
+            'documents.*.front' => ['string', 'required'],
+            'documents.*.back' => ['string', 'nullable'],
+            'date_of_birth' => ['date', 'nullable'],
+            'permanent_address' => ['string', 'nullable'],
+            'city_id' => ['integer', 'nullable'],
+            'state_id' => ['integer', 'nullable'],
+            'country_id' => ['integer', 'nullable'],
+            'post_code' => ['string', 'nullable'],
+            'present_address' => ['string', 'nullable'],
+            'present_city_id' => ['integer', 'nullable'],
+            'present_state_id' => ['integer', 'nullable'],
+            'present_country_id' => ['integer', 'nullable'],
+            'present_post_code' => ['string', 'nullable'],
+            'nationality' => ['string', 'nullable'],
+        ]);
+
+        $rules[config('fintech.auth.auth_field', 'login_id')] = config('fintech.auth.auth_field_rules', ['required', 'string', 'min:6', 'max:255']);
+
+        $rules[config('fintech.auth.password_field', 'password')] = config('fintech.auth.password_field_rules', ['required', 'string', Password::default()]);
+
+        $rules['roles'] = ['array', 'required'];
+
+        $rules['roles.*'] = ['integer', 'required'];
+
+        return $rules;
     }
 
     /**

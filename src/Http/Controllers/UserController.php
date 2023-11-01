@@ -33,6 +33,11 @@ class UserController extends Controller
 {
     use ApiResponseTrait;
 
+    private array $userFields = [
+        'name', 'mobile', 'email', 'login_id', 'password', 'pin',
+        'language', 'currency', 'app_version', 'fcm_token', 'photo'
+    ];
+
     /**
      * @lrd:start
      * Return a listing of the user resource as collection.
@@ -68,14 +73,14 @@ class UserController extends Controller
     public function store(StoreUserRequest $request): JsonResponse
     {
         try {
-            $inputs = $request->validated();
 
-
-            $user = Auth::user()->create($inputs);
+            $user = Auth::user()->create($request->only($this->userFields));
 
             if (!$user) {
                 throw (new StoreOperationException())->setModel(config('fintech.auth.user_model'));
             }
+
+            $profile = Auth::profile()->create($user->getKey(), $request->except($this->userFields));
 
             return $this->created([
                 'message' => __('core::messages.resource.created', ['model' => 'User']),
@@ -130,6 +135,7 @@ class UserController extends Controller
      */
     public function update(UpdateUserRequest $request, string|int $id): JsonResponse
     {
+
         try {
 
             $user = Auth::user()->find($id);
@@ -138,9 +144,8 @@ class UserController extends Controller
                 throw (new ModelNotFoundException())->setModel(config('fintech.auth.user_model'), $id);
             }
 
-            $inputs = $request->validated();
-
-            if (!Auth::user()->update($id, $inputs)) {
+            if (!Auth::user()->update($id, $request->only($this->userFields)) ||
+                !Auth::profile()->update($user->getKey(), $request->except($this->userFields))) {
 
                 throw (new UpdateOperationException())->setModel(config('fintech.auth.user_model'), $id);
             }

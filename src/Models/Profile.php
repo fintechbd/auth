@@ -36,8 +36,7 @@ class Profile extends Model implements HasMedia
 
     public function registerMediaCollections(): void
     {
-        $this
-            ->addMediaCollection('documents')
+        $this->addMediaCollection('documents')
             ->acceptsMimeTypes(['image/jpeg', 'image/png', 'image/jpg', 'application/pdf'])
             ->useDisk(config('filesystems.default', 'public'));
     }
@@ -46,16 +45,16 @@ class Profile extends Model implements HasMedia
      * @param $file
      * @return array<string, array>
      */
-    protected function documentsMediaResolve($file)
+    public function documentsMediaResolve($file)
     {
         $attributes = ['type' => $file['type']];
 
-        if ($file['front']) {
+        if (isset($file['front'])) {
             $attributes['side'] = "front";
             return [$file['front'], $attributes];
         }
 
-        if ($file['back']) {
+        if (isset($file['back'])) {
             $attributes['side'] = "back";
             return [$file['back'], $attributes];
         }

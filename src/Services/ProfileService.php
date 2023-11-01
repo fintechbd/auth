@@ -16,17 +16,17 @@ class ProfileService
      * @param ProfileRepository $profileRepository
      */
     public function __construct(
-        private string|int        $userId,
         private ProfileRepository $profileRepository
-    ) {
+    )
+    {
     }
 
-    public function create(array $inputs = [])
+    public function create(string|int $userId, array $inputs = [])
     {
         try {
 
             $profileData = $this->formatDataFromInput($inputs);
-            $profileData['user_id'] = $this->userId;
+            $profileData['user_id'] = $userId;
 
             DB::beginTransaction();
 
@@ -45,8 +45,7 @@ class ProfileService
 
     private function formatDataFromInput($inputs, bool $forCreate = false)
     {
-        $data['user_profile_data']['father_name'] = $inputs['father_name'] ?? null;
-        $data['user_profile_data']['mother_name'] = $inputs['mother_name'] ?? null;
+        $data = $inputs;
 
         if (isset($inputs['password'])) {
             $data['user_profile_data']['password_updated_at'] = now();
@@ -56,43 +55,57 @@ class ProfileService
             $data['user_profile_data']['pin_updated_at'] = now();
         }
 
-        $data['user_profile_data']['gender'] = $inputs['gender'] ?? null;
-        $data['user_profile_data']['marital_status'] = $inputs['marital_status'] ?? null;
-        $data['user_profile_data']['occupation'] = $inputs['occupation'] ?? null;
-        $data['user_profile_data']['source_of_income'] = $inputs['source_of_income'] ?? null;
-        $data['user_profile_data']['note'] = $inputs['note'] ?? null;
-        $data['user_profile_data']['nationality'] = $inputs['nationality'] ?? null;
-        $data['id_type'] = $inputs['id_type'] ?? null;
-        $data['id_no'] = $inputs['id_no'] ?? null;
-        $data['id_issue_country'] = $inputs['id_issue_country'] ?? null;
-        $data['id_expired_at'] = $inputs['id_expired_at'] ?? null;
-        $data['id_issue_at'] = $inputs['id_issue_at'] ?? null;
-        $data['date_of_birth'] = $inputs['date_of_birth'] ?? null;
-        $data['permanent_address'] = $inputs['permanent_address'] ?? null;
-        $data['city_id'] = $inputs['city_id'] ?? null;
-        $data['state_id'] = $inputs['state_id'] ?? null;
-        $data['country_id'] = $inputs['country_id'] ?? null;
-        $data['post_code'] = $inputs['post_code'] ?? null;
-        $data['present_address'] = $inputs['present_address'] ?? null;
-        $data['present_city_id'] = $inputs['present_city_id'] ?? null;
-        $data['present_state_id'] = $inputs['present_state_id'] ?? null;
-        $data['present_country_id'] = $inputs['present_country_id'] ?? null;
-        $data['present_post_code'] = $inputs['present_post_code'] ?? null;
+        if (isset($inputs['father_name'])) {
+            $data['user_profile_data']['father_name'] = $inputs['father_name'];
+            unset($data['father_name']);
+        }
 
+        if (isset($inputs['mother_name'])) {
+            $data['user_profile_data']['mother_name'] = $inputs['mother_name'];
+            unset($data['mother_name']);
+        }
 
+        if (isset($inputs['gender'])) {
+            $data['user_profile_data']['gender'] = $inputs['gender'];
+            unset($data['gender']);
+        }
 
+        if (isset($inputs['marital_status'])) {
+            $data['user_profile_data']['marital_status'] = $inputs['marital_status'];
+            unset($data['marital_status']);
+        }
+
+        if (isset($inputs['occupation'])) {
+            $data['user_profile_data']['occupation'] = $inputs['occupation'];
+            unset($data['occupation']);
+        }
+
+        if (isset($inputs['source_of_income'])) {
+            $data['user_profile_data']['source_of_income'] = $inputs['source_of_income'];
+            unset($data['source_of_income']);
+        }
+
+        if (isset($inputs['note'])) {
+            $data['user_profile_data']['note'] = $inputs['note'];
+            unset($data['note']);
+        }
+
+        if (isset($inputs['nationality'])) {
+            $data['user_profile_data']['nationality'] = $inputs['nationality'];
+            unset($data['nationality']);
+        }
 
         return $data;
     }
 
-    public function update(array $inputs = [])
+    public function update(string|int $userId, array $inputs = [])
     {
         try {
             DB::beginTransaction();
 
             $profileData = $this->formatDataFromInput($inputs);
 
-            $user = $this->profileRepository->update($user_id, $profileData);
+            $user = $this->profileRepository->update($userId, $profileData);
 
             DB::commit();
 

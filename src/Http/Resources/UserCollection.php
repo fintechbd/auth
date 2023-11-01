@@ -2,10 +2,12 @@
 
 namespace Fintech\Auth\Http\Resources;
 
+use Fintech\Auth\Models\Profile;
 use Fintech\Core\Facades\Core;
 use Fintech\Core\Supports\Constant;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\ResourceCollection;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class UserCollection extends ResourceCollection
 {
@@ -27,61 +29,64 @@ class UserCollection extends ResourceCollection
                 'email' => $user->email ?? null,
                 'login_id' => $user->login_id ?? null,
                 'photo' => $user->getFirstMediaUrl('photo'),
-                'wrong_password' => $user->wrong_password ?? null,
-                'wrong_pin' => $user->wrong_pin ?? null,
                 'status' => $user->status ?? null,
                 'language' => $user->language ?? null,
                 'currency' => $user->currency ?? null,
                 'app_version' => $user->app_version ?? null,
-                'remember_token' => $user->remember_token ?? null,
-                'fcm_token' => $user->fcm_token ?? null,
                 'roles' => ($user->roles) ? $user->roles->pluck('name')->toArray() : [],
                 'links' => $user->links,
                 'created_at' => $user->created_at,
                 'updated_at' => $user->updated_at,
             ];
 
+            /**
+             * @var Profile $profile
+             */
             $profile = $user->profile;
 
             $profile_data = [
-                'user_profile_data' => $profile->user_profile_data ?? null,
-                'id_type' => $profile->id_type ?? null,
-                'id_no' => $profile->id_no ?? null,
-                'id_issue_country' => $profile->id_issue_country ?? null,
-                'id_expired_at' => $profile->id_expired_at ?? null,
-                'id_issue_at' => $profile->id_issue_at ?? null,
-                'id_no_duplicate' => $profile->id_no_duplicate ?? null,
+                'profile_data' => $profile->user_profile_data ?? null,
+                'id_doc' => [
+                    'id_type' => $profile->id_type ?? null,
+                    'id_no' => $profile->id_no ?? null,
+                    'id_issue_country' => $profile->id_issue_country ?? null,
+                    'id_expired_at' => $profile->id_expired_at ?? null,
+                    'id_issue_at' => $profile->id_issue_at ?? null,
+                    'id_no_duplicate' => $profile->id_no_duplicate ?? null,
+//                    'documents' => $this->formatMediaCollection($profile->getMedia('documents')),
+                ],
                 'date_of_birth' => $profile->date_of_birth ?? null,
-                'address' => $profile->permanent_address ?? null,
-                'city_id' => $profile->city_id ?? null,
-                'city_name' => null,
-                'state_id' => $profile->state_id ?? null,
-                'state_name' => null,
-                'country_id' => $profile->country_id ?? null,
-                'country_name' => null,
-                'post_code' => $profile->post_code ?? null,
-                'present_address' => $profile->present_address ?? null,
-                'present_city_id' => $profile->present_city_id ?? null,
-                'present_city_name' => null,
-                'present_state_id' => $profile->present_state_id ?? null,
-                'present_state_name' => null,
-                'present_country_id' => $profile->present_country_id ?? null,
-                'present_country_name' => null,
-                'present_post_code' => $profile->present_post_code ?? null,
+//                "permanent_address" => [
+//                    'address' => $profile->permanent_address ?? null,
+//                    'city_id' => $profile->city_id ?? null,
+//                    'city_name' => null,
+//                    'state_id' => $profile->state_id ?? null,
+//                    'state_name' => null,
+//                    'country_id' => $profile->country_id ?? null,
+//                    'country_name' => null,
+//                    'post_code' => $profile->post_code ?? null,
+//                ],
+                "present_address" => [
+//                    'address' => $profile->present_address ?? null,
+//                    'city_id' => $profile->present_city_id ?? null,
+//                    'city_name' => null,
+//                    'state_id' => $profile->present_state_id ?? null,
+//                    'state_name' => null,
+                    'country_id' => $profile->present_country_id ?? null,
+                    'country_name' => null,
+//                    'post_code' => $profile->present_post_code ?? null,
+                ],
                 'blacklisted' => $profile->blacklisted ?? null,
-                ''
+                'proof_of_address' => $this->formatMediaCollection($profile->getMedia('proof_of_address'))
             ];
 
             if (Core::packageExists('MetaData')) {
-
-                $profile->load(['city', 'state', 'country']);
-
-                $profile_data['city_name'] = $profile->city?->name ?? null;
-                $profile_data['state_name'] = $profile->state?->name ?? null;
-                $profile_data['country_name'] = $profile->country?->name ?? null;
-                $profile_data['present_city_name'] = $profile->presentCity?->name ?? null;
-                $profile_data['present_state_name'] = $profile->presentState?->name ?? null;
-                $profile_data['present_country_name'] = $profile->presentCountry?->name ?? null;
+//                $profile_data['permanent_address']['city_name'] = $profile->city?->name ?? null;
+//                $profile_data['permanent_address']['state_name'] = $profile->state?->name ?? null;
+//                $profile_data['permanent_address']['country_name'] = $profile->country?->name ?? null;
+//                $profile_data['present_address']['city_name'] = $profile->presentCity?->name ?? null;
+//                $profile_data['present_address']['state_name'] = $profile->presentState?->name ?? null;
+                $profile_data['present_address']['country_name'] = $profile->presentCountry?->name ?? null;
             }
 
             return array_merge($data, $profile_data);
@@ -104,5 +109,16 @@ class UserCollection extends ResourceCollection
             ],
             'query' => $request->all(),
         ];
+    }
+
+    private function formatMediaCollection($collection)
+    {
+        $data = [];
+
+        $collection->each(function (Media $media) use (&$data) {
+            $data[$media->getCustomProperty('type')][$media->getCustomProperty('side')] = $media->getFullUrl();
+        });
+
+        return $data;
     }
 }

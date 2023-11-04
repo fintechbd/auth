@@ -35,7 +35,8 @@ class UserController extends Controller
 
     private array $userFields = [
         'name', 'mobile', 'email', 'login_id', 'password', 'pin',
-        'language', 'currency', 'app_version', 'fcm_token', 'photo'
+        'language', 'currency', 'app_version', 'fcm_token', 'photo',
+        'roles', 'parent_id'
     ];
 
     /**

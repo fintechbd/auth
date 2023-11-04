@@ -14,8 +14,8 @@ class UserSeeder extends Seeder
     public function run(): void
     {
         foreach ($this->data() as $user) {
-            if($user = Auth::user()->create($user['user'])) {
-                Auth::profile()->create($user->getKey(), $user['profile']);
+            if($entry = Auth::user()->create($user['user'])) {
+                Auth::profile()->create($entry->getKey(), $user['profile']);
             }
         }
     }

@@ -69,6 +69,8 @@ if (Config::get('fintech.auth.enabled')) {
 
             Route::apiResource('settings', SettingController::class)->only(['index', 'store']);
 
+            Route::apiResource('audits', \Fintech\Auth\Http\Controllers\AuditController::class)->only('index', 'show', 'destroy');
+
             //DO NOT REMOVE THIS LINE//
         });
     });

@@ -41,5 +41,10 @@ return [
         'invalid' => 'The verification link token is invalid. Please try again later.',
         'expired' => 'The verification token has expired. Please try again later.',
         'success' => 'OTP Verification successful.',
+    ],
+    'audit' => [
+        'create' => 'System audit can not be created by user input.',
+        'update' => 'System audit can not be update by user input.',
+        'restore' => 'System audit can not be restores by user command.'
     ]
 ];

@@ -93,6 +93,16 @@ return [
     'otp_length' => 4,
     //values 'otp' or 'link'
     'otp_method' => 'otp',
+    
+    /*
+    |--------------------------------------------------------------------------
+    | Audit Model
+    |--------------------------------------------------------------------------
+    |
+    | This value will be used to across system where model is needed
+    */
+    'audit_model' => \Fintech\Auth\Models\Audit::class,
+
     //** Model Config Point Do not Remove **//
 
     /*
@@ -237,6 +247,8 @@ return [
         \Fintech\Auth\Interfaces\UserRepository::class => \Fintech\Auth\Repositories\Eloquent\UserRepository::class,
 
         \Fintech\Auth\Interfaces\OneTimePinRepository::class => \Fintech\Auth\Repositories\Eloquent\OneTimePinRepository::class,
+
+        \Fintech\Auth\Interfaces\AuditRepository::class => \Fintech\Auth\Repositories\Eloquent\AuditRepository::class,
 
         //** Repository Binding Config Point Do not Remove **//
     ],

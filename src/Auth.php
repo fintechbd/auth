@@ -82,5 +82,14 @@ class Auth
         return app(PinResetService::class);
     }
 
+    /**
+     * @return \Fintech\Auth\Services\AuditService
+     */
+    public function audit()
+    {
+        return app(\Fintech\Auth\Services\AuditService::class);
+    }
+
     //** Crud Service Method Point Do not Remove **//
+
 }

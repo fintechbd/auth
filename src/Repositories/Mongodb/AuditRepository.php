@@ -17,13 +17,13 @@ class AuditRepository extends MongodbRepository implements InterfacesAuditReposi
 {
     public function __construct()
     {
-       $model = app(config('fintech.auth.audit_model', \Fintech\Auth\Models\Audit::class));
+        $model = app(config('fintech.auth.audit_model', \Fintech\Auth\Models\Audit::class));
 
-       if (!$model instanceof Model) {
-           throw new InvalidArgumentException("Mongodb repository require model class to be `MongoDB\Laravel\Eloquent\Model` instance.");
-       }
+        if (!$model instanceof Model) {
+            throw new InvalidArgumentException("Mongodb repository require model class to be `MongoDB\Laravel\Eloquent\Model` instance.");
+        }
 
-       $this->model = $model;
+        $this->model = $model;
     }
 
     /**

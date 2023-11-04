@@ -93,7 +93,7 @@ return [
     'otp_length' => 4,
     //values 'otp' or 'link'
     'otp_method' => 'otp',
-    
+
     /*
     |--------------------------------------------------------------------------
     | Audit Model

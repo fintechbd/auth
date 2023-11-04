@@ -1,18 +1,13 @@
 <?php
 
 namespace Fintech\Auth\Http\Controllers;
+
 use Exception;
-use Fintech\Core\Exceptions\StoreOperationException;
-use Fintech\Core\Exceptions\UpdateOperationException;
 use Fintech\Core\Exceptions\DeleteOperationException;
-use Fintech\Core\Exceptions\RestoreOperationException;
 use Fintech\Core\Traits\ApiResponseTrait;
 use Fintech\Auth\Facades\Auth;
 use Fintech\Auth\Http\Resources\AuditResource;
 use Fintech\Auth\Http\Resources\AuditCollection;
-use Fintech\Auth\Http\Requests\ImportAuditRequest;
-use Fintech\Auth\Http\Requests\StoreAuditRequest;
-use Fintech\Auth\Http\Requests\UpdateAuditRequest;
 use Fintech\Auth\Http\Requests\IndexAuditRequest;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\JsonResponse;
@@ -74,7 +69,7 @@ class AuditController extends Controller
             $audit = Auth::audit()->find($id);
 
             if (!$audit) {
-                throw (new ModelNotFoundException)->setModel(config('fintech.auth.audit_model'), $id);
+                throw (new ModelNotFoundException())->setModel(config('fintech.auth.audit_model'), $id);
             }
 
             return new AuditResource($audit);
@@ -106,7 +101,7 @@ class AuditController extends Controller
             $audit = Auth::audit()->find($id);
 
             if (!$audit) {
-                throw (new ModelNotFoundException)->setModel(config('fintech.auth.audit_model'), $id);
+                throw (new ModelNotFoundException())->setModel(config('fintech.auth.audit_model'), $id);
             }
 
             if (!Auth::audit()->destroy($id)) {

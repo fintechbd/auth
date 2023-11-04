@@ -68,6 +68,8 @@ if (Config::get('fintech.auth.enabled')) {
             //        Route::post('teams/{team}/restore', [\Fintech\Auth\Http\Controllers\TeamController::class, 'restore'])->name('teams.restore');
 
             Route::apiResource('settings', SettingController::class)->only(['index', 'store']);
+
+            //DO NOT REMOVE THIS LINE//
         });
     });
 }

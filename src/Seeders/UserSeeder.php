@@ -14,7 +14,7 @@ class UserSeeder extends Seeder
     public function run(): void
     {
         foreach ($this->data() as $user) {
-            if($entry = Auth::user()->create($user['user'])) {
+            if ($entry = Auth::user()->create($user['user'])) {
                 Auth::profile()->create($entry->getKey(), $user['profile']);
             }
         }
@@ -51,7 +51,6 @@ class UserSeeder extends Seeder
                     "id_issue_country" => "Bangladesh",
                     "id_expired_at" => now()->addYears(5)->format('Y-m-d'),
                     "id_issue_at" => now()->format('Y-m-d'),
-                    "profile_photo" => null,
                     "scan" => null,
                     "scan_1" => null,
                     "scan_2" => null,
@@ -97,7 +96,7 @@ class UserSeeder extends Seeder
                     "id_issue_country" => "Bangladesh",
                     "id_expired_at" => now()->addYears(5)->format('Y-m-d'),
                     "id_issue_at" => now()->format('Y-m-d'),
-                    "profile_photo" => null,
+
                     "scan" => null,
                     "scan_1" => null,
                     "scan_2" => null,
@@ -143,7 +142,7 @@ class UserSeeder extends Seeder
                     "id_issue_country" => "Bangladesh",
                     "id_expired_at" => now()->addYears(5)->format('Y-m-d'),
                     "id_issue_at" => now()->format('Y-m-d'),
-                    "profile_photo" => null,
+
                     "scan" => null,
                     "scan_1" => null,
                     "scan_2" => null,

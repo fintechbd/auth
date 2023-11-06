@@ -70,7 +70,7 @@ class StoreUserRequest extends FormRequest
 
         $rules[config('fintech.auth.auth_field', 'login_id')] = config('fintech.auth.auth_field_rules', ['required', 'string', 'min:6', 'max:255']);
 
-        $rules[config('fintech.auth.password_field', 'password')] = config('fintech.auth.password_field_rules', ['required', 'string', Password::default()]);
+        $rules[config('fintech.auth.password_field', 'password')] = ['required', ...config('fintech.auth.password_field_rules', ['string', Password::default()])];
 
         $rules['roles'] = ['array', 'required'];
 

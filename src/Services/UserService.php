@@ -31,9 +31,10 @@ class UserService
      * @param ProfileRepository $profileRepository
      */
     public function __construct(
-        UserRepository $userRepository,
+        UserRepository    $userRepository,
         ProfileRepository $profileRepository
-    ) {
+    )
+    {
         $this->userRepository = $userRepository;
         $this->profileRepository = $profileRepository;
     }
@@ -57,7 +58,7 @@ class UserService
         DB::beginTransaction();
 
         try {
-            $userData = $this->formatDataFromInput($inputs);
+            $userData = $this->formatDataFromInput($inputs, true);
 
             if ($user = $this->userRepository->create($userData)) {
 
@@ -78,13 +79,23 @@ class UserService
     {
         $data = $inputs;
 
-        if (isset($inputs['password'])) {
-            $data['password'] = Hash::make($inputs['password'] ?? config('fintech.auth.default_password', '12345678'));
+        if ($forCreate) {
+            $data['password'] = Hash::make(($inputs['password'] ?? config('fintech.auth.default_password', '123456')));
+            $data['pin'] = Hash::make(($inputs['pin'] ?? config('fintech.auth.default_pin', '123456')));
+        }
+        else {
+            if (isset($data['password']) && !empty($data['password'])) {
+                $data['password'] = Hash::make($data['password']);
+            } else {
+                unset($data['password']);
+            }
+            if (isset($data['pin']) && !empty($data['pin'])) {
+                $data['pin'] = Hash::make($data['pin']);
+            } else {
+                unset($data['pin']);
+            }
         }
 
-        if (isset($inputs['pin'])) {
-            $data['pin'] = Hash::make($inputs['pin'] ?? config('fintech.auth.default_pin', '123456'));
-        }
 
         if (isset($inputs['roles'])) {
             $data['roles'] = empty($inputs['roles'])
@@ -106,8 +117,6 @@ class UserService
 
         try {
             $userData = $this->formatDataFromInput($inputs);
-
-            logger("user data", [$userData]);
 
             if ($user = $this->userRepository->update($id, $userData)) {
 

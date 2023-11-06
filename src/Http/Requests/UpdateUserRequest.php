@@ -27,7 +27,7 @@ class UpdateUserRequest extends FormRequest
             'name' => ['required', 'string', 'min:2', 'max:255'],
             'mobile' => ['required', 'string', 'min:10'],
             'email' => ['required', 'string', 'email:rfc,dns', 'min:2', 'max:255'],
-            'pin' => ['required', 'string', 'min:4', 'max:16'],
+            'pin' => ['nullable', 'string', 'min:4', 'max:16'],
             'app_version' => ['nullable', 'string'],
             'fcm_token' => ['nullable', 'string'],
             'language' => ['nullable', 'string'],
@@ -46,11 +46,11 @@ class UpdateUserRequest extends FormRequest
             'id_expired_at' => ['string', 'nullable'],
             'id_issue_at' => ['string', 'nullable'],
             'photo' => ['string', 'nullable'],
-            'documents' => ['array', 'required', 'min:1'],
+            'documents' => ['array', 'nullable', 'min:1'],
             'documents.*.type' => ['string', 'required'],
             'documents.*.front' => ['string', 'required'],
             'documents.*.back' => ['string', 'nullable'],
-            'proof_of_address' => ['array', 'required', 'min:1'],
+            'proof_of_address' => ['array', 'nullable', 'min:1'],
             'proof_of_address.*.type' => ['string', 'required'],
             'proof_of_address.*.front' => ['string', 'required'],
             'proof_of_address.*.back' => ['string', 'nullable'],
@@ -66,16 +66,13 @@ class UpdateUserRequest extends FormRequest
             'present_country_id' => ['integer', 'nullable'],
             'present_post_code' => ['string', 'nullable'],
             'nationality' => ['string', 'nullable'],
+            'roles' => ['array', 'required'],
+        'roles.*' => ['integer', 'required'],
         ]);
 
         $rules[config('fintech.auth.auth_field', 'login_id')] = config('fintech.auth.auth_field_rules', ['required', 'string', 'min:6', 'max:255']);
 
-        $rules[config('fintech.auth.password_field', 'password')] = config('fintech.auth.password_field_rules', ['required', 'string', Password::default()]);
-
-        $rules['roles'] = ['array', 'required'];
-
-        $rules['roles.*'] = ['integer', 'required'];
-
+        $rules[config('fintech.auth.password_field', 'password')] = ['nullable', ...config('fintech.auth.password_field_rules', [ 'string', Password::default()])];
         return $rules;
     }
 

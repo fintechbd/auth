@@ -149,7 +149,7 @@ return [
     */
 
     'password_field' => 'password',
-    'password_field_rules' => ['required', 'string', 'min:8'],
+    'password_field_rules' => ['string', 'min:8'],
     'default_password' => '12345678',
     /*
     |--------------------------------------------------------------------------

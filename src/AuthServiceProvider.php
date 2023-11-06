@@ -31,6 +31,7 @@ class AuthServiceProvider extends ServiceProvider
     public function boot(): void
     {
         $this->publishes([
+            __DIR__.'/../config/audit.php' => config_path('audit.php'),
             __DIR__.'/../config/auth.php' => config_path('fintech/auth.php'),
             __DIR__.'/../config/permission.php' => config_path('permission.php'),
         ]);

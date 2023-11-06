@@ -26,6 +26,7 @@ class IndexIdDocTypeRequest extends FormRequest
         return [
             'search' => ['string', 'nullable', 'max:255'],
             'per_page' => ['integer', 'nullable', 'min:10', 'max:500'],
+            'country_id' => ['integer', 'nullable', 'min:10', 'max:500'],
             'page' => ['integer', 'nullable', 'min:1'],
             'paginate' => ['boolean'],
             'sort' => ['string', 'nullable', 'min:2', 'max:255'],

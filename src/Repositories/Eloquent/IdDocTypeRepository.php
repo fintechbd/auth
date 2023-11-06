@@ -42,7 +42,13 @@ class IdDocTypeRepository extends EloquentRepository implements InterfacesIdDocT
                 $query->where($this->model->getKeyName(), 'like', "%{$filters['search']}%");
             } else {
                 $query->where('name', 'like', "%{$filters['search']}%");
+                $query->orWhere('code', 'like', "%{$filters['search']}%");
+                $query->orWhere('id_doc_type_data', 'like', "%{$filters['search']}%");
             }
+        }
+
+        if (isset($filters['country_id']) && !empty($filters['country_id'])) {
+            $query->where('country_id', '=', $filters['country_id']);
         }
 
         //Display Trashed

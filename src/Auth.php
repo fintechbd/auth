@@ -2,6 +2,7 @@
 
 namespace Fintech\Auth;
 
+use Fintech\Auth\Services\IdDocTypeService;
 use Fintech\Auth\Services\OneTimePinService;
 use Fintech\Auth\Services\PasswordResetService;
 use Fintech\Auth\Services\PermissionService;
@@ -90,6 +91,15 @@ class Auth
         return app(\Fintech\Auth\Services\AuditService::class);
     }
 
+    /**
+     * @return IdDocTypeService
+     */
+    public function idDocType()
+    {
+        return app(IdDocTypeService::class);
+    }
+
     //** Crud Service Method Point Do not Remove **//
+
 
 }

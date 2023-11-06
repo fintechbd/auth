@@ -71,6 +71,9 @@ if (Config::get('fintech.auth.enabled')) {
 
             Route::apiResource('audits', \Fintech\Auth\Http\Controllers\AuditController::class)->only('index', 'show', 'destroy');
 
+            Route::apiResource('id-doc-types', \Fintech\Auth\Http\Controllers\IdDocTypeController::class);
+            Route::post('id-doc-types/{id_doc_type}/restore', [\Fintech\Auth\Http\Controllers\IdDocTypeController::class, 'restore'])->name('id-doc-types.restore');
+
             //DO NOT REMOVE THIS LINE//
         });
     });

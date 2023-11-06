@@ -103,6 +103,16 @@ return [
     */
     'audit_model' => \Fintech\Auth\Models\Audit::class,
 
+    
+    /*
+    |--------------------------------------------------------------------------
+    | IdDocType Model
+    |--------------------------------------------------------------------------
+    |
+    | This value will be used to across system where model is needed
+    */
+    'id_doc_type_model' => \Fintech\Auth\Models\IdDocType::class,
+
     //** Model Config Point Do not Remove **//
 
     /*
@@ -249,6 +259,8 @@ return [
         \Fintech\Auth\Interfaces\OneTimePinRepository::class => \Fintech\Auth\Repositories\Eloquent\OneTimePinRepository::class,
 
         \Fintech\Auth\Interfaces\AuditRepository::class => \Fintech\Auth\Repositories\Eloquent\AuditRepository::class,
+
+        \Fintech\Auth\Interfaces\IdDocTypeRepository::class => \Fintech\Auth\Repositories\Eloquent\IdDocTypeRepository::class,
 
         //** Repository Binding Config Point Do not Remove **//
     ],

@@ -33,8 +33,7 @@ class UserService
     public function __construct(
         UserRepository    $userRepository,
         ProfileRepository $profileRepository
-    )
-    {
+    ) {
         $this->userRepository = $userRepository;
         $this->profileRepository = $profileRepository;
     }
@@ -82,8 +81,7 @@ class UserService
         if ($forCreate) {
             $data['password'] = Hash::make(($inputs['password'] ?? config('fintech.auth.default_password', '123456')));
             $data['pin'] = Hash::make(($inputs['pin'] ?? config('fintech.auth.default_pin', '123456')));
-        }
-        else {
+        } else {
             if (isset($data['password']) && !empty($data['password'])) {
                 $data['password'] = Hash::make($data['password']);
             } else {

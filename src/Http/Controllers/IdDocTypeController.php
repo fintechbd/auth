@@ -1,6 +1,7 @@
 <?php
 
 namespace Fintech\Auth\Http\Controllers;
+
 use Exception;
 use Fintech\Core\Exceptions\StoreOperationException;
 use Fintech\Core\Exceptions\UpdateOperationException;
@@ -75,7 +76,7 @@ class IdDocTypeController extends Controller
             $idDocType = Auth::idDocType()->create($inputs);
 
             if (!$idDocType) {
-                throw (new StoreOperationException)->setModel(config('fintech.auth.id_doc_type_model'));
+                throw (new StoreOperationException())->setModel(config('fintech.auth.id_doc_type_model'));
             }
 
             return $this->created([
@@ -105,7 +106,7 @@ class IdDocTypeController extends Controller
             $idDocType = Auth::idDocType()->find($id);
 
             if (!$idDocType) {
-                throw (new ModelNotFoundException)->setModel(config('fintech.auth.id_doc_type_model'), $id);
+                throw (new ModelNotFoundException())->setModel(config('fintech.auth.id_doc_type_model'), $id);
             }
 
             return new IdDocTypeResource($idDocType);
@@ -138,14 +139,14 @@ class IdDocTypeController extends Controller
             $idDocType = Auth::idDocType()->find($id);
 
             if (!$idDocType) {
-                throw (new ModelNotFoundException)->setModel(config('fintech.auth.id_doc_type_model'), $id);
+                throw (new ModelNotFoundException())->setModel(config('fintech.auth.id_doc_type_model'), $id);
             }
 
             $inputs = $request->validated();
 
             if (!Auth::idDocType()->update($id, $inputs)) {
 
-                throw (new UpdateOperationException)->setModel(config('fintech.auth.id_doc_type_model'), $id);
+                throw (new UpdateOperationException())->setModel(config('fintech.auth.id_doc_type_model'), $id);
             }
 
             return $this->updated(__('core::messages.resource.updated', ['model' => 'Id Doc Type']));
@@ -177,7 +178,7 @@ class IdDocTypeController extends Controller
             $idDocType = Auth::idDocType()->find($id);
 
             if (!$idDocType) {
-                throw (new ModelNotFoundException)->setModel(config('fintech.auth.id_doc_type_model'), $id);
+                throw (new ModelNotFoundException())->setModel(config('fintech.auth.id_doc_type_model'), $id);
             }
 
             if (!Auth::idDocType()->destroy($id)) {
@@ -213,7 +214,7 @@ class IdDocTypeController extends Controller
             $idDocType = Auth::idDocType()->find($id, true);
 
             if (!$idDocType) {
-                throw (new ModelNotFoundException)->setModel(config('fintech.auth.id_doc_type_model'), $id);
+                throw (new ModelNotFoundException())->setModel(config('fintech.auth.id_doc_type_model'), $id);
             }
 
             if (!Auth::idDocType()->restore($id)) {

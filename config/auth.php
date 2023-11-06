@@ -103,7 +103,7 @@ return [
     */
     'audit_model' => \Fintech\Auth\Models\Audit::class,
 
-    
+
     /*
     |--------------------------------------------------------------------------
     | IdDocType Model

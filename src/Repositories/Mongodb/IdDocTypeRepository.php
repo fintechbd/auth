@@ -17,13 +17,13 @@ class IdDocTypeRepository extends MongodbRepository implements InterfacesIdDocTy
 {
     public function __construct()
     {
-       $model = app(config('fintech.auth.id_doc_type_model', \Fintech\Auth\Models\IdDocType::class));
+        $model = app(config('fintech.auth.id_doc_type_model', \Fintech\Auth\Models\IdDocType::class));
 
-       if (!$model instanceof Model) {
-           throw new InvalidArgumentException("Mongodb repository require model class to be `MongoDB\Laravel\Eloquent\Model` instance.");
-       }
+        if (!$model instanceof Model) {
+            throw new InvalidArgumentException("Mongodb repository require model class to be `MongoDB\Laravel\Eloquent\Model` instance.");
+        }
 
-       $this->model = $model;
+        $this->model = $model;
     }
 
     /**

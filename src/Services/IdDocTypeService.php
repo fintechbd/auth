@@ -2,7 +2,6 @@
 
 namespace Fintech\Auth\Services;
 
-
 use Fintech\Auth\Interfaces\IdDocTypeRepository;
 
 /**
@@ -16,7 +15,8 @@ class IdDocTypeService
      * IdDocTypeService constructor.
      * @param IdDocTypeRepository $idDocTypeRepository
      */
-    public function __construct(IdDocTypeRepository $idDocTypeRepository) {
+    public function __construct(IdDocTypeRepository $idDocTypeRepository)
+    {
         $this->idDocTypeRepository = $idDocTypeRepository;
     }
 

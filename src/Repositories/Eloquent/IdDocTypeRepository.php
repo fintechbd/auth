@@ -17,13 +17,13 @@ class IdDocTypeRepository extends EloquentRepository implements InterfacesIdDocT
 {
     public function __construct()
     {
-       $model = app(config('fintech.auth.id_doc_type_model', \Fintech\Auth\Models\IdDocType::class));
+        $model = app(config('fintech.auth.id_doc_type_model', \Fintech\Auth\Models\IdDocType::class));
 
-       if (!$model instanceof Model) {
-           throw new InvalidArgumentException("Eloquent repository require model class to be `Illuminate\Database\Eloquent\Model` instance.");
-       }
+        if (!$model instanceof Model) {
+            throw new InvalidArgumentException("Eloquent repository require model class to be `Illuminate\Database\Eloquent\Model` instance.");
+        }
 
-       $this->model = $model;
+        $this->model = $model;
     }
 
     /**

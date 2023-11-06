@@ -8,8 +8,8 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class IdDocType extends Model
 {
-   use AuditableTrait;
-   use SoftDeletes;
+    use AuditableTrait;
+    use SoftDeletes;
 
     /*
     |--------------------------------------------------------------------------

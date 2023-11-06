@@ -2,6 +2,7 @@
 
 namespace Fintech\Auth\Http\Requests;
 
+use Fintech\Auth\Models\IdDocType;
 use Illuminate\Foundation\Http\FormRequest;
 
 class UpdateIdDocTypeRequest extends FormRequest
@@ -22,10 +23,12 @@ class UpdateIdDocTypeRequest extends FormRequest
      */
     public function rules(): array
     {
+        $uniqueRule = 'unique:' . config('fintech.auth.id_doc_type_model', IdDocType::class) . ',code,' . $this->route('id_doc_type') . ',country_id,' . $this->input('country_id');
+
         return [
-            'country_id' => ['nullable', 'integer', 'min:1', 'max:255'],
+            'country_id' => ['required', 'integer', 'min:1', 'max:255'],
             'name' => ['required', 'string', 'min:1', 'max:255'],
-            'code' => ['required', 'string', 'min:1', 'max:255'],
+            'code' => ['required', 'string', 'min:1', 'max:255', $uniqueRule],
             'sides' => ['nullable', 'integer', 'min:1', 'max:255'],
             'enabled' => ['nullable', 'bool'],
             'id_doc_type_data' => ['nullable', 'array'],

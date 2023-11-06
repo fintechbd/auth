@@ -2,6 +2,7 @@
 
 namespace Fintech\Auth\Http\Requests;
 
+use Fintech\Auth\Models\IdDocType;
 use Illuminate\Foundation\Http\FormRequest;
 
 class StoreIdDocTypeRequest extends FormRequest
@@ -22,13 +23,14 @@ class StoreIdDocTypeRequest extends FormRequest
      */
     public function rules(): array
     {
+        $uniqueRule = 'unique:' . config('fintech.auth.id_doc_type_model', IdDocType::class) . ',code,null,country_id,' . $this->input('country_id');
         return [
-            'country_id' => ['nullable' , 'integer', 'min:1', 'max:255'],
-            'name' => ['required' , 'string', 'min:1', 'max:255'],
-            'code' => ['required' , 'string', 'min:1', 'max:255'],
-            'sides' => ['nullable' , 'integer', 'min:1', 'max:255'],
-            'enabled' => ['nullable' , 'bool'],
-            'id_doc_type_data' => ['nullable' , 'array'],
+            'country_id' => ['required', 'integer', 'min:1', 'max:255'],
+            'name' => ['required', 'string', 'min:1', 'max:255'],
+            'code' => ['required', 'string', 'min:1', 'max:255', $uniqueRule],
+            'sides' => ['nullable', 'integer', 'min:1', 'max:255'],
+            'enabled' => ['nullable', 'bool'],
+            'id_doc_type_data' => ['nullable', 'array'],
         ];
     }
 

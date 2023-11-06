@@ -22,7 +22,7 @@ class StoreUserRequest extends FormRequest
      */
     public function rules(): array
     {
-        $rules = config('fintech.auth.register_rules', [
+        $rules = [
             //user
             'name' => ['required', 'string', 'min:2', 'max:255'],
             'mobile' => ['required', 'string', 'min:10'],
@@ -66,7 +66,7 @@ class StoreUserRequest extends FormRequest
             'present_country_id' => ['integer', 'nullable'],
             'present_post_code' => ['string', 'nullable'],
             'nationality' => ['string', 'nullable'],
-        ]);
+        ];
 
         $rules[config('fintech.auth.auth_field', 'login_id')] = config('fintech.auth.auth_field_rules', ['required', 'string', 'min:6', 'max:255']);
 

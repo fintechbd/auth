@@ -17,7 +17,7 @@ class RoleRepository extends MongodbRepository implements InterfacesRoleReposito
     {
         $model = app(config('fintech.auth.role_model', Role::class));
 
-        if (! $model instanceof Model) {
+        if (!$model instanceof Model) {
             throw new InvalidArgumentException("Eloquent repository require model class to be `Illuminate\Database\Eloquent\Model` instance.");
         }
 

@@ -19,7 +19,7 @@ class ProfileRepository extends MongodbRepository implements InterfacesProfileRe
     {
         $model = app(config('fintech.auth.profile_model', Profile::class));
 
-        if (! $model instanceof Model) {
+        if (!$model instanceof Model) {
             throw new InvalidArgumentException("Eloquent repository require model class to be `Illuminate\Database\Eloquent\Model` instance.");
         }
 

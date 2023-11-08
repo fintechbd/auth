@@ -17,7 +17,7 @@ class PermissionRepository extends MongodbRepository implements InterfacesPermis
     {
         $model = app(config('fintech.auth.permission_model', \Fintech\Auth\Models\Permission::class));
 
-        if (! $model instanceof Model) {
+        if (!$model instanceof Model) {
             throw new InvalidArgumentException("Eloquent repository require model class to be `Illuminate\Database\Eloquent\Model` instance.");
         }
 

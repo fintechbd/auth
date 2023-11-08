@@ -18,7 +18,7 @@ class UserRepository extends MongodbRepository implements InterfacesUserReposito
     {
         $model = app(config('fintech.auth.user_model', User::class));
 
-        if (! $model instanceof Model) {
+        if (!$model instanceof Model) {
             throw new InvalidArgumentException("Eloquent repository require model class to be `Illuminate\Database\Eloquent\Model` instance.");
         }
 
@@ -38,7 +38,7 @@ class UserRepository extends MongodbRepository implements InterfacesUserReposito
         //Handle Sorting
         $query->orderBy($filters['sort'] ?? $this->model->getKeyName(), $filters['dir'] ?? 'asc');
 
-        if (isset($filters['login_id']) && ! empty($filters['login_id'])) {
+        if (isset($filters['login_id']) && !empty($filters['login_id'])) {
             $query->where('login_id', $filters['login_id'])->limit(1);
         }
 

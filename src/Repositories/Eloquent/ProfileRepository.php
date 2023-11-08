@@ -18,7 +18,7 @@ class ProfileRepository extends EloquentRepository implements InterfacesProfileR
     {
         $model = app(config('fintech.auth.profile_model', \Fintech\Auth\Models\Profile::class));
 
-        if (! $model instanceof Model) {
+        if (!$model instanceof Model) {
             throw new InvalidArgumentException("Eloquent repository require model class to be `Illuminate\Database\Eloquent\Model` instance.");
         }
 
@@ -35,7 +35,7 @@ class ProfileRepository extends EloquentRepository implements InterfacesProfileR
     {
         $query = $this->model->newQuery();
 
-        if (isset($filters['search']) && ! empty($filters['search'])) {
+        if (isset($filters['search']) && !empty($filters['search'])) {
             if (is_numeric($filters['search'])) {
                 $query->where($this->model->getKeyName(), 'like', "%{$filters['search']}%");
             } else {

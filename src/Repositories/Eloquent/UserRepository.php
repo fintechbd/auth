@@ -19,7 +19,7 @@ class UserRepository extends EloquentRepository implements InterfacesUserReposit
     {
         $model = app(config('fintech.auth.user_model', User::class));
 
-        if (! $model instanceof Model) {
+        if (!$model instanceof Model) {
             throw new InvalidArgumentException("Eloquent repository require model class to be `Illuminate\Database\Eloquent\Model` instance.");
         }
 
@@ -38,7 +38,7 @@ class UserRepository extends EloquentRepository implements InterfacesUserReposit
 
         $query = $this->model->newQuery();
 
-        if (isset($filters['search']) && ! empty($filters['search'])) {
+        if (isset($filters['search']) && !empty($filters['search'])) {
             if (is_numeric($filters['search'])) {
                 $query->where($this->model->getKeyName(), 'like', "%{$filters['search']}%");
             } else {

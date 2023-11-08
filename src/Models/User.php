@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Notifications\Notification;
 use Laravel\Sanctum\HasApiTokens;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
@@ -77,6 +78,28 @@ class User extends Authenticatable implements HasMedia
             ->useFallbackPath(storage_path('/app/public/images/anonymous-user.jpg'), 'thumb')
             ->useDisk(config('filesystems.default', 'public'))
             ->singleFile();
+    }
+
+    /**
+     * Route notifications for the Push Message channel.
+     */
+    public function routeNotificationForPush(Notification $notification): mixed
+    {
+        return $this->fcm_token;
+    }
+    /**
+     * Route notifications for the Push Message channel.
+     */
+    public function routeNotificationForSms(Notification $notification): mixed
+    {
+        return $this->mobile;
+    }
+    /**
+     * Route notifications for the Push Message channel.
+     */
+    public function routeNotificationForMail(Notification $notification): mixed
+    {
+        return $this->email;
     }
 
     /*

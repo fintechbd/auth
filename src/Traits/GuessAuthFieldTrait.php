@@ -16,7 +16,7 @@ trait GuessAuthFieldTrait
 
         if (filter_var($authFieldValue, FILTER_VALIDATE_EMAIL)) {
             return ['email' => $authFieldValue];
-        } elseif (preg_match('/^(\d{7,15})$/', $authFieldValue) > 0) {
+        } elseif (preg_match('/^(\d{10,15})$/', $authFieldValue) > 0) {
             return ['mobile' => $authFieldValue];
         } else {
             return [config('fintech.auth.auth_field', 'login_id') => $authFieldValue];

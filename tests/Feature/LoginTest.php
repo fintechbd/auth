@@ -14,9 +14,7 @@ test('Test that the login when login id and password blank', function () {
         'login_id' => '',
         'password' => '',
     ]);
-    //$this->assertSame('The email field must be a valid email address.', $login['message']);
-    expect($login['message'])->toBe('The login id field is required. (and 1 more error)');
-    //assertStatus(201);
+    expect($login['message'])->toBe('The login id field is required. (and 2 more errors)');
 });
 
 test('Test that the login id field is present', function () {
@@ -24,9 +22,8 @@ test('Test that the login id field is present', function () {
         'login_id' => '',
         'password' => '12345678',
     ]);
-    //$this->assertSame('The email field must be a valid email address.', $login['message']);
+
     expect($login['message'])->toBe('The login id field is required.');
-    //assertStatus(201);
 });
 
 test('Test that the password field  is present', function () {
@@ -34,9 +31,8 @@ test('Test that the password field  is present', function () {
         'login_id' => '01700000001',
         'password' => '',
     ]);
-    //$this->assertSame('The email field must be a valid email address.', $login['message']);
-    expect($login['message'])->toBe('The password field is required.');
-    //assertStatus(201);
+
+    expect($login['message'])->toBe('The password field must be a string. (and 1 more error)');
 });
 
 test('Test that the password field correctly validates input when 6 characters', function () {

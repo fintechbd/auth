@@ -15,8 +15,10 @@ class RoleSeeder extends Seeder
         foreach ($this->data() as $role) {
             Auth::role()->create($role);
         }
-        $permissions = Auth::permission()->list()->pluck('id')->toArray();
-        Auth::role()->find(1)->permissions()->sync($permissions);
+
+        Auth::role()->update(1, [
+            'permissions' => Auth::permission()->list()->pluck('id')->toArray()
+        ]);
     }
 
     private function data()
@@ -25,38 +27,26 @@ class RoleSeeder extends Seeder
             [
                 'id' => '1',
                 'name' => 'Super Admin',
-                'creator_id' => null,
-                'editor_id' => null,
-                'destroyer_id' => null,
-                'created_at' => '2023-08-14 13:11:03',
-                'updated_at' => '2023-08-14 13:11:03',
             ],
             [
                 'id' => '2',
                 'name' => 'Admin',
-                'creator_id' => null,
-                'editor_id' => null,
-                'destroyer_id' => null,
-                'created_at' => '2023-08-14 13:11:03',
-                'updated_at' => '2023-08-14 13:11:03',
             ],
             [
                 'id' => '3',
                 'name' => 'Executive',
-                'creator_id' => null,
-                'editor_id' => null,
-                'destroyer_id' => null,
-                'created_at' => '2023-08-14 13:11:03',
-                'updated_at' => '2023-08-14 13:11:03',
             ],
             [
                 'id' => '4',
+                'name' => 'Partner'
+            ],
+            [
+                'id' => '5',
+                'name' => 'Agent'
+            ],
+            [
+                'id' => '6',
                 'name' => 'Customer',
-                'creator_id' => null,
-                'editor_id' => null,
-                'destroyer_id' => null,
-                'created_at' => '2023-08-14 13:11:03',
-                'updated_at' => '2023-08-14 13:11:03',
             ],
         ];
     }

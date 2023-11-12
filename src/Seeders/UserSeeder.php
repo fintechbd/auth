@@ -28,7 +28,7 @@ class UserSeeder extends Seeder
                 'user' => [
                     "parent_id" => null,
                     "name" => "Hafijul Islam",
-                    "mobile" => "8801600000001",
+                    "mobile" => "01600000001",
                     "email" => "hafijul233@gmail.com",
                     "login_id" => "01600000001",
                     "password" => "12345678",
@@ -77,7 +77,7 @@ class UserSeeder extends Seeder
                 'user' => [
                     "parent_id" => null,
                     "name" => "Ariful Islam",
-                    "mobile" => "8801600000002",
+                    "mobile" => "01600000002",
                     "email" => "mah.shamim@gmail.com",
                     "login_id" => "01600000002",
                     "password" => "12345678",
@@ -130,7 +130,7 @@ class UserSeeder extends Seeder
                 'user' => [
                     "parent_id" => null,
                     "name" => "Tarif Islam",
-                    "mobile" => "8801600000003",
+                    "mobile" => "01600000003",
                     "email" => "tarif@gmail.com",
                     "login_id" => "01600000003",
                     "password" => "12345678",

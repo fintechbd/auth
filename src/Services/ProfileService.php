@@ -22,8 +22,7 @@ class ProfileService
     public function __construct(
         private ProfileRepository     $profileRepository,
         private UserAccountRepository $userAccountRepository
-    )
-    {
+    ) {
     }
 
     public function create(string|int $userId, array $inputs = [])
@@ -33,7 +32,7 @@ class ProfileService
             $presentCountry = MetaData::country()->find($inputs['present_country_id']);
 
             if (!$presentCountry) {
-                throw (new ModelNotFoundException)->setModel(config('fintech.metadata.country_model', \Fintech\MetaData\Models\Country::class), $inputs['present_country_id']);
+                throw (new ModelNotFoundException())->setModel(config('fintech.metadata.country_model', \Fintech\MetaData\Models\Country::class), $inputs['present_country_id']);
             }
 
             $defaultUserAccount = [

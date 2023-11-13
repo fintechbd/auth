@@ -2,6 +2,7 @@
 
 namespace Fintech\Auth\Models;
 
+use Fintech\Auth\Traits\TransactionRelations;
 use Fintech\Core\Traits\AuditableTrait;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasOne;
@@ -27,6 +28,7 @@ class User extends Authenticatable implements HasMedia
     use SoftDeletes;
     use Notifiable;
     use InteractsWithMedia;
+    use TransactionRelations;
 
 
     /*

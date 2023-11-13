@@ -3,6 +3,9 @@
 namespace Fintech\Auth\Services;
 
 use Fintech\Auth\Interfaces\ProfileRepository;
+use Fintech\MetaData\Facades\MetaData;
+use Fintech\Transaction\Interfaces\UserAccountRepository;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\DB;
 
 /**
@@ -14,22 +17,48 @@ class ProfileService
     /**
      * UserService constructor.
      * @param ProfileRepository $profileRepository
+     * @param UserAccountRepository $userAccountRepository
      */
     public function __construct(
-        private ProfileRepository $profileRepository
-    ) {
+        private ProfileRepository     $profileRepository,
+        private UserAccountRepository $userAccountRepository
+    )
+    {
     }
 
     public function create(string|int $userId, array $inputs = [])
     {
         try {
 
+            $presentCountry = MetaData::country()->find($inputs['present_country_id']);
+
+            if (!$presentCountry) {
+                throw (new ModelNotFoundException)->setModel(config('fintech.metadata.country_model', \Fintech\MetaData\Models\Country::class), $inputs['present_country_id']);
+            }
+
+            $defaultUserAccount = [
+                'user_id' => $userId,
+                'country_id' => $presentCountry->getKey(),
+                'enabled' => true,
+                'user_account_data' => [
+                    'currency' => $presentCountry->currency,
+                    'currency_name' => $presentCountry->currency_name,
+                    'currency_symbol' => $presentCountry->currency_symbol,
+                    'deposit_amount' => 0,
+                    'available_amount' => 0,
+                    'spent_amount' => 0
+                ]
+            ];
+
             $profileData = $this->formatDataFromInput($inputs);
+
             $profileData['user_id'] = $userId;
 
             DB::beginTransaction();
 
             $profile = $this->profileRepository->create($profileData);
+
+            $user_account = $this->userAccountRepository->create($defaultUserAccount);
 
             DB::commit();
 

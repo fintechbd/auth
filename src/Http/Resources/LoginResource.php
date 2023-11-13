@@ -4,6 +4,7 @@ namespace Fintech\Auth\Http\Resources;
 
 use Carbon\Carbon;
 use Fintech\Auth\Models\Profile;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Collection;
@@ -22,6 +23,7 @@ use Laravel\Sanctum\NewAccessToken;
  * @property-read string $language
  * @property-read string $currency
  * @property-read string $app_version
+ * @property-read HasMany $userAccounts
  * @property-read float $total_balance
  * @property-read Collection $roles
  * @property-read Profile|null $profile
@@ -54,12 +56,14 @@ class LoginResource extends JsonResource
             'language' => $this->language,
             'currency' => $this->currency,
             'app_version' => $this->app_version,
-            'total_balance' => 0,
             'role_id' => null,
             'role_name' => null,
             'profile' => (($this->profile != null)
                 ? (new ProfileResource($this->profile))
                 : (new \stdClass())),
+            'balances' => ($this->userAccounts)
+                ? $this->userAccounts->pluck('user_account_data')->toArray()
+                : [],
             'email_verified_at' => $this->email_verified_at,
             'mobile_verified_at' => $this->mobile_verified_at,
             'created_at' => $this->created_at,

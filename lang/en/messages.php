@@ -46,5 +46,9 @@ return [
         'create' => 'System audit can not be created by user input.',
         'update' => 'System audit can not be update by user input.',
         'restore' => 'System audit can not be restores by user command.'
-    ]
+    ],
+    'role' => [
+        'service_assigned' => 'Assigning services to :role group successful.',
+        'permission_assigned' => 'Assigning permission to :role group successful.'
+]
 ];

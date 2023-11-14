@@ -26,6 +26,7 @@ class Role extends Model implements RoleContract
     use AuditableTrait;
     use RefreshesPermissionCache;
     use SoftDeletes;
+    use \Fintech\Auth\Traits\BusinessRelations;
 
     /*
     |--------------------------------------------------------------------------

@@ -2,7 +2,7 @@
 
 namespace Fintech\Auth\Enums;
 
-enum RiskProfile:string
+enum RiskProfile: string
 {
     case
     Low = 'green';

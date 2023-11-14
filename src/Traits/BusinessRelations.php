@@ -11,7 +11,7 @@ if (Core::packageExists('Business')) {
         /**
          * Permanent Address
          */
-        public function services():BelongsToMany
+        public function services(): BelongsToMany
         {
             return $this->belongsToMany(config('fintech.business.service_model'));
         }

@@ -4,8 +4,6 @@ namespace Fintech\Auth\Services;
 
 use Fintech\Auth\Interfaces\ProfileRepository;
 use Fintech\Core\Facades\Core;
-use Fintech\MetaData\Facades\MetaData;
-use Fintech\Transaction\Interfaces\UserAccountRepository;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\DB;
 
@@ -18,11 +16,9 @@ class ProfileService
     /**
      * UserService constructor.
      * @param ProfileRepository $profileRepository
-     * @param UserAccountRepository $userAccountRepository
      */
     public function __construct(
-        private ProfileRepository     $profileRepository,
-        private UserAccountRepository $userAccountRepository
+        private readonly ProfileRepository $profileRepository
     )
     {
     }
@@ -40,7 +36,7 @@ class ProfileService
 
             if (Core::packageExists('MetaData')) {
 
-                $presentCountry = MetaData::country()->find($inputs['present_country_id']);
+                $presentCountry = \Fintech\MetaData\Facades\MetaData::country()->find($inputs['present_country_id']);
 
                 if (!$presentCountry) {
                     throw (new ModelNotFoundException())->setModel(config('fintech.metadata.country_model', \Fintech\MetaData\Models\Country::class), $inputs['present_country_id']);
@@ -61,7 +57,7 @@ class ProfileService
                 ];
 
                 if (Core::packageExists('Transaction')) {
-                    $this->userAccountRepository->create($defaultUserAccount);
+                    \Fintech\Transaction\Facades\Transaction::userAccount()->create($defaultUserAccount);
                 }
             }
 

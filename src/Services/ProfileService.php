@@ -3,6 +3,7 @@
 namespace Fintech\Auth\Services;
 
 use Fintech\Auth\Interfaces\ProfileRepository;
+use Fintech\Core\Facades\Core;
 use Fintech\MetaData\Facades\MetaData;
 use Fintech\Transaction\Interfaces\UserAccountRepository;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -57,7 +58,9 @@ class ProfileService
 
             $profile = $this->profileRepository->create($profileData);
 
-            $user_account = $this->userAccountRepository->create($defaultUserAccount);
+            if (Core::packageExists('Transaction')) {
+                $this->userAccountRepository->create($defaultUserAccount);
+            }
 
             DB::commit();
 

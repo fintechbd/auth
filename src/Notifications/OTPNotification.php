@@ -2,7 +2,7 @@
 
 namespace Fintech\Auth\Notifications;
 
-use Fintech\Auth\Enums\OTPOption;
+use Fintech\Core\Enums\Auth\OTPOption;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;

@@ -2,9 +2,9 @@
 
 namespace Fintech\Auth\Services;
 
-use Fintech\Auth\Enums\OTPOption;
 use Fintech\Auth\Interfaces\OneTimePinRepository;
 use Fintech\Auth\Notifications\OTPNotification;
+use Fintech\Core\Enums\Auth\OTPOption;
 use Illuminate\Support\Facades\Notification;
 
 /**

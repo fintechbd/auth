@@ -2,7 +2,7 @@
 
 namespace Fintech\Auth\Notifications;
 
-use Fintech\Auth\Enums\PasswordResetOption;
+use Fintech\Core\Enums\Auth\PasswordResetOption;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;

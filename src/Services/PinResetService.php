@@ -2,10 +2,10 @@
 
 namespace Fintech\Auth\Services;
 
-use Fintech\Auth\Enums\PasswordResetOption;
 use Fintech\Auth\Interfaces\OneTimePinRepository;
 use Fintech\Auth\Interfaces\UserRepository;
 use Fintech\Auth\Notifications\PinResetNotification;
+use Fintech\Core\Enums\Auth\PasswordResetOption;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;

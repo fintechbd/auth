@@ -2,10 +2,10 @@
 
 namespace Fintech\Auth\Services;
 
-use Fintech\Auth\Enums\PasswordResetOption;
 use Fintech\Auth\Facades\Auth;
 use Fintech\Auth\Interfaces\ProfileRepository;
 use Fintech\Auth\Interfaces\UserRepository;
+use Fintech\Core\Enums\Auth\PasswordResetOption;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;

@@ -2,11 +2,11 @@
 
 namespace Fintech\Auth\Http\Controllers;
 
-use Fintech\Auth\Enums\UserStatus;
 use Fintech\Auth\Events\AccountFreezed;
 use Fintech\Auth\Http\Requests\LoginRequest;
 use Fintech\Auth\Http\Resources\LoginResource;
 use Fintech\Auth\Traits\GuessAuthFieldTrait;
+use Fintech\Core\Enums\Auth\UserStatus;
 use Fintech\Core\Traits\ApiResponseTrait;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Routing\Controller;

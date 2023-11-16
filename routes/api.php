@@ -69,7 +69,7 @@ if (Config::get('fintech.auth.enabled')) {
             //        Route::apiResource('teams', \Fintech\Auth\Http\Controllers\TeamController::class);
             //        Route::post('teams/{team}/restore', [\Fintech\Auth\Http\Controllers\TeamController::class, 'restore'])->name('teams.restore');
 
-            Route::apiResource('settings', SettingController::class)->only(['index', 'store']);
+            Route::apiResource('settings', SettingController::class)->only(['index', 'store', 'destroy']);
 
             Route::apiResource('audits', \Fintech\Auth\Http\Controllers\AuditController::class)->only('index', 'show', 'destroy');
 

@@ -32,7 +32,7 @@ class RegisterController extends Controller
 
             $profile = Auth::profile()->create($user->getKey(), $request->except($userFields));
 
-            //            event(new Registered($user));
+            event(new Registered($user));
 
             return $this->created('Registration Successful.');
 

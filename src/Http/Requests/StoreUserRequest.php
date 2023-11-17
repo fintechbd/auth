@@ -22,7 +22,7 @@ class StoreUserRequest extends FormRequest
      */
     public function rules(): array
     {
-        $rules = [
+        $rules = config('fintech.auth.register_rules', [
             //user
             'name' => ['required', 'string', 'min:2', 'max:255'],
             'mobile' => ['required', 'string', 'min:10'],
@@ -48,12 +48,12 @@ class StoreUserRequest extends FormRequest
             'photo' => ['string', 'nullable'],
             'documents' => ['array', 'required', 'min:1'],
             'documents.*.type' => ['string', 'required'],
-            'documents.*.front' => ['string', 'required'],
-            'documents.*.back' => ['string', 'nullable'],
+            'documents.*.back' => ['string', 'required_without:documents.*.front'],
+            'documents.*.front' => ['string', 'required_without:documents.*.back'],
             'proof_of_address' => ['array', 'required', 'min:1'],
             'proof_of_address.*.type' => ['string', 'required'],
-            'proof_of_address.*.front' => ['string', 'required'],
-            'proof_of_address.*.back' => ['string', 'nullable'],
+            'proof_of_address.*.front' => ['string', 'required_without:proof_of_address.*.back'],
+            'proof_of_address.*.back' => ['string', 'required_without:proof_of_address.*.front'],
             'date_of_birth' => ['date', 'nullable'],
             'permanent_address' => ['string', 'nullable'],
             'city_id' => ['integer', 'nullable'],
@@ -66,7 +66,7 @@ class StoreUserRequest extends FormRequest
             'present_country_id' => ['integer', 'nullable'],
             'present_post_code' => ['string', 'nullable'],
             'nationality' => ['string', 'nullable'],
-        ];
+        ]);
 
         $rules[config('fintech.auth.auth_field', 'login_id')] = config('fintech.auth.auth_field_rules', ['required', 'string', 'min:6', 'max:255']);
 

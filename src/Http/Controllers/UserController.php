@@ -9,6 +9,7 @@ use Fintech\Auth\Http\Requests\IndexUserRequest;
 use Fintech\Auth\Http\Requests\StoreUserRequest;
 use Fintech\Auth\Http\Requests\UpdateUserRequest;
 use Fintech\Auth\Http\Requests\UserAuthResetRequest;
+use Fintech\Auth\Http\Resources\ProofAddressTypeResource;
 use Fintech\Auth\Http\Resources\UserCollection;
 use Fintech\Auth\Http\Resources\UserResource;
 use Fintech\Core\Exceptions\DeleteOperationException;
@@ -323,4 +324,18 @@ class UserController extends Controller
             return $this->failed($exception->getMessage());
         }
     }
+
+    public function proofOfAddressTypeFields(): ProofAddressTypeResource|JsonResponse
+    {
+        try {
+            $proofOfAddressTypeFields = config('fintech.auth.proof_of_address_types');
+
+            return new ProofAddressTypeResource($proofOfAddressTypeFields);
+
+        } catch (Exception $exception) {
+
+            return $this->failed($exception->getMessage());
+        }
+    }
+
 }

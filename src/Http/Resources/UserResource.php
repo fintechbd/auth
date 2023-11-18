@@ -30,6 +30,11 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media;
  * @property-read Carbon $mobile_verified_at
  * @property-read Carbon $created_at
  * @property-read Carbon $updated_at
+ * @property mixed $parent
+ * @property mixed $parent_id
+ * @property mixed $links
+ * @method getKey()
+ * @method getFirstMediaUrl(string $string)
  */
 class UserResource extends JsonResource
 {
@@ -39,7 +44,7 @@ class UserResource extends JsonResource
      * @param Request $request
      * @return array
      */
-    public function toArray($request)
+    public function toArray(Request $request): array
     {
         $data = [
             'id' => $this->getKey() ?? null,
@@ -54,11 +59,12 @@ class UserResource extends JsonResource
             'language' => $this->language ?? null,
             'currency' => $this->currency ?? null,
             'app_version' => $this->app_version ?? null,
-            'roles' => ($this->roles) ? $this->roles->pluck('name', 'id')->toArray() : [],
+            'roles' => ($this->roles) ? $this->roles->toArray() : [],
             'links' => $this->links,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
         ];
+        unset($data['roles'][0]['links'],$data['roles'][0]['pivot'],$data['roles'][0]['permissions']);
 
         /**
          * @var Profile $profile
@@ -113,7 +119,7 @@ class UserResource extends JsonResource
         return array_merge($data, $profile_data);
     }
 
-    private function formatMediaCollection($collection)
+    private function formatMediaCollection($collection): array
     {
         $data = [];
 

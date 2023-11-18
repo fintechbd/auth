@@ -187,6 +187,10 @@ return [
         'documents.*.type' => ['string', 'required'],
         'documents.*.back' => ['string', 'required_without:documents.*.front'],
         'documents.*.front' => ['string', 'required_without:documents.*.back'],
+        'employer_information' => ['array', 'nullable'],
+        'employer_information.*.employer_name' => ['string', 'nullable'],
+        'employer_information.*.company_address' => ['string', 'nullable'],
+        'employer_information.*.company_registration_number' => ['string', 'nullable'],
         'proof_of_address' => ['array', 'required', 'min:1'],
         'proof_of_address.*.type' => ['string', 'required'],
         'proof_of_address.*.back' => ['string', 'required_without:proof_of_address.*.front'],
@@ -237,6 +241,22 @@ return [
     */
     //'middleware' => ['auth:sanctum'],
     'middleware' => [],
+
+    /*
+    |--------------------------------------------------------------------------
+    | Constant
+    |--------------------------------------------------------------------------
+    |
+    | This value will be used across systems where a constant instance is needed
+    */
+
+    'proof_of_address_types' => [
+        'tenancy_contract' => 'Tenancy Contract',
+        'utility_bill' => 'Utility Bill',
+        'bank_statement' => 'Bank Statement',
+        'credit_card_statement' => 'Credit Card Statement',
+        'telephone_bill' => 'Telephone Bill',
+    ],
 
     /*
     |--------------------------------------------------------------------------

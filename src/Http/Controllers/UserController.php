@@ -11,6 +11,7 @@ use Fintech\Auth\Http\Requests\UpdateUserRequest;
 use Fintech\Auth\Http\Requests\UserAuthResetRequest;
 use Fintech\Auth\Http\Resources\UserCollection;
 use Fintech\Auth\Http\Resources\UserResource;
+use Fintech\Core\Enums\Auth\UserStatus;
 use Fintech\Core\Exceptions\DeleteOperationException;
 use Fintech\Core\Exceptions\RestoreOperationException;
 use Fintech\Core\Exceptions\StoreOperationException;
@@ -322,5 +323,19 @@ class UserController extends Controller
 
             return $this->failed($exception->getMessage());
         }
+    }
+
+    /**
+     * @return array
+     */
+    public function userStatus(): array
+    {
+        $userStatus = UserStatus::cases();
+        $array = [];
+        foreach($userStatus as $case) {
+            $array[$case->value] = $case->name;
+        }
+        return $array;
+
     }
 }

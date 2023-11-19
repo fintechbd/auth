@@ -11,6 +11,7 @@ use Fintech\Auth\Http\Requests\UpdateUserRequest;
 use Fintech\Auth\Http\Requests\UserAuthResetRequest;
 use Fintech\Auth\Http\Resources\UserCollection;
 use Fintech\Auth\Http\Resources\UserResource;
+use Fintech\Core\Enums\Auth\UserStatus;
 use Fintech\Core\Exceptions\DeleteOperationException;
 use Fintech\Core\Exceptions\RestoreOperationException;
 use Fintech\Core\Exceptions\StoreOperationException;
@@ -357,6 +358,26 @@ class UserController extends Controller
                     'attribute' => $entry->{$attribute} ?? 'id'
                 ];
             });
+
+            return new DropDownCollection($entries);
+
+        } catch (Exception $exception) {
+            return $this->failed($exception->getMessage());
+        }
+    }
+
+    /**
+     * @param DropDownRequest $request
+     * @return DropDownCollection|JsonResponse
+     */
+    public function statusDropdown(DropDownRequest $request): DropDownCollection|JsonResponse
+    {
+        try {
+            $entries = collect();
+
+            foreach (UserStatus::toArray() as $key => $status) {
+                $entries->push(['label' => $status, 'attribute' => $key]);
+            }
 
             return new DropDownCollection($entries);
 

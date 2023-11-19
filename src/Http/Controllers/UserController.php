@@ -9,7 +9,6 @@ use Fintech\Auth\Http\Requests\IndexUserRequest;
 use Fintech\Auth\Http\Requests\StoreUserRequest;
 use Fintech\Auth\Http\Requests\UpdateUserRequest;
 use Fintech\Auth\Http\Requests\UserAuthResetRequest;
-use Fintech\Auth\Http\Resources\ProofAddressTypeResource;
 use Fintech\Auth\Http\Resources\UserCollection;
 use Fintech\Auth\Http\Resources\UserResource;
 use Fintech\Core\Exceptions\DeleteOperationException;

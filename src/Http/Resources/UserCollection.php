@@ -2,13 +2,44 @@
 
 namespace Fintech\Auth\Http\Resources;
 
+use Carbon\Carbon;
 use Fintech\Auth\Models\Profile;
 use Fintech\Core\Facades\Core;
 use Fintech\Core\Supports\Constant;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\ResourceCollection;
+use Illuminate\Support\Collection;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
+/**
+ * @property mixed $roles
+ */
+/**
+ * Class UserResource
+ * @package Fintech\Auth\Http\Resources
+ *
+ * @property-read int $id
+ * @property-read string $name
+ * @property-read string $mobile
+ * @property-read string $email
+ * @property-read string $login_id
+ * @property-read string $status
+ * @property-read string $language
+ * @property-read string $currency
+ * @property-read string $app_version
+ * @property-read float $total_balance
+ * @property-read Collection $roles
+ * @property-read Profile|null $profile
+ * @property-read Carbon $email_verified_at
+ * @property-read Carbon $mobile_verified_at
+ * @property-read Carbon $created_at
+ * @property-read Carbon $updated_at
+ * @property mixed $parent
+ * @property mixed $parent_id
+ * @property mixed $links
+ * @method getKey()
+ * @method getFirstMediaUrl(string $string)
+ */
 class UserCollection extends ResourceCollection
 {
     /**
@@ -17,7 +48,7 @@ class UserCollection extends ResourceCollection
      * @param Request $request
      * @return array
      */
-    public function toArray($request)
+    public function toArray(Request $request): array
     {
         return $this->collection->map(function ($user) {
             $data = [
@@ -33,12 +64,12 @@ class UserCollection extends ResourceCollection
                 'language' => $user->language ?? null,
                 'currency' => $user->currency ?? null,
                 'app_version' => $user->app_version ?? null,
-                'roles' => ($user->roles) ? $user->roles->pluck('name')->toArray() : [],
+                'roles' => ($user->roles) ? $user->roles->toArray() : [],
                 'links' => $user->links,
                 'created_at' => $user->created_at,
                 'updated_at' => $user->updated_at,
             ];
-
+            unset($data['roles'][0]['links'],$data['roles'][0]['pivot'],$data['roles'][0]['permissions']);
             /**
              * @var Profile $profile
              */
@@ -111,7 +142,7 @@ class UserCollection extends ResourceCollection
         ];
     }
 
-    private function formatMediaCollection($collection)
+    private function formatMediaCollection($collection): array
     {
         $data = [];
 

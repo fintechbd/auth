@@ -14,6 +14,8 @@ use Fintech\Core\Exceptions\DeleteOperationException;
 use Fintech\Core\Exceptions\RestoreOperationException;
 use Fintech\Core\Exceptions\StoreOperationException;
 use Fintech\Core\Exceptions\UpdateOperationException;
+use Fintech\Core\Http\Requests\DropDownRequest;
+use Fintech\Core\Http\Resources\DropDownCollection;
 use Fintech\Core\Traits\ApiResponseTrait;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\JsonResponse;
@@ -273,6 +275,43 @@ class TeamController extends Controller
 
         } catch (Exception $exception) {
 
+            return $this->failed($exception->getMessage());
+        }
+    }
+
+    /**
+     * @param DropDownRequest $request
+     * @return DropDownCollection|JsonResponse
+     */
+    public function dropdown(DropDownRequest $request): DropDownCollection|JsonResponse
+    {
+        try {
+            $filters = $request->all();
+
+            $label = 'name';
+
+            $attribute = 'id';
+
+            if (!empty($filters['label'])) {
+                $label = $filters['label'];
+                unset($filters['label']);
+            }
+
+            if (!empty($filters['attribute'])) {
+                $attribute = $filters['attribute'];
+                unset($filters['attribute']);
+            }
+
+            $entries = Auth::team()->list($filters)->map(function ($entry) use ($label, $attribute) {
+                return [
+                    'label' => $entry->{$label} ?? 'name',
+                    'attribute' => $entry->{$attribute} ?? 'id'
+                ];
+            });
+
+            return new DropDownCollection($entries);
+
+        } catch (Exception $exception) {
             return $this->failed($exception->getMessage());
         }
     }

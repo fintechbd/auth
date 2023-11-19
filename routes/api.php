@@ -1,6 +1,7 @@
 <?php
 
 use Fintech\Auth\Http\Controllers\AuthenticatedController;
+use Fintech\Auth\Http\Controllers\IdDocTypeController;
 use Fintech\Auth\Http\Controllers\OneTimePinController;
 use Fintech\Auth\Http\Controllers\PasswordResetController;
 use Fintech\Auth\Http\Controllers\PermissionController;
@@ -53,7 +54,6 @@ if (Config::get('fintech.auth.enabled')) {
             ->name('verify-otp');
 
         Route::middleware(config('fintech.auth.middleware'))->group(function () {
-            Route::get('users/user-status', [UserController::class, 'userStatus'])->name('users.user-status');
             Route::apiResource('users', UserController::class);
             Route::post('users/{user}/restore', [UserController::class, 'restore'])->name('users.restore');
             Route::post('users/{user}/reset/{field}', [UserController::class, 'reset'])
@@ -74,10 +74,18 @@ if (Config::get('fintech.auth.enabled')) {
 
             Route::apiResource('audits', \Fintech\Auth\Http\Controllers\AuditController::class)->only('index', 'show', 'destroy');
 
-            Route::apiResource('id-doc-types', \Fintech\Auth\Http\Controllers\IdDocTypeController::class);
-            Route::post('id-doc-types/{id_doc_type}/restore', [\Fintech\Auth\Http\Controllers\IdDocTypeController::class, 'restore'])->name('id-doc-types.restore');
+            Route::apiResource('id-doc-types', IdDocTypeController::class);
+            Route::post('id-doc-types/{id_doc_type}/restore', [IdDocTypeController::class, 'restore'])->name('id-doc-types.restore');
 
             //DO NOT REMOVE THIS LINE//
         });
+    });
+    Route::prefix('dropdown')->name('auth.')->group(function () {
+        Route::get('id-doc-types', [IdDocTypeController::class, 'dropdown'])->name('id-doc-types.dropdown');
+        Route::get('roles', [RoleController::class, 'dropdown'])->name('roles.dropdown');
+//        Route::get('teams', [\Fintech\Auth\Http\Controllers\TeamController::class, 'dropdown'])->name('teams.dropdown');
+        Route::get('users', [UserController::class, 'dropdown'])->name('users.dropdown');
+        Route::get('user-statuses', [UserController::class, 'statusDropdown'])->name('user-statuses.dropdown');
+        Route::get('proof-of-addresses', [UserController::class, 'proofOfAddressDropdown'])->name('user-proof-of-address.dropdown');
     });
 }

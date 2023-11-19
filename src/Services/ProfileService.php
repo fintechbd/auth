@@ -123,6 +123,10 @@ class ProfileService
             unset($data['nationality']);
         }
 
+        if (isset($inputs['employer'])) {
+            $data['user_profile_data']['employer'] = $inputs['employer'];
+            unset($data['employer']);
+        }
         return $data;
     }
 

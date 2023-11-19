@@ -53,6 +53,7 @@ if (Config::get('fintech.auth.enabled')) {
             ->name('verify-otp');
 
         Route::middleware(config('fintech.auth.middleware'))->group(function () {
+            Route::get('users/user-status', [UserController::class, 'userStatus'])->name('users.user-status');
             Route::apiResource('users', UserController::class);
             Route::post('users/{user}/restore', [UserController::class, 'restore'])->name('users.restore');
             Route::post('users/{user}/reset/{field}', [UserController::class, 'reset'])

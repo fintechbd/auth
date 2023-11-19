@@ -265,6 +265,7 @@ class UserController extends Controller
      *
      * @lrd:end
      *
+     * @param ImportUserRequest $request
      * @return UserCollection|JsonResponse
      */
     public function import(ImportUserRequest $request): UserCollection|JsonResponse
@@ -290,6 +291,7 @@ class UserController extends Controller
      * @lrd:end
      *
      * @param int|string $id
+     * @param string $field
      * @param UserAuthResetRequest $request
      * @return JsonResponse
      */

@@ -53,7 +53,7 @@ class AuthenticatedController extends Controller
         if ($attemptUser->wrong_password > config('fintech.auth.password_threshold', 10)) {
 
             \Fintech\Auth\Facades\Auth::user()->update($attemptUser->getKey(), [
-                'status' => UserStatus::InActive->value,
+                'status' => UserStatus::Suspended->value,
             ]);
 
             AccountFreezed::dispatch($attemptUser);

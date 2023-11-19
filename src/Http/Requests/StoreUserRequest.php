@@ -70,6 +70,7 @@ class StoreUserRequest extends FormRequest
             'present_country_id' => ['integer', 'nullable'],
             'present_post_code' => ['string', 'nullable'],
             'nationality' => ['string', 'nullable'],
+            'status' => ['string', 'nullable'],
         ]);
 
         $rules[config('fintech.auth.auth_field', 'login_id')] = config('fintech.auth.auth_field_rules', ['required', 'string', 'min:6', 'max:255']);

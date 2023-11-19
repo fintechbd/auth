@@ -291,6 +291,7 @@ class UserController extends Controller
      * @lrd:end
      *
      * @param int|string $id
+     * @param string $field
      * @param UserAuthResetRequest $request
      * @return JsonResponse
      */
@@ -324,18 +325,4 @@ class UserController extends Controller
             return $this->failed($exception->getMessage());
         }
     }
-
-    public function proofOfAddressTypeFields(): ProofAddressTypeResource|JsonResponse
-    {
-        try {
-            $proofOfAddressTypeFields = config('fintech.auth.proof_of_address_types');
-
-            return new ProofAddressTypeResource($proofOfAddressTypeFields);
-
-        } catch (Exception $exception) {
-
-            return $this->failed($exception->getMessage());
-        }
-    }
-
 }

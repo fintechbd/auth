@@ -6,6 +6,7 @@ use Fintech\Auth\Facades\Auth;
 use Fintech\Auth\Interfaces\ProfileRepository;
 use Fintech\Auth\Interfaces\UserRepository;
 use Fintech\Core\Enums\Auth\PasswordResetOption;
+use Fintech\Core\Enums\Auth\UserStatus;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
@@ -99,6 +100,10 @@ class UserService
             $data['roles'] = empty($inputs['roles'])
                 ? config('fintech.auth.customer_roles', [])
                 : $inputs['roles'];
+        }
+
+        if (isset($data['status']) && !empty($data['status'])) {
+            $data['status'] = $data['status'] ?? UserStatus::Registered->value;
         }
 
         return $data;

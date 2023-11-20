@@ -3,6 +3,7 @@
 namespace Fintech\Auth\Traits;
 
 use Fintech\Core\Facades\Core;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 if (Core::packageExists('MetaData')) {
     trait MetaDataRelations
@@ -10,17 +11,17 @@ if (Core::packageExists('MetaData')) {
         /**
          * Permanent Address
          */
-        public function country()
+        public function country(): BelongsTo
         {
             return $this->belongsTo(config('fintech.metadata.country_model'));
         }
 
-        public function state()
+        public function state(): BelongsTo
         {
             return $this->belongsTo(config('fintech.metadata.state_model'));
         }
 
-        public function city()
+        public function city(): BelongsTo
         {
             return $this->belongsTo(config('fintech.metadata.city_model'));
         }
@@ -28,17 +29,17 @@ if (Core::packageExists('MetaData')) {
         /**
          * Present Address
          */
-        public function presentCountry()
+        public function presentCountry(): BelongsTo
         {
             return $this->belongsTo(config('fintech.metadata.country_model'), 'present_country_id');
         }
 
-        public function presentState()
+        public function presentState(): BelongsTo
         {
             return $this->belongsTo(config('fintech.metadata.state_model'), 'present_state_id');
         }
 
-        public function presentCity()
+        public function presentCity(): BelongsTo
         {
             return $this->belongsTo(config('fintech.metadata.city_model'), 'present_city_id');
         }

@@ -34,7 +34,8 @@ class UserService
     public function __construct(
         UserRepository    $userRepository,
         ProfileRepository $profileRepository
-    ) {
+    )
+    {
         $this->userRepository = $userRepository;
         $this->profileRepository = $profileRepository;
     }
@@ -95,12 +96,7 @@ class UserService
             }
         }
 
-
-        if (isset($inputs['roles'])) {
-            $data['roles'] = empty($inputs['roles'])
-                ? config('fintech.auth.customer_roles', [])
-                : $inputs['roles'];
-        }
+        $data['roles'] = $inputs['roles'] ?? config('fintech.auth.customer_roles', []);
 
         if (isset($data['status']) && !empty($data['status'])) {
             $data['status'] = $data['status'] ?? UserStatus::Registered->value;

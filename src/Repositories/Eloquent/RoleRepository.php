@@ -42,9 +42,6 @@ class RoleRepository extends EloquentRepository implements InterfacesRoleReposit
                 $query->where($this->model->getKeyName(), 'like', "%{$filters['search']}%");
             } else {
                 $query->where('name', 'like', "%{$filters['search']}%")
-//                    ->orWhereHas('team', function (Builder $query) use ($filters) {
-//                        return $query->where('name', 'like', "%{$filters['search']}%");
-//                    })
                     ->orWhereHas('permissions', function (Builder $query) use ($filters) {
                         return $query->where('name', 'like', "%{$filters['search']}%");
                     });
@@ -53,6 +50,10 @@ class RoleRepository extends EloquentRepository implements InterfacesRoleReposit
 
         if (isset($filters['team_id']) && !empty($filters['team_id'])) {
             $query->where('team_id', '=', $filters['team_id']);
+        }
+
+        if (isset($filters['name']) && !empty($filters['name'])) {
+            $query->where('name', '=', $filters['name']);
         }
 
         //Display Trashed

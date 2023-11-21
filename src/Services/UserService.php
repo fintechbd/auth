@@ -34,8 +34,7 @@ class UserService
     public function __construct(
         UserRepository    $userRepository,
         ProfileRepository $profileRepository
-    )
-    {
+    ) {
         $this->userRepository = $userRepository;
         $this->profileRepository = $profileRepository;
     }

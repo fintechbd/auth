@@ -3,6 +3,7 @@
 namespace Fintech\Auth\Seeders;
 
 use Fintech\Auth\Facades\Auth;
+use Fintech\Core\Enums\Auth\SystemRole;
 use Illuminate\Database\Seeder;
 
 class RoleSeeder extends Seeder
@@ -26,26 +27,30 @@ class RoleSeeder extends Seeder
         return [
             [
                 'id' => '1',
-                'name' => 'Super Admin',
+                'name' => SystemRole::SuperAdmin->value,
             ],
             [
                 'id' => '2',
-                'name' => 'Admin',
+                'name' => SystemRole::MasterUser->value,
             ],
             [
                 'id' => '3',
-                'name' => 'Executive',
+                'name' => 'Admin',
             ],
             [
                 'id' => '4',
-                'name' => 'Partner'
+                'name' => 'Executive',
             ],
             [
                 'id' => '5',
-                'name' => 'Agent'
+                'name' => 'Partner'
             ],
             [
                 'id' => '6',
+                'name' => 'Agent'
+            ],
+            [
+                'id' => '7',
                 'name' => 'Customer',
             ],
         ];

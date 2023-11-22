@@ -9,7 +9,6 @@ use Illuminate\Contracts\Pagination\Paginator;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Query\JoinClause;
 use InvalidArgumentException;
 
 /**
@@ -66,11 +65,11 @@ class UserRepository extends EloquentRepository implements InterfacesUserReposit
         }
 
         if (isset($filters['country_id']) && !empty($filters['country_id'])) {
-            $query->whereHas('profile', fn(Builder $builder) => $builder->where('country_id', '=', $filters['country_id']));
+            $query->whereHas('profile', fn (Builder $builder) => $builder->where('country_id', '=', $filters['country_id']));
         }
 
         if (isset($filters['role_name']) && !empty($filters['role_name'])) {
-            $query->whereHas('roles', fn(Builder $builder) => $builder->where('name', '=', $filters['role_name']));
+            $query->whereHas('roles', fn (Builder $builder) => $builder->where('name', '=', $filters['role_name']));
         }
 
         if (isset($filters['trashed']) && !empty($filters['trashed'])) {

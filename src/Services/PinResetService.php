@@ -32,13 +32,9 @@ class PinResetService
      * @param UserRepository $userRepository
      */
     public function __construct(
-        private OneTimePinRepository $oneTimePinRepository,
-        private UserRepository       $userRepository
+        private readonly OneTimePinRepository $oneTimePinRepository,
+        private readonly UserRepository       $userRepository
     ) {
-        $this->oneTimePinRepository = $oneTimePinRepository;
-
-        $this->userRepository = $userRepository;
-
         $this->pinField = config('fintech.auth.pin_field', 'pin');
 
         $this->resetMethod = config('fintech.auth.password_reset_method', PasswordResetOption::ResetLink->value);

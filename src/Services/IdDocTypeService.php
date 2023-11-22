@@ -15,9 +15,8 @@ class IdDocTypeService
      * IdDocTypeService constructor.
      * @param IdDocTypeRepository $idDocTypeRepository
      */
-    public function __construct(IdDocTypeRepository $idDocTypeRepository)
+    public function __construct(private readonly IdDocTypeRepository $idDocTypeRepository)
     {
-        $this->idDocTypeRepository = $idDocTypeRepository;
     }
 
     /**

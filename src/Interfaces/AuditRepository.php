@@ -3,8 +3,8 @@
 namespace Fintech\Auth\Interfaces;
 
 use Illuminate\Contracts\Pagination\Paginator;
-use Illuminate\Support\Collection;
 use Illuminate\Database\Eloquent\Model as EloquentModel;
+use Illuminate\Support\Collection;
 use MongoDB\Laravel\Eloquent\Model as MongodbModel;
 
 /**

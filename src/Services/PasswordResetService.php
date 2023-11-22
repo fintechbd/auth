@@ -34,8 +34,8 @@ class PasswordResetService
      * @param UserRepository $userRepository
      */
     public function __construct(
-        private OneTimePinRepository $oneTimePinRepository,
-        private UserRepository       $userRepository
+        private readonly OneTimePinRepository $oneTimePinRepository,
+        private readonly UserRepository       $userRepository
     ) {
         $this->passwordField = config('fintech.auth.password_field', 'password');
 
@@ -189,7 +189,7 @@ class PasswordResetService
 
     /**
      * @param string $token
-     * @return bool
+     * @return \Illuminate\Database\Eloquent\Model|\MongoDB\Laravel\Eloquent\Model
      * @throws \Exception
      */
     public function verifyToken(string $token)

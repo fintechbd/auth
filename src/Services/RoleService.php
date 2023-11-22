@@ -14,7 +14,7 @@ class RoleService
      * RoleService constructor.
      * @param RoleRepository $roleRepository
      */
-    public function __construct(private RoleRepository $roleRepository)
+    public function __construct(private readonly RoleRepository $roleRepository)
     {
     }
 

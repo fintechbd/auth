@@ -15,7 +15,7 @@ class AuditService
      * AuditService constructor.
      * @param AuditRepository $auditRepository
      */
-    public function __construct(private AuditRepository $auditRepository)
+    public function __construct(private readonly AuditRepository $auditRepository)
     {
     }
 

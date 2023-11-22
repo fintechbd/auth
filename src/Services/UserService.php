@@ -18,25 +18,15 @@ use Illuminate\Support\Facades\Hash;
 class UserService
 {
     /**
-     * @var UserRepository
-     */
-    private UserRepository $userRepository;
-    /**
-     * @var ProfileRepository
-     */
-    private ProfileRepository $profileRepository;
-
-    /**
      * UserService constructor.
      * @param UserRepository $userRepository
      * @param ProfileRepository $profileRepository
      */
     public function __construct(
-        UserRepository    $userRepository,
-        ProfileRepository $profileRepository
+        private readonly UserRepository    $userRepository,
+        private readonly ProfileRepository $profileRepository
     ) {
-        $this->userRepository = $userRepository;
-        $this->profileRepository = $profileRepository;
+
     }
 
     /**

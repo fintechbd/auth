@@ -14,7 +14,7 @@ class TeamService
      * TeamService constructor.
      * @param TeamRepository $teamRepository
      */
-    public function __construct(private TeamRepository $teamRepository)
+    public function __construct(private readonly TeamRepository $teamRepository)
     {
     }
 

@@ -19,7 +19,7 @@ class OneTimePinService
      * OneTimePinService constructor.
      * @param OneTimePinRepository $oneTimePinRepository
      */
-    public function __construct(private OneTimePinRepository $oneTimePinRepository)
+    public function __construct(private readonly OneTimePinRepository $oneTimePinRepository)
     {
         $this->otpMethod = config('fintech.auth.verification_method', OTPOption::Otp->value);
     }

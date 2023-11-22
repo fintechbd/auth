@@ -14,7 +14,7 @@ class PermissionService
      * PermissionService constructor.
      * @param PermissionRepository $permissionRepository
      */
-    public function __construct(private PermissionRepository $permissionRepository)
+    public function __construct(private readonly PermissionRepository $permissionRepository)
     {
     }
 

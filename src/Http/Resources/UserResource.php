@@ -60,6 +60,10 @@ class UserResource extends JsonResource
             'currency' => $this->currency ?? null,
             'app_version' => $this->app_version ?? null,
             'roles' => ($this->roles) ? $this->roles->toArray() : [],
+            'balances' => ($this->userAccounts)
+                ? $this->userAccounts->pluck('user_account_data')->toArray()
+                : [],
+            'profile_data' => [],
             'links' => $this->links,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,

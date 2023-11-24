@@ -39,7 +39,7 @@ class UserRepository extends EloquentRepository implements InterfacesUserReposit
 
         $query = $this->model->newQuery();
 
-        if (isset($filters['search']) && !empty($filters['search'])) {
+        if (!empty($filters['search'])) {
             if (is_numeric($filters['search'])) {
                 $query->where($this->model->getKeyName(), 'like', "%{$filters['search']}%");
             } else {
@@ -52,25 +52,25 @@ class UserRepository extends EloquentRepository implements InterfacesUserReposit
             $query->where($authField, '=', $filters[$authField]);
         }
 
-        if (isset($filters['email']) && !empty($filters['email'])) {
+        if (!empty($filters['email'])) {
             $query->where('email', '=', $filters['email']);
         }
 
-        if (isset($filters['mobile']) && !empty($filters['mobile'])) {
+        if (!empty($filters['mobile'])) {
             $query->where('mobile', '=', $filters['mobile']);
         }
 
-        if (isset($filters['name']) && !empty($filters['name'])) {
+        if (!empty($filters['name'])) {
             $query->where('name', '=', $filters['name']);
         }
 
-        if (isset($filters['country_id']) && !empty($filters['country_id'])) {
+        if (!empty($filters['country_id'])) {
             $query->whereHas('profile', function (Builder $builder) use (&$filters) {
                 return $builder->where('country_id', '=', $filters['country_id']);
             });
         }
 
-        if (isset($filters['role_name']) && !empty($filters['role_name'])) {
+        if (!empty($filters['role_name'])) {
             $query->whereHas('roles', function (Builder $builder) use (&$filters) {
                 return $builder->where('name', '=', $filters['role_name']);
             });

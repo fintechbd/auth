@@ -84,6 +84,8 @@ class UserRepository extends EloquentRepository implements InterfacesUserReposit
         //Handle Sorting
         $query->orderBy($filters['sort'] ?? $this->model->getKeyName(), $filters['dir'] ?? 'asc');
 
+        logger("SQL QUERY" . $query->toRawSql());
+
         //Execute Output
         return $this->executeQuery($query, $filters);
 

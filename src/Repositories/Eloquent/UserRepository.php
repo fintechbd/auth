@@ -48,7 +48,7 @@ class UserRepository extends EloquentRepository implements InterfacesUserReposit
         }
 
         //auth field search
-        if (isset($filters[$authField]) && !empty($filters[$authField])) {
+        if (!empty($filters[$authField])) {
             $query->where($authField, '=', $filters[$authField]);
         }
 

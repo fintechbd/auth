@@ -76,15 +76,13 @@ class UserRepository extends EloquentRepository implements InterfacesUserReposit
             });
         }
 
-        if (isset($filters['trashed']) && !empty($filters['trashed'])) {
+        if (isset($filters['trashed']) && $filters['trashed'] === true) {
 
             $query->onlyTrashed();
         }
 
         //Handle Sorting
         $query->orderBy($filters['sort'] ?? $this->model->getKeyName(), $filters['dir'] ?? 'asc');
-
-        logger("SQL QUERY" . $query->toRawSql());
 
         //Execute Output
         return $this->executeQuery($query, $filters);

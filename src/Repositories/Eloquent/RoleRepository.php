@@ -37,7 +37,7 @@ class RoleRepository extends EloquentRepository implements InterfacesRoleReposit
     {
         $query = $this->model->newQuery();
 
-        if (isset($filters['search']) && !empty($filters['search'])) {
+        if (!empty($filters['search'])) {
             if (is_numeric($filters['search'])) {
                 $query->where($this->model->getKeyName(), 'like', "%{$filters['search']}%");
             } else {
@@ -48,16 +48,16 @@ class RoleRepository extends EloquentRepository implements InterfacesRoleReposit
             }
         }
 
-        if (isset($filters['team_id']) && !empty($filters['team_id'])) {
+        if (!empty($filters['team_id'])) {
             $query->where('team_id', '=', $filters['team_id']);
         }
 
-        if (isset($filters['name']) && !empty($filters['name'])) {
+        if (!empty($filters['name'])) {
             $query->where('name', '=', $filters['name']);
         }
 
         //Display Trashed
-        if (isset($filters['trashed']) && !empty($filters['trashed'])) {
+        if (isset($filters['trashed']) && $filters['trashed'] === true) {
             $query->onlyTrashed();
         }
 

@@ -30,7 +30,8 @@ class OneTimePinRepository implements InterfacesOneTimePinRepository
     /**
      * Create a new token.
      *
-     * @param array $attributes ']
+     * @param string $authField
+     * @param string $token
      * @return null|Model
      * @throws Exception
      */
@@ -55,8 +56,8 @@ class OneTimePinRepository implements InterfacesOneTimePinRepository
     /**
      * Determine if a token record exists and is valid.
      *
-     * @param string $authField
      * @param string $token
+     * @return mixed
      */
     public function exists(string $token)
     {
@@ -66,7 +67,6 @@ class OneTimePinRepository implements InterfacesOneTimePinRepository
     /**
      * Determine if the given user recently created a password reset token.
      *
-     * @param string $authField
      * @param string $token
      * @return void
      */

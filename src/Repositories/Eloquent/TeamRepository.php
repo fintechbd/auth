@@ -37,7 +37,7 @@ class TeamRepository extends EloquentRepository implements InterfacesTeamReposit
     {
         $query = $this->model->newQuery();
 
-        if (isset($filters['search']) && !empty($filters['search'])) {
+        if (!empty($filters['search'])) {
             if (is_numeric($filters['search'])) {
                 $query->where($this->model->getKeyName(), 'like', "%{$filters['search']}%");
             } else {
@@ -48,7 +48,7 @@ class TeamRepository extends EloquentRepository implements InterfacesTeamReposit
             }
         }
 
-        if (isset($filters['trashed']) && !empty($filters['trashed'])) {
+        if (isset($filters['trashed']) && $filters['trashed'] === true) {
             $query->onlyTrashed();
         }
 

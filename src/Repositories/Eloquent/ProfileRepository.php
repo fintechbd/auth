@@ -35,7 +35,7 @@ class ProfileRepository extends EloquentRepository implements InterfacesProfileR
     {
         $query = $this->model->newQuery();
 
-        if (isset($filters['search']) && !empty($filters['search'])) {
+        if (!empty($filters['search'])) {
             if (is_numeric($filters['search'])) {
                 $query->where($this->model->getKeyName(), 'like', "%{$filters['search']}%");
             } else {
@@ -44,7 +44,7 @@ class ProfileRepository extends EloquentRepository implements InterfacesProfileR
         }
 
         //Display Trashed
-        if (isset($filters['trashed']) && !empty($filters['trashed'])) {
+        if (isset($filters['trashed']) && $filters['trashed'] === true) {
             $query->onlyTrashed();
         }
 

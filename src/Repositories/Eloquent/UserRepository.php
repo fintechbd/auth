@@ -65,11 +65,15 @@ class UserRepository extends EloquentRepository implements InterfacesUserReposit
         }
 
         if (isset($filters['country_id']) && !empty($filters['country_id'])) {
-            $query->whereHas('profile', fn (Builder $builder) => $builder->where('country_id', '=', $filters['country_id']));
+            $query->whereHas('profile', function (Builder $builder) use (&$filters) {
+                return $builder->where('country_id', '=', $filters['country_id']);
+            });
         }
 
         if (isset($filters['role_name']) && !empty($filters['role_name'])) {
-            $query->whereHas('roles', fn (Builder $builder) => $builder->where('name', '=', $filters['role_name']));
+            $query->whereHas('roles', function (Builder $builder) use (&$filters) {
+                return $builder->where('name', '=', $filters['role_name']);
+            });
         }
 
         if (isset($filters['trashed']) && !empty($filters['trashed'])) {

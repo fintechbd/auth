@@ -17,8 +17,14 @@ class RoleSeeder extends Seeder
             Auth::role()->create($role);
         }
 
+        $permissions =Auth::permission()->list()->pluck('id')->toArray();
+
         Auth::role()->update(1, [
-            'permissions' => Auth::permission()->list()->pluck('id')->toArray()
+            'permissions' => $permissions
+        ]);
+
+        Auth::role()->update(3, [
+            'permissions' => $permissions
         ]);
     }
 

@@ -64,9 +64,9 @@ class UserRepository extends EloquentRepository implements InterfacesUserReposit
             $query->where('name', '=', $filters['name']);
         }
 
-        if (!empty($filters['country_id'])) {
+        if (!empty($filters['present_country_id'])) {
             $query->whereHas('profile', function (Builder $builder) use (&$filters) {
-                return $builder->where('country_id', '=', $filters['country_id']);
+                return $builder->where('present_country_id', '=', $filters['present_country_id']);
             });
         }
 

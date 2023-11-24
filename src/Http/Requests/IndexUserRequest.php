@@ -29,7 +29,7 @@ class IndexUserRequest extends FormRequest
             'role_name' => ['string', 'nullable', 'max:255'],
             'search' => ['string', 'nullable', 'max:255'],
             'per_page' => ['integer', 'nullable', 'min:10', 'max:500'],
-            'country_id' => ['integer', 'nullable', 'min:1'],
+            'present_country_id' => ['integer', 'nullable', 'min:1'],
             'page' => ['integer', 'nullable', 'min:1'],
             'paginate' => ['boolean'],
             'sort' => ['string', 'nullable', 'min:2', 'max:255'],

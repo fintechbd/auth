@@ -21,37 +21,27 @@ return new class () extends Migration {
             $table->string('id_no_duplicate')->default('no');
             $table->date('date_of_birth')->nullable();
             $table->string('permanent_address')->nullable();
-            $table->foreignId('city_id')->nullable()->unsigned();
-            $table->foreignId('state_id')->nullable()->unsigned();
-            $table->foreignId('country_id')->nullable()->unsigned();
-            $table->string('post_code')->nullable();
+            $table->foreignId('permanent_city_id')->nullable();
+            $table->foreignId('permanent_state_id')->nullable();
+            $table->foreignId('permanent_country_id')->nullable();
+            $table->string('permanent_post_code')->nullable();
             $table->string('present_address')->nullable();
-            $table->foreignId('present_city_id')->nullable()->unsigned();
-            $table->foreignId('present_state_id')->nullable()->unsigned();
-            $table->foreignId('present_country_id')->nullable()->unsigned();
+            $table->foreignId('present_city_id')->nullable();
+            $table->foreignId('present_state_id')->nullable();
+            $table->foreignId('present_country_id')->nullable();
             $table->string('present_post_code')->nullable();
-            $table->foreignId('approver_id')->nullable()->unsigned();
+            $table->foreignId('approver_id')->nullable();
             $table->string('blacklisted')->default('no');
             $table->json('user_profile_data')->nullable();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade')
                 ->onUpdate('cascade');
-            $table->foreign('country_id')->references('id')->on('countries')->onDelete('cascade')
-                ->onUpdate('cascade');
-            $table->foreign('state_id')->references('id')->on('states')->onDelete('cascade')
-                ->onUpdate('cascade');
-            $table->foreign('city_id')->references('id')->on('cities')->onDelete('cascade')
-                ->onUpdate('cascade');
-            $table->foreign('present_country_id')->references('id')->on('countries')->onDelete('cascade')
-                ->onUpdate('cascade');
-            $table->foreign('present_state_id')->references('id')->on('states')->onDelete('cascade')
-                ->onUpdate('cascade');
-            $table->foreign('present_city_id')->references('id')->on('cities')->onDelete('cascade')
-                ->onUpdate('cascade');
-            $table->unsignedBigInteger('creator_id')->index()->nullable();
-            $table->unsignedBigInteger('editor_id')->index()->nullable();
-            $table->unsignedBigInteger('destroyer_id')->index()->nullable();
+            $table->foreignId('creator_id')->nullable();
+            $table->foreignId('editor_id')->nullable();
+            $table->foreignId('destroyer_id')->nullable();
+            $table->foreignId('restorer_id')->nullable();
             $table->timestamps();
             $table->softDeletes();
+            $table->timestamp('restored_at')->nullable();
         });
     }
 

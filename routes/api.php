@@ -61,8 +61,6 @@ if (Config::get('fintech.auth.enabled')) {
 
             Route::apiResource('roles', RoleController::class);
             Route::post('roles/{role}/restore', [RoleController::class, 'restore'])->name('roles.restore');
-            Route::post('roles/{role}/service', [RoleController::class, 'service'])->name('roles.service');
-            Route::post('roles/{role}/permission', [RoleController::class, 'permission'])->name('roles.permission');
 
             Route::apiResource('permissions', PermissionController::class);
             Route::post('permissions/{permission}/restore', [PermissionController::class, 'restore'])->name('permissions.restore');
@@ -76,6 +74,8 @@ if (Config::get('fintech.auth.enabled')) {
 
             Route::apiResource('id-doc-types', IdDocTypeController::class);
             Route::post('id-doc-types/{id_doc_type}/restore', [IdDocTypeController::class, 'restore'])->name('id-doc-types.restore');
+
+            Route::apiResource('role-permissions', \Fintech\Auth\Http\Controllers\RolePermissionController::class)->only(['show', 'update']);
 
             //DO NOT REMOVE THIS LINE//
         });

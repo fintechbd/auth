@@ -6,12 +6,11 @@ use Exception;
 use Fintech\Auth\Facades\Auth;
 use Fintech\Auth\Http\Requests\ImportRoleRequest;
 use Fintech\Auth\Http\Requests\IndexRoleRequest;
-use Fintech\Auth\Http\Requests\RolePermissionRequest;
-use Fintech\Auth\Http\Requests\RoleServiceRequest;
 use Fintech\Auth\Http\Requests\StoreRoleRequest;
 use Fintech\Auth\Http\Requests\UpdateRoleRequest;
 use Fintech\Auth\Http\Resources\RoleCollection;
 use Fintech\Auth\Http\Resources\RoleResource;
+use Fintech\Business\Http\Requests\RoleServiceRequest;
 use Fintech\Core\Exceptions\DeleteOperationException;
 use Fintech\Core\Exceptions\RestoreOperationException;
 use Fintech\Core\Exceptions\StoreOperationException;
@@ -226,75 +225,6 @@ class RoleController extends Controller
         }
     }
 
-    /**
-     * @lrd:start
-     * Assign services to a specified group resource using id.
-     *
-     * @lrd:end
-     */
-    public function service(RoleServiceRequest $request, string|int $id): JsonResponse
-    {
-        try {
-
-            $role = Auth::role()->find($id);
-
-            if (!$role) {
-                throw (new ModelNotFoundException())->setModel(config('fintech.auth.role_model'), $id);
-            }
-
-            $inputs = $request->validated();
-
-            if (!Auth::role()->update($id, $inputs)) {
-
-                throw (new UpdateOperationException())->setModel(config('fintech.auth.role_model'), $id);
-            }
-
-            return $this->updated(__('auth::messages.role.service_assigned', ['role' => strtolower($role->name ?? 'N/A')]));
-
-        } catch (ModelNotFoundException $exception) {
-
-            return $this->notfound($exception->getMessage());
-
-        } catch (Exception $exception) {
-
-            return $this->failed($exception->getMessage());
-        }
-    }
-
-    /**
-     * @lrd:start
-     * Assign permissions to a specified group resource using id.
-     *
-     * @lrd:end
-     */
-    public function permission(RolePermissionRequest $request, string|int $id): JsonResponse
-    {
-        try {
-
-            $role = Auth::role()->find($id);
-
-            if (!$role) {
-                throw (new ModelNotFoundException())->setModel(config('fintech.auth.role_model'), $id);
-            }
-
-            $inputs = $request->validated();
-
-            if (!Auth::role()->update($id, $inputs)) {
-
-                throw (new UpdateOperationException())->setModel(config('fintech.auth.role_model'), $id);
-            }
-
-            return $this->updated(__('auth::messages.role.permission_assigned', ['role' => strtolower($role->name ?? 'N/A')]));
-
-        } catch (ModelNotFoundException $exception) {
-
-            return $this->notfound($exception->getMessage());
-
-        } catch (Exception $exception) {
-
-            return $this->failed($exception->getMessage());
-        }
-    }
 
     /**
      * @lrd:start

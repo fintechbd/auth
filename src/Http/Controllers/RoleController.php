@@ -10,7 +10,6 @@ use Fintech\Auth\Http\Requests\StoreRoleRequest;
 use Fintech\Auth\Http\Requests\UpdateRoleRequest;
 use Fintech\Auth\Http\Resources\RoleCollection;
 use Fintech\Auth\Http\Resources\RoleResource;
-use Fintech\Business\Http\Requests\RoleServiceRequest;
 use Fintech\Core\Exceptions\DeleteOperationException;
 use Fintech\Core\Exceptions\RestoreOperationException;
 use Fintech\Core\Exceptions\StoreOperationException;

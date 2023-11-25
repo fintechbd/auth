@@ -27,12 +27,12 @@ class RolePermissionResource extends JsonResource
         Auth::permission()
             ->list(['paginate' => false])
             ->each(function ($permission) use (&$data, $rolePermissions) {
-            $data[] = [
-                'id' => $permission->getKey(),
-                'name' => $permission->name,
-                'enabled' => in_array($permission->getKey(), $rolePermissions)
-            ];
-        });
+                $data[] = [
+                    'id' => $permission->getKey(),
+                    'name' => $permission->name,
+                    'enabled' => in_array($permission->getKey(), $rolePermissions)
+                ];
+            });
 
         return $data;
     }

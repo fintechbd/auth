@@ -167,6 +167,90 @@ class UserSeeder extends Seeder
                     "note" => "Testing",
                     "nationality" => "Bangladeshi"
                 ]
+            ],
+            [
+                'user' => [
+                    "parent_id" => null,
+                    "name" => "Miraz Uddin",
+                    "mobile" => "01600000004",
+                    "email" => "miraz@gmail.com",
+                    "login_id" => "01600000004",
+                    "password" => "12345678",
+                    "pin" => "123456",
+                    "app_version" => "1.0",
+                    "fcm_token" => Str::random(40),
+                    "language" => "en",
+                    "currency" => "BDT",
+                    "roles" => [3]
+                ],
+                'profile' => [
+                    "father_name" => "Mustak Ahmed",
+                    "mother_name" => "Hamida Begum",
+                    "gender" => "male",
+                    "marital_status" => "unmarried",
+                    "occupation" => "service",
+                    "source_of_income" => "salary",
+                    "id_type" => "passport",
+                    "id_no" => "12345678",
+                    "id_issue_country" => "Bangladesh",
+                    "id_expired_at" => now()->addYears(5)->format('Y-m-d'),
+                    "id_issue_at" => now()->format('Y-m-d'),
+                    "date_of_birth" => now()->subYears(25)->format('Y-m-d'),
+                    "permanent_address" => "Savar, Dhaka",
+                    "permanent_city_id" => "1",
+                    "permanent_state_id" => "1",
+                    "permanent_country_id" => "1",
+                    "permanent_post_code" => "1207",
+                    "present_address" => "Mohammadpur",
+                    "present_city_id" => "1",
+                    "present_state_id" => "1",
+                    "present_country_id" => "1",
+                    "present_post_code" => "1234",
+                    "note" => "Testing",
+                    "nationality" => "Bangladeshi"
+                ]
+            ],
+            [
+                'user' => [
+                    "parent_id" => null,
+                    "name" => "Rubel Islam",
+                    "mobile" => "01600000005",
+                    "email" => "rubel@gmail.com",
+                    "login_id" => "01600000005",
+                    "password" => "12345678",
+                    "pin" => "123456",
+                    "app_version" => "1.0",
+                    "fcm_token" => Str::random(40),
+                    "language" => "en",
+                    "currency" => "BDT",
+                    "roles" => [3]
+                ],
+                'profile' => [
+                    "father_name" => "Mustak Ahmed",
+                    "mother_name" => "Hamida Begum",
+                    "gender" => "male",
+                    "marital_status" => "unmarried",
+                    "occupation" => "service",
+                    "source_of_income" => "salary",
+                    "id_type" => "passport",
+                    "id_no" => "12345678",
+                    "id_issue_country" => "Bangladesh",
+                    "id_expired_at" => now()->addYears(5)->format('Y-m-d'),
+                    "id_issue_at" => now()->format('Y-m-d'),
+                    "date_of_birth" => now()->subYears(25)->format('Y-m-d'),
+                    "permanent_address" => "Savar, Dhaka",
+                    "permanent_city_id" => "1",
+                    "permanent_state_id" => "1",
+                    "permanent_country_id" => "1",
+                    "permanent_post_code" => "1207",
+                    "present_address" => "Mohammadpur",
+                    "present_city_id" => "1",
+                    "present_state_id" => "1",
+                    "present_country_id" => "1",
+                    "present_post_code" => "1234",
+                    "note" => "Testing",
+                    "nationality" => "Bangladeshi"
+                ]
             ]
         ];
 

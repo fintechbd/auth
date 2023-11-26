@@ -2,7 +2,7 @@
 
 namespace Fintech\Auth\Http\Controllers;
 
-use App\Http\Controllers\Controller;
+use Illuminate\Routing\Controller;
 use Exception;
 use Fintech\Auth\Facades\Auth;
 use Fintech\Auth\Http\Requests\RolePermissionRequest;

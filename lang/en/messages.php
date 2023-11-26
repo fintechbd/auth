@@ -48,7 +48,6 @@ return [
         'restore' => 'System audit can not be restores by user command.'
     ],
     'role' => [
-        'service_assigned' => 'Assigning services to :role group successful.',
         'permission_assigned' => 'Assigning permission to :role group successful.'
 ]
 ];

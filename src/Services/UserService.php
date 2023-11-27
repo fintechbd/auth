@@ -73,12 +73,12 @@ class UserService
             $data['password'] = Hash::make(($inputs['password'] ?? config('fintech.auth.default_password', '123456')));
             $data['pin'] = Hash::make(($inputs['pin'] ?? config('fintech.auth.default_pin', '123456')));
         } else {
-            if (isset($data['password']) && !empty($data['password'])) {
+            if (!empty($data['password'])) {
                 $data['password'] = Hash::make($data['password']);
             } else {
                 unset($data['password']);
             }
-            if (isset($data['pin']) && !empty($data['pin'])) {
+            if (!empty($data['pin'])) {
                 $data['pin'] = Hash::make($data['pin']);
             } else {
                 unset($data['pin']);
@@ -87,9 +87,7 @@ class UserService
 
         $data['roles'] = $inputs['roles'] ?? config('fintech.auth.customer_roles', []);
 
-        if (isset($data['status']) && !empty($data['status'])) {
-            $data['status'] = $data['status'] ?? UserStatus::Registered->value;
-        }
+        $data['status'] = $data['status'] ?? UserStatus::Registered->value;
 
         return $data;
     }

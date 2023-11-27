@@ -14,6 +14,7 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media;
 /**
  * @property mixed $roles
  */
+
 /**
  * Class UserResource
  * @package Fintech\Auth\Http\Resources
@@ -69,7 +70,7 @@ class UserCollection extends ResourceCollection
                 'created_at' => $user->created_at,
                 'updated_at' => $user->updated_at,
             ];
-            unset($data['roles'][0]['links'],$data['roles'][0]['pivot'],$data['roles'][0]['permissions']);
+            unset($data['roles'][0]['links'], $data['roles'][0]['pivot'], $data['roles'][0]['permissions']);
             /**
              * @var Profile $profile
              */
@@ -77,47 +78,21 @@ class UserCollection extends ResourceCollection
 
             $profile_data = [
                 'profile_data' => $profile->user_profile_data ?? null,
-                'id_doc' => [
-                    'id_type' => $profile->id_type ?? null,
-                    'id_no' => $profile->id_no ?? null,
-                    'id_issue_country' => $profile->id_issue_country ?? null,
-                    'id_expired_at' => $profile->id_expired_at ?? null,
-                    'id_issue_at' => $profile->id_issue_at ?? null,
-                    'id_no_duplicate' => $profile->id_no_duplicate ?? null,
-//                    'documents' => $this->formatMediaCollection($profile->getMedia('documents')),
-                ],
+                'id_type' => $profile->id_type ?? null,
+                'id_no' => $profile->id_no ?? null,
+                'id_issue_country' => $profile->id_issue_country ?? null,
+                'id_expired_at' => $profile->id_expired_at ?? null,
+                'id_issue_at' => $profile->id_issue_at ?? null,
+                'id_no_duplicate' => $profile->id_no_duplicate ?? null,
                 'date_of_birth' => $profile->date_of_birth ?? null,
-//                "permanent_address" => [
-//                    'address' => $profile->permanent_address ?? null,
-//                    'city_id' => $profile->city_id ?? null,
-//                    'city_name' => null,
-//                    'state_id' => $profile->state_id ?? null,
-//                    'state_name' => null,
-//                    'country_id' => $profile->country_id ?? null,
-//                    'country_name' => null,
-//                    'post_code' => $profile->post_code ?? null,
-//                ],
-                "present_address" => [
-//                    'address' => $profile->present_address ?? null,
-//                    'city_id' => $profile->present_city_id ?? null,
-//                    'city_name' => null,
-//                    'state_id' => $profile->present_state_id ?? null,
-//                    'state_name' => null,
-                    'country_id' => $profile->present_country_id ?? null,
-                    'country_name' => null,
-//                    'post_code' => $profile->present_post_code ?? null,
-                ],
+                'present_country_id' => $profile->present_country_id ?? null,
+                'present_country_name' => null,
                 'blacklisted' => $profile->blacklisted ?? null,
                 'proof_of_address' => $this->formatMediaCollection($profile->getMedia('proof_of_address'))
             ];
 
             if (Core::packageExists('MetaData')) {
-                //                $profile_data['permanent_address']['city_name'] = $profile->city?->name ?? null;
-                //                $profile_data['permanent_address']['state_name'] = $profile->state?->name ?? null;
-                //                $profile_data['permanent_address']['country_name'] = $profile->country?->name ?? null;
-                //                $profile_data['present_address']['city_name'] = $profile->presentCity?->name ?? null;
-                //                $profile_data['present_address']['state_name'] = $profile->presentState?->name ?? null;
-                $profile_data['present_address']['country_name'] = $profile->presentCountry?->name ?? null;
+                $profile_data['present_country_name'] = $profile->presentCountry?->name ?? null;
             }
 
             return array_merge($data, $profile_data);

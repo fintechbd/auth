@@ -11,19 +11,19 @@ if (Core::packageExists('MetaData')) {
         /**
          * Permanent Address
          */
-        public function country(): BelongsTo
+        public function permanentCountry(): BelongsTo
         {
-            return $this->belongsTo(config('fintech.metadata.country_model'));
+            return $this->belongsTo(config('fintech.metadata.country_model'), 'permanent_country_id');
         }
 
-        public function state(): BelongsTo
+        public function permanentState(): BelongsTo
         {
-            return $this->belongsTo(config('fintech.metadata.state_model'));
+            return $this->belongsTo(config('fintech.metadata.state_model'), 'permanent_state_id');
         }
 
-        public function city(): BelongsTo
+        public function permanentCity(): BelongsTo
         {
-            return $this->belongsTo(config('fintech.metadata.city_model'));
+            return $this->belongsTo(config('fintech.metadata.city_model'), 'permanent_city_id');
         }
 
         /**

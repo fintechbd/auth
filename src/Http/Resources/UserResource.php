@@ -68,7 +68,8 @@ class UserResource extends JsonResource
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
         ];
-        unset($data['roles'][0]['links'],$data['roles'][0]['pivot'],$data['roles'][0]['permissions']);
+
+        unset($data['roles'][0]['links'], $data['roles'][0]['pivot'], $data['roles'][0]['permissions']);
 
         /**
          * @var Profile $profile
@@ -77,47 +78,42 @@ class UserResource extends JsonResource
 
         $profile_data = [
             'profile_data' => $profile->user_profile_data ?? null,
-            'id_doc' => [
-                'id_type' => $profile->id_type ?? null,
-                'id_no' => $profile->id_no ?? null,
-                'id_issue_country' => $profile->id_issue_country ?? null,
-                'id_expired_at' => $profile->id_expired_at ?? null,
-                'id_issue_at' => $profile->id_issue_at ?? null,
-                'id_no_duplicate' => $profile->id_no_duplicate ?? null,
-                'documents' => $this->formatMediaCollection($profile->getMedia('documents')),
-            ],
+            'id_type' => $profile->id_type ?? null,
+            'id_no' => $profile->id_no ?? null,
+            'id_issue_country' => $profile->id_issue_country ?? null,
+            'id_expired_at' => $profile->id_expired_at ?? null,
+            'id_issue_at' => $profile->id_issue_at ?? null,
+            'id_no_duplicate' => $profile->id_no_duplicate ?? null,
+            'documents' => $this->formatMediaCollection($profile->getMedia('documents')),
             'date_of_birth' => $profile->date_of_birth ?? null,
-            "permanent_address" => [
-                'address' => $profile->permanent_address ?? null,
-                'city_id' => $profile->city_id ?? null,
-                'city_name' => null,
-                'state_id' => $profile->state_id ?? null,
-                'state_name' => null,
-                'country_id' => $profile->country_id ?? null,
-                'country_name' => null,
-                'post_code' => $profile->post_code ?? null,
-            ],
-            "present_address" => [
-                'address' => $profile->present_address ?? null,
-                'city_id' => $profile->present_city_id ?? null,
-                'city_name' => null,
-                'state_id' => $profile->present_state_id ?? null,
-                'state_name' => null,
-                'country_id' => $profile->present_country_id ?? null,
-                'country_name' => null,
-                'post_code' => $profile->present_post_code ?? null,
-            ],
+            'permanent_address' => $profile->permanent_address ?? null,
+            'permanent_city_id' => $profile->permanent_city_id ?? null,
+            'permanent_city_name' => null,
+            'permanent_state_id' => $profile->permanent_state_id ?? null,
+            'permanent_state_name' => null,
+            'permanent_country_id' => $profile->permanent_country_id ?? null,
+            'permanent_country_name' => null,
+            'permanent_post_code' => $profile->permanent_post_code ?? null,
+
+            'present_address' => $profile->present_address ?? null,
+            'present_city_id' => $profile->present_city_id ?? null,
+            'present_city_name' => null,
+            'present_state_id' => $profile->present_state_id ?? null,
+            'present_state_name' => null,
+            'present_country_id' => $profile->present_country_id ?? null,
+            'present_country_name' => null,
+            'present_post_code' => $profile->present_post_code ?? null,
             'blacklisted' => $profile->blacklisted ?? null,
             'proof_of_address' => $this->formatMediaCollection($profile->getMedia('proof_of_address'))
         ];
 
         if (Core::packageExists('MetaData')) {
-            $profile_data['permanent_address']['city_name'] = $profile->city?->name ?? null;
-            $profile_data['permanent_address']['state_name'] = $profile->state?->name ?? null;
-            $profile_data['permanent_address']['country_name'] = $profile->country?->name ?? null;
-            $profile_data['present_address']['city_name'] = $profile->presentCity?->name ?? null;
-            $profile_data['present_address']['state_name'] = $profile->presentState?->name ?? null;
-            $profile_data['present_address']['country_name'] = $profile->presentCountry?->name ?? null;
+            $profile_data['permanent_city_name'] = $profile->permanentCity?->name ?? null;
+            $profile_data['permanent_state_name'] = $profile->permanentState?->name ?? null;
+            $profile_data['permanent_country_name'] = $profile->permanentCountry?->name ?? null;
+            $profile_data['present_city_name'] = $profile->presentCity?->name ?? null;
+            $profile_data['present_state_name'] = $profile->presentState?->name ?? null;
+            $profile_data['present_country_name'] = $profile->presentCountry?->name ?? null;
         }
 
         return array_merge($data, $profile_data);

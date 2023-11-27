@@ -76,6 +76,8 @@ class RegistrationRequest extends FormRequest
 
         $rules[config('fintech.auth.password_field', 'password')] = config('fintech.auth.password_field_rules', ['required', 'string', Password::default()]);
 
+        $rules['pin'][] = 'required';
+
         return $rules;
     }
 }

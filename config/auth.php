@@ -164,7 +164,7 @@ return [
         'name' => ['required', 'string', 'min:2', 'max:255'],
         'mobile' => ['required', 'string', 'min:10'],
         'email' => ['required', 'string', 'email:rfc,dns', 'min:2', 'max:255'],
-        'pin' => ['required', 'string', 'min:4', 'max:16'],
+        'pin' => ['string', 'min:4', 'max:16'],
         'app_version' => ['nullable', 'string'],
         'fcm_token' => ['nullable', 'string'],
         'language' => ['nullable', 'string'],
@@ -239,9 +239,7 @@ return [
     |
     | This value will be used to across system where model is needed
     */
-    //'middleware' => ['auth:sanctum'],
-    'middleware' => [],
-
+    'middleware' => ['auth:sanctum'],
     /*
     |--------------------------------------------------------------------------
     | Constant

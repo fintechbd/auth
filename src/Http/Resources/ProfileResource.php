@@ -49,14 +49,14 @@ class ProfileResource extends JsonResource
             'id_issue_at' => $this->id_issue_at ?? null,
             'id_no_duplicate' => $this->id_no_duplicate ?? null,
             'date_of_birth' => $this->date_of_birth ?? null,
-            'address' => $this->permanent_address ?? null,
-            'city_id' => $this->city_id ?? null,
-            'city_name' => null,
-            'state_id' => $this->state_id ?? null,
-            'state_name' => null,
-            'country_id' => $this->country_id ?? null,
-            'country_name' => null,
-            'post_code' => $this->post_code ?? null,
+            'permanent_address' => $this->permanent_address ?? null,
+            'permanent_city_id' => $this->permanent_city_id ?? null,
+            'permanent_city_name' => null,
+            'permanent_state_id' => $this->permanent_state_id ?? null,
+            'permanent_state_name' => null,
+            'permanent_country_id' => $this->permanent_country_id ?? null,
+            'permanent_country_name' => null,
+            'permanent_post_code' => $this->post_code ?? null,
             'present_address' => $this->present_address ?? null,
             'present_city_id' => $this->present_city_id ?? null,
             'present_city_name' => null,
@@ -73,16 +73,16 @@ class ProfileResource extends JsonResource
         if (Core::packageExists('MetaData')) {
 
             $this->resource->load([
-                'country', 'state', 'city',
+                'permanentCountry', 'permanentState', 'permanentCity',
                 'presentCountry', 'presentState', 'presentCity',
             ]);
 
-            $profile['city_name'] = $this->city->name ?? null;
-            $profile['state_name'] = $this->state->name ?? null;
-            $profile['country_name'] = $this->country->name ?? null;
-            $profile['present_city_name'] = $this->presentCity->name ?? null;
-            $profile['present_state_name'] = $this->presentState->name ?? null;
-            $profile['present_country_name'] = $this->presentCountry->name ?? null;
+            $profile['permanent_city_name'] = $this->permanentCity?->name ?? null;
+            $profile['permanent_state_name'] = $this->permanentState?->name ?? null;
+            $profile['permanent_country_name'] = $this->permanentCountry?->name ?? null;
+            $profile['present_city_name'] = $this->presentCity?->name ?? null;
+            $profile['present_state_name'] = $this->presentState?->name ?? null;
+            $profile['present_country_name'] = $this->presentCountry?->name ?? null;
         }
 
         return $profile;

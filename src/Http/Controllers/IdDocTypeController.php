@@ -299,7 +299,7 @@ class IdDocTypeController extends Controller
             if(isset($filters['country_id'])) {
                 unset($filters['country_id']);
             }
-            
+
             $label = 'name';
 
             $attribute = 'code';

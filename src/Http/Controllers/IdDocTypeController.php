@@ -295,6 +295,11 @@ class IdDocTypeController extends Controller
         try {
             $filters = $request->all();
 
+            //TODO adjust right country id on database for id doc type
+            if(isset($filters['country_id'])) {
+                unset($filters['country_id']);
+            }
+            
             $label = 'name';
 
             $attribute = 'code';

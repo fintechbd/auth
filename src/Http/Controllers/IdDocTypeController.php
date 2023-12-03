@@ -297,7 +297,7 @@ class IdDocTypeController extends Controller
 
             $label = 'name';
 
-            $attribute = 'id';
+            $attribute = 'code';
 
             if (!empty($filters['label'])) {
                 $label = $filters['label'];
@@ -312,7 +312,8 @@ class IdDocTypeController extends Controller
             $entries = Auth::idDocType()->list($filters)->map(function ($entry) use ($label, $attribute) {
                 return [
                     'label' => $entry->{$label} ?? 'name',
-                    'attribute' => $entry->{$attribute} ?? 'id'
+                    'attribute' => $entry->{$attribute} ?? 'id',
+                    'sides' => $entry->sides ?? 1
                 ];
             });
 

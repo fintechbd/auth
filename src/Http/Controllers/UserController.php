@@ -385,24 +385,4 @@ class UserController extends Controller
             return $this->failed($exception->getMessage());
         }
     }
-
-    /**
-     * @param DropDownRequest $request
-     * @return DropDownCollection|JsonResponse
-     */
-    public function proofOfAddressDropdown(DropDownRequest $request): DropDownCollection|JsonResponse
-    {
-        try {
-            $entries = collect();
-
-            foreach (config('fintech.auth.proof_of_address_types', []) as $key => $status) {
-                $entries->push(['label' => $status, 'attribute' => $key]);
-            }
-
-            return new DropDownCollection($entries);
-
-        } catch (Exception $exception) {
-            return $this->failed($exception->getMessage());
-        }
-    }
 }

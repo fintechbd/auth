@@ -32,6 +32,7 @@ use Laravel\Sanctum\NewAccessToken;
  * @property-read Carbon $created_at
  * @property-read Carbon $updated_at
  * @method Collection getAllPermissions()
+ * @method Collection getFirstMediaUrl(string $collection)
  * @method NewAccessToken createToken(string $origin)
  */
 class LoginResource extends JsonResource
@@ -56,6 +57,7 @@ class LoginResource extends JsonResource
             'language' => $this->language,
             'currency' => $this->currency,
             'app_version' => $this->app_version,
+            'photo' => $this->getFirstMediaUrl('photo'),
             'role_id' => null,
             'role_name' => null,
             'profile' => (($this->profile != null)

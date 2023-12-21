@@ -240,21 +240,6 @@ return [
     | This value will be used to across system where model is needed
     */
     'middleware' => ['auth:sanctum'],
-    /*
-    |--------------------------------------------------------------------------
-    | Constant
-    |--------------------------------------------------------------------------
-    |
-    | This value will be used across systems where a constant instance is needed
-    */
-
-    'proof_of_address_types' => [
-        'tenancy_contract' => 'Tenancy Contract',
-        'utility_bill' => 'Utility Bill',
-        'bank_statement' => 'Bank Statement',
-        'credit_card_statement' => 'Credit Card Statement',
-        'telephone_bill' => 'Telephone Bill',
-    ],
 
     /*
     |--------------------------------------------------------------------------

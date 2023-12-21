@@ -4,6 +4,7 @@ namespace Fintech\Auth\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use Exception;
+use Fintech\Core\Enums\Auth\ProofOfAddressType;
 use Fintech\Core\Http\Requests\DropDownRequest;
 use Fintech\Core\Http\Resources\DropDownCollection;
 use Fintech\Core\Traits\ApiResponseTrait;
@@ -22,8 +23,11 @@ class ProofOfAddressDropDownController extends Controller
         try {
             $entries = collect();
 
-            foreach (config('fintech.auth.proof_of_address_types', []) as $key => $status) {
-                $entries->push(['label' => $status, 'attribute' => $key]);
+            foreach (ProofOfAddressType::toArray() as $key => $status) {
+                $entries->push([
+                    'label' => ucwords(str_replace("_", " ", preg_replace('/(?<!^)[A-Z]/', '_$0', $status))),
+                    'attribute' => $key
+                ]);
             }
 
             return new DropDownCollection($entries);

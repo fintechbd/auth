@@ -2,7 +2,6 @@
 
 namespace Fintech\Auth\Http\Requests;
 
-use Fintech\Auth\Models\IdDocType;
 use Illuminate\Foundation\Http\FormRequest;
 
 class VerifyIdDocTypeRequest extends FormRequest

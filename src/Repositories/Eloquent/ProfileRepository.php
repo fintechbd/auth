@@ -43,6 +43,18 @@ class ProfileRepository extends EloquentRepository implements InterfacesProfileR
             }
         }
 
+        if (!empty($filters['id_type'])) {
+            $query->where('id_type', '=', $filters['id_type']);
+        }
+
+        if (!empty($filters['id_no'])) {
+            $query->where('id_no', '=', $filters['id_no']);
+        }
+
+        if (!empty($filters['id_issue_country'])) {
+            $query->where('id_issue_country', '=', $filters['id_issue_country']);
+        }
+
         //Display Trashed
         if (isset($filters['trashed']) && $filters['trashed'] === true) {
             $query->onlyTrashed();

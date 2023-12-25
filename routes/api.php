@@ -79,6 +79,8 @@ if (Config::get('fintech.auth.enabled')) {
 
             //DO NOT REMOVE THIS LINE//
         });
+
+        Route::post('id-doc-verification', [IdDocTypeController::class, 'verification'])->name('id-doc-verification');
     });
     Route::prefix('dropdown')->name('auth.')->group(function () {
         Route::get('id-doc-types', [IdDocTypeController::class, 'dropdown'])->name('id-doc-types.dropdown');

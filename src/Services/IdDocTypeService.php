@@ -3,6 +3,7 @@
 namespace Fintech\Auth\Services;
 
 use Fintech\Auth\Interfaces\IdDocTypeRepository;
+use Fintech\Auth\Interfaces\ProfileRepository;
 
 /**
  * Class IdDocTypeService
@@ -14,8 +15,10 @@ class IdDocTypeService
     /**
      * IdDocTypeService constructor.
      * @param IdDocTypeRepository $idDocTypeRepository
+     * @param ProfileRepository $profileRepository
      */
-    public function __construct(private readonly IdDocTypeRepository $idDocTypeRepository)
+    public function __construct(private readonly IdDocTypeRepository $idDocTypeRepository,
+                                private readonly ProfileRepository   $profileRepository)
     {
     }
 
@@ -62,5 +65,10 @@ class IdDocTypeService
     public function import(array $filters)
     {
         return $this->idDocTypeRepository->create($filters);
+    }
+
+    public function verify(array $inputs): bool
+    {
+        return(bool)$this->profileRepository->list($inputs)->first();
     }
 }

@@ -8,6 +8,7 @@ use Fintech\Auth\Http\Requests\ImportIdDocTypeRequest;
 use Fintech\Auth\Http\Requests\IndexIdDocTypeRequest;
 use Fintech\Auth\Http\Requests\StoreIdDocTypeRequest;
 use Fintech\Auth\Http\Requests\UpdateIdDocTypeRequest;
+use Fintech\Auth\Http\Requests\VerifyIdDocTypeRequest;
 use Fintech\Auth\Http\Resources\IdDocTypeCollection;
 use Fintech\Auth\Http\Resources\IdDocTypeResource;
 use Fintech\Core\Exceptions\DeleteOperationException;
@@ -325,6 +326,37 @@ class IdDocTypeController extends Controller
             return new DropDownCollection($entries);
 
         } catch (Exception $exception) {
+            return $this->failed($exception->getMessage());
+        }
+    }
+
+    /**
+     * @lrd:start
+     * Create a new *IdDocType* resource in storage.
+     * @lrd:end
+     *
+     * @param StoreIdDocTypeRequest $request
+     * @return JsonResponse
+     * @throws StoreOperationException
+     */
+    public function verification(VerifyIdDocTypeRequest $request): JsonResponse
+    {
+        try {
+            $inputs = $request->validated();
+
+            $idDocType = Auth::idDocType()->verify($inputs);
+
+            if (!$idDocType) {
+                throw (new StoreOperationException())->setModel(config('fintech.auth.id_doc_type_model'));
+            }
+
+            return $this->created([
+                'message' => __('core::messages.resource.created', ['model' => 'Id Doc Type']),
+                'id' => $idDocType->id
+            ]);
+
+        } catch (Exception $exception) {
+
             return $this->failed($exception->getMessage());
         }
     }

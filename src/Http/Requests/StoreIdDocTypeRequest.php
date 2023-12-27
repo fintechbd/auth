@@ -27,8 +27,8 @@ class StoreIdDocTypeRequest extends FormRequest
             'country_id' => ['required', 'integer', 'min:1', 'max:255'],
             'name' => ['required', 'string', 'min:1', 'max:255'],
             'code' => ['required', 'string', 'min:1', 'max:255', $uniqueRule],
-            'sides' => ['nullable', 'integer', 'min:1', 'max:255'],
-            'enabled' => ['nullable', 'bool'],
+            'sides' => ['nullable', 'integer', 'min:1'],
+            'enabled' => ['nullable', 'boolean'],
             'id_doc_type_data' => ['nullable', 'array'],
         ];
     }

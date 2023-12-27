@@ -84,7 +84,7 @@ class IdDocTypeController extends Controller
 
             return $this->created([
                 'message' => __('core::messages.resource.created', ['model' => 'Id Doc Type']),
-                'id' => $idDocType->id
+                'id' => $idDocType->getKey()
              ]);
 
         } catch (Exception $exception) {

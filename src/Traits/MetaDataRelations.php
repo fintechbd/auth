@@ -44,6 +44,10 @@ if (Core::packageExists('MetaData')) {
             return $this->belongsTo(config('fintech.metadata.city_model'), 'present_city_id');
         }
 
+        public function country(): BelongsTo
+        {
+            return $this->belongsTo(config('fintech.metadata.country_model'), 'country_id');
+        }
     }
 } else {
     trait MetaDataRelations

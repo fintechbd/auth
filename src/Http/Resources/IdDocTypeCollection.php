@@ -2,6 +2,7 @@
 
 namespace Fintech\Auth\Http\Resources;
 
+use Fintech\Core\Facades\Core;
 use Fintech\Core\Supports\Constant;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\ResourceCollection;
@@ -16,7 +17,26 @@ class IdDocTypeCollection extends ResourceCollection
      */
     public function toArray($request)
     {
-        return parent::toArray($request);
+        return $this->collection->map(function ($idDoc) {
+            $data = [
+                'id' => $idDoc->getKey(),
+                'country_id' => $role->country_id ?? null,
+                'country_name' => null,
+                'name' => $idDoc->name ?? null,
+                'code' => $idDoc->code ?? null,
+                'sides' => $idDoc->sides ?? null,
+                'enabled' => $idDoc->enabled ?? null,
+                'id_doc_type_data' => $idDoc->id_doc_type_data ?? null,
+                'links' => $idDoc->links,
+                'created_at' => $idDoc->created_at,
+                'updated_at' => $idDoc->updated_at,
+            ];
+
+            if (Core::packageExists('MetaData')) {
+                $data['country_name'] = $idDoc->country->name ?? null;
+            }
+            return $data;
+        })->toArray();
     }
 
     /**

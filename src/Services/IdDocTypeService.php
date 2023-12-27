@@ -68,8 +68,8 @@ class IdDocTypeService
         return $this->idDocTypeRepository->create($filters);
     }
 
-    public function verify(array $inputs): bool
+    public function verify(array $inputs): mixed
     {
-        return(bool)$this->profileRepository->list($inputs)->first();
+        return $this->profileRepository->list($inputs)->first();
     }
 }

@@ -21,7 +21,24 @@ class VerifyIdDocTypeRequest extends FormRequest
      */
     public function rules(): array
     {
-        return [];
+        $availableDocTypes = \Fintech\Auth\Facades\Auth::idDocType()
+            ->list(['paginate' => false, 'country_id' => $this->input('id_country')]);
+
+        if ($availableDocTypes->isNotEmpty()) {
+            $availableDocTypes = $availableDocTypes->pluck('code')->toArray();
+            $availableDocTypes = (count($availableDocTypes) > 0)
+                ? 'string|in:' . implode(',', $availableDocTypes)
+            : 'string';
+        }
+        else {
+            $availableDocTypes = 'string';
+        }
+
+        return [
+            'id_issue_country' => ['required', 'string', 'min:3'],
+            'id_no' => ['required', 'string', 'min:3'],
+            'id_type' => ['required', $availableDocTypes],
+        ];
     }
 
     /**

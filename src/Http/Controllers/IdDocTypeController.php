@@ -11,6 +11,7 @@ use Fintech\Auth\Http\Requests\UpdateIdDocTypeRequest;
 use Fintech\Auth\Http\Requests\VerifyIdDocTypeRequest;
 use Fintech\Auth\Http\Resources\IdDocTypeCollection;
 use Fintech\Auth\Http\Resources\IdDocTypeResource;
+use Fintech\Auth\Http\Resources\VerifyIdDocTypeResource;
 use Fintech\Core\Exceptions\DeleteOperationException;
 use Fintech\Core\Exceptions\RestoreOperationException;
 use Fintech\Core\Exceptions\StoreOperationException;
@@ -332,28 +333,20 @@ class IdDocTypeController extends Controller
 
     /**
      * @lrd:start
-     * Create a new *IdDocType* resource in storage.
+     * Verify *IdDocType* is already exists or not in storage.
      * @lrd:end
      *
-     * @param StoreIdDocTypeRequest $request
-     * @return JsonResponse
-     * @throws StoreOperationException
+     * @param VerifyIdDocTypeRequest $request
+     * @return VerifyIdDocTypeResource|JsonResponse
      */
-    public function verification(VerifyIdDocTypeRequest $request): JsonResponse
+    public function verification(VerifyIdDocTypeRequest $request): VerifyIdDocTypeResource|JsonResponse
     {
         try {
             $inputs = $request->validated();
 
             $idDocType = Auth::idDocType()->verify($inputs);
 
-            if (!$idDocType) {
-                throw (new StoreOperationException())->setModel(config('fintech.auth.id_doc_type_model'));
-            }
-
-            return $this->created([
-                'message' => __('core::messages.resource.created', ['model' => 'Id Doc Type']),
-                'id' => $idDocType->id
-            ]);
+            return new VerifyIdDocTypeResource($idDocType);
 
         } catch (Exception $exception) {
 

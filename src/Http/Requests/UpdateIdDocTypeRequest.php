@@ -27,7 +27,7 @@ class UpdateIdDocTypeRequest extends FormRequest
         return [
             'country_id' => ['required', 'integer', 'min:1', 'max:255'],
             'name' => ['required', 'string', 'min:1', 'max:255'],
-            'code' => ['required', 'string', 'min:1', 'max:255', $uniqueRule],
+            'code' => ['required', 'string', 'min:1', 'max:255'],
             'sides' => ['nullable', 'integer', 'min:1'],
             'enabled' => ['nullable', 'boolean'],
             'id_doc_type_data' => ['nullable', 'array'],

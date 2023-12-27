@@ -29,8 +29,7 @@ class VerifyIdDocTypeRequest extends FormRequest
             $availableDocTypes = (count($availableDocTypes) > 0)
                 ? 'string|in:' . implode(',', $availableDocTypes)
             : 'string';
-        }
-        else {
+        } else {
             $availableDocTypes = 'string';
         }
 

@@ -20,7 +20,7 @@ class IdDocTypeCollection extends ResourceCollection
         return $this->collection->map(function ($idDoc) {
             $data = [
                 'id' => $idDoc->getKey(),
-                'country_id' => $role->country_id ?? null,
+                'country_id' => $idDoc->country_id ?? null,
                 'country_name' => null,
                 'name' => $idDoc->name ?? null,
                 'code' => $idDoc->code ?? null,

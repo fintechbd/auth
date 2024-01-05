@@ -61,7 +61,8 @@ class IdDocTypeRepository extends EloquentRepository implements InterfacesIdDocT
                 '=',
                 get_table('metadata.country') . '.id'
             )
-                ->where(get_table('metadata.country') . '.name', 'like', strtolower("%${$filters['country_name']}%"));
+                ->where(get_table('metadata.country') . '.name',
+                    'like', strtolower("%{$filters['country_name']}%"));
         }
 
         //Display Trashed

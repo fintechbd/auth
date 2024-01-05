@@ -55,12 +55,11 @@ class IdDocTypeRepository extends EloquentRepository implements InterfacesIdDocT
         }
 
         if (!empty($filters['country_name'])) {
-            $query->join(
-                get_table('metadata.country'),
+            $query->select($this->model->getTable() . '.*')
+                ->join(get_table('metadata.country'),
                 $this->model->getTable() . '.country_id',
                 '=',
-                get_table('metadata.country') . '.id'
-            )
+                get_table('metadata.country') . '.id')
                 ->where(get_table('metadata.country') . '.name',
                     'like', strtolower("%{$filters['country_name']}%"));
         }

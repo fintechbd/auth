@@ -22,7 +22,7 @@ class VerifyIdDocTypeRequest extends FormRequest
     public function rules(): array
     {
         $availableDocTypes = \Fintech\Auth\Facades\Auth::idDocType()
-            ->list(['paginate' => false, 'country_id' => $this->input('id_country')]);
+            ->list(['paginate' => false, 'country_name' => $this->input('id_issue_country')]);
 
         if ($availableDocTypes->isNotEmpty()) {
             $availableDocTypes = $availableDocTypes->pluck('code')->toArray();

@@ -4,6 +4,7 @@ namespace Fintech\Auth\Repositories\Eloquent;
 
 use Fintech\Auth\Interfaces\IdDocTypeRepository as InterfacesIdDocTypeRepository;
 use Fintech\Core\Repositories\EloquentRepository;
+use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Contracts\Pagination\Paginator;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
@@ -20,7 +21,8 @@ class IdDocTypeRepository extends EloquentRepository implements InterfacesIdDocT
         $model = app(config('fintech.auth.id_doc_type_model', \Fintech\Auth\Models\IdDocType::class));
 
         if (!$model instanceof Model) {
-            throw new InvalidArgumentException("Eloquent repository require model class to be `Illuminate\Database\Eloquent\Model` instance.");
+            throw new InvalidArgumentException("Eloquent repository require model class to be "
+                ."`Illuminate\Database\Eloquent\Model` instance.");
         }
 
         $this->model = $model;
@@ -31,6 +33,7 @@ class IdDocTypeRepository extends EloquentRepository implements InterfacesIdDocT
      * filtered options
      *
      * @return Paginator|Collection
+     * @throws BindingResolutionException
      */
     public function list(array $filters = [])
     {
@@ -49,6 +52,14 @@ class IdDocTypeRepository extends EloquentRepository implements InterfacesIdDocT
 
         if (!empty($filters['country_id'])) {
             $query->where('country_id', '=', $filters['country_id']);
+        }
+
+        if (!empty($filters['country_name'])) {
+            $query->join(get_table('metadata.country'),
+                $this->model->getTable() . '.country_id',
+                '=',
+                get_table('metadata.country') . '.id')
+                ->where(get_table('metadata.country') . '.name', 'like', strtolower("%${$filters['country_name']}%"));
         }
 
         //Display Trashed

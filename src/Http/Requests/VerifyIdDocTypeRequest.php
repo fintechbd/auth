@@ -27,16 +27,16 @@ class VerifyIdDocTypeRequest extends FormRequest
         if ($availableDocTypes->isNotEmpty()) {
             $availableDocTypes = $availableDocTypes->pluck('code')->toArray();
             $availableDocTypes = (count($availableDocTypes) > 0)
-                ? 'string|in:' . implode(',', $availableDocTypes)
-            : 'string';
+                ? ['string', 'in:' . implode(',', $availableDocTypes)]
+            : ['string'];
         } else {
-            $availableDocTypes = 'string';
+            $availableDocTypes = ['string'];
         }
 
         return [
             'id_issue_country' => ['required', 'string', 'min:3'],
             'id_no' => ['required', 'string', 'min:3'],
-            'id_type' => ['required', $availableDocTypes],
+            'id_type' => ['required', ...$availableDocTypes],
         ];
     }
 

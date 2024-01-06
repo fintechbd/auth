@@ -2,13 +2,13 @@
 
 namespace Fintech\Auth\Http\Controllers;
 
-use App\Http\Controllers\Controller;
 use Exception;
 use Fintech\Core\Enums\Auth\ProofOfAddressType;
 use Fintech\Core\Http\Requests\DropDownRequest;
 use Fintech\Core\Http\Resources\DropDownCollection;
 use Fintech\Core\Traits\ApiResponseTrait;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Routing\Controller;
 
 class ProofOfAddressDropDownController extends Controller
 {

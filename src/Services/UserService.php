@@ -119,6 +119,27 @@ class UserService
         }
     }
 
+    public function updateRaw($id, array $inputs = [])
+    {
+        DB::beginTransaction();
+
+        try {
+
+            if ($user = $this->userRepository->update($id, $inputs)) {
+
+                DB::commit();
+
+                return $user;
+            }
+
+            return null;
+
+        } catch (\Exception $exception) {
+            DB::rollBack();
+            throw new \PDOException($exception->getMessage(), 0, $exception);
+        }
+    }
+
     public function destroy($id)
     {
         return ($this->userRepository->delete($id) && $this->profileRepository->delete($id));

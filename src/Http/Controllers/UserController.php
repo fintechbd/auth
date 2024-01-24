@@ -9,6 +9,7 @@ use Fintech\Auth\Http\Requests\IndexUserRequest;
 use Fintech\Auth\Http\Requests\StoreUserRequest;
 use Fintech\Auth\Http\Requests\UpdateUserRequest;
 use Fintech\Auth\Http\Requests\UserAuthResetRequest;
+use Fintech\Auth\Http\Requests\UserStatusChangeRequest;
 use Fintech\Auth\Http\Resources\UserCollection;
 use Fintech\Auth\Http\Resources\UserResource;
 use Fintech\Core\Enums\Auth\UserStatus;
@@ -21,6 +22,7 @@ use Fintech\Core\Http\Resources\DropDownCollection;
 use Fintech\Core\Traits\ApiResponseTrait;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 
 /**
@@ -328,6 +330,43 @@ class UserController extends Controller
             return $this->failed($exception->getMessage());
         }
     }
+
+    /**
+     * @lrd:start
+     * Change User Status from dropdown values
+     * @lrd:end
+     *
+     * @param UserStatusChangeRequest $request
+     * @return JsonResponse
+     */
+    public function changeStatus(UserStatusChangeRequest $request): JsonResponse
+    {
+        try {
+            $inputs = $request->validated();
+            $user = Auth::user()->find($inputs['user_id']);
+
+            if (!$user) {
+                throw (new ModelNotFoundException())->setModel(config('fintech.auth.user_model'), $inputs['user_id']);
+            }
+
+            $response = Auth::user()->updateRaw($user->getKey(), ['status' => $inputs['status']]);
+
+            if (!$response) {
+                throw (new UpdateOperationException())->setModel(config('fintech.auth.user_model'), $inputs['user_id']);
+            }
+
+            return $this->updated(__('auth::messages.user.status-change', ['status' => $inputs['status']]));
+
+        } catch (ModelNotFoundException $exception) {
+
+            return $this->notfound($exception->getMessage());
+
+        } catch (Exception $exception) {
+
+            return $this->failed($exception->getMessage());
+        }
+    }
+
 
     /**
      * @param DropDownRequest $request

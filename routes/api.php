@@ -56,6 +56,7 @@ if (Config::get('fintech.auth.enabled')) {
         Route::middleware(config('fintech.auth.middleware'))->group(function () {
             Route::apiResource('users', UserController::class);
             Route::post('users/{user}/restore', [UserController::class, 'restore'])->name('users.restore');
+            Route::post('users/change-status', [UserController::class, 'changeStatus'])->name('users.change-status');
             Route::post('users/{user}/reset/{field}', [UserController::class, 'reset'])
                 ->name('users.reset-password-pin')->whereIn('field', ['pin', 'password', 'both']);
 

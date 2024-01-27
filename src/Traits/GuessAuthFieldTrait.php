@@ -10,7 +10,7 @@ trait GuessAuthFieldTrait
      * @param $request
      * @return array
      */
-    private function getAuthFieldFromInput($request)
+    private function getAuthFieldFromInput($request): array
     {
         $authFieldValue = $request->input(config('fintech.auth.auth_field', 'login_id'));
 
@@ -23,7 +23,7 @@ trait GuessAuthFieldTrait
         }
     }
 
-    private function getAuthFieldTypeFromInput($request)
+    private function getAuthFieldTypeFromInput($request): int|string|null
     {
         $credentials = $this->getAuthFieldFromInput($request);
 

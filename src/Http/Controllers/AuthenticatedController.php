@@ -2,16 +2,13 @@
 
 namespace Fintech\Auth\Http\Controllers;
 
-use Fintech\Auth\Events\AccountFreezed;
 use Fintech\Auth\Http\Requests\LoginRequest;
 use Fintech\Auth\Http\Resources\LoginResource;
 use Fintech\Auth\Traits\GuessAuthFieldTrait;
-use Fintech\Core\Enums\Auth\UserStatus;
 use Fintech\Core\Traits\ApiResponseTrait;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
 
 /**
@@ -41,57 +38,29 @@ class AuthenticatedController extends Controller
     {
         $request->ensureIsNotRateLimited();
 
-        $attemptUser = \Fintech\Auth\Facades\Auth::user()->list($this->getAuthFieldFromInput($request));
+        try {
+            $credentials = $this->getAuthFieldFromInput($request);
 
-        if ($attemptUser->isEmpty()) {
+            $attemptUser = \Fintech\Auth\Facades\Auth::user()->login($credentials, 'web');
 
-            return $this->failed(__('auth::messages.failed'));
-        }
 
-        $attemptUser = $attemptUser->first();
+            if (!$attemptUser->can('auth.login')) {
 
-        if ($attemptUser->wrong_password > config('fintech.auth.password_threshold', 10)) {
+                Auth::guard('web')->logout();
 
-            \Fintech\Auth\Facades\Auth::user()->update($attemptUser->getKey(), [
-                'status' => UserStatus::Suspended->value,
-            ]);
+                return $this->forbidden(__('auth::messages.forbidden', ['permission' => permission_format('auth.login', 'auth')]));
+            }
 
-            AccountFreezed::dispatch($attemptUser);
+            $request->clearRateLimited();
 
-            return $this->failed(__('auth::messages.lockup'));
-        }
+            return new LoginResource($attemptUser);
 
-        $passwordField = config('fintech.auth.password_field', 'password');
-
-        if (!Hash::check($request->input($passwordField), $attemptUser->{$passwordField})) {
+        } catch (\Exception $exception) {
 
             $request->hitRateLimited();
 
-            $wrongPasswordCount = $attemptUser->wrong_password + 1;
-
-            \Fintech\Auth\Facades\Auth::user()->update($attemptUser->getKey(), [
-                'wrong_password' => $wrongPasswordCount,
-            ]);
-
-            return $this->failed(__('auth::messages.warning', [
-                'attempt' => $wrongPasswordCount,
-                'threshold' => config('fintech.auth.threshold.password', 10),
-            ]));
+            return $this->failed($exception->getMessage());
         }
-
-        $request->clearRateLimited();
-
-        if (!$attemptUser->can('auth.login')) {
-            //            $request->session()->invalidate();
-
-            return $this->forbidden(__('auth::messages.forbidden', ['permission' => permission_format('auth.login', 'auth')]));
-        }
-
-        Auth::login($attemptUser);
-
-        $attemptUser->tokens->each(fn ($token) => $token->delete());
-
-        return new LoginResource($attemptUser);
     }
 
     /**

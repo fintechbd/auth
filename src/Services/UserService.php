@@ -2,11 +2,14 @@
 
 namespace Fintech\Auth\Services;
 
+use Exception;
+use Fintech\Auth\Events\AccountFreezed;
 use Fintech\Auth\Facades\Auth;
 use Fintech\Auth\Interfaces\ProfileRepository;
 use Fintech\Auth\Interfaces\UserRepository;
 use Fintech\Core\Enums\Auth\PasswordResetOption;
 use Fintech\Core\Enums\Auth\UserStatus;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
@@ -17,6 +20,7 @@ use Illuminate\Support\Facades\Hash;
  */
 class UserService
 {
+
     /**
      * UserService constructor.
      * @param UserRepository $userRepository
@@ -25,7 +29,8 @@ class UserService
     public function __construct(
         private readonly UserRepository    $userRepository,
         private readonly ProfileRepository $profileRepository
-    ) {
+    )
+    {
 
     }
 
@@ -35,11 +40,7 @@ class UserService
      */
     public function list(array $filters = [])
     {
-        $countryList = $this->userRepository->list($filters);
-
-        //Do Business Stuff
-
-        return $countryList;
+        return $this->userRepository->list($filters);
 
     }
 
@@ -201,6 +202,65 @@ class UserService
         }
 
         return ['status' => false, 'message' => 'No Action Selected'];
+
+    }
+
+    /**
+     * @param array $inputs
+     * @param string $guard
+     * @return \Illuminate\Foundation\Auth\User|\MongoDB\Laravel\Eloquent\Model|null
+     * @throws Exception
+     */
+    public function login(array $inputs, string $guard = 'web')
+    {
+        $passwordField = config('fintech.auth.password_field', 'password');
+
+        $password = $inputs[$passwordField] ?? null;
+
+        $attemptUser = $this->list($inputs);
+
+        if ($attemptUser->isEmpty()) {
+            throw new Exception(__('auth::messages.failed'));
+        }
+
+        $attemptUser = $attemptUser->first();
+
+        if ($attemptUser->wrong_password > config('fintech.auth.password_threshold', 10)) {
+
+            $this->update($attemptUser->getKey(), [
+                'status' => UserStatus::Suspended->value,
+            ]);
+
+            event(new AccountFreezed($attemptUser));
+
+            throw new Exception(__('auth::messages.lockup'));
+        }
+
+
+        if (!Hash::check($password, $attemptUser->{$passwordField})) {
+
+            $wrongPasswordCount = $attemptUser->wrong_password + 1;
+
+            $this->update($attemptUser->getKey(), [
+                'wrong_password' => $wrongPasswordCount,
+            ]);
+
+            throw new Exception(__('auth::messages.warning', [
+                'attempt' => $wrongPasswordCount,
+                'threshold' => config('fintech.auth.threshold.password', 10),
+            ]));
+        }
+
+        \Illuminate\Support\Facades\Auth::guard($guard)->login($attemptUser);
+
+        $attemptUser->tokens->each(fn($token) => $token->delete());
+
+        return $attemptUser;
+
+    }
+
+    public function logout()
+    {
 
     }
 }

@@ -9,7 +9,6 @@ use Fintech\Auth\Interfaces\ProfileRepository;
 use Fintech\Auth\Interfaces\UserRepository;
 use Fintech\Core\Enums\Auth\PasswordResetOption;
 use Fintech\Core\Enums\Auth\UserStatus;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
@@ -20,7 +19,6 @@ use Illuminate\Support\Facades\Hash;
  */
 class UserService
 {
-
     /**
      * UserService constructor.
      * @param UserRepository $userRepository
@@ -29,8 +27,7 @@ class UserService
     public function __construct(
         private readonly UserRepository    $userRepository,
         private readonly ProfileRepository $profileRepository
-    )
-    {
+    ) {
 
     }
 
@@ -253,7 +250,7 @@ class UserService
 
         \Illuminate\Support\Facades\Auth::guard($guard)->login($attemptUser);
 
-        $attemptUser->tokens->each(fn($token) => $token->delete());
+        $attemptUser->tokens->each(fn ($token) => $token->delete());
 
         return $attemptUser;
 

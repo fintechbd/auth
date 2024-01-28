@@ -41,6 +41,9 @@ class AuthenticatedController extends Controller
         try {
             $credentials = $this->getAuthFieldFromInput($request);
 
+            $passwordField = config('fintech.auth.password_field', 'password');
+            $credentials[$passwordField] = $request->input($passwordField);
+
             $attemptUser = \Fintech\Auth\Facades\Auth::user()->login($credentials, 'web');
 
 

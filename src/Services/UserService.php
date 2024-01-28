@@ -213,6 +213,7 @@ class UserService
         $passwordField = config('fintech.auth.password_field', 'password');
 
         $password = null;
+
         if (isset($inputs[$passwordField])) {
             $password = $inputs[$passwordField];
             unset($inputs[$passwordField]);

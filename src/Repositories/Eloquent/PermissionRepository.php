@@ -43,6 +43,10 @@ class PermissionRepository extends EloquentRepository implements InterfacesPermi
             }
         }
 
+        if (!empty($filters['name_in_array']) && is_array($filters['name_in_array'])) {
+            $query->whereIn('name', $filters['name_in_array']);
+        }
+
         //Display Trashed
         if (isset($filters['trashed']) && $filters['trashed'] === true) {
             $query->onlyTrashed();

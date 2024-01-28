@@ -26,6 +26,20 @@ class RoleSeeder extends Seeder
         Auth::role()->update(3, [
             'permissions' => $permissions
         ]);
+
+        //Customer Permission
+        $customerPermissions = Auth::permission()->list([
+            'name_in_array' => [
+                'auth.register',
+                'auth.login',
+                'auth.logout'
+            ],
+            'paginate' => false,
+        ])->pluck('id')->toArray();
+
+        Auth::role()->update(7, [
+            'permissions' => $customerPermissions
+        ]);
     }
 
     private function data()

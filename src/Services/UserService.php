@@ -212,7 +212,11 @@ class UserService
     {
         $passwordField = config('fintech.auth.password_field', 'password');
 
-        $password = $inputs[$passwordField] ?? null;
+        $password = null;
+        if (isset($inputs[$passwordField])) {
+            $password = $inputs[$passwordField];
+            unset($inputs[$passwordField]);
+        }
 
         $attemptUser = $this->list($inputs);
 

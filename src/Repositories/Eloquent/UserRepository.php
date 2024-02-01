@@ -43,7 +43,12 @@ class UserRepository extends EloquentRepository implements InterfacesUserReposit
             if (is_numeric($filters['search'])) {
                 $query->where($this->model->getKeyName(), 'like', "%{$filters['search']}%");
             } else {
-                $query->where('name', 'like', "%{$filters['search']}%");
+                $query->where('name', 'like', "%{$filters['search']}%")
+                    ->orWhere('email', 'like', "%{$filters['search']}%")
+                    ->orWhere('mobile', 'like', "%{$filters['search']}%")
+                    ->orWhere('login_id', 'like', "%{$filters['search']}%")
+                    ->orWhere('status', 'like', "%{$filters['search']}%")
+                    ->orWhere('currency', 'like', "%{$filters['search']}%");
             }
         }
 

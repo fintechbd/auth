@@ -28,7 +28,7 @@ class IndexUserRequest extends FormRequest
             'roles' => ['array', 'nullable', 'min:1'],
             'role_name' => ['string', 'nullable', 'max:255'],
             'search' => ['string', 'nullable', 'max:255'],
-            'mobile' => ['string', 'nullable', 'min::10'],
+            'mobile' => ['string', 'nullable', 'min:10'],
             'per_page' => ['integer', 'nullable', 'min:10', 'max:500'],
             'present_country_id' => ['integer', 'nullable', 'min:1'],
             'page' => ['integer', 'nullable', 'min:1'],

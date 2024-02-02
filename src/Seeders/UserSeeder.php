@@ -255,7 +255,7 @@ class UserSeeder extends Seeder
             [
                 'user' => [
                     "parent_id" => null,
-                    "name" => "Tes User 1",
+                    "name" => "Test User 1",
                     "mobile" => "01600000007",
                     "email" => "testuser1@gmail.com",
                     "login_id" => "01600000007",
@@ -297,7 +297,7 @@ class UserSeeder extends Seeder
             [
                 'user' => [
                     "parent_id" => null,
-                    "name" => "Tes User 2",
+                    "name" => "Test User 2",
                     "mobile" => "01600000008",
                     "email" => "testuser2@gmail.com",
                     "login_id" => "01600000008",
@@ -339,7 +339,7 @@ class UserSeeder extends Seeder
             [
                 'user' => [
                     "parent_id" => null,
-                    "name" => "Tes User 3",
+                    "name" => "Test User 3",
                     "mobile" => "01600000009",
                     "email" => "testuser3@gmail.com",
                     "login_id" => "01600000009",

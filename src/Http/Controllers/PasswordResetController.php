@@ -45,7 +45,7 @@ class PasswordResetController extends Controller
                 throw new \Exception($response['message']);
             }
 
-            event( new PasswordResetRequested($attemptUser));
+            event(new PasswordResetRequested($attemptUser));
 
             return $this->success($response['message']);
 
@@ -91,7 +91,7 @@ class PasswordResetController extends Controller
                 throw (new UpdateOperationException())->setModel(config('fintech.auth.user_model'), $targetedUser->getKey());
             }
 
-            event( new PasswordResetSuccessful($targetedUser));
+            event(new PasswordResetSuccessful($targetedUser));
 
             return $this->updated(__('auth::messages.reset.success'));
 

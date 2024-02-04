@@ -12,7 +12,6 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Validation\ValidationException;
 
 /**
  * Class AuthenticatedSessionController
@@ -58,7 +57,7 @@ class AuthenticatedController extends Controller
 
             $request->clearRateLimited();
 
-            event( new LoggedIn($attemptUser));
+            event(new LoggedIn($attemptUser));
 
             return new LoginResource($attemptUser);
 
@@ -75,7 +74,7 @@ class AuthenticatedController extends Controller
      */
     public function logout(Request $request): JsonResponse
     {
-        event( new LoggedOut($request->user()));
+        event(new LoggedOut($request->user()));
 
         Auth::guard('web')->logout();
 

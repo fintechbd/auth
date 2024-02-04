@@ -2,6 +2,8 @@
 
 namespace Fintech\Auth\Http\Controllers;
 
+use Fintech\Auth\Events\PasswordResetRequested;
+use Fintech\Auth\Events\PasswordResetSuccessful;
 use Fintech\Auth\Facades\Auth;
 use Fintech\Auth\Http\Requests\ForgotPasswordRequest;
 use Fintech\Auth\Http\Requests\PasswordResetRequest;
@@ -42,6 +44,8 @@ class PasswordResetController extends Controller
             if (!$response['status']) {
                 throw new \Exception($response['message']);
             }
+
+            event( new PasswordResetRequested($attemptUser));
 
             return $this->success($response['message']);
 
@@ -86,6 +90,8 @@ class PasswordResetController extends Controller
             if (!Auth::user()->update($targetedUser->getKey(), [$passwordField => $password])) {
                 throw (new UpdateOperationException())->setModel(config('fintech.auth.user_model'), $targetedUser->getKey());
             }
+
+            event( new PasswordResetSuccessful($targetedUser));
 
             return $this->updated(__('auth::messages.reset.success'));
 

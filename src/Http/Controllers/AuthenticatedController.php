@@ -2,11 +2,14 @@
 
 namespace Fintech\Auth\Http\Controllers;
 
+use Fintech\Auth\Events\LoggedIn;
+use Fintech\Auth\Events\LoggedOut;
 use Fintech\Auth\Http\Requests\LoginRequest;
 use Fintech\Auth\Http\Resources\LoginResource;
 use Fintech\Auth\Traits\GuessAuthFieldTrait;
 use Fintech\Core\Traits\ApiResponseTrait;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\ValidationException;
@@ -32,7 +35,6 @@ class AuthenticatedController extends Controller
      *
      * @param LoginRequest $request
      * @return LoginResource|JsonResponse
-     * @throws ValidationException
      */
     public function login(LoginRequest $request): LoginResource|JsonResponse
     {
@@ -56,6 +58,8 @@ class AuthenticatedController extends Controller
 
             $request->clearRateLimited();
 
+            event( new LoggedIn($attemptUser));
+
             return new LoginResource($attemptUser);
 
         } catch (\Exception $exception) {
@@ -69,8 +73,10 @@ class AuthenticatedController extends Controller
     /**
      * Destroy an authenticated session
      */
-    public function logout(): JsonResponse
+    public function logout(Request $request): JsonResponse
     {
+        event( new LoggedOut($request->user()));
+
         Auth::guard('web')->logout();
 
         return $this->deleted(__('auth::messages.logout'));

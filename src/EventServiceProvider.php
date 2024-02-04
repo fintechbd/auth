@@ -2,7 +2,12 @@
 
 namespace Fintech\Auth;
 
-use Fintech\Auth\Listeners\LockoutEventListener;
+use Fintech\Auth\Events\PasswordResetRequested;
+use Fintech\Auth\Events\PasswordResetSuccessful;
+use Fintech\Auth\Events\AccountFreezed;
+use Fintech\Auth\Events\LoggedIn;
+use Fintech\Auth\Events\LoggedOut;
+use Fintech\Auth\Events\VerificationRequested;
 use Illuminate\Auth\Events\Lockout;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
 
@@ -15,7 +20,25 @@ class EventServiceProvider extends ServiceProvider
      */
     protected $listen = [
         Lockout::class => [
-            LockoutEventListener::class,
+//            LockoutEventListener::class,
         ],
+        PasswordResetRequested::class => [
+
+        ],
+        PasswordResetSuccessful::class => [
+
+        ],
+        AccountFreezed::class => [
+
+        ],
+        LoggedIn::class => [
+
+        ],
+        LoggedOut::class => [
+
+        ],
+        VerificationRequested::class => [
+
+        ]
     ];
 }

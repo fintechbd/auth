@@ -50,6 +50,10 @@ class AuthServiceProvider extends ServiceProvider
             __DIR__.'/../resources/views' => resource_path('views/vendor/auth'),
         ]);
 
+        $this->publishes([
+            __DIR__.'/../public' => public_path('vendor/auth'),
+        ], 'fintech-auth-assets');
+
         if ($this->app->runningInConsole()) {
             $this->commands([
                 InstallCommand::class,

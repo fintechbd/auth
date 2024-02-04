@@ -74,10 +74,7 @@ class User extends Authenticatable implements HasMedia
     {
         $this->addMediaCollection('photo')
             ->acceptsMimeTypes(['image/jpeg', 'image/png', 'image/gif', 'image/jpg', 'image/svg+xml'])
-            ->useFallbackUrl(asset('storage/images/anonymous-user.jpg'))
-            ->useFallbackPath(storage_path('/app/public/images/anonymous-user.jpg'))
-            ->useFallbackUrl(asset('storage/images/anonymous-user.jpg'), 'thumb')
-            ->useFallbackPath(storage_path('/app/public/images/anonymous-user.jpg'), 'thumb')
+            ->useFallbackUrl(asset(config('fintech.auth.user_image', 'vendor/auth/img/anonymous-user.png')))
             ->useDisk(config('filesystems.default', 'public'))
             ->singleFile();
     }

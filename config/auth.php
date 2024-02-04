@@ -72,6 +72,14 @@ return [
     | This value will be used to across system where model is needed
     */
     'user_model' => \Fintech\Auth\Models\User::class,
+    /*
+    |--------------------------------------------------------------------------
+    | User Fallback Image Path
+    |--------------------------------------------------------------------------
+    |
+    | This value should be relative to public directory.
+    */
+    'user_image' => '/vendor/auth/img/anonymous-user.png',
 
     /*
     |--------------------------------------------------------------------------

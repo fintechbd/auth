@@ -52,6 +52,10 @@ class RoleRepository extends EloquentRepository implements InterfacesRoleReposit
             $query->where('team_id', '=', $filters['team_id']);
         }
 
+        if (!empty($filters['id_not_in_array']) && is_array($filters['id_not_in_array'])) {
+            $query->whereNotIn('id',$filters['id_not_in_array']);
+        }
+
         if (!empty($filters['name'])) {
             $query->where('name', '=', $filters['name']);
         }

@@ -17,13 +17,13 @@ class FavouriteRepository extends EloquentRepository implements InterfacesFavour
 {
     public function __construct()
     {
-       $model = app(config('fintech.auth.favourite_model', \Fintech\Auth\Models\Favourite::class));
+        $model = app(config('fintech.auth.favourite_model', \Fintech\Auth\Models\Favourite::class));
 
-       if (!$model instanceof Model) {
-           throw new InvalidArgumentException("Eloquent repository require model class to be `Illuminate\Database\Eloquent\Model` instance.");
-       }
+        if (!$model instanceof Model) {
+            throw new InvalidArgumentException("Eloquent repository require model class to be `Illuminate\Database\Eloquent\Model` instance.");
+        }
 
-       $this->model = $model;
+        $this->model = $model;
     }
 
     /**
@@ -52,15 +52,15 @@ class FavouriteRepository extends EloquentRepository implements InterfacesFavour
         }
 
         if (!empty($filters['sender_id'])) {
-            $query->where('sender_id','=', $filters['sender_id']);
+            $query->where('sender_id', '=', $filters['sender_id']);
         }
 
         if (!empty($filters['receiver_id'])) {
-            $query->where('receiver_id','=', $filters['receiver_id']);
+            $query->where('receiver_id', '=', $filters['receiver_id']);
         }
 
         if (!empty($filters['status'])) {
-            $query->where('status','=', $filters['status']);
+            $query->where('status', '=', $filters['status']);
         }
 
         //Handle Sorting

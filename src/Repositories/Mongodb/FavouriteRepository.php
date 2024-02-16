@@ -17,13 +17,13 @@ class FavouriteRepository extends MongodbRepository implements InterfacesFavouri
 {
     public function __construct()
     {
-       $model = app(config('fintech.auth.favourite_model', \Fintech\Auth\Models\Favourite::class));
+        $model = app(config('fintech.auth.favourite_model', \Fintech\Auth\Models\Favourite::class));
 
-       if (!$model instanceof Model) {
-           throw new InvalidArgumentException("Mongodb repository require model class to be `MongoDB\Laravel\Eloquent\Model` instance.");
-       }
+        if (!$model instanceof Model) {
+            throw new InvalidArgumentException("Mongodb repository require model class to be `MongoDB\Laravel\Eloquent\Model` instance.");
+        }
 
-       $this->model = $model;
+        $this->model = $model;
     }
 
     /**

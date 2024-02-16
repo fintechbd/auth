@@ -79,9 +79,9 @@ if (Config::get('fintech.auth.enabled')) {
             Route::apiResource('role-permissions', \Fintech\Auth\Http\Controllers\RolePermissionController::class)->only(['show', 'update']);
 
             Route::apiResource('favourites', \Fintech\Auth\Http\Controllers\FavouriteController::class);
-    Route::post('favourites/{favourite}/restore', [\Fintech\Auth\Http\Controllers\FavouriteController::class, 'restore'])->name('favourites.restore');
+            Route::post('favourites/{favourite}/restore', [\Fintech\Auth\Http\Controllers\FavouriteController::class, 'restore'])->name('favourites.restore');
 
-    //DO NOT REMOVE THIS LINE//
+            //DO NOT REMOVE THIS LINE//
         });
 
         Route::post('id-doc-verification', [IdDocTypeController::class, 'verification'])->name('id-doc-verification');

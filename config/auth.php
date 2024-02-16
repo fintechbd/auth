@@ -121,7 +121,7 @@ return [
     */
     'id_doc_type_model' => \Fintech\Auth\Models\IdDocType::class,
 
-    
+
     /*
     |--------------------------------------------------------------------------
     | Favourite Model

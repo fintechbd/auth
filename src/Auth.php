@@ -99,7 +99,16 @@ class Auth
         return app(IdDocTypeService::class);
     }
 
+    /**
+     * @return \Fintech\Auth\Services\FavouriteService
+     */
+    public function favourite()
+    {
+        return app(\Fintech\Auth\Services\FavouriteService::class);
+    }
+
     //** Crud Service Method Point Do not Remove **//
+
 
 
 }

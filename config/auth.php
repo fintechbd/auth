@@ -121,6 +121,16 @@ return [
     */
     'id_doc_type_model' => \Fintech\Auth\Models\IdDocType::class,
 
+    
+    /*
+    |--------------------------------------------------------------------------
+    | Favourite Model
+    |--------------------------------------------------------------------------
+    |
+    | This value will be used to across system where model is needed
+    */
+    'favourite_model' => \Fintech\Auth\Models\Favourite::class,
+
     //** Model Config Point Do not Remove **//
 
     /*
@@ -272,6 +282,8 @@ return [
         \Fintech\Auth\Interfaces\AuditRepository::class => \Fintech\Auth\Repositories\Eloquent\AuditRepository::class,
 
         \Fintech\Auth\Interfaces\IdDocTypeRepository::class => \Fintech\Auth\Repositories\Eloquent\IdDocTypeRepository::class,
+
+        \Fintech\Auth\Interfaces\FavouriteRepository::class => \Fintech\Auth\Repositories\Eloquent\FavouriteRepository::class,
 
         //** Repository Binding Config Point Do not Remove **//
     ],

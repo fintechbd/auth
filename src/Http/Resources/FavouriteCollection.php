@@ -3,7 +3,6 @@
 namespace Fintech\Auth\Http\Resources;
 
 use Fintech\Core\Enums\Auth\FavouriteStatus;
-use Fintech\Core\Facades\Core;
 use Fintech\Core\Supports\Constant;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\ResourceCollection;

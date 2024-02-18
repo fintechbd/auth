@@ -2,7 +2,6 @@
 
 namespace Fintech\Auth\Services;
 
-
 use Fintech\Auth\Interfaces\FavouriteRepository;
 
 /**
@@ -16,7 +15,8 @@ class FavouriteService
      * FavouriteService constructor.
      * @param FavouriteRepository $favouriteRepository
      */
-    public function __construct(public FavouriteRepository $favouriteRepository) {
+    public function __construct(public FavouriteRepository $favouriteRepository)
+    {
     }
 
     /**

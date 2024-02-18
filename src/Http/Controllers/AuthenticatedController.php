@@ -12,6 +12,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\ValidationException;
 
 /**
  * Class AuthenticatedSessionController
@@ -34,6 +35,7 @@ class AuthenticatedController extends Controller
      *
      * @param LoginRequest $request
      * @return LoginResource|JsonResponse
+     * @throws ValidationException
      */
     public function login(LoginRequest $request): LoginResource|JsonResponse
     {

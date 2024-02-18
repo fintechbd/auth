@@ -2,6 +2,8 @@
 
 namespace Fintech\Auth;
 
+use App\Events\AddToFavouriteAccepted;
+use App\Events\AddToFavouriteRequested;
 use Fintech\Auth\Events\PasswordResetRequested;
 use Fintech\Auth\Events\PasswordResetSuccessful;
 use Fintech\Auth\Events\AccountFreezed;
@@ -38,6 +40,12 @@ class EventServiceProvider extends ServiceProvider
 
         ],
         VerificationRequested::class => [
+
+        ],
+        AddToFavouriteRequested::class => [
+
+        ],
+        AddToFavouriteAccepted::class => [
 
         ]
     ];

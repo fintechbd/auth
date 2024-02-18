@@ -19,10 +19,6 @@ class AuthServiceProvider extends ServiceProvider
             __DIR__.'/../config/auth.php',
             'fintech.auth'
         );
-
-        $this->app->register(RouteServiceProvider::class);
-        $this->app->register(RepositoryServiceProvider::class);
-        $this->app->register(EventServiceProvider::class);
     }
 
     /**

@@ -2,12 +2,13 @@
 
 namespace Fintech\Auth\Repositories\Mongodb;
 
-use Fintech\Core\Repositories\MongodbRepository;
 use Fintech\Auth\Interfaces\FavouriteRepository as InterfacesFavouriteRepository;
+use Fintech\Auth\Models\Favourite;
+use Fintech\Core\Repositories\MongodbRepository;
 use Illuminate\Contracts\Pagination\Paginator;
 use Illuminate\Database\Eloquent\Collection;
-use MongoDB\Laravel\Eloquent\Model;
 use InvalidArgumentException;
+use MongoDB\Laravel\Eloquent\Model;
 
 /**
  * Class FavouriteRepository
@@ -17,7 +18,7 @@ class FavouriteRepository extends MongodbRepository implements InterfacesFavouri
 {
     public function __construct()
     {
-        $model = app(config('fintech.auth.favourite_model', \Fintech\Auth\Models\Favourite::class));
+        $model = app(config('fintech.auth.favourite_model', Favourite::class));
 
         if (!$model instanceof Model) {
             throw new InvalidArgumentException("Mongodb repository require model class to be `MongoDB\Laravel\Eloquent\Model` instance.");
@@ -37,7 +38,7 @@ class FavouriteRepository extends MongodbRepository implements InterfacesFavouri
         $query = $this->model->newQuery();
 
         //Searching
-        if (! empty($filters['search'])) {
+        if (!empty($filters['search'])) {
             if (is_numeric($filters['search'])) {
                 $query->where($this->model->getKeyName(), 'like', "%{$filters['search']}%");
             } else {

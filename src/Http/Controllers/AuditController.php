@@ -23,7 +23,6 @@ use Illuminate\Routing\Controller;
  * @lrd:end
  *
  */
-
 class AuditController extends Controller
 {
     use ApiResponseTrait;

@@ -2,13 +2,14 @@
 
 namespace Fintech\Auth\Models;
 
-use Illuminate\Database\Eloquent\Model;
+use Fintech\Core\Abstracts\BaseModel;
+use Fintech\Core\Traits\AuditableTrait;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Team extends Model
+class Team extends BaseModel
 {
-    use \Fintech\Core\Traits\AuditableTrait;
+    use AuditableTrait;
     use SoftDeletes;
 
     /*
@@ -41,7 +42,7 @@ class Team extends Model
 
     public function roles(): HasMany
     {
-        return $this->hasMany(config('fintech.auth.role_model', \Fintech\Auth\Models\Role::class));
+        return $this->hasMany(config('fintech.auth.role_model', Role::class));
     }
 
     /*

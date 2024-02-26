@@ -3,6 +3,7 @@
 namespace Fintech\Auth\Repositories\Mongodb;
 
 use Fintech\Auth\Interfaces\IdDocTypeRepository as InterfacesIdDocTypeRepository;
+use Fintech\Auth\Models\IdDocType;
 use Fintech\Core\Repositories\MongodbRepository;
 use Illuminate\Contracts\Pagination\Paginator;
 use Illuminate\Database\Eloquent\Collection;
@@ -17,7 +18,7 @@ class IdDocTypeRepository extends MongodbRepository implements InterfacesIdDocTy
 {
     public function __construct()
     {
-        $model = app(config('fintech.auth.id_doc_type_model', \Fintech\Auth\Models\IdDocType::class));
+        $model = app(config('fintech.auth.id_doc_type_model', IdDocType::class));
 
         if (!$model instanceof Model) {
             throw new InvalidArgumentException("Mongodb repository require model class to be `MongoDB\Laravel\Eloquent\Model` instance.");

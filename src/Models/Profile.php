@@ -3,13 +3,13 @@
 namespace Fintech\Auth\Models;
 
 use Fintech\Auth\Traits\MetaDataRelations;
+use Fintech\Core\Abstracts\BaseModel;
 use Fintech\Core\Traits\AuditableTrait;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 
-class Profile extends Model implements HasMedia
+class Profile extends BaseModel implements HasMedia
 {
     use AuditableTrait;
     use SoftDeletes;

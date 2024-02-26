@@ -2,6 +2,7 @@
 
 namespace Fintech\Auth\Http\Controllers;
 
+use Exception;
 use Fintech\Auth\Facades\Auth;
 use Fintech\Auth\Http\Requests\CreateOneTimePinRequest;
 use Fintech\Auth\Http\Requests\VerifyOneTimePinRequest;
@@ -22,7 +23,7 @@ class OneTimePinController extends Controller
      * @lrd:end
      * @param CreateOneTimePinRequest $request
      * @return JsonResponse
-     * @throws \Exception
+     * @throws Exception
      */
     public function request(CreateOneTimePinRequest $request): JsonResponse
     {
@@ -32,12 +33,12 @@ class OneTimePinController extends Controller
             $response = Auth::otp()->create($targetField);
 
             if (!$response['status']) {
-                throw new \Exception($response['message']);
+                throw new Exception($response['message']);
             }
 
             return $this->success($response['message']);
 
-        } catch (\Exception $exception) {
+        } catch (Exception $exception) {
             return $this->failed($exception->getMessage());
         }
     }
@@ -54,12 +55,12 @@ class OneTimePinController extends Controller
         try {
 
             if (!Auth::otp()->exists($token)) {
-                throw new \Exception(__('auth::messages.verify.invalid'));
+                throw new Exception(__('auth::messages.verify.invalid'));
             }
 
             return $this->success(__('auth::messages.verify.success'));
 
-        } catch (\Exception $exception) {
+        } catch (Exception $exception) {
             return $this->failed($exception->getMessage());
         }
     }

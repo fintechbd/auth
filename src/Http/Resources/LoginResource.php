@@ -10,6 +10,7 @@ use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 use Laravel\Sanctum\NewAccessToken;
+use stdClass;
 
 /**
  * Class LoginResource
@@ -38,50 +39,6 @@ use Laravel\Sanctum\NewAccessToken;
 class LoginResource extends JsonResource
 {
     /**
-     * Transform the resource into an array.
-     *
-     * @param Request $request
-     * @return array
-     */
-    public function toArray(Request $request)
-    {
-        $this->resource->load(['profile', 'roles']);
-
-        $return = [
-            'id' => $this->getKey(),
-            'name' => $this->name,
-            'mobile' => $this->mobile,
-            'email' => $this->email,
-            'login_id' => $this->login_id,
-            'status' => $this->status,
-            'language' => $this->language,
-            'currency' => $this->currency,
-            'app_version' => $this->app_version,
-            'photo' => $this->getFirstMediaUrl('photo'),
-            'role_id' => null,
-            'role_name' => null,
-            'profile' => (($this->profile != null)
-                ? (new ProfileResource($this->profile))
-                : (new \stdClass())),
-            'balances' => ($this->userAccounts)
-                ? $this->userAccounts->pluck('user_account_data')->toArray()
-                : [],
-            'email_verified_at' => $this->email_verified_at,
-            'mobile_verified_at' => $this->mobile_verified_at,
-            'created_at' => $this->created_at,
-            'updated_at' => $this->updated_at,
-        ];
-
-        if ($this->roles != null) {
-            $role = $this->roles->first();
-            $return['role_id'] = $role->id ?? null;
-            $return['role_name'] = $role->name ?? null;
-        }
-
-        return $return;
-    }
-
-    /**
      * Get additional data that should be returned with the resource array.
      *
      * @param Request $request
@@ -108,5 +65,49 @@ class LoginResource extends JsonResource
             ],
             'message' => trans('auth::messages.success'),
         ];
+    }
+
+    /**
+     * Transform the resource into an array.
+     *
+     * @param Request $request
+     * @return array
+     */
+    public function toArray(Request $request)
+    {
+        $this->resource->load(['profile', 'roles']);
+
+        $return = [
+            'id' => $this->getKey(),
+            'name' => $this->name,
+            'mobile' => $this->mobile,
+            'email' => $this->email,
+            'login_id' => $this->login_id,
+            'status' => $this->status,
+            'language' => $this->language,
+            'currency' => $this->currency,
+            'app_version' => $this->app_version,
+            'photo' => $this->getFirstMediaUrl('photo'),
+            'role_id' => null,
+            'role_name' => null,
+            'profile' => (($this->profile != null)
+                ? (new ProfileResource($this->profile))
+                : (new stdClass())),
+            'balances' => ($this->userAccounts)
+                ? $this->userAccounts->pluck('user_account_data')->toArray()
+                : [],
+            'email_verified_at' => $this->email_verified_at,
+            'mobile_verified_at' => $this->mobile_verified_at,
+            'created_at' => $this->created_at,
+            'updated_at' => $this->updated_at,
+        ];
+
+        if ($this->roles != null) {
+            $role = $this->roles->first();
+            $return['role_id'] = $role->id ?? null;
+            $return['role_name'] = $role->name ?? null;
+        }
+
+        return $return;
     }
 }

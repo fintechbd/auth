@@ -100,6 +100,17 @@ class UserCollection extends ResourceCollection
         })->toArray();
     }
 
+    private function formatMediaCollection($collection): array
+    {
+        $data = [];
+
+        $collection->each(function (Media $media) use (&$data) {
+            $data[$media->getCustomProperty('type')][$media->getCustomProperty('side')] = $media->getFullUrl();
+        });
+
+        return $data;
+    }
+
     /**
      * Get additional data that should be returned with the resource array.
      *
@@ -115,16 +126,5 @@ class UserCollection extends ResourceCollection
             ],
             'query' => $request->all(),
         ];
-    }
-
-    private function formatMediaCollection($collection): array
-    {
-        $data = [];
-
-        $collection->each(function (Media $media) use (&$data) {
-            $data[$media->getCustomProperty('type')][$media->getCustomProperty('side')] = $media->getFullUrl();
-        });
-
-        return $data;
     }
 }

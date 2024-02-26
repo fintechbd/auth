@@ -1,7 +1,7 @@
 <?php
 
+use Fintech\Auth\Facades\Auth;
 use Illuminate\Support\Str;
-
 use function Pest\Laravel\deleteJson;
 use function Pest\Laravel\getJson;
 use function Pest\Laravel\postJson;
@@ -9,7 +9,7 @@ use function Pest\Laravel\putJson;
 
 function createFreshRole()
 {
-    return \Fintech\Auth\Facades\Auth::role()->create([
+    return Auth::role()->create([
         'name' => Str::random(20),
         'guard_name' => 'web',
     ]);

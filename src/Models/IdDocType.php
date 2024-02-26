@@ -3,15 +3,16 @@
 namespace Fintech\Auth\Models;
 
 use Fintech\Auth\Traits\MetaDataRelations;
+use Fintech\Core\Abstracts\BaseModel;
 use Fintech\Core\Traits\AuditableTrait;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class IdDocType extends Model
+class IdDocType extends BaseModel
 {
     use AuditableTrait;
     use SoftDeletes;
     use MetaDataRelations;
+
     /*
     |--------------------------------------------------------------------------
     | GLOBAL VARIABLES

@@ -3,6 +3,7 @@
 namespace Fintech\Auth\Http\Requests;
 
 use Fintech\Auth\Models\Permission;
+use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
@@ -19,11 +20,11 @@ class UpdatePermissionRequest extends FormRequest
     /**
      * Get the validation rules that apply to the request.
      *
-     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array|string>
+     * @return array<string, ValidationRule|array|string>
      */
     public function rules(): array
     {
-        $uniqueRule = 'unique:' . config('fintech.auth.permission_model', Permission::class) . ',name,'  . $this->route('permission');
+        $uniqueRule = 'unique:' . config('fintech.auth.permission_model', Permission::class) . ',name,' . $this->route('permission');
 
         return [
             'name' => ['required', 'string', 'min:5', 'max:255', $uniqueRule],

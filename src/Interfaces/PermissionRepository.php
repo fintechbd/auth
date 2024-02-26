@@ -5,6 +5,7 @@ namespace Fintech\Auth\Interfaces;
 use Illuminate\Contracts\Pagination\Paginator;
 use Illuminate\Database\Eloquent\Model as EloquentModel;
 use Illuminate\Support\Collection;
+use InvalidArgumentException;
 use MongoDB\Laravel\Eloquent\Model as MongodbModel;
 
 /**
@@ -57,7 +58,7 @@ interface PermissionRepository
      * find and restore a entry from records
      *
      * @param int|string $id
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     public function restore(int|string $id);
 }

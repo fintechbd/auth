@@ -3,10 +3,10 @@
 namespace Fintech\Auth\Repositories\Eloquent;
 
 use Fintech\Auth\Interfaces\PermissionRepository as InterfacesPermissionRepository;
+use Fintech\Auth\Models\Permission;
 use Fintech\Core\Repositories\EloquentRepository;
 use Illuminate\Contracts\Pagination\Paginator;
 use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Database\Eloquent\Model;
 use InvalidArgumentException;
 
 /**
@@ -16,7 +16,7 @@ class PermissionRepository extends EloquentRepository implements InterfacesPermi
 {
     public function __construct()
     {
-        $model = app(config('fintech.auth.permission_model', \Fintech\Auth\Models\Permission::class));
+        $model = app(config('fintech.auth.permission_model', Permission::class));
 
         if (!$model instanceof Model) {
             throw new InvalidArgumentException("Eloquent repository require model class to be `Illuminate\Database\Eloquent\Model` instance.");

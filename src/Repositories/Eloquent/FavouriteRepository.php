@@ -2,11 +2,11 @@
 
 namespace Fintech\Auth\Repositories\Eloquent;
 
-use Fintech\Core\Repositories\EloquentRepository;
 use Fintech\Auth\Interfaces\FavouriteRepository as InterfacesFavouriteRepository;
+use Fintech\Auth\Models\Favourite;
+use Fintech\Core\Repositories\EloquentRepository;
 use Illuminate\Contracts\Pagination\Paginator;
 use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Database\Eloquent\Model;
 use InvalidArgumentException;
 
 /**
@@ -17,7 +17,7 @@ class FavouriteRepository extends EloquentRepository implements InterfacesFavour
 {
     public function __construct()
     {
-        $model = app(config('fintech.auth.favourite_model', \Fintech\Auth\Models\Favourite::class));
+        $model = app(config('fintech.auth.favourite_model', Favourite::class));
 
         if (!$model instanceof Model) {
             throw new InvalidArgumentException("Eloquent repository require model class to be `Illuminate\Database\Eloquent\Model` instance.");
@@ -37,7 +37,7 @@ class FavouriteRepository extends EloquentRepository implements InterfacesFavour
         $query = $this->model->newQuery();
 
         //Searching
-        if (! empty($filters['search'])) {
+        if (!empty($filters['search'])) {
             if (is_numeric($filters['search'])) {
                 $query->where($this->model->getKeyName(), 'like', "%{$filters['search']}%");
             } else {

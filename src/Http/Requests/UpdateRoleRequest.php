@@ -3,6 +3,7 @@
 namespace Fintech\Auth\Http\Requests;
 
 use Fintech\Auth\Models\Role;
+use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
@@ -19,11 +20,11 @@ class UpdateRoleRequest extends FormRequest
     /**
      * Get the validation rules that apply to the request.
      *
-     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array|string>
+     * @return array<string, ValidationRule|array|string>
      */
     public function rules(): array
     {
-        $uniqueRule = 'unique:' . config('fintech.auth.role_model', Role::class) . ',name,' . $this->route('role').',id,deleted_at,NULL';
+        $uniqueRule = 'unique:' . config('fintech.auth.role_model', Role::class) . ',name,' . $this->route('role') . ',id,deleted_at,NULL';
 
         return [
             'name' => ['required', 'string', 'min:5', 'max:255', $uniqueRule],

@@ -18,24 +18,6 @@ class RoleService
     {
     }
 
-    /**
-     * @return mixed
-     */
-    public function list(array $filters = [])
-    {
-        $roleList = $this->roleRepository->list($filters);
-
-        //Do Business Stuff
-
-        return $roleList;
-
-    }
-
-    public function create(array $inputs = [])
-    {
-        return $this->roleRepository->create($inputs);
-    }
-
     public function find($id, $onlyTrashed = false)
     {
         return $this->roleRepository->find($id, $onlyTrashed);
@@ -61,8 +43,26 @@ class RoleService
         return $this->roleRepository->list($filters);
     }
 
+    /**
+     * @return mixed
+     */
+    public function list(array $filters = [])
+    {
+        $roleList = $this->roleRepository->list($filters);
+
+        //Do Business Stuff
+
+        return $roleList;
+
+    }
+
     public function import(array $filters)
     {
         return $this->roleRepository->create($filters);
+    }
+
+    public function create(array $inputs = [])
+    {
+        return $this->roleRepository->create($inputs);
     }
 }

@@ -2,6 +2,8 @@
 
 namespace Fintech\Auth\Http\Requests;
 
+use Fintech\Auth\Facades\Auth;
+use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 
 class VerifyIdDocTypeRequest extends FormRequest
@@ -17,18 +19,18 @@ class VerifyIdDocTypeRequest extends FormRequest
     /**
      * Get the validation rules that apply to the request.
      *
-     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array|string>
+     * @return array<string, ValidationRule|array|string>
      */
     public function rules(): array
     {
-        $availableDocTypes = \Fintech\Auth\Facades\Auth::idDocType()
+        $availableDocTypes = Auth::idDocType()
             ->list(['paginate' => false, 'country_name' => $this->input('id_issue_country')]);
 
         if ($availableDocTypes->isNotEmpty()) {
             $availableDocTypes = $availableDocTypes->pluck('code')->toArray();
             $availableDocTypes = (count($availableDocTypes) > 0)
                 ? ['string', 'in:' . implode(',', $availableDocTypes)]
-            : ['string'];
+                : ['string'];
         } else {
             $availableDocTypes = ['string'];
         }

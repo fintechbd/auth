@@ -4,7 +4,7 @@ namespace Fintech\Auth\Repositories\Eloquent;
 
 use Exception;
 use Fintech\Auth\Interfaces\OneTimePinRepository as InterfacesOneTimePinRepository;
-use Illuminate\Database\Eloquent\Model;
+use Fintech\Auth\Models\OneTimePin;
 use InvalidArgumentException;
 
 /**
@@ -16,7 +16,7 @@ class OneTimePinRepository implements InterfacesOneTimePinRepository
 
     public function __construct()
     {
-        $model = app(config('fintech.auth.otp_model', \Fintech\Auth\Models\OneTimePin::class));
+        $model = app(config('fintech.auth.otp_model', OneTimePin::class));
 
         if (!$model instanceof Model) {
             throw new InvalidArgumentException("Eloquent repository require model class to be `Illuminate\Database\Eloquent\Model` instance.");
@@ -54,14 +54,29 @@ class OneTimePinRepository implements InterfacesOneTimePinRepository
     }
 
     /**
-     * Determine if a token record exists and is valid.
+     * Delete expired tokens.
      *
-     * @param string $token
-     * @return mixed
+     * @param string $authField
+     * @return void
      */
-    public function exists(string $token)
+    public function deleteExpired(string $authField)
     {
-        return $this->model->where(['token' => $token])->first();
+        $this->model->where('created_at', '<', now()->subMinutes(config('auth.passwords.users.expire')))->get()->each(function ($entry) {
+            $entry->delete();
+        });
+    }
+
+    /**
+     * Delete a token record.
+     *
+     * @param string $authField
+     * @return void
+     */
+    public function delete(string $authField)
+    {
+        $this->model->where('email', $authField)->get()->each(function ($entry) {
+            $entry->delete();
+        });
     }
 
     /**
@@ -81,28 +96,13 @@ class OneTimePinRepository implements InterfacesOneTimePinRepository
     }
 
     /**
-     * Delete a token record.
+     * Determine if a token record exists and is valid.
      *
-     * @param string $authField
-     * @return void
+     * @param string $token
+     * @return mixed
      */
-    public function delete(string $authField)
+    public function exists(string $token)
     {
-        $this->model->where('email', $authField)->get()->each(function ($entry) {
-            $entry->delete();
-        });
-    }
-
-    /**
-     * Delete expired tokens.
-     *
-     * @param string $authField
-     * @return void
-     */
-    public function deleteExpired(string $authField)
-    {
-        $this->model->where('created_at', '<', now()->subMinutes(config('auth.passwords.users.expire')))->get()->each(function ($entry) {
-            $entry->delete();
-        });
+        return $this->model->where(['token' => $token])->first();
     }
 }

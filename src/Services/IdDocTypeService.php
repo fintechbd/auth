@@ -20,22 +20,8 @@ class IdDocTypeService
     public function __construct(
         private readonly IdDocTypeRepository $idDocTypeRepository,
         private readonly ProfileRepository   $profileRepository
-    ) {
-    }
-
-    /**
-     * @param array $filters
-     * @return mixed
-     */
-    public function list(array $filters = [])
+    )
     {
-        return $this->idDocTypeRepository->list($filters);
-
-    }
-
-    public function create(array $inputs = [])
-    {
-        return $this->idDocTypeRepository->create($inputs);
     }
 
     public function find($id, $onlyTrashed = false)
@@ -63,9 +49,24 @@ class IdDocTypeService
         return $this->idDocTypeRepository->list($filters);
     }
 
+    /**
+     * @param array $filters
+     * @return mixed
+     */
+    public function list(array $filters = [])
+    {
+        return $this->idDocTypeRepository->list($filters);
+
+    }
+
     public function import(array $filters)
     {
         return $this->idDocTypeRepository->create($filters);
+    }
+
+    public function create(array $inputs = [])
+    {
+        return $this->idDocTypeRepository->create($inputs);
     }
 
     public function verify(array $inputs): mixed

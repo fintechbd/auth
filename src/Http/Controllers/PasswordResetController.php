@@ -2,6 +2,8 @@
 
 namespace Fintech\Auth\Http\Controllers;
 
+use ErrorException;
+use Exception;
 use Fintech\Auth\Events\PasswordResetRequested;
 use Fintech\Auth\Events\PasswordResetSuccessful;
 use Fintech\Auth\Facades\Auth;
@@ -27,7 +29,7 @@ class PasswordResetController extends Controller
      * @lrd:end
      * @param ForgotPasswordRequest $request
      * @return JsonResponse
-     * @throws \Exception
+     * @throws Exception
      */
     public function store(ForgotPasswordRequest $request): JsonResponse
     {
@@ -36,20 +38,20 @@ class PasswordResetController extends Controller
             $attemptUser = Auth::user()->list($this->getAuthFieldFromInput($request));
 
             if ($attemptUser->isEmpty()) {
-                throw new \Exception(__('auth::messages.failed'));
+                throw new Exception(__('auth::messages.failed'));
             }
 
             $response = Auth::passwordReset()->notifyUser($attemptUser->first());
 
             if (!$response['status']) {
-                throw new \Exception($response['message']);
+                throw new Exception($response['message']);
             }
 
             event(new PasswordResetRequested($attemptUser));
 
             return $this->success($response['message']);
 
-        } catch (\Exception $exception) {
+        } catch (Exception $exception) {
 
             return $this->failed($exception->getMessage());
         }
@@ -82,7 +84,7 @@ class PasswordResetController extends Controller
             $targetedUser = Auth::user()->list($this->getAuthFieldFromInput($subRequest));
 
             if ($targetedUser->isEmpty()) {
-                throw new \ErrorException(__('auth::messages.reset.user_not_found'));
+                throw new ErrorException(__('auth::messages.reset.user_not_found'));
             }
 
             $targetedUser = $targetedUser->first();
@@ -95,7 +97,7 @@ class PasswordResetController extends Controller
 
             return $this->updated(__('auth::messages.reset.success'));
 
-        } catch (\Exception $exception) {
+        } catch (Exception $exception) {
             return $this->failed($exception->getMessage());
         }
     }

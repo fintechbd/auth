@@ -2,10 +2,15 @@
 
 namespace Fintech\Auth\Services;
 
+use Exception;
 use Fintech\Auth\Interfaces\ProfileRepository;
 use Fintech\Core\Facades\Core;
+use Fintech\MetaData\Facades\MetaData;
+use Fintech\MetaData\Models\Country;
+use Fintech\Transaction\Facades\Transaction;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\DB;
+use PDOException;
 
 /**
  * Class UserService
@@ -19,7 +24,8 @@ class ProfileService
      */
     public function __construct(
         private readonly ProfileRepository $profileRepository
-    ) {
+    )
+    {
     }
 
     public function create(string|int $userId, array $inputs = [])
@@ -35,10 +41,10 @@ class ProfileService
 
             if (Core::packageExists('MetaData')) {
 
-                $presentCountry = \Fintech\MetaData\Facades\MetaData::country()->find($inputs['present_country_id']);
+                $presentCountry = MetaData::country()->find($inputs['present_country_id']);
 
                 if (!$presentCountry) {
-                    throw (new ModelNotFoundException())->setModel(config('fintech.metadata.country_model', \Fintech\MetaData\Models\Country::class), $inputs['present_country_id']);
+                    throw (new ModelNotFoundException())->setModel(config('fintech.metadata.country_model', Country::class), $inputs['present_country_id']);
                 }
 
                 $defaultUserAccount = [
@@ -56,7 +62,7 @@ class ProfileService
                 ];
 
                 if (Core::packageExists('Transaction')) {
-                    \Fintech\Transaction\Facades\Transaction::userAccount()->create($defaultUserAccount);
+                    Transaction::userAccount()->create($defaultUserAccount);
                 }
             }
 
@@ -64,9 +70,9 @@ class ProfileService
 
             return $profile;
 
-        } catch (\Exception $exception) {
+        } catch (Exception $exception) {
             DB::rollBack();
-            throw new \PDOException($exception->getMessage(), 0, $exception);
+            throw new PDOException($exception->getMessage(), 0, $exception);
         }
 
     }
@@ -143,9 +149,9 @@ class ProfileService
 
             return $user;
 
-        } catch (\Exception $exception) {
+        } catch (Exception $exception) {
             DB::rollBack();
-            throw new \PDOException($exception->getMessage(), 0, $exception);
+            throw new PDOException($exception->getMessage(), 0, $exception);
         }
     }
 }

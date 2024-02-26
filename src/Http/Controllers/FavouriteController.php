@@ -3,18 +3,18 @@
 namespace Fintech\Auth\Http\Controllers;
 
 use Exception;
-use Fintech\Core\Exceptions\StoreOperationException;
-use Fintech\Core\Exceptions\UpdateOperationException;
-use Fintech\Core\Exceptions\DeleteOperationException;
-use Fintech\Core\Exceptions\RestoreOperationException;
-use Fintech\Core\Traits\ApiResponseTrait;
 use Fintech\Auth\Facades\Auth;
-use Fintech\Auth\Http\Resources\FavouriteResource;
-use Fintech\Auth\Http\Resources\FavouriteCollection;
 use Fintech\Auth\Http\Requests\ImportFavouriteRequest;
+use Fintech\Auth\Http\Requests\IndexFavouriteRequest;
 use Fintech\Auth\Http\Requests\StoreFavouriteRequest;
 use Fintech\Auth\Http\Requests\UpdateFavouriteRequest;
-use Fintech\Auth\Http\Requests\IndexFavouriteRequest;
+use Fintech\Auth\Http\Resources\FavouriteCollection;
+use Fintech\Auth\Http\Resources\FavouriteResource;
+use Fintech\Core\Exceptions\DeleteOperationException;
+use Fintech\Core\Exceptions\RestoreOperationException;
+use Fintech\Core\Exceptions\StoreOperationException;
+use Fintech\Core\Exceptions\UpdateOperationException;
+use Fintech\Core\Traits\ApiResponseTrait;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Routing\Controller;
@@ -29,7 +29,6 @@ use Illuminate\Routing\Controller;
  * @lrd:end
  *
  */
-
 class FavouriteController extends Controller
 {
     use ApiResponseTrait;
@@ -82,7 +81,7 @@ class FavouriteController extends Controller
             return $this->created([
                 'message' => __('core::messages.resource.created', ['model' => 'Favourite']),
                 'id' => $favourite->id
-             ]);
+            ]);
 
         } catch (Exception $exception) {
 

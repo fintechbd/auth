@@ -3,6 +3,7 @@
 namespace Fintech\Auth\Http\Controllers;
 
 use App\Providers\RouteServiceProvider;
+use Exception;
 use Fintech\Auth\Facades\Auth;
 use Fintech\Auth\Http\Requests\StoreVerificationRequest;
 use Fintech\Auth\Http\Requests\UpdateVerificationRequest;
@@ -21,7 +22,7 @@ class VerificationController extends Controller
      * @lrd:end
      * @param StoreVerificationRequest $request
      * @return JsonResponse
-     * @throws \Exception
+     * @throws Exception
      */
     public function store(StoreVerificationRequest $request): JsonResponse
     {

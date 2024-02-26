@@ -3,6 +3,7 @@
 namespace Fintech\Auth\Traits;
 
 use Fintech\Core\Facades\Core;
+use Fintech\Transaction\Models\UserAccount;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 if (Core::packageExists('Transaction')) {
@@ -10,7 +11,7 @@ if (Core::packageExists('Transaction')) {
     {
         public function userAccounts(): HasMany
         {
-            return $this->hasMany(config('fintech.transaction.user_account_model', \Fintech\Transaction\Models\UserAccount::class));
+            return $this->hasMany(config('fintech.transaction.user_account_model', UserAccount::class));
         }
     }
 } else {

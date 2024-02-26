@@ -1,6 +1,25 @@
 <?php
 
 // config for fintech/auth
+use Fintech\Auth\Models\Audit;
+use Fintech\Auth\Models\Favourite;
+use Fintech\Auth\Models\IdDocType;
+use Fintech\Auth\Models\OneTimePin;
+use Fintech\Auth\Models\Permission;
+use Fintech\Auth\Models\Profile;
+use Fintech\Auth\Models\Role;
+use Fintech\Auth\Models\Team;
+use Fintech\Auth\Models\User;
+use Fintech\Auth\Repositories\Eloquent\AuditRepository;
+use Fintech\Auth\Repositories\Eloquent\FavouriteRepository;
+use Fintech\Auth\Repositories\Eloquent\IdDocTypeRepository;
+use Fintech\Auth\Repositories\Eloquent\OneTimePinRepository;
+use Fintech\Auth\Repositories\Eloquent\PermissionRepository;
+use Fintech\Auth\Repositories\Eloquent\ProfileRepository;
+use Fintech\Auth\Repositories\Eloquent\RoleRepository;
+use Fintech\Auth\Repositories\Eloquent\TeamRepository;
+use Fintech\Auth\Repositories\Eloquent\UserRepository;
+
 return [
 
     /*
@@ -44,7 +63,7 @@ return [
     |
     | This value will be used to across system where model is needed
     */
-    'permission_model' => \Fintech\Auth\Models\Permission::class,
+    'permission_model' => Permission::class,
 
     /*
     |--------------------------------------------------------------------------
@@ -53,7 +72,7 @@ return [
     |
     | This value will be used to across system where model is needed
     */
-    'role_model' => \Fintech\Auth\Models\Role::class,
+    'role_model' => Role::class,
     'customer_roles' => [],
     /*
     |--------------------------------------------------------------------------
@@ -62,7 +81,7 @@ return [
     |
     | This value will be used to across system where model is needed
     */
-    'team_model' => \Fintech\Auth\Models\Team::class,
+    'team_model' => Team::class,
 
     /*
     |--------------------------------------------------------------------------
@@ -71,7 +90,7 @@ return [
     |
     | This value will be used to across system where model is needed
     */
-    'user_model' => \Fintech\Auth\Models\User::class,
+    'user_model' => User::class,
     /*
     |--------------------------------------------------------------------------
     | User Fallback Image Path
@@ -88,7 +107,7 @@ return [
     |
     | This value will be used to across system where model is needed
     */
-    'profile_model' => \Fintech\Auth\Models\Profile::class,
+    'profile_model' => Profile::class,
 
     /*
     |--------------------------------------------------------------------------
@@ -97,7 +116,7 @@ return [
     |
     | This value will be used to across system where model is needed
     */
-    'otp_model' => \Fintech\Auth\Models\OneTimePin::class,
+    'otp_model' => OneTimePin::class,
     'otp_length' => 4,
     //values 'otp' or 'link'
     'otp_method' => 'otp',
@@ -109,7 +128,7 @@ return [
     |
     | This value will be used to across system where model is needed
     */
-    'audit_model' => \Fintech\Auth\Models\Audit::class,
+    'audit_model' => Audit::class,
 
 
     /*
@@ -119,7 +138,7 @@ return [
     |
     | This value will be used to across system where model is needed
     */
-    'id_doc_type_model' => \Fintech\Auth\Models\IdDocType::class,
+    'id_doc_type_model' => IdDocType::class,
 
 
     /*
@@ -129,7 +148,7 @@ return [
     |
     | This value will be used to across system where model is needed
     */
-    'favourite_model' => \Fintech\Auth\Models\Favourite::class,
+    'favourite_model' => Favourite::class,
 
     //** Model Config Point Do not Remove **//
 
@@ -267,23 +286,23 @@ return [
     | This value will be used to across system where model is needed
     */
     'repositories' => [
-        \Fintech\Auth\Interfaces\PermissionRepository::class => \Fintech\Auth\Repositories\Eloquent\PermissionRepository::class,
+        \Fintech\Auth\Interfaces\PermissionRepository::class => PermissionRepository::class,
 
-        \Fintech\Auth\Interfaces\RoleRepository::class => \Fintech\Auth\Repositories\Eloquent\RoleRepository::class,
+        \Fintech\Auth\Interfaces\RoleRepository::class => RoleRepository::class,
 
-        \Fintech\Auth\Interfaces\TeamRepository::class => \Fintech\Auth\Repositories\Eloquent\TeamRepository::class,
+        \Fintech\Auth\Interfaces\TeamRepository::class => TeamRepository::class,
 
-        \Fintech\Auth\Interfaces\ProfileRepository::class => \Fintech\Auth\Repositories\Eloquent\ProfileRepository::class,
+        \Fintech\Auth\Interfaces\ProfileRepository::class => ProfileRepository::class,
 
-        \Fintech\Auth\Interfaces\UserRepository::class => \Fintech\Auth\Repositories\Eloquent\UserRepository::class,
+        \Fintech\Auth\Interfaces\UserRepository::class => UserRepository::class,
 
-        \Fintech\Auth\Interfaces\OneTimePinRepository::class => \Fintech\Auth\Repositories\Eloquent\OneTimePinRepository::class,
+        \Fintech\Auth\Interfaces\OneTimePinRepository::class => OneTimePinRepository::class,
 
-        \Fintech\Auth\Interfaces\AuditRepository::class => \Fintech\Auth\Repositories\Eloquent\AuditRepository::class,
+        \Fintech\Auth\Interfaces\AuditRepository::class => AuditRepository::class,
 
-        \Fintech\Auth\Interfaces\IdDocTypeRepository::class => \Fintech\Auth\Repositories\Eloquent\IdDocTypeRepository::class,
+        \Fintech\Auth\Interfaces\IdDocTypeRepository::class => IdDocTypeRepository::class,
 
-        \Fintech\Auth\Interfaces\FavouriteRepository::class => \Fintech\Auth\Repositories\Eloquent\FavouriteRepository::class,
+        \Fintech\Auth\Interfaces\FavouriteRepository::class => FavouriteRepository::class,
 
         //** Repository Binding Config Point Do not Remove **//
     ],

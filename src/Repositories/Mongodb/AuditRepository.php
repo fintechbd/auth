@@ -3,6 +3,7 @@
 namespace Fintech\Auth\Repositories\Mongodb;
 
 use Fintech\Auth\Interfaces\AuditRepository as InterfacesAuditRepository;
+use Fintech\Auth\Models\Audit;
 use Fintech\Core\Repositories\MongodbRepository;
 use Illuminate\Contracts\Pagination\Paginator;
 use Illuminate\Database\Eloquent\Collection;
@@ -17,7 +18,7 @@ class AuditRepository extends MongodbRepository implements InterfacesAuditReposi
 {
     public function __construct()
     {
-        $model = app(config('fintech.auth.audit_model', \Fintech\Auth\Models\Audit::class));
+        $model = app(config('fintech.auth.audit_model', Audit::class));
 
         if (!$model instanceof Model) {
             throw new InvalidArgumentException("Mongodb repository require model class to be `MongoDB\Laravel\Eloquent\Model` instance.");

@@ -12,6 +12,12 @@ class TestCase extends Orchestra
 {
     use DatabaseMigrations;
 
+    public function getEnvironmentSetUp($app)
+    {
+        config()->set('app.env', 'testing');
+        config()->set('database.default', 'testing');
+    }
+
     protected function setUp(): void
     {
         parent::setUp();
@@ -24,11 +30,5 @@ class TestCase extends Orchestra
             AuthServiceProvider::class,
             SanctumServiceProvider::class
         ];
-    }
-
-    public function getEnvironmentSetUp($app)
-    {
-        config()->set('app.env', 'testing');
-        config()->set('database.default', 'testing');
     }
 }

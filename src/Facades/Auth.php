@@ -2,20 +2,31 @@
 
 namespace Fintech\Auth\Facades;
 
+use Fintech\Auth\Services\AuditService;
+use Fintech\Auth\Services\FavouriteService;
+use Fintech\Auth\Services\IdDocTypeService;
+use Fintech\Auth\Services\OneTimePinService;
+use Fintech\Auth\Services\PasswordResetService;
+use Fintech\Auth\Services\PermissionService;
+use Fintech\Auth\Services\PinResetService;
+use Fintech\Auth\Services\ProfileService;
+use Fintech\Auth\Services\RoleService;
+use Fintech\Auth\Services\TeamService;
+use Fintech\Auth\Services\UserService;
 use Illuminate\Support\Facades\Facade;
 
 /**
- * @method static \Fintech\Auth\Services\UserService user()
- * @method static \Fintech\Auth\Services\ProfileService profile()
- * @method static \Fintech\Auth\Services\RoleService role()
- * @method static \Fintech\Auth\Services\PermissionService permission()
- * @method static \Fintech\Auth\Services\TeamService team()
- * @method static \Fintech\Auth\Services\OneTimePinService otp()
- * @method static \Fintech\Auth\Services\PasswordResetService passwordReset()
- * @method static \Fintech\Auth\Services\PinResetService pinReset()
- * @method static \Fintech\Auth\Services\AuditService audit()
- * @method static \Fintech\Auth\Services\IdDocTypeService idDocType()
- * @method static \Fintech\Auth\Services\FavouriteService favourite()
+ * @method static UserService user()
+ * @method static ProfileService profile()
+ * @method static RoleService role()
+ * @method static PermissionService permission()
+ * @method static TeamService team()
+ * @method static OneTimePinService otp()
+ * @method static PasswordResetService passwordReset()
+ * @method static PinResetService pinReset()
+ * @method static AuditService audit()
+ * @method static IdDocTypeService idDocType()
+ * @method static FavouriteService favourite()
  * // Crud Service Method Point Do not Remove //
  *
  * @see \Fintech\Auth\Auth

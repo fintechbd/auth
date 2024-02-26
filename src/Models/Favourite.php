@@ -2,12 +2,12 @@
 
 namespace Fintech\Auth\Models;
 
+use Fintech\Core\Abstracts\BaseModel;
 use Fintech\Core\Traits\AuditableTrait;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Favourite extends Model
+class Favourite extends BaseModel
 {
     use AuditableTrait;
     use SoftDeletes;

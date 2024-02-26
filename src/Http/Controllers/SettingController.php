@@ -2,6 +2,7 @@
 
 namespace Fintech\Auth\Http\Controllers;
 
+use Exception;
 use Fintech\Auth\Http\Requests\StoreSettingRequest;
 use Fintech\Auth\Http\Resources\SettingResource;
 use Fintech\Core\Facades\Core;
@@ -48,7 +49,7 @@ class SettingController extends Controller
 
             return new SettingResource($settings);
 
-        } catch (\Exception $exception) {
+        } catch (Exception $exception) {
 
             return $this->failed($exception->getMessage());
         }
@@ -77,7 +78,7 @@ class SettingController extends Controller
 
             return $this->updated(__('core::messages.setting.saved', ['package' => config("fintech.core.packages.{$configuration}", 'System')]));
 
-        } catch (\Exception $exception) {
+        } catch (Exception $exception) {
 
             return $this->failed($exception->getMessage());
         }
@@ -103,7 +104,7 @@ class SettingController extends Controller
 
             return $this->deleted(__('core::messages.setting.deleted', ['model' => 'Setting']));
 
-        } catch (\Exception $exception) {
+        } catch (Exception $exception) {
 
             return $this->failed($exception->getMessage());
         }

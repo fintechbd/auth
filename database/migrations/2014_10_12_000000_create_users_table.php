@@ -11,7 +11,7 @@ return new class () extends Migration {
     public function up(): void
     {
         if (Schema::hasTable('users')) {
-            throw new \ErrorException('`users` table already exists. please remove migration file and backup user data.');
+            throw new ErrorException('`users` table already exists. please remove migration file and backup user data.');
         }
 
         Schema::create('users', function (Blueprint $table) {

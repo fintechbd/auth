@@ -2,6 +2,8 @@
 
 namespace Fintech\Auth;
 
+use Fintech\Auth\Services\AuditService;
+use Fintech\Auth\Services\FavouriteService;
 use Fintech\Auth\Services\IdDocTypeService;
 use Fintech\Auth\Services\OneTimePinService;
 use Fintech\Auth\Services\PasswordResetService;
@@ -84,11 +86,11 @@ class Auth
     }
 
     /**
-     * @return \Fintech\Auth\Services\AuditService
+     * @return AuditService
      */
     public function audit()
     {
-        return app(\Fintech\Auth\Services\AuditService::class);
+        return app(AuditService::class);
     }
 
     /**
@@ -100,15 +102,14 @@ class Auth
     }
 
     /**
-     * @return \Fintech\Auth\Services\FavouriteService
+     * @return FavouriteService
      */
     public function favourite()
     {
-        return app(\Fintech\Auth\Services\FavouriteService::class);
+        return app(FavouriteService::class);
     }
 
     //** Crud Service Method Point Do not Remove **//
-
 
 
 }

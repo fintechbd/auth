@@ -3,11 +3,11 @@
 namespace Fintech\Auth\Repositories\Eloquent;
 
 use Fintech\Auth\Interfaces\IdDocTypeRepository as InterfacesIdDocTypeRepository;
+use Fintech\Auth\Models\IdDocType;
 use Fintech\Core\Repositories\EloquentRepository;
 use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Contracts\Pagination\Paginator;
 use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Database\Eloquent\Model;
 use InvalidArgumentException;
 
 /**
@@ -18,11 +18,11 @@ class IdDocTypeRepository extends EloquentRepository implements InterfacesIdDocT
 {
     public function __construct()
     {
-        $model = app(config('fintech.auth.id_doc_type_model', \Fintech\Auth\Models\IdDocType::class));
+        $model = app(config('fintech.auth.id_doc_type_model', IdDocType::class));
 
         if (!$model instanceof Model) {
             throw new InvalidArgumentException("Eloquent repository require model class to be "
-                ."`Illuminate\Database\Eloquent\Model` instance.");
+                . "`Illuminate\Database\Eloquent\Model` instance.");
         }
 
         $this->model = $model;

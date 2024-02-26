@@ -1,5 +1,6 @@
 <?php
 
+use Fintech\Auth\Facades\Auth;
 use function Pest\Laravel\postJson;
 
 test('login failed', function () {
@@ -47,16 +48,16 @@ test('Test that the password field correctly validates input when 6 characters',
 
 test('Test that the password field correctly validates input when submitting the form', function () {
 
-    $permission = \Fintech\Auth\Facades\Auth::permission()->create([
+    $permission = Auth::permission()->create([
         'name' => 'auth.login',
         'guard_name' => 'web',
     ]);
-    $role = \Fintech\Auth\Facades\Auth::role()->create([
+    $role = Auth::role()->create([
         'name' => 'user',
         'guard_name' => 'web',
         'permissions' => [$permission->getKey()]
     ]);
-    \Fintech\Auth\Facades\Auth::user()->create([
+    Auth::user()->create([
         "name" => "MT TECHNOLOGIES",
         "mobile" => "01700000001",
         "email" => "admin@mt-technologies.com",

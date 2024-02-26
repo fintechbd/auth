@@ -2,6 +2,7 @@
 
 namespace Fintech\Auth\Services;
 
+use Exception;
 use Fintech\Auth\Interfaces\OneTimePinRepository;
 use Fintech\Auth\Interfaces\UserRepository;
 use Fintech\Auth\Notifications\PinResetNotification;
@@ -10,6 +11,8 @@ use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
+use JsonException;
+use MongoDB\Laravel\Eloquent\Model;
 
 /**
  * Class PermissionService
@@ -34,7 +37,8 @@ class PinResetService
     public function __construct(
         private readonly OneTimePinRepository $oneTimePinRepository,
         private readonly UserRepository       $userRepository
-    ) {
+    )
+    {
         $this->pinField = config('fintech.auth.pin_field', 'pin');
 
         $this->resetMethod = config('fintech.auth.password_reset_method', PasswordResetOption::ResetLink->value);
@@ -72,7 +76,7 @@ class PinResetService
 
             return ['message' => $notification_data['message'], 'status' => false];
 
-        } catch (\Exception $exception) {
+        } catch (Exception $exception) {
 
             return ['message' => $exception->getMessage(), 'status' => false];
         }
@@ -110,44 +114,7 @@ class PinResetService
     /**
      * @param $user
      * @return array
-     * @throws \Exception
-     */
-    private function viaResetLink($user)
-    {
-        $authField = $user->authField();
-
-        $this->oneTimePinRepository->deleteExpired($authField);
-
-        $token = Str::random(40);
-
-        $token_url = url(config('fintech.auth.frontend_reset_url')) . '?token=' . base64_encode(json_encode([$token => $authField]));
-
-        if (App::environment('local')) {
-            Log::info("User ID: {$user->getKey()}, Pin Link: {$token_url}");
-        }
-
-        if ($this->oneTimePinRepository->create($authField, $token)) {
-
-            return [
-                'message' => __('auth::messages.reset.reset_link'),
-                'value' => null,
-                'url' => $token_url,
-                'status' => true
-            ];
-        }
-
-        return [
-            'message' => __('auth::messages.reset.notification_failed'),
-            'value' => null,
-            'url' => url(config('fintech.auth.frontend_reset_url')),
-            'status' => false
-        ];
-    }
-
-    /**
-     * @param $user
-     * @return array
-     * @throws \Exception
+     * @throws Exception
      */
     private function viaOneTimePin($user)
     {
@@ -183,9 +150,46 @@ class PinResetService
     }
 
     /**
+     * @param $user
+     * @return array
+     * @throws Exception
+     */
+    private function viaResetLink($user)
+    {
+        $authField = $user->authField();
+
+        $this->oneTimePinRepository->deleteExpired($authField);
+
+        $token = Str::random(40);
+
+        $token_url = url(config('fintech.auth.frontend_reset_url')) . '?token=' . base64_encode(json_encode([$token => $authField]));
+
+        if (App::environment('local')) {
+            Log::info("User ID: {$user->getKey()}, Pin Link: {$token_url}");
+        }
+
+        if ($this->oneTimePinRepository->create($authField, $token)) {
+
+            return [
+                'message' => __('auth::messages.reset.reset_link'),
+                'value' => null,
+                'url' => $token_url,
+                'status' => true
+            ];
+        }
+
+        return [
+            'message' => __('auth::messages.reset.notification_failed'),
+            'value' => null,
+            'url' => url(config('fintech.auth.frontend_reset_url')),
+            'status' => false
+        ];
+    }
+
+    /**
      * @param string $token
-     * @return \Illuminate\Database\Eloquent\Model|\MongoDB\Laravel\Eloquent\Model|null
-     * @throws \Exception
+     * @return \Illuminate\Database\Eloquent\Model|Model|null
+     * @throws Exception
      */
     public function verifyToken(string $token)
     {
@@ -195,13 +199,13 @@ class PinResetService
                 $token = json_decode(base64_decode($token), true, 512, JSON_THROW_ON_ERROR);
 
                 if (!is_array($token)) {
-                    throw new \JsonException(__('auth::messages.reset.invalid_token'));
+                    throw new JsonException(__('auth::messages.reset.invalid_token'));
                 }
 
                 $token = array_key_first($token);
 
-            } catch (\Exception $exception) {
-                throw new \Exception($exception->getMessage());
+            } catch (Exception $exception) {
+                throw new Exception($exception->getMessage());
             }
         }
 
@@ -216,12 +220,12 @@ class PinResetService
 
                 $this->oneTimePinRepository->delete($passwordResetToken->email);
 
-                throw new \Exception(__('auth::messages.reset.expired_token'));
+                throw new Exception(__('auth::messages.reset.expired_token'));
             }
 
             return $passwordResetToken;
         }
 
-        throw new \Exception(__('auth::messages.reset.invalid_token'));
+        throw new Exception(__('auth::messages.reset.invalid_token'));
     }
 }

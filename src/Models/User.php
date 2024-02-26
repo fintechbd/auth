@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Notifications\Notification;
+use InvalidArgumentException;
 use Laravel\Sanctum\HasApiTokens;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
@@ -66,7 +67,7 @@ class User extends Authenticatable implements HasMedia
             return $this->{$authField};
         }
 
-        throw new \InvalidArgumentException("Invalid authentication field ($authField) configured for User.");
+        throw new InvalidArgumentException("Invalid authentication field ($authField) configured for User.");
 
     }
 
@@ -86,6 +87,7 @@ class User extends Authenticatable implements HasMedia
     {
         return $this->fcm_token;
     }
+
     /**
      * Route notifications for the Push Message channel.
      */
@@ -93,6 +95,7 @@ class User extends Authenticatable implements HasMedia
     {
         return $this->mobile;
     }
+
     /**
      * Route notifications for the Push Message channel.
      */

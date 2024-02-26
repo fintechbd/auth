@@ -2,6 +2,7 @@
 
 namespace Fintech\Auth\Http\Controllers;
 
+use Exception;
 use Fintech\Auth\Events\LoggedIn;
 use Fintech\Auth\Events\LoggedOut;
 use Fintech\Auth\Http\Requests\LoginRequest;
@@ -63,7 +64,7 @@ class AuthenticatedController extends Controller
 
             return new LoginResource($attemptUser);
 
-        } catch (\Exception $exception) {
+        } catch (Exception $exception) {
 
             $request->hitRateLimited();
 

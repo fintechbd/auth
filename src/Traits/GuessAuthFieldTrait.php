@@ -4,6 +4,13 @@ namespace Fintech\Auth\Traits;
 
 trait GuessAuthFieldTrait
 {
+    private function getAuthFieldTypeFromInput($request): int|string|null
+    {
+        $credentials = $this->getAuthFieldFromInput($request);
+
+        return array_key_first($credentials);
+    }
+
     /**
      * Return user model auth field from input format
      *
@@ -21,12 +28,5 @@ trait GuessAuthFieldTrait
         } else {
             return [config('fintech.auth.auth_field', 'login_id') => $authFieldValue];
         }
-    }
-
-    private function getAuthFieldTypeFromInput($request): int|string|null
-    {
-        $credentials = $this->getAuthFieldFromInput($request);
-
-        return array_key_first($credentials);
     }
 }

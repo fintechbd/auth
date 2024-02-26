@@ -10,6 +10,25 @@ use Illuminate\Http\Resources\Json\ResourceCollection;
 class FavouriteCollection extends ResourceCollection
 {
     /**
+     * Get additional data that should be returned with the resource array.
+     *
+     * @param Request $request
+     * @return array<string, mixed>
+     */
+    public function with(Request $request): array
+    {
+        return [
+            'options' => [
+                'dir' => Constant::SORT_DIRECTIONS,
+                'status' => FavouriteStatus::toArray(),
+                'per_page' => Constant::PAGINATE_LENGTHS,
+                'sort' => ['id', 'name', 'created_at', 'updated_at'],
+            ],
+            'query' => $request->all(),
+        ];
+    }
+
+    /**
      * Transform the resource collection into an array.
      *
      * @param Request $request
@@ -34,24 +53,5 @@ class FavouriteCollection extends ResourceCollection
                 'updated_at' => $favourite->updated_at,
             ];
         })->toArray();
-    }
-
-    /**
-     * Get additional data that should be returned with the resource array.
-     *
-     * @param Request $request
-     * @return array<string, mixed>
-     */
-    public function with(Request $request): array
-    {
-        return [
-            'options' => [
-                'dir' => Constant::SORT_DIRECTIONS,
-                'status' => FavouriteStatus::toArray(),
-                'per_page' => Constant::PAGINATE_LENGTHS,
-                'sort' => ['id', 'name', 'created_at', 'updated_at'],
-            ],
-            'query' => $request->all(),
-        ];
     }
 }

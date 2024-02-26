@@ -33,7 +33,6 @@ use Illuminate\Routing\Controller;
  * @lrd:end
  *
  */
-
 class IdDocTypeController extends Controller
 {
     use ApiResponseTrait;
@@ -86,7 +85,7 @@ class IdDocTypeController extends Controller
             return $this->created([
                 'message' => __('core::messages.resource.created', ['model' => 'Id Doc Type']),
                 'id' => $idDocType->getKey()
-             ]);
+            ]);
 
         } catch (Exception $exception) {
 
@@ -298,7 +297,7 @@ class IdDocTypeController extends Controller
             $filters = $request->all();
 
             //TODO adjust right country id on database for id doc type
-            if(isset($filters['country_id'])) {
+            if (isset($filters['country_id'])) {
                 unset($filters['country_id']);
             }
 

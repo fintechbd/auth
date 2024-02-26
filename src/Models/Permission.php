@@ -2,9 +2,9 @@
 
 namespace Fintech\Auth\Models;
 
+use Fintech\Core\Abstracts\BaseModel;
 use Fintech\Core\Traits\AuditableTrait;
 use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\Permission\Contracts\Permission as PermissionContract;
@@ -15,7 +15,7 @@ use Spatie\Permission\PermissionRegistrar;
 use Spatie\Permission\Traits\HasRoles;
 use Spatie\Permission\Traits\RefreshesPermissionCache;
 
-class Permission extends Model implements PermissionContract
+class Permission extends BaseModel implements PermissionContract
 {
     use HasRoles;
     use AuditableTrait;
@@ -55,9 +55,38 @@ class Permission extends Model implements PermissionContract
         $this->guarded[] = $this->primaryKey;
     }
 
-    public function getTable()
+    /**
+     * Find a permission by its name (and optionally guardName).
+     *
+     * @param null $guardName
+     */
+    public static function findByName(string $name, $guardName = null): PermissionContract
     {
-        return config('permission.table_names.permissions', parent::getTable());
+        $guardName = $guardName ?? Guard::getDefaultName(static::class);
+        $permission = static::getPermission(['name' => $name, 'guard_name' => $guardName]);
+        if (!$permission) {
+            throw PermissionDoesNotExist::create($name, $guardName);
+        }
+
+        return $permission;
+    }
+
+    /**
+     * Get the current cached first permission.
+     */
+    protected static function getPermission(array $params = []): ?PermissionContract
+    {
+        return static::getPermissions($params, true)->first();
+    }
+
+    /**
+     * Get the current cached permissions.
+     */
+    protected static function getPermissions(array $params = [], bool $onlyOne = false): Collection
+    {
+        return app(PermissionRegistrar::class)
+            ->setPermissionClass(static::class)
+            ->getPermissions($params, $onlyOne);
     }
 
     public static function create(array $attributes = [])
@@ -74,25 +103,9 @@ class Permission extends Model implements PermissionContract
     }
 
     /**
-     * Find a permission by its name (and optionally guardName).
-     *
-     * @param  null  $guardName
-     */
-    public static function findByName(string $name, $guardName = null): PermissionContract
-    {
-        $guardName = $guardName ?? Guard::getDefaultName(static::class);
-        $permission = static::getPermission(['name' => $name, 'guard_name' => $guardName]);
-        if (!$permission) {
-            throw PermissionDoesNotExist::create($name, $guardName);
-        }
-
-        return $permission;
-    }
-
-    /**
      * Find a permission by its id (and optionally guardName).
      *
-     * @param  null  $guardName
+     * @param null $guardName
      */
     public static function findById(int $id, $guardName = null): PermissionContract
     {
@@ -109,7 +122,7 @@ class Permission extends Model implements PermissionContract
     /**
      * Find or create permission by its name (and optionally guardName).
      *
-     * @param  null  $guardName
+     * @param null $guardName
      */
     public static function findOrCreate(string $name, $guardName = null): PermissionContract
     {
@@ -123,22 +136,9 @@ class Permission extends Model implements PermissionContract
         return $permission;
     }
 
-    /**
-     * Get the current cached permissions.
-     */
-    protected static function getPermissions(array $params = [], bool $onlyOne = false): Collection
+    public function getTable()
     {
-        return app(PermissionRegistrar::class)
-            ->setPermissionClass(static::class)
-            ->getPermissions($params, $onlyOne);
-    }
-
-    /**
-     * Get the current cached first permission.
-     */
-    protected static function getPermission(array $params = []): ?PermissionContract
-    {
-        return static::getPermissions($params, true)->first();
+        return config('permission.table_names.permissions', parent::getTable());
     }
 
     /*

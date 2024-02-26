@@ -7,7 +7,6 @@ use Fintech\Auth\Models\Team;
 use Fintech\Core\Repositories\EloquentRepository;
 use Illuminate\Contracts\Database\Eloquent\Builder;
 use Illuminate\Contracts\Pagination\Paginator;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
 use InvalidArgumentException;
 

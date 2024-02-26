@@ -5,6 +5,7 @@ namespace Fintech\Auth\Interfaces;
 use Illuminate\Contracts\Pagination\Paginator;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model as EloquentModel;
+use InvalidArgumentException;
 use MongoDB\Laravel\Eloquent\Model as MongodbModel;
 
 /**
@@ -39,7 +40,7 @@ interface UserRepository
     /**
      * find and delete a entry from records
      *
-     * @param  bool  $onlyTrashed
+     * @param bool $onlyTrashed
      * @return EloquentModel|MongodbModel|null
      *
      */
@@ -54,7 +55,7 @@ interface UserRepository
     /**
      * find and restore a entry from records
      *
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     public function restore(int|string $id);
 }

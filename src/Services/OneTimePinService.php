@@ -2,10 +2,12 @@
 
 namespace Fintech\Auth\Services;
 
+use Exception;
 use Fintech\Auth\Interfaces\OneTimePinRepository;
 use Fintech\Auth\Notifications\OTPNotification;
 use Fintech\Core\Enums\Auth\OTPOption;
 use Illuminate\Support\Facades\Notification;
+use JsonException;
 
 /**
  * Class PermissionService
@@ -27,7 +29,7 @@ class OneTimePinService
     /**
      * @param string $authField
      * @return array
-     * @throws \Exception
+     * @throws Exception
      */
     public function create(string $authField)
     {
@@ -58,10 +60,18 @@ class OneTimePinService
     }
 
     /**
+     * @param string $authField
+     */
+    public function delete(string $authField)
+    {
+        $this->oneTimePinRepository->delete($authField);
+    }
+
+    /**
      *
      * @param string $token
      * @return mixed
-     * @throws \Exception
+     * @throws Exception
      */
     public function exists(string $token)
     {
@@ -70,13 +80,13 @@ class OneTimePinService
                 $token = json_decode(base64_decode($token), true, 512, JSON_THROW_ON_ERROR);
 
                 if (!is_array($token)) {
-                    throw new \JsonException(__('auth::messages.reset.invalid_token'));
+                    throw new JsonException(__('auth::messages.reset.invalid_token'));
                 }
 
                 $token = array_key_first($token);
 
-            } catch (\Exception $exception) {
-                throw new \Exception($exception->getMessage());
+            } catch (Exception $exception) {
+                throw new Exception($exception->getMessage());
             }
         }
 
@@ -90,20 +100,12 @@ class OneTimePinService
 
                 $this->delete($verificationToken->email);
 
-                throw new \Exception(__('auth::messages.verify.expired'));
+                throw new Exception(__('auth::messages.verify.expired'));
             }
 
             return $verificationToken;
         }
 
-        throw new \Exception(__('auth::messages.verify.invalid'));
-    }
-
-    /**
-     * @param string $authField
-     */
-    public function delete(string $authField)
-    {
-        $this->oneTimePinRepository->delete($authField);
+        throw new Exception(__('auth::messages.verify.invalid'));
     }
 }

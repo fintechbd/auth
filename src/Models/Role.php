@@ -2,11 +2,12 @@
 
 namespace Fintech\Auth\Models;
 
+use Fintech\Auth\Traits\BusinessRelations;
+use Fintech\Core\Abstracts\BaseModel;
 use Fintech\Core\Traits\AuditableTrait;
 use Illuminate\Config\Repository;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -20,13 +21,13 @@ use Spatie\Permission\PermissionRegistrar;
 use Spatie\Permission\Traits\HasPermissions;
 use Spatie\Permission\Traits\RefreshesPermissionCache;
 
-class Role extends Model implements RoleContract
+class Role extends BaseModel implements RoleContract
 {
     use HasPermissions;
     use AuditableTrait;
     use RefreshesPermissionCache;
     use SoftDeletes;
-    use \Fintech\Auth\Traits\BusinessRelations;
+    use BusinessRelations;
 
     /*
     |--------------------------------------------------------------------------
@@ -61,72 +62,6 @@ class Role extends Model implements RoleContract
         parent::__construct($attributes);
 
         $this->guarded[] = $this->primaryKey;
-    }
-
-    /**
-     * @return Repository|Application|\Illuminate\Foundation\Application|mixed|string
-     */
-    public function getTable()
-    {
-        return config('permission.table_names.roles', parent::getTable());
-    }
-
-    /**
-     * @return Builder|Model
-     */
-    public static function create(array $attributes = [])
-    {
-        $attributes['guard_name'] = $attributes['guard_name'] ?? Guard::getDefaultName(static::class);
-
-        $params = ['name' => $attributes['name'], 'guard_name' => $attributes['guard_name']];
-        if (PermissionRegistrar::$teams) {
-            if (array_key_exists(PermissionRegistrar::$teamsKey, $attributes)) {
-                $params[PermissionRegistrar::$teamsKey] = $attributes[PermissionRegistrar::$teamsKey];
-            } else {
-                $attributes[PermissionRegistrar::$teamsKey] = getPermissionsTeamId();
-            }
-        }
-        if (static::findByParam($params)) {
-            throw RoleAlreadyExists::create($attributes['name'], $attributes['guard_name']);
-        }
-
-        return static::query()->create($attributes);
-    }
-
-    /**
-     * Find a role by its name and guard name.
-     *
-     * @param null $guardName
-     */
-    public static function findByName(string $name, $guardName = null): RoleContract
-    {
-        $guardName = $guardName ?? Guard::getDefaultName(static::class);
-
-        $role = static::findByParam(['name' => $name, 'guard_name' => $guardName]);
-
-        if (!$role) {
-            throw RoleDoesNotExist::named($name);
-        }
-
-        return $role;
-    }
-
-    /**
-     * Find a role by its id (and optionally guardName).
-     *
-     * @param null $guardName
-     */
-    public static function findById(int $id, $guardName = null): RoleContract
-    {
-        $guardName = $guardName ?? Guard::getDefaultName(static::class);
-
-        $role = static::findByParam([(new static())->getKeyName() => $id, 'guard_name' => $guardName]);
-
-        if (!$role) {
-            throw RoleDoesNotExist::withId($id);
-        }
-
-        return $role;
     }
 
     /**
@@ -172,6 +107,36 @@ class Role extends Model implements RoleContract
     }
 
     /**
+     * @return Builder|Model
+     */
+    public static function create(array $attributes = [])
+    {
+        $attributes['guard_name'] = $attributes['guard_name'] ?? Guard::getDefaultName(static::class);
+
+        $params = ['name' => $attributes['name'], 'guard_name' => $attributes['guard_name']];
+        if (PermissionRegistrar::$teams) {
+            if (array_key_exists(PermissionRegistrar::$teamsKey, $attributes)) {
+                $params[PermissionRegistrar::$teamsKey] = $attributes[PermissionRegistrar::$teamsKey];
+            } else {
+                $attributes[PermissionRegistrar::$teamsKey] = getPermissionsTeamId();
+            }
+        }
+        if (static::findByParam($params)) {
+            throw RoleAlreadyExists::create($attributes['name'], $attributes['guard_name']);
+        }
+
+        return static::query()->create($attributes);
+    }
+
+    /**
+     * @return Repository|Application|\Illuminate\Foundation\Application|mixed|string
+     */
+    public function getTable()
+    {
+        return config('permission.table_names.roles', parent::getTable());
+    }
+
+    /**
      * Determine if the user may perform the given permission.
      *
      * @param string|Permission $permission
@@ -199,6 +164,42 @@ class Role extends Model implements RoleContract
         }
 
         return $this->roles->contains($permission->getKeyName(), $permission->getKey());
+    }
+
+    /**
+     * Find a role by its name and guard name.
+     *
+     * @param null $guardName
+     */
+    public static function findByName(string $name, $guardName = null): RoleContract
+    {
+        $guardName = $guardName ?? Guard::getDefaultName(static::class);
+
+        $role = static::findByParam(['name' => $name, 'guard_name' => $guardName]);
+
+        if (!$role) {
+            throw RoleDoesNotExist::named($name);
+        }
+
+        return $role;
+    }
+
+    /**
+     * Find a role by its id (and optionally guardName).
+     *
+     * @param null $guardName
+     */
+    public static function findById(int $id, $guardName = null): RoleContract
+    {
+        $guardName = $guardName ?? Guard::getDefaultName(static::class);
+
+        $role = static::findByParam([(new static())->getKeyName() => $id, 'guard_name' => $guardName]);
+
+        if (!$role) {
+            throw RoleDoesNotExist::withId($id);
+        }
+
+        return $role;
     }
 
     /*
@@ -239,7 +240,7 @@ class Role extends Model implements RoleContract
      */
     public function team(): BelongsTo
     {
-        return $this->belongsTo(config('fintech.auth.team_model', \Fintech\Auth\Models\Team::class));
+        return $this->belongsTo(config('fintech.auth.team_model', Team::class));
     }
 
     /*

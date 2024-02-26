@@ -2,11 +2,12 @@
 
 namespace Fintech\Auth\Repositories\Eloquent;
 
+use ErrorException;
 use Fintech\Auth\Interfaces\AuditRepository as InterfacesAuditRepository;
+use Fintech\Auth\Models\Audit;
 use Fintech\Core\Repositories\EloquentRepository;
 use Illuminate\Contracts\Pagination\Paginator;
 use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Database\Eloquent\Model;
 use InvalidArgumentException;
 
 /**
@@ -17,7 +18,7 @@ class AuditRepository extends EloquentRepository implements InterfacesAuditRepos
 {
     public function __construct()
     {
-        $model = app(config('fintech.auth.audit_model', \Fintech\Auth\Models\Audit::class));
+        $model = app(config('fintech.auth.audit_model', Audit::class));
 
         if (!$model instanceof Model) {
             throw new InvalidArgumentException("Eloquent repository require model class to be `Illuminate\Database\Eloquent\Model` instance.");
@@ -59,26 +60,26 @@ class AuditRepository extends EloquentRepository implements InterfacesAuditRepos
     }
 
     /**
-     * @throws \ErrorException
+     * @throws ErrorException
      */
     public function create(array $attributes = [])
     {
-        return throw new \ErrorException(__('auth::message.audit.create'));
+        return throw new ErrorException(__('auth::message.audit.create'));
     }
 
     /**
-     * @throws \ErrorException
+     * @throws ErrorException
      */
     public function update(int|string $id, array $attributes = [])
     {
-        return throw new \ErrorException(__('auth::message.audit.update'));
+        return throw new ErrorException(__('auth::message.audit.update'));
     }
 
     /**
-     * @throws \ErrorException
+     * @throws ErrorException
      */
     public function restore(int|string $id)
     {
-        return throw new \ErrorException(__('auth::message.audit.restore'));
+        return throw new ErrorException(__('auth::message.audit.restore'));
     }
 }

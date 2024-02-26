@@ -2,9 +2,9 @@
 
 namespace Fintech\Auth\Models;
 
-use Illuminate\Database\Eloquent\Model;
+use Fintech\Core\Abstracts\BaseModel;
 
-class OneTimePin extends Model
+class OneTimePin extends BaseModel
 {
     /*
     |--------------------------------------------------------------------------

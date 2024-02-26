@@ -49,7 +49,7 @@ return [
     ],
     'role' => [
         'permission_assigned' => 'Assigning permission to :role group successful.'
-],
+    ],
     'user' => [
         'status-change' => 'User Account status changed to :status successfully.'
     ]

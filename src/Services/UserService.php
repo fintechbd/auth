@@ -9,9 +9,12 @@ use Fintech\Auth\Interfaces\ProfileRepository;
 use Fintech\Auth\Interfaces\UserRepository;
 use Fintech\Core\Enums\Auth\PasswordResetOption;
 use Fintech\Core\Enums\Auth\UserStatus;
+use Illuminate\Foundation\Auth\User;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use MongoDB\Laravel\Eloquent\Model;
+use PDOException;
 
 /**
  * Class UserService
@@ -27,28 +30,23 @@ class UserService
     public function __construct(
         private readonly UserRepository    $userRepository,
         private readonly ProfileRepository $profileRepository
-    ) {
-
-    }
-
-    /**
-     * @param array $filters
-     * @return mixed
-     */
-    public function list(array $filters = [])
+    )
     {
-        return $this->userRepository->list($filters);
 
     }
 
-    public function create(array $inputs = [])
+    public function find($id, $onlyTrashed = false)
+    {
+        return $this->userRepository->find($id, $onlyTrashed);
+    }
+
+    public function updateRaw($id, array $inputs = [])
     {
         DB::beginTransaction();
 
         try {
-            $userData = $this->formatDataFromInput($inputs, true);
 
-            if ($user = $this->userRepository->create($userData)) {
+            if ($user = $this->userRepository->update($id, $inputs)) {
 
                 DB::commit();
 
@@ -57,9 +55,31 @@ class UserService
 
             return null;
 
-        } catch (\Exception $exception) {
+        } catch (Exception $exception) {
             DB::rollBack();
-            throw new \PDOException($exception->getMessage(), 0, $exception);
+            throw new PDOException($exception->getMessage(), 0, $exception);
+        }
+    }
+
+    public function update($id, array $inputs = [])
+    {
+        DB::beginTransaction();
+
+        try {
+            $userData = $this->formatDataFromInput($inputs);
+
+            if ($user = $this->userRepository->update($id, $userData)) {
+
+                DB::commit();
+
+                return $user;
+            }
+
+            return null;
+
+        } catch (Exception $exception) {
+            DB::rollBack();
+            throw new PDOException($exception->getMessage(), 0, $exception);
         }
     }
 
@@ -90,54 +110,6 @@ class UserService
         return $data;
     }
 
-    public function find($id, $onlyTrashed = false)
-    {
-        return $this->userRepository->find($id, $onlyTrashed);
-    }
-
-    public function update($id, array $inputs = [])
-    {
-        DB::beginTransaction();
-
-        try {
-            $userData = $this->formatDataFromInput($inputs);
-
-            if ($user = $this->userRepository->update($id, $userData)) {
-
-                DB::commit();
-
-                return $user;
-            }
-
-            return null;
-
-        } catch (\Exception $exception) {
-            DB::rollBack();
-            throw new \PDOException($exception->getMessage(), 0, $exception);
-        }
-    }
-
-    public function updateRaw($id, array $inputs = [])
-    {
-        DB::beginTransaction();
-
-        try {
-
-            if ($user = $this->userRepository->update($id, $inputs)) {
-
-                DB::commit();
-
-                return $user;
-            }
-
-            return null;
-
-        } catch (\Exception $exception) {
-            DB::rollBack();
-            throw new \PDOException($exception->getMessage(), 0, $exception);
-        }
-    }
-
     public function destroy($id)
     {
         return ($this->userRepository->delete($id) && $this->profileRepository->delete($id));
@@ -153,9 +125,41 @@ class UserService
         return $this->userRepository->list($filters);
     }
 
+    /**
+     * @param array $filters
+     * @return mixed
+     */
+    public function list(array $filters = [])
+    {
+        return $this->userRepository->list($filters);
+
+    }
+
     public function import(array $filters)
     {
         return $this->userRepository->create($filters);
+    }
+
+    public function create(array $inputs = [])
+    {
+        DB::beginTransaction();
+
+        try {
+            $userData = $this->formatDataFromInput($inputs, true);
+
+            if ($user = $this->userRepository->create($userData)) {
+
+                DB::commit();
+
+                return $user;
+            }
+
+            return null;
+
+        } catch (Exception $exception) {
+            DB::rollBack();
+            throw new PDOException($exception->getMessage(), 0, $exception);
+        }
     }
 
     public function reset($user, $field)
@@ -168,7 +172,7 @@ class UserService
             $response = Auth::pinReset()->notifyUser($user);
 
             if (!$response['status']) {
-                throw new \Exception($response['message']);
+                throw new Exception($response['message']);
             }
 
             return $response;
@@ -179,7 +183,7 @@ class UserService
             $response = Auth::passwordReset()->notifyUser($user);
 
             if (!$response['status']) {
-                throw new \Exception($response['message']);
+                throw new Exception($response['message']);
             }
 
             return $response;
@@ -191,7 +195,7 @@ class UserService
             $passwordResponse = Auth::passwordReset()->notifyUser($user);
 
             if (!$pinResponse['status'] || !$passwordResponse['status']) {
-                throw new \Exception("Failed");
+                throw new Exception("Failed");
             }
 
             return ['status' => true, 'message' => "{$pinResponse['messages']} {$passwordResponse['message']}"];
@@ -205,7 +209,7 @@ class UserService
     /**
      * @param array $inputs
      * @param string $guard
-     * @return \Illuminate\Foundation\Auth\User|\MongoDB\Laravel\Eloquent\Model|null
+     * @return User|Model|null
      * @throws Exception
      */
     public function login(array $inputs, string $guard = 'web')
@@ -255,7 +259,7 @@ class UserService
 
         \Illuminate\Support\Facades\Auth::guard($guard)->login($attemptUser);
 
-        $attemptUser->tokens->each(fn ($token) => $token->delete());
+        $attemptUser->tokens->each(fn($token) => $token->delete());
 
         return $attemptUser;
 

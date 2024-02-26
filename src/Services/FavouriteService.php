@@ -19,21 +19,6 @@ class FavouriteService
     {
     }
 
-    /**
-     * @param array $filters
-     * @return mixed
-     */
-    public function list(array $filters = [])
-    {
-        return $this->favouriteRepository->list($filters);
-
-    }
-
-    public function create(array $inputs = [])
-    {
-        return $this->favouriteRepository->create($inputs);
-    }
-
     public function find($id, $onlyTrashed = false)
     {
         return $this->favouriteRepository->find($id, $onlyTrashed);
@@ -59,8 +44,23 @@ class FavouriteService
         return $this->favouriteRepository->list($filters);
     }
 
+    /**
+     * @param array $filters
+     * @return mixed
+     */
+    public function list(array $filters = [])
+    {
+        return $this->favouriteRepository->list($filters);
+
+    }
+
     public function import(array $filters)
     {
         return $this->favouriteRepository->create($filters);
+    }
+
+    public function create(array $inputs = [])
+    {
+        return $this->favouriteRepository->create($inputs);
     }
 }

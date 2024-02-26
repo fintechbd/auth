@@ -1,12 +1,16 @@
 <?php
 
+use Fintech\Auth\Http\Controllers\AuditController;
 use Fintech\Auth\Http\Controllers\AuthenticatedController;
+use Fintech\Auth\Http\Controllers\FavouriteController;
 use Fintech\Auth\Http\Controllers\IdDocTypeController;
 use Fintech\Auth\Http\Controllers\OneTimePinController;
 use Fintech\Auth\Http\Controllers\PasswordResetController;
 use Fintech\Auth\Http\Controllers\PermissionController;
+use Fintech\Auth\Http\Controllers\ProofOfAddressDropDownController;
 use Fintech\Auth\Http\Controllers\RegisterController;
 use Fintech\Auth\Http\Controllers\RoleController;
+use Fintech\Auth\Http\Controllers\RolePermissionController;
 use Fintech\Auth\Http\Controllers\SettingController;
 use Fintech\Auth\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Config;
@@ -71,15 +75,15 @@ if (Config::get('fintech.auth.enabled')) {
 
             Route::apiResource('settings', SettingController::class)->only(['index', 'store', 'destroy']);
 
-            Route::apiResource('audits', \Fintech\Auth\Http\Controllers\AuditController::class)->only('index', 'show', 'destroy');
+            Route::apiResource('audits', AuditController::class)->only('index', 'show', 'destroy');
 
             Route::apiResource('id-doc-types', IdDocTypeController::class);
             Route::post('id-doc-types/{id_doc_type}/restore', [IdDocTypeController::class, 'restore'])->name('id-doc-types.restore');
 
-            Route::apiResource('role-permissions', \Fintech\Auth\Http\Controllers\RolePermissionController::class)->only(['show', 'update']);
+            Route::apiResource('role-permissions', RolePermissionController::class)->only(['show', 'update']);
 
-            Route::apiResource('favourites', \Fintech\Auth\Http\Controllers\FavouriteController::class);
-            Route::post('favourites/{favourite}/restore', [\Fintech\Auth\Http\Controllers\FavouriteController::class, 'restore'])->name('favourites.restore');
+            Route::apiResource('favourites', FavouriteController::class);
+            Route::post('favourites/{favourite}/restore', [FavouriteController::class, 'restore'])->name('favourites.restore');
 
             //DO NOT REMOVE THIS LINE//
         });
@@ -92,6 +96,6 @@ if (Config::get('fintech.auth.enabled')) {
         //        Route::get('teams', [\Fintech\Auth\Http\Controllers\TeamController::class, 'dropdown'])->name('teams.dropdown');
         Route::get('users', [UserController::class, 'dropdown'])->name('users.dropdown');
         Route::get('user-statuses', [UserController::class, 'statusDropdown'])->name('user-statuses.dropdown');
-        Route::get('proof-of-addresses', \Fintech\Auth\Http\Controllers\ProofOfAddressDropDownController::class)->name('user-proof-of-address.dropdown');
+        Route::get('proof-of-addresses', ProofOfAddressDropDownController::class)->name('user-proof-of-address.dropdown');
     });
 }

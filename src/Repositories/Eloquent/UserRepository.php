@@ -8,7 +8,6 @@ use Fintech\Core\Repositories\EloquentRepository;
 use Illuminate\Contracts\Pagination\Paginator;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
-use InvalidArgumentException;
 
 /**
  * Class UserRepository
@@ -17,13 +16,7 @@ class UserRepository extends EloquentRepository implements InterfacesUserReposit
 {
     public function __construct()
     {
-        $model = app(config('fintech.auth.user_model', User::class));
-
-        if (!$model instanceof Model) {
-            throw new InvalidArgumentException("Eloquent repository require model class to be `Illuminate\Database\Eloquent\Model` instance.");
-        }
-
-        $this->model = $model;
+        parent::__construct(config('fintech.auth.user_model', User::class));
     }
 
     /**

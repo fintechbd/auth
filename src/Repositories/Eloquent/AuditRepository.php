@@ -8,7 +8,6 @@ use Fintech\Auth\Models\Audit;
 use Fintech\Core\Repositories\EloquentRepository;
 use Illuminate\Contracts\Pagination\Paginator;
 use Illuminate\Database\Eloquent\Collection;
-use InvalidArgumentException;
 
 /**
  * Class AuditRepository
@@ -18,13 +17,7 @@ class AuditRepository extends EloquentRepository implements InterfacesAuditRepos
 {
     public function __construct()
     {
-        $model = app(config('fintech.auth.audit_model', Audit::class));
-
-        if (!$model instanceof Model) {
-            throw new InvalidArgumentException("Eloquent repository require model class to be `Illuminate\Database\Eloquent\Model` instance.");
-        }
-
-        $this->model = $model;
+        parent::__construct(config('fintech.auth.audit_model', Audit::class));
     }
 
     /**

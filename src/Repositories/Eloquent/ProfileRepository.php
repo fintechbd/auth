@@ -7,7 +7,6 @@ use Fintech\Auth\Models\Profile;
 use Fintech\Core\Repositories\EloquentRepository;
 use Illuminate\Contracts\Pagination\Paginator;
 use Illuminate\Database\Eloquent\Collection;
-use InvalidArgumentException;
 
 /**
  * Class UserProfileRepository
@@ -16,13 +15,7 @@ class ProfileRepository extends EloquentRepository implements InterfacesProfileR
 {
     public function __construct()
     {
-        $model = app(config('fintech.auth.profile_model', Profile::class));
-
-        if (!$model instanceof Model) {
-            throw new InvalidArgumentException("Eloquent repository require model class to be `Illuminate\Database\Eloquent\Model` instance.");
-        }
-
-        $this->model = $model;
+        parent::__construct(config('fintech.auth.profile_model', Profile::class));
     }
 
     /**

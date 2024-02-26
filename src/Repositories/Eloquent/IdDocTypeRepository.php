@@ -8,7 +8,6 @@ use Fintech\Core\Repositories\EloquentRepository;
 use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Contracts\Pagination\Paginator;
 use Illuminate\Database\Eloquent\Collection;
-use InvalidArgumentException;
 
 /**
  * Class IdDocTypeRepository
@@ -18,14 +17,7 @@ class IdDocTypeRepository extends EloquentRepository implements InterfacesIdDocT
 {
     public function __construct()
     {
-        $model = app(config('fintech.auth.id_doc_type_model', IdDocType::class));
-
-        if (!$model instanceof Model) {
-            throw new InvalidArgumentException("Eloquent repository require model class to be "
-                . "`Illuminate\Database\Eloquent\Model` instance.");
-        }
-
-        $this->model = $model;
+        parent::__construct(config('fintech.auth.id_doc_type_model', IdDocType::class) );
     }
 
     /**

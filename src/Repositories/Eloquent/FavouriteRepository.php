@@ -7,7 +7,6 @@ use Fintech\Auth\Models\Favourite;
 use Fintech\Core\Repositories\EloquentRepository;
 use Illuminate\Contracts\Pagination\Paginator;
 use Illuminate\Database\Eloquent\Collection;
-use InvalidArgumentException;
 
 /**
  * Class FavouriteRepository
@@ -17,13 +16,7 @@ class FavouriteRepository extends EloquentRepository implements InterfacesFavour
 {
     public function __construct()
     {
-        $model = app(config('fintech.auth.favourite_model', Favourite::class));
-
-        if (!$model instanceof Model) {
-            throw new InvalidArgumentException("Eloquent repository require model class to be `Illuminate\Database\Eloquent\Model` instance.");
-        }
-
-        $this->model = $model;
+        parent::__construct(config('fintech.auth.favourite_model', Favourite::class));
     }
 
     /**

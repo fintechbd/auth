@@ -5,6 +5,7 @@ namespace Fintech\Auth\Models;
 use Fintech\Auth\Traits\MetaDataRelations;
 use Fintech\Core\Abstracts\BaseModel;
 use Fintech\Core\Traits\AuditableTrait;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
@@ -100,12 +101,12 @@ class Profile extends BaseModel implements HasMedia
     /**
      * Parental Access
      */
-    public function user()
+    public function user(): BelongsTo
     {
         return $this->belongsTo(config('fintech.auth.user_model'));
     }
 
-    public function approver()
+    public function approver(): BelongsTo
     {
         return $this->belongsTo(config('fintech.auth.user_model'), 'approver_id');
     }

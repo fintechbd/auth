@@ -8,7 +8,6 @@ use Fintech\Core\Repositories\EloquentRepository;
 use Illuminate\Contracts\Database\Eloquent\Builder;
 use Illuminate\Contracts\Pagination\Paginator;
 use Illuminate\Support\Collection;
-use InvalidArgumentException;
 
 /**
  * Class TeamRepository
@@ -17,13 +16,7 @@ class TeamRepository extends EloquentRepository implements InterfacesTeamReposit
 {
     public function __construct()
     {
-        $model = app(config('fintech.auth.team_model', Team::class));
-
-        if (!$model instanceof Model) {
-            throw new InvalidArgumentException("Eloquent repository require model class to be `Illuminate\Database\Eloquent\Model` instance.");
-        }
-
-        $this->model = $model;
+        parent::__construct(config('fintech.auth.team_model', Team::class));
     }
 
     /**

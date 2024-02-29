@@ -30,8 +30,7 @@ class UserService
     public function __construct(
         private readonly UserRepository    $userRepository,
         private readonly ProfileRepository $profileRepository
-    )
-    {
+    ) {
 
     }
 
@@ -259,7 +258,7 @@ class UserService
 
         \Illuminate\Support\Facades\Auth::guard($guard)->login($attemptUser);
 
-        $attemptUser->tokens->each(fn($token) => $token->delete());
+        $attemptUser->tokens->each(fn ($token) => $token->delete());
 
         return $attemptUser;
 

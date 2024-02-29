@@ -20,8 +20,7 @@ class IdDocTypeService
     public function __construct(
         private readonly IdDocTypeRepository $idDocTypeRepository,
         private readonly ProfileRepository   $profileRepository
-    )
-    {
+    ) {
     }
 
     public function find($id, $onlyTrashed = false)

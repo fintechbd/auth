@@ -17,7 +17,7 @@ class IdDocTypeRepository extends EloquentRepository implements InterfacesIdDocT
 {
     public function __construct()
     {
-        parent::__construct(config('fintech.auth.id_doc_type_model', IdDocType::class) );
+        parent::__construct(config('fintech.auth.id_doc_type_model', IdDocType::class));
     }
 
     /**

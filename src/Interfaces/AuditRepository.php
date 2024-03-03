@@ -6,7 +6,6 @@ use Illuminate\Contracts\Pagination\Paginator;
 use Fintech\Core\Abstracts\BaseModel;
 use Illuminate\Support\Collection;
 
-
 /**
  * Interface AuditRepository
  * @package Fintech\Auth\Interfaces

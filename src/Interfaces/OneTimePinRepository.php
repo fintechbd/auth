@@ -5,7 +5,6 @@ namespace Fintech\Auth\Interfaces;
 use Exception;
 use Fintech\Core\Abstracts\BaseModel;
 
-
 interface OneTimePinRepository
 {
     /**

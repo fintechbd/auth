@@ -12,7 +12,6 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 use JsonException;
-use MongoDB\Laravel\Eloquent\Model;
 
 /**
  * Class PermissionService

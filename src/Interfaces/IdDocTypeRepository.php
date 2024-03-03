@@ -7,7 +7,6 @@ use Fintech\Core\Abstracts\BaseModel;
 use Illuminate\Support\Collection;
 use InvalidArgumentException;
 
-
 /**
  * Interface IdDocTypeRepository
  * @package Fintech\Auth\Interfaces

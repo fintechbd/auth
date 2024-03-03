@@ -63,8 +63,6 @@
         "laravel": {
             "providers": [
                 "Fintech\\Auth\\AuthServiceProvider",
-                "Fintech\\Auth\\RouteServiceProvider",
-                "Fintech\\Auth\\RepositoryServiceProvider",
                 "Fintech\\Auth\\EventServiceProvider"
             ],
             "aliases": {

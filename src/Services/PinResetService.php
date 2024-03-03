@@ -187,7 +187,7 @@ class PinResetService
 
     /**
      * @param string $token
-     * @return \Illuminate\Database\Eloquent\Model|Model|null
+     * @return \Illuminate\Database\Eloquent\Model|null
      * @throws Exception
      */
     public function verifyToken(string $token)

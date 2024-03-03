@@ -4,9 +4,9 @@ namespace Fintech\Auth\Interfaces;
 
 use Illuminate\Contracts\Pagination\Paginator;
 use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Database\Eloquent\Model as EloquentModel;
+use Fintech\Core\Abstracts\BaseModel;
 use InvalidArgumentException;
-use MongoDB\Laravel\Eloquent\Model as MongodbModel;
+
 
 /**
  * Interface TeamRepository
@@ -24,7 +24,7 @@ interface TeamRepository
     /**
      * Create a new entry resource
      *
-     * @return EloquentModel|MongodbModel|null
+     * @return BaseModel
      *
      */
     public function create(array $attributes = []);
@@ -32,7 +32,7 @@ interface TeamRepository
     /**
      * find and update a resource attributes
      *
-     * @return EloquentModel|MongodbModel|null
+     * @return BaseModel
      *
      */
     public function update(int|string $id, array $attributes = []);
@@ -41,7 +41,7 @@ interface TeamRepository
      * find and delete a entry from records
      *
      * @param bool $onlyTrashed
-     * @return EloquentModel|MongodbModel|null
+     * @return BaseModel
      *
      */
     public function find(int|string $id, $onlyTrashed = false);

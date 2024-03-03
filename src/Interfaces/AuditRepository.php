@@ -3,9 +3,9 @@
 namespace Fintech\Auth\Interfaces;
 
 use Illuminate\Contracts\Pagination\Paginator;
-use Illuminate\Database\Eloquent\Model as EloquentModel;
+use Fintech\Core\Abstracts\BaseModel;
 use Illuminate\Support\Collection;
-use MongoDB\Laravel\Eloquent\Model as MongodbModel;
+
 
 /**
  * Interface AuditRepository
@@ -27,7 +27,7 @@ interface AuditRepository
      *
      * @param int|string $id
      * @param bool $onlyTrashed
-     * @return EloquentModel|MongodbModel|null
+     * @return BaseModel
      */
     public function find(int|string $id, $onlyTrashed = false);
 

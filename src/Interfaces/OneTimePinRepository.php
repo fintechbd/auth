@@ -3,8 +3,8 @@
 namespace Fintech\Auth\Interfaces;
 
 use Exception;
-use Illuminate\Database\Eloquent\Model as EloquentModel;
-use MongoDB\Laravel\Eloquent\Model as MongodbModel;
+use Fintech\Core\Abstracts\BaseModel;
+
 
 interface OneTimePinRepository
 {
@@ -13,7 +13,7 @@ interface OneTimePinRepository
      *
      * @param string $authField
      * @param string $token
-     * @return EloquentModel|MongodbModel|null
+     * @return BaseModel
      * @throws Exception
      */
     public function create(string $authField, string $token);
@@ -22,7 +22,7 @@ interface OneTimePinRepository
      * Determine if a token record exists and is valid.
      *
      * @param string $token
-     * @return EloquentModel|MongodbModel|null
+     * @return BaseModel
      */
     public function exists(string $token);
 

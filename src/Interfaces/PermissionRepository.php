@@ -3,10 +3,10 @@
 namespace Fintech\Auth\Interfaces;
 
 use Illuminate\Contracts\Pagination\Paginator;
-use Illuminate\Database\Eloquent\Model as EloquentModel;
+use Fintech\Core\Abstracts\BaseModel;
 use Illuminate\Support\Collection;
 use InvalidArgumentException;
-use MongoDB\Laravel\Eloquent\Model as MongodbModel;
+
 
 /**
  * Interface PermissionRepository
@@ -26,7 +26,7 @@ interface PermissionRepository
      * Create a new entry resource
      *
      * @param array $attributes
-     * @return EloquentModel|MongodbModel|null
+     * @return BaseModel
      */
     public function create(array $attributes = []);
 
@@ -35,7 +35,7 @@ interface PermissionRepository
      *
      * @param int|string $id
      * @param array $attributes
-     * @return EloquentModel|MongodbModel|null
+     * @return BaseModel
      */
     public function update(int|string $id, array $attributes = []);
 
@@ -44,7 +44,7 @@ interface PermissionRepository
      *
      * @param int|string $id
      * @param bool $onlyTrashed
-     * @return EloquentModel|MongodbModel|null
+     * @return BaseModel
      */
     public function find(int|string $id, $onlyTrashed = false);
 

@@ -6,13 +6,13 @@ use Exception;
 use Fintech\Auth\Interfaces\OneTimePinRepository;
 use Fintech\Auth\Interfaces\UserRepository;
 use Fintech\Auth\Notifications\PasswordResetNotification;
+use Fintech\Core\Abstracts\BaseModel;
 use Fintech\Core\Enums\Auth\PasswordResetOption;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 use JsonException;
-use MongoDB\Laravel\Eloquent\Model;
 
 /**
  * Class PermissionService
@@ -192,7 +192,7 @@ class PasswordResetService
 
     /**
      * @param string $token
-     * @return \Illuminate\Database\Eloquent\Model|Model
+     * @return BaseModel
      * @throws Exception
      */
     public function verifyToken(string $token)

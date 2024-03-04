@@ -7,13 +7,13 @@ use Fintech\Auth\Events\AccountFreezed;
 use Fintech\Auth\Facades\Auth;
 use Fintech\Auth\Interfaces\ProfileRepository;
 use Fintech\Auth\Interfaces\UserRepository;
+use Fintech\Core\Abstracts\BaseModel;
 use Fintech\Core\Enums\Auth\PasswordResetOption;
 use Fintech\Core\Enums\Auth\UserStatus;
 use Illuminate\Foundation\Auth\User;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
-use MongoDB\Laravel\Eloquent\Model;
 use PDOException;
 
 /**
@@ -208,7 +208,7 @@ class UserService
     /**
      * @param array $inputs
      * @param string $guard
-     * @return User|Model|null
+     * @return User|BaseModel|null
      * @throws Exception
      */
     public function login(array $inputs, string $guard = 'web')

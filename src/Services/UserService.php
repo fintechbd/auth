@@ -246,7 +246,7 @@ class UserService
 
             $wrongPasswordCount = $attemptUser->wrong_password + 1;
 
-            $this->update($attemptUser->getKey(), [
+            $this->updateRaw($attemptUser->getKey(), [
                 'wrong_password' => $wrongPasswordCount,
             ]);
 

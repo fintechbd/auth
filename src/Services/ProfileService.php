@@ -3,7 +3,6 @@
 namespace Fintech\Auth\Services;
 
 use Exception;
-use Fintech\Auth\Facades\Auth;
 use Fintech\Auth\Interfaces\ProfileRepository;
 use Fintech\Core\Facades\Core;
 use Fintech\MetaData\Facades\MetaData;

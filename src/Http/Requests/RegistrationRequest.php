@@ -41,6 +41,7 @@ class RegistrationRequest extends FormRequest
             'occupation' => ['string', 'nullable'],
             'source_of_income' => ['string', 'nullable'],
             'id_type' => ['string', 'nullable'],
+            'id_doc_type_id' => ['integer', 'required'],
             'id_no' => ['string', 'nullable'],
             'id_issue_country' => ['string', 'nullable'],
             'id_expired_at' => ['string', 'nullable'],

@@ -35,11 +35,11 @@ return new class () extends Migration {
             $table->foreignId('editor_id')->nullable();
             $table->foreignId('destroyer_id')->nullable();
             $table->foreignId('restorer_id')->nullable();
+            $table->timestamp('email_verified_at')->nullable();
+            $table->timestamp('mobile_verified_at')->nullable();
             $table->timestamps();
             $table->softDeletes();
             $table->timestamp('restored_at')->nullable();
-            $table->timestamp('email_verified_at')->nullable();
-            $table->timestamp('mobile_verified_at')->nullable();
         });
     }
 

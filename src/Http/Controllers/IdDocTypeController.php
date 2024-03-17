@@ -319,7 +319,8 @@ class IdDocTypeController extends Controller
                 return [
                     'label' => $entry->{$label} ?? 'name',
                     'attribute' => $entry->{$attribute} ?? 'id',
-                    'sides' => $entry->sides ?? 1
+                    'sides' => $entry->sides ?? 1,
+                    'id' => $entry->getKey() ?? null
                 ];
             });
 

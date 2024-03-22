@@ -17,7 +17,7 @@ class OneTimePinController extends Controller
     /**
      *
      * @lrd:start
-     * API let user to verify mobile, email and user account
+     * API let user verify using mobile, email and user account
      * field value can only between **email|mobile|user**
      * send verification link or otp as per configuration
      * @lrd:end
@@ -27,10 +27,22 @@ class OneTimePinController extends Controller
      */
     public function request(CreateOneTimePinRequest $request): JsonResponse
     {
-        $targetField = $request->input('mobile');
+        $targetField = $request->has('mobile')
+            ? 'mobile' :
+            ($request->has('email')
+                ? 'email' :
+                ($request->has('user') ? 'user' : null)
+            );
+
+        $targetValue = $request->input($targetField);
 
         try {
-            $response = Auth::otp()->create($targetField);
+
+            if (empty($targetValue)) {
+                throw new \InvalidArgumentException("Input field must be one of (mobile, email, user) is not present or value is empty.");
+            }
+
+            $response = Auth::otp()->create($targetValue);
 
             if (!$response['status']) {
                 throw new Exception($response['message']);

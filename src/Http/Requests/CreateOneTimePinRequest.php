@@ -27,7 +27,9 @@ class CreateOneTimePinRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'mobile' => 'required|string'
+            'mobile' => 'required_without:email,user|string|min:10|max:15',
+            'email' => 'required_without:mobile,user|string|email:rfc,dns',
+            'user' => 'required_without:mobile,email|integer|min:1'
         ];
     }
 
@@ -44,7 +46,9 @@ class CreateOneTimePinRequest extends FormRequest
      */
     public function throttleKey(): string
     {
-        return Str::transliterate(Str::lower($this->input('mobile')) . '|' . $this->ip());
+        $key = $this->input('mobile', $this->input('email', $this->input('user')));
+
+        return Str::transliterate(Str::lower($key . '|' . $this->ip()));
     }
 
     /**

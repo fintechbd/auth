@@ -245,6 +245,9 @@ return [
         'present_country_id' => ['integer', 'nullable'],
         'present_post_code' => ['string', 'nullable'],
         'nationality' => ['string', 'nullable'],
+        'ekyc' => ['required', 'array'],
+        'ekyc.vendor' => ['required', 'string'],
+        'ekyc.response' => ['required', 'array'],
     ],
 
     /*

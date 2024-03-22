@@ -30,7 +30,7 @@ class OTPNotification extends Notification
      */
     public function via(object $notifiable): array
     {
-//         return ((request()->has('mobile') ? ['sms'] : (request()->has('email'))) ? ['mail'] : request()->has('user')) ? $notifiable->prefer : ['database'];
+        //         return ((request()->has('mobile') ? ['sms'] : (request()->has('email'))) ? ['mail'] : request()->has('user')) ? $notifiable->prefer : ['database'];
         return ['mail'];
     }
 

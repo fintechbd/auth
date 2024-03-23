@@ -88,7 +88,7 @@ class UserCollection extends ResourceCollection
                 'present_country_id' => $profile->present_country_id ?? null,
                 'present_country_name' => null,
                 'blacklisted' => $profile->blacklisted ?? null,
-                'proof_of_address' => $this->formatMediaCollection($profile->getMedia('proof_of_address'))
+                'proof_of_address' => $this->formatMediaCollection($profile?->getMedia('proof_of_address') ?? null)
             ];
 
             if (Core::packageExists('MetaData')) {
@@ -100,13 +100,15 @@ class UserCollection extends ResourceCollection
         })->toArray();
     }
 
-    private function formatMediaCollection($collection): array
+    private function formatMediaCollection($collection = null): array
     {
         $data = [];
 
-        $collection->each(function (Media $media) use (&$data) {
-            $data[$media->getCustomProperty('type')][$media->getCustomProperty('side')] = $media->getFullUrl();
-        });
+        if ($collection != null) {
+            $collection->each(function (Media $media) use (&$data) {
+                $data[$media->getCustomProperty('type')][$media->getCustomProperty('side')] = $media->getFullUrl();
+            });
+        }
 
         return $data;
     }

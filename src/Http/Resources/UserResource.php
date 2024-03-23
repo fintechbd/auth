@@ -84,7 +84,7 @@ class UserResource extends JsonResource
             'id_expired_at' => $profile->id_expired_at ?? null,
             'id_issue_at' => $profile->id_issue_at ?? null,
             'id_no_duplicate' => $profile->id_no_duplicate ?? null,
-            'documents' => $this->formatMediaCollection($profile->getMedia('documents')),
+            'documents' => $this->formatMediaCollection($profile?->getMedia('documents') ?? null),
             'date_of_birth' => $profile->date_of_birth ?? null,
             'permanent_address' => $profile->permanent_address ?? null,
             'permanent_city_id' => $profile->permanent_city_id ?? null,
@@ -119,13 +119,15 @@ class UserResource extends JsonResource
         return array_merge($data, $profile_data);
     }
 
-    private function formatMediaCollection($collection): array
+    private function formatMediaCollection($collection = null): array
     {
         $data = [];
 
-        $collection->each(function (Media $media) use (&$data) {
-            $data[$media->getCustomProperty('type')][$media->getCustomProperty('side')] = $media->getFullUrl();
-        });
+        if ($collection != null) {
+            $collection->each(function (Media $media) use (&$data) {
+                $data[$media->getCustomProperty('type')][$media->getCustomProperty('side')] = $media->getFullUrl();
+            });
+        }
 
         return $data;
     }

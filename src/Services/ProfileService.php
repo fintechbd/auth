@@ -6,12 +6,10 @@ use Exception;
 use Fintech\Auth\Interfaces\ProfileRepository;
 use Fintech\Core\Enums\Ekyc\KycStatus;
 use Fintech\Core\Facades\Core;
-use Fintech\Ekyc\Facades\Ekyc;
 use Fintech\MetaData\Facades\MetaData;
 use Fintech\MetaData\Models\Country;
 use Fintech\Transaction\Facades\Transaction;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
-use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
 use PDOException;
 
@@ -27,8 +25,7 @@ class ProfileService
      */
     public function __construct(
         private readonly ProfileRepository $profileRepository
-    )
-    {
+    ) {
     }
 
     /**

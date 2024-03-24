@@ -3,7 +3,6 @@
 use Fintech\Auth\Http\Controllers\AuditController;
 use Fintech\Auth\Http\Controllers\AuthenticatedController;
 use Fintech\Auth\Http\Controllers\FavouriteController;
-use Fintech\Auth\Http\Controllers\IdDocTypeController;
 use Fintech\Auth\Http\Controllers\OneTimePinController;
 use Fintech\Auth\Http\Controllers\PasswordResetController;
 use Fintech\Auth\Http\Controllers\PermissionController;
@@ -13,6 +12,7 @@ use Fintech\Auth\Http\Controllers\RoleController;
 use Fintech\Auth\Http\Controllers\RolePermissionController;
 use Fintech\Auth\Http\Controllers\SettingController;
 use Fintech\Auth\Http\Controllers\UserController;
+use Fintech\MetaData\Http\Controllers\IdDocTypeController;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Route;
 

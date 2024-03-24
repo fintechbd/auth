@@ -2,7 +2,6 @@
 
 namespace Fintech\Auth\Http\Requests;
 
-use Fintech\Auth\Models\Permission;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;

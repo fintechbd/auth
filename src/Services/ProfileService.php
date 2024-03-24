@@ -4,11 +4,14 @@ namespace Fintech\Auth\Services;
 
 use Exception;
 use Fintech\Auth\Interfaces\ProfileRepository;
+use Fintech\Core\Enums\Ekyc\KycStatus;
 use Fintech\Core\Facades\Core;
+use Fintech\Ekyc\Facades\Ekyc;
 use Fintech\MetaData\Facades\MetaData;
 use Fintech\MetaData\Models\Country;
 use Fintech\Transaction\Facades\Transaction;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
 use PDOException;
 
@@ -24,7 +27,8 @@ class ProfileService
      */
     public function __construct(
         private readonly ProfileRepository $profileRepository
-    ) {
+    )
+    {
     }
 
     /**
@@ -36,12 +40,33 @@ class ProfileService
         return $this->profileRepository->list($filters);
     }
 
-    public function create(string|int $userId, array $inputs = [])
+    public function create(string|int $user_id, array $inputs = [])
     {
         try {
+
+            $kycStatus = null;
+
+            if (isset($inputs['ekyc'])) {
+
+                $kycData = $inputs['ekyc'];
+                unset($inputs['ekyc']);
+
+                if (Core::packageExists('Ekyc')) {
+                    $kycStatus = $this->logKycStatus($user_id, $kycData);
+                }
+            }
+
             $profileData = $this->formatDataFromInput($inputs);
 
-            $profileData['user_id'] = $userId;
+            $profileData['user_id'] = $user_id;
+
+            if ($kycStatus != null) {
+                $profileData['user_profile_data']['ekyc'] = [
+                    'status' => $kycStatus->status ?? KycStatus::Pending->value,
+                    'note' => $kycStatus->note ?? '',
+                    'reference_no' => $kycStatus->reference_no ?? '',
+                ];
+            }
 
             DB::beginTransaction();
 
@@ -56,7 +81,7 @@ class ProfileService
                 }
 
                 $defaultUserAccount = [
-                    'user_id' => $userId,
+                    'user_id' => $user_id,
                     'country_id' => $presentCountry->getKey(),
                     'enabled' => true,
                     'user_account_data' => [
@@ -85,7 +110,29 @@ class ProfileService
 
     }
 
-    private function formatDataFromInput($inputs, bool $forCreate = false)
+    private function logKycStatus($user_id, array $data = [])
+    {
+        $kycModel = \Fintech\Ekyc\Facades\Ekyc::kycStatus()->list(['reference_no' => $data['reference_no']])->first();
+
+        if ($kycModel) {
+            return \Fintech\Ekyc\Facades\Ekyc::kycStatus()->update($kycModel->getKey(), ['user_id' => $user_id]);
+        } else {
+            $payload['user_id'] = $user_id;
+            $payload['reference_no'] = $data['reference_no'];
+            $payload['type'] = 'document';
+            $payload['attempts'] = 1;
+            $payload['vendor'] = $data['vendor'];
+            $payload['kyc_status_data'] = ['inputs' => request()->all()];
+            $payload['request'] = ['message' => 'this request is done using sdk'];
+            $payload['response'] = $data['response'] ?? [];
+            //@TODO Parse Response to get status and note.
+            $payload['status'] = KycStatus::Accepted->value;
+            $payload['note'] = 'This request is done using sdk.';
+            return \Fintech\Ekyc\Facades\Ekyc::kycStatus()->create($payload);
+        }
+    }
+
+    private function formatDataFromInput($inputs, bool $forCreate = false): array
     {
         $data = $inputs;
 
@@ -141,6 +188,7 @@ class ProfileService
             $data['user_profile_data']['employer'] = $inputs['employer'];
             unset($data['employer']);
         }
+
         return $data;
     }
 

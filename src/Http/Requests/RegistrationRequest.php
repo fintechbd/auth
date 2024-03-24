@@ -2,7 +2,9 @@
 
 namespace Fintech\Auth\Http\Requests;
 
+use Fintech\Core\Facades\Core;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules\Password;
 
 class RegistrationRequest extends FormRequest
@@ -72,6 +74,13 @@ class RegistrationRequest extends FormRequest
             'present_post_code' => ['string', 'nullable'],
             'nationality' => ['string', 'nullable'],
         ]);
+
+        if (Core::packageExists('Ekyc')) {
+            $rules['ekyc'] = ['required', 'array', 'min:3'];
+            $rules['ekyc.reference_no'] = ['required', 'string', 'size:' . config('fintech.core.entry_number_length', 20)];
+            $rules['ekyc.vendor'] = ['required', 'string', Rule::in(array_keys(config('fintech.ekyc.providers')))];
+            $rules['ekyc.response'] = ['required', 'array'];
+        }
 
         $login_id_rules = config('fintech.auth.auth_field_rules', ['required', 'string', 'min:6', 'max:255']);
 

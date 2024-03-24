@@ -120,7 +120,7 @@ class ProfileService
             $payload['attempts'] = 1;
             $payload['vendor'] = $data['vendor'];
             $payload['kyc_status_data'] = ['inputs' => request()->all()];
-            $payload['request'] = ['message' => 'this request is done using sdk'];
+            $payload['request'] = $data['request'] ?? ['message' => 'this request is done using sdk'];
             $payload['response'] = $data['response'] ?? [];
             //@TODO Parse Response to get status and note.
             $payload['status'] = KycStatus::Accepted->value;

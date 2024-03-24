@@ -79,6 +79,7 @@ class RegistrationRequest extends FormRequest
             $rules['ekyc'] = ['required', 'array', 'min:3'];
             $rules['ekyc.reference_no'] = ['required', 'string', 'size:' . config('fintech.core.entry_number_length', 20)];
             $rules['ekyc.vendor'] = ['required', 'string', Rule::in(array_keys(config('fintech.ekyc.providers')))];
+            $rules['ekyc.request'] = ['nullable', 'array'];
             $rules['ekyc.response'] = ['required', 'array'];
         }
 

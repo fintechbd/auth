@@ -24,8 +24,7 @@ class ProfileService
      */
     public function __construct(
         private readonly ProfileRepository $profileRepository
-    )
-    {
+    ) {
     }
 
     /**

@@ -3,7 +3,6 @@
 // config for fintech/auth
 use Fintech\Auth\Models\Audit;
 use Fintech\Auth\Models\Favourite;
-use Fintech\Auth\Models\IdDocType;
 use Fintech\Auth\Models\OneTimePin;
 use Fintech\Auth\Models\Permission;
 use Fintech\Auth\Models\Profile;
@@ -12,7 +11,6 @@ use Fintech\Auth\Models\Team;
 use Fintech\Auth\Models\User;
 use Fintech\Auth\Repositories\Eloquent\AuditRepository;
 use Fintech\Auth\Repositories\Eloquent\FavouriteRepository;
-use Fintech\Auth\Repositories\Eloquent\IdDocTypeRepository;
 use Fintech\Auth\Repositories\Eloquent\OneTimePinRepository;
 use Fintech\Auth\Repositories\Eloquent\PermissionRepository;
 use Fintech\Auth\Repositories\Eloquent\ProfileRepository;

@@ -91,7 +91,6 @@ if (Config::get('fintech.auth.enabled')) {
         Route::post('id-doc-verification', [IdDocTypeController::class, 'verification'])->name('id-doc-verification');
     });
     Route::prefix('dropdown')->name('auth.')->group(function () {
-        Route::get('id-doc-types', [IdDocTypeController::class, 'dropdown'])->name('id-doc-types.dropdown');
         Route::get('roles', [RoleController::class, 'dropdown'])->name('roles.dropdown');
         //        Route::get('teams', [\Fintech\Auth\Http\Controllers\TeamController::class, 'dropdown'])->name('teams.dropdown');
         Route::get('users', [UserController::class, 'dropdown'])->name('users.dropdown');

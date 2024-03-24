@@ -22,7 +22,7 @@ class VerifyIdDocumentController extends Controller
         try {
             $inputs = $request->validated();
 
-            $idDocType = \Fintech\Auth\Facades\Auth::profile()->list($inputs);
+            $idDocType = \Fintech\Auth\Facades\Auth::profile()->list($inputs)->first();
 
             return new VerifyIdDocTypeResource($idDocType);
 

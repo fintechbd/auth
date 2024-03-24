@@ -24,7 +24,7 @@ class StoreRoleRequest extends FormRequest
      */
     public function rules(): array
     {
-        $uniqueRule = 'unique:' . config('fintech.auth.role_model', Role::class) . ',name';
+        $uniqueRule = 'unique:roles,name';
 
         return [
             'name' => ['required', 'string', 'min:5', 'max:255', $uniqueRule],

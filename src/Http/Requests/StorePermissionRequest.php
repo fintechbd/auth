@@ -24,7 +24,7 @@ class StorePermissionRequest extends FormRequest
      */
     public function rules(): array
     {
-        $uniqueRule = 'unique:' . config('fintech.auth.permission_model', Permission::class) . ',name';
+        $uniqueRule = 'unique:permissions,name';
 
         return [
             'name' => ['required', 'string', 'min:5', 'max:255', $uniqueRule],

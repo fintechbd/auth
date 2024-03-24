@@ -304,7 +304,7 @@ return [
 
         \Fintech\Auth\Interfaces\AuditRepository::class => AuditRepository::class,
 
-        \Fintech\Auth\Interfaces\IdDocTypeRepository::class => IdDocTypeRepository::class,
+        \Fintech\MetaData\Interfaces\IdDocTypeRepository::class => IdDocTypeRepository::class,
 
         \Fintech\Auth\Interfaces\FavouriteRepository::class => FavouriteRepository::class,
 

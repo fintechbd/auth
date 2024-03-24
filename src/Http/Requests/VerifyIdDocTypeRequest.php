@@ -2,7 +2,7 @@
 
 namespace Fintech\Auth\Http\Requests;
 
-use Fintech\Auth\Facades\Auth;
+use Fintech\MetaData\Facades\MetaData;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -23,7 +23,7 @@ class VerifyIdDocTypeRequest extends FormRequest
      */
     public function rules(): array
     {
-        $availableDocTypes = Auth::idDocType()
+        $availableDocTypes = MetaData::idDocType()
             ->list(['paginate' => false, 'country_name' => $this->input('id_issue_country')]);
 
         if ($availableDocTypes->isNotEmpty()) {

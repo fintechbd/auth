@@ -24,7 +24,17 @@ class ProfileService
      */
     public function __construct(
         private readonly ProfileRepository $profileRepository
-    ) {
+    )
+    {
+    }
+
+    /**
+     * @param array $filters
+     * @return mixed
+     */
+    public function list(array $filters = [])
+    {
+        return $this->profileRepository->list($filters);
     }
 
     public function create(string|int $userId, array $inputs = [])

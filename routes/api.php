@@ -77,9 +77,6 @@ if (Config::get('fintech.auth.enabled')) {
 
             Route::apiResource('audits', AuditController::class)->only('index', 'show', 'destroy');
 
-            Route::apiResource('id-doc-types', IdDocTypeController::class);
-            Route::post('id-doc-types/{id_doc_type}/restore', [IdDocTypeController::class, 'restore'])->name('id-doc-types.restore');
-
             Route::apiResource('role-permissions', RolePermissionController::class)->only(['show', 'update']);
 
             Route::apiResource('favourites', FavouriteController::class);
@@ -88,7 +85,8 @@ if (Config::get('fintech.auth.enabled')) {
             //DO NOT REMOVE THIS LINE//
         });
 
-        Route::post('id-doc-verification', [IdDocTypeController::class, 'verification'])->name('id-doc-verification');
+        Route::post('id-doc-verification', \Fintech\Auth\Http\Controllers\VerifyIdDocumentController::class)->name('id-doc-types.verification');
+
     });
     Route::prefix('dropdown')->name('auth.')->group(function () {
         Route::get('roles', [RoleController::class, 'dropdown'])->name('roles.dropdown');

@@ -73,7 +73,11 @@ class RegistrationRequest extends FormRequest
             'nationality' => ['string', 'nullable'],
         ]);
 
-        $rules[config('fintech.auth.auth_field', 'login_id')] = config('fintech.auth.auth_field_rules', ['required', 'string', 'min:6', 'max:255']);
+        $login_id_rules = config('fintech.auth.auth_field_rules', ['required', 'string', 'min:6', 'max:255']);
+
+        $login_id_rules[] = 'unique:users,login_id';
+
+        $rules[config('fintech.auth.auth_field', 'login_id')] = $login_id_rules;
 
         $rules[config('fintech.auth.password_field', 'password')] = config('fintech.auth.password_field_rules', ['required', 'string', Password::default()]);
 

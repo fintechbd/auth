@@ -78,9 +78,9 @@ class RegistrationRequest extends FormRequest
         if (Core::packageExists('Ekyc')) {
             $rules['ekyc'] = ['required', 'array', 'min:3'];
             $rules['ekyc.reference_no'] = ['required', 'string', 'size:' . config('fintech.core.entry_number_length', 20)];
-            $rules['ekyc.vendor'] = ['required', 'string', Rule::in(array_keys(config('fintech.ekyc.providers')))];
+            $rules['ekyc.vendor'] = ['nullable', 'string', Rule::in(array_keys(config('fintech.ekyc.providers')))];
             $rules['ekyc.request'] = ['nullable', 'array'];
-            $rules['ekyc.response'] = ['required', 'array'];
+            $rules['ekyc.response'] = ['nullable', 'array'];
         }
 
         $login_id_rules = config('fintech.auth.auth_field_rules', ['required', 'string', 'min:6', 'max:255']);

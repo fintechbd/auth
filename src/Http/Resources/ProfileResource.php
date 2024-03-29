@@ -8,6 +8,8 @@ use Fintech\Core\Facades\Core;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Collection;
+use Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 /**
  * Class ProfileResource
@@ -29,6 +31,7 @@ use Illuminate\Support\Collection;
  * @property-read Carbon $mobile_verified_at
  * @property-read Carbon $created_at
  * @property-read Carbon $updated_at
+ * @method MediaCollection getMedia(string $collection)
  */
 class ProfileResource extends JsonResource
 {
@@ -48,6 +51,7 @@ class ProfileResource extends JsonResource
             'id_expired_at' => $this->id_expired_at ?? null,
             'id_issue_at' => $this->id_issue_at ?? null,
             'id_no_duplicate' => $this->id_no_duplicate ?? null,
+            'id_documents' => $this->processIdDocMedia(($this->getMedia('documents') ?? null)),
             'date_of_birth' => $this->date_of_birth ?? null,
             'permanent_address' => $this->permanent_address ?? null,
             'permanent_city_id' => $this->permanent_city_id ?? null,
@@ -86,5 +90,21 @@ class ProfileResource extends JsonResource
         }
 
         return $profile;
+    }
+
+    private function processIdDocMedia(MediaCollection $collection = null): array
+    {
+        $entries = [];
+
+        if ($entries != null) {
+            $collection->each(function (Media $media) use (&$entries) {
+                $entries[] = [
+                    'side' => $media->getCustomProperty('side'),
+                    'type' => $media->getCustomProperty('type'),
+                    'url' => $media->getFullUrl()
+                ];
+            });
+        }
+        return $entries;
     }
 }

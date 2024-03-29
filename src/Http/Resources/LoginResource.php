@@ -96,6 +96,7 @@ class LoginResource extends JsonResource
             'balances' => ($this->userAccounts)
                 ? $this->userAccounts->pluck('user_account_data')->toArray()
                 : [],
+            'last_logged_at' => $this->created_at,
             'email_verified_at' => $this->email_verified_at,
             'mobile_verified_at' => $this->mobile_verified_at,
             'created_at' => $this->created_at,

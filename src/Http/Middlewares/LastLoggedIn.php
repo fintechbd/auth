@@ -8,7 +8,6 @@ use Symfony\Component\HttpFoundation\Response;
 
 class LastLoggedIn
 {
-
     /**
      * Handle an incoming request.
      *

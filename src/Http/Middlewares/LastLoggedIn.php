@@ -3,8 +3,7 @@
 namespace Fintech\Auth\Http\Middlewares;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Symfony\Component\HttpFoundation\Response;
+
 
 class LastLoggedIn
 {
@@ -27,7 +26,7 @@ class LastLoggedIn
      */
     public function terminate(Request $request, $response): void
     {
-        $user = Auth::user();
+        $user = $request->user('sanctum');
 
         \Fintech\Auth\Facades\Auth::user()->updateRaw($user->getKey(), ['logged_in_at' => now()]);
     }

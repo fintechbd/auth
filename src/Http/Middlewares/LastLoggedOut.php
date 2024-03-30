@@ -4,7 +4,6 @@ namespace Fintech\Auth\Http\Middlewares;
 
 use Closure;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 
 class LastLoggedOut
 {
@@ -15,7 +14,7 @@ class LastLoggedOut
      */
     public function handle(Request $request, Closure $next)
     {
-        $user = Auth::user();
+        $user = $request->user('sanctum');
 
         \Fintech\Auth\Facades\Auth::user()->updateRaw($user->getKey(), ['logged_out_at' => now()]);
 

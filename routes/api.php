@@ -32,11 +32,12 @@ if (Config::get('fintech.auth.enabled')) {
             ->name('register');
 
         Route::post('/login', [AuthenticatedController::class, 'login'])
-            ->middleware('guest')
+            ->middleware(['guest', 'logged_in_at'])
             ->name('login');
 
         Route::post('/logout', [AuthenticatedController::class, 'logout'])
             ->middleware(config('fintech.auth.middleware'))
+            ->middleware('logged_out_at')
             ->name('logout');
 
         if (config('fintech.auth.self_password_reset')) {

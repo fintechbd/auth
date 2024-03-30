@@ -3,6 +3,8 @@
 namespace Fintech\Auth;
 
 use Fintech\Auth\Http\Middlewares\IpAddressVerified;
+use Fintech\Auth\Http\Middlewares\LastLoggedIn;
+use Fintech\Auth\Http\Middlewares\LastLoggedOut;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
 use Illuminate\Http\Request;
@@ -30,6 +32,8 @@ class RouteServiceProvider extends ServiceProvider
         });
 
         Route::middlewareGroup('ip_verified', [IpAddressVerified::class]);
+        Route::middlewareGroup('logged_in_at', [LastLoggedIn::class]);
+        Route::middlewareGroup('logged_out_at', [LastLoggedOut::class]);
     }
 
     /**

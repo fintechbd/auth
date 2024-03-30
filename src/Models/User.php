@@ -42,7 +42,14 @@ class User extends Authenticatable implements HasMedia
 
     protected $guarded = ['id'];
 
-    protected $casts = ['restored_at' => 'datetime', 'email_verified_at' => 'datetime', 'mobile_verified_at' => 'datetime', 'wrong_password' => 'integer',];
+    protected $casts = [
+        'restored_at' => 'datetime',
+        'email_verified_at' => 'datetime',
+        'mobile_verified_at' => 'datetime',
+        'logged_in_at' => 'datetime',
+        'logged_out_at' => 'datetime',
+        'wrong_password' => 'integer',
+        ];
 
     protected $attributes = [
         'wrong_password' => 0,

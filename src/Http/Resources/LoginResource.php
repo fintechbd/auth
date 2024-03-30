@@ -32,6 +32,7 @@ use stdClass;
  * @property-read Carbon $mobile_verified_at
  * @property-read Carbon $created_at
  * @property-read Carbon $updated_at
+ * @property-read Carbon $logged_in_at
  * @method Collection getAllPermissions()
  * @method Collection getFirstMediaUrl(string $collection)
  * @method NewAccessToken createToken(string $origin)
@@ -96,7 +97,7 @@ class LoginResource extends JsonResource
             'balances' => ($this->userAccounts)
                 ? $this->userAccounts->pluck('user_account_data')->toArray()
                 : [],
-            'last_logged_at' => $this->created_at,
+            'last_logged_at' => $this->logged_in_at,
             'email_verified_at' => $this->email_verified_at,
             'mobile_verified_at' => $this->mobile_verified_at,
             'created_at' => $this->created_at,

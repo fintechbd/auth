@@ -7,7 +7,6 @@ use Illuminate\Http\Request;
 
 class LastLoggedIn
 {
-
     /**
      * Handle an incoming request.
      *

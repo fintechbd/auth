@@ -4,7 +4,6 @@ namespace Fintech\Auth\Http\Middlewares;
 
 use Illuminate\Http\Request;
 
-
 class LastLoggedIn
 {
     /**

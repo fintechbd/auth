@@ -25,8 +25,12 @@ class LastLoggedIn
      */
     public function terminate(Request $request, $response): void
     {
-        $user = $request->user('sanctum');
+        $user = \Illuminate\Support\Facades\Auth::guard('sanctum')->user();
 
-        \Fintech\Auth\Facades\Auth::user()->updateRaw($user->getKey(), ['logged_in_at' => now()]);
+        logger("Logged In User", [$user]);
+
+        if ($user) {
+            \Fintech\Auth\Facades\Auth::user()->updateRaw($user->getKey(), ['logged_in_at' => now()]);
+        }
     }
 }

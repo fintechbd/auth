@@ -14,9 +14,13 @@ class LastLoggedOut
      */
     public function handle(Request $request, Closure $next)
     {
-        $user = $request->user('sanctum');
+        $user = \Illuminate\Support\Facades\Auth::guard('sanctum')->user();
 
-        \Fintech\Auth\Facades\Auth::user()->updateRaw($user->getKey(), ['logged_out_at' => now()]);
+        logger("Logged Out User", [$user]);
+
+        if ($user) {
+            \Fintech\Auth\Facades\Auth::user()->updateRaw($user->getKey(), ['logged_out_at' => now()]);
+        }
 
         return $next($request);
     }

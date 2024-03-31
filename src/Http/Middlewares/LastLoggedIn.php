@@ -3,6 +3,7 @@
 namespace Fintech\Auth\Http\Middlewares;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class LastLoggedIn
 {
@@ -24,9 +25,7 @@ class LastLoggedIn
      */
     public function terminate(Request $request, $response): void
     {
-        $user = \Illuminate\Support\Facades\Auth::guard('sanctum')->user();
-
-        logger("Logged In User", [$user]);
+        $user = \Illuminate\Support\Facades\Auth::user();
 
         if ($user) {
             \Fintech\Auth\Facades\Auth::user()->updateRaw($user->getKey(), ['logged_in_at' => now()]);

@@ -17,7 +17,7 @@ class OneTimePin extends BaseModel
     protected $primaryKey = 'email';
 
     protected $keyType = 'string';
-    protected $fillable = ['email', 'token'];
+    protected $fillable = ['email', 'token', 'channel'];
 
     /*
     |--------------------------------------------------------------------------

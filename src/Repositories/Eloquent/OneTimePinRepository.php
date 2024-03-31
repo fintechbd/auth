@@ -42,7 +42,16 @@ class OneTimePinRepository implements InterfacesOneTimePinRepository
 
             $this->deleteExpired($authField);
 
-            $this->model->fill(['email' => $authField, 'token' => $token]);
+            //determine channel
+            if (filter_var($authField, FILTER_VALIDATE_EMAIL) !== false) {
+                $channel = 'mail';
+            } elseif (strlen($authField) >= 10) {
+                $channel = 'sms';
+            } else {
+                $channel = 'user';
+            }
+
+            $this->model->fill(['channel' => $channel, 'email' => $authField, 'token' => $token]);
 
             if ($this->model->save()) {
                 return $this->model;

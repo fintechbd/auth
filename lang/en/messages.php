@@ -35,8 +35,8 @@ return [
         ]
     ],
     'verify' => [
-        'link' => 'We have send you a password reset link. Please follow that instruction to proceed.',
-        'otp' => 'We have send you a verification code. Please verify your account with given code.',
+        'link' => 'We have send you a password reset link on :channel. Please follow that instruction to proceed.',
+        'otp' => 'We have send you a verification code on :channel. Please verify your account with given code.',
         'failed' => 'There is a error while processing your request. Please try again later',
         'invalid' => 'The verification link token is invalid. Please try again later.',
         'expired' => 'The verification token has expired. Please try again later.',

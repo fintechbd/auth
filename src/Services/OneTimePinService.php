@@ -40,8 +40,7 @@ class OneTimePinService
 
         $token = (string)mt_rand($min, $max);
 
-        //$channel = (filter_var($authField, FILTER_VALIDATE_EMAIL) !== false) ? 'mail' : '';
-        $channel = 'mail';
+        $channel = (filter_var($authField, FILTER_VALIDATE_EMAIL) !== false) ? 'mail' : 'sms';
 
         $notification_data = [
             'method' => $this->otpMethod,
@@ -53,7 +52,7 @@ class OneTimePinService
 
             Notification::route($channel, $authField)->notify(new OTPNotification($notification_data));
 
-            return ['status' => true, 'message' => __('auth::messages.verify.' . $this->otpMethod)];
+            return ['status' => true, 'message' => __('auth::messages.verify.' . $this->otpMethod, ['channel' => $channel])];
         }
 
         return ['status' => false, 'message' => __('auth::messages.verify.failed')];
@@ -62,7 +61,7 @@ class OneTimePinService
     /**
      * @param string $authField
      */
-    public function delete(string $authField)
+    public function delete(string $authField): void
     {
         $this->oneTimePinRepository->delete($authField);
     }

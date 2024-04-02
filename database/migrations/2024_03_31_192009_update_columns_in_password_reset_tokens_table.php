@@ -21,7 +21,7 @@ return new class () extends Migration {
     public function down(): void
     {
         Schema::table('password_reset_tokens', function (Blueprint $table) {
-            $table->string('channel')->default('email');
+            $table->dropColumn('channel');
         });
     }
 };

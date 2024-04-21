@@ -4,10 +4,13 @@ namespace Fintech\Auth;
 
 use Fintech\Auth\Commands\AuthCommand;
 use Fintech\Auth\Commands\InstallCommand;
+use Fintech\Core\Traits\RegisterPackageTrait;
 use Illuminate\Support\ServiceProvider;
 
 class AuthServiceProvider extends ServiceProvider
 {
+    use RegisterPackageTrait;
+
     /**
      * Register any application services.
      *
@@ -15,6 +18,8 @@ class AuthServiceProvider extends ServiceProvider
      */
     public function register()
     {
+        $this->packageCode = 'auth';
+
         $this->mergeConfigFrom(
             __DIR__ . '/../config/auth.php',
             'fintech.auth'
@@ -29,6 +34,8 @@ class AuthServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        $this->injectOnConfig();
+
         $this->publishes([
             __DIR__ . '/../config/audit.php' => config_path('audit.php'),
             __DIR__ . '/../config/auth.php' => config_path('fintech/auth.php'),

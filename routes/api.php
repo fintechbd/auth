@@ -6,7 +6,6 @@ use Fintech\Auth\Http\Controllers\FavouriteController;
 use Fintech\Auth\Http\Controllers\OneTimePinController;
 use Fintech\Auth\Http\Controllers\PasswordResetController;
 use Fintech\Auth\Http\Controllers\PermissionController;
-use Fintech\Auth\Http\Controllers\ProofOfAddressDropDownController;
 use Fintech\Auth\Http\Controllers\RegisterController;
 use Fintech\Auth\Http\Controllers\RoleController;
 use Fintech\Auth\Http\Controllers\RolePermissionController;

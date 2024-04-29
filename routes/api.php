@@ -93,6 +93,5 @@ if (Config::get('fintech.auth.enabled')) {
         //        Route::get('teams', [\Fintech\Auth\Http\Controllers\TeamController::class, 'dropdown'])->name('teams.dropdown');
         Route::get('users', [UserController::class, 'dropdown'])->name('users.dropdown');
         Route::get('user-statuses', [UserController::class, 'statusDropdown'])->name('user-statuses.dropdown');
-        Route::get('proof-of-addresses', ProofOfAddressDropDownController::class)->name('user-proof-of-address.dropdown');
     });
 }

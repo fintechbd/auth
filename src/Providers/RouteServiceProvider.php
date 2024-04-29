@@ -1,6 +1,6 @@
 <?php
 
-namespace Fintech\Auth;
+namespace Fintech\Auth\Providers;
 
 use Fintech\Auth\Http\Middlewares\IpAddressVerified;
 use Fintech\Auth\Http\Middlewares\LastLoggedIn;

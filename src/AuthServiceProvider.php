@@ -25,8 +25,9 @@ class AuthServiceProvider extends ServiceProvider
             'fintech.auth'
         );
 
-        $this->app->register(RouteServiceProvider::class);
-        $this->app->register(RepositoryServiceProvider::class);
+        $this->app->register(\Fintech\Auth\Providers\EventServiceProvider::class);
+        $this->app->register(\Fintech\Auth\Providers\RouteServiceProvider::class);
+        $this->app->register(\Fintech\Auth\Providers\RepositoryServiceProvider::class);
     }
 
     /**

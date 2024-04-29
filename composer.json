@@ -62,8 +62,7 @@
     "extra": {
         "laravel": {
             "providers": [
-                "Fintech\\Auth\\AuthServiceProvider",
-                "Fintech\\Auth\\EventServiceProvider"
+                "Fintech\\Auth\\AuthServiceProvider"
             ],
             "aliases": {
                 "Auth": "Fintech\\Auth\\Facades\\Auth"

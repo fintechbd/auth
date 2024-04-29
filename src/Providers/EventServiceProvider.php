@@ -1,6 +1,6 @@
 <?php
 
-namespace Fintech\Auth;
+namespace Fintech\Auth\Providers;
 
 use Fintech\Auth\Events\AccountFreezed;
 use Fintech\Auth\Events\AddToFavouriteAccepted;

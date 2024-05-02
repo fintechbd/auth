@@ -30,7 +30,7 @@ class OneTimePinController extends Controller
         $targetField = $request->has('mobile')
             ? 'mobile' :
             (
-                $request->has('email')
+            $request->has('email')
                 ? 'email' :
                 ($request->has('user') ? 'user' : null)
             );
@@ -49,7 +49,9 @@ class OneTimePinController extends Controller
                 throw new Exception($response['message']);
             }
 
-            return $this->success($response['message']);
+            unset($response['status']);
+
+            return $this->success($response);
 
         } catch (Exception $exception) {
             return $this->failed($exception->getMessage());

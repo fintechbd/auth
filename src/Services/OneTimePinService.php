@@ -31,7 +31,7 @@ class OneTimePinService
      * @return array
      * @throws Exception
      */
-    public function create(string $authField)
+    public function create(string $authField): array
     {
         $this->delete($authField);
 
@@ -48,14 +48,26 @@ class OneTimePinService
             'value' => $token
         ];
 
-        if ($this->oneTimePinRepository->create($authField, $token)) {
+        if ($otp = $this->oneTimePinRepository->create($authField, $token)) {
 
             Notification::route($channel, $authField)->notify(new OTPNotification($notification_data));
 
-            return ['status' => true, 'message' => __('auth::messages.verify.' . $this->otpMethod, ['channel' => $channel])];
+            $response = [
+                'status' => true,
+                'message' => __('auth::messages.verify.' . $this->otpMethod, ['channel' => $channel]),
+            ];
+
+            if (!app()->isProduction()) {
+                $response['otp'] = $otp->token ?? null;
+            }
+
+            return $response;
         }
 
-        return ['status' => false, 'message' => __('auth::messages.verify.failed')];
+        return [
+            'status' => false,
+            'message' => __('auth::messages.verify.failed')
+        ];
     }
 
     /**

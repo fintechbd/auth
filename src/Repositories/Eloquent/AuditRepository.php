@@ -55,7 +55,7 @@ class AuditRepository extends EloquentRepository implements InterfacesAuditRepos
     /**
      * @throws ErrorException
      */
-    public function create(array $attributes = []):mixed
+    public function create(array $attributes = []): mixed
     {
         throw new ErrorException(__('auth::message.audit.create'));
     }

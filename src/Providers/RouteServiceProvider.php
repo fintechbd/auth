@@ -2,9 +2,6 @@
 
 namespace Fintech\Auth\Providers;
 
-use Fintech\Auth\Http\Middlewares\IpAddressVerified;
-use Fintech\Auth\Http\Middlewares\LastLoggedIn;
-use Fintech\Auth\Http\Middlewares\LastLoggedOut;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
 use Illuminate\Http\Request;

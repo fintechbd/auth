@@ -1,6 +1,6 @@
 <?php
 
-namespace Fintech\Auth\Http\Middlewares;
+namespace Fintech\Auth\Middlewares;
 
 use Closure;
 use Illuminate\Contracts\Auth\MustVerifyEmail;

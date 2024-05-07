@@ -3,9 +3,9 @@
 namespace Fintech\Auth;
 
 use Fintech\Auth\Commands\InstallCommand;
-use Fintech\Auth\Http\Middlewares\IpAddressVerified;
-use Fintech\Auth\Http\Middlewares\LastLoggedIn;
-use Fintech\Auth\Http\Middlewares\LastLoggedOut;
+use Fintech\Auth\Middlewares\IpAddressVerified;
+use Fintech\Auth\Middlewares\LastLoggedIn;
+use Fintech\Auth\Middlewares\LastLoggedOut;
 use Fintech\Core\Traits\RegisterPackageTrait;
 use Illuminate\Routing\Router;
 use Illuminate\Support\ServiceProvider;

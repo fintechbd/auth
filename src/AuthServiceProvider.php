@@ -2,9 +2,12 @@
 
 namespace Fintech\Auth;
 
-use Fintech\Auth\Commands\AuthCommand;
 use Fintech\Auth\Commands\InstallCommand;
+use Fintech\Auth\Http\Middlewares\IpAddressVerified;
+use Fintech\Auth\Http\Middlewares\LastLoggedIn;
+use Fintech\Auth\Http\Middlewares\LastLoggedOut;
 use Fintech\Core\Traits\RegisterPackageTrait;
+use Illuminate\Routing\Router;
 use Illuminate\Support\ServiceProvider;
 
 class AuthServiceProvider extends ServiceProvider
@@ -26,7 +29,6 @@ class AuthServiceProvider extends ServiceProvider
         );
 
         $this->app->register(\Fintech\Auth\Providers\EventServiceProvider::class);
-        $this->app->register(\Fintech\Auth\Providers\RouteServiceProvider::class);
         $this->app->register(\Fintech\Auth\Providers\RepositoryServiceProvider::class);
     }
 
@@ -63,9 +65,15 @@ class AuthServiceProvider extends ServiceProvider
 
         if ($this->app->runningInConsole()) {
             $this->commands([
-                InstallCommand::class,
-                AuthCommand::class,
+                InstallCommand::class
             ]);
         }
+
+        $this->app->afterResolving('router', function (Router $router) {
+            $router->middlewareGroup('ip_verified', [IpAddressVerified::class])
+                ->middlewareGroup('logged_in_at', [LastLoggedIn::class])
+                ->middlewareGroup('logged_out_at', [LastLoggedOut::class]);
+        });
+
     }
 }

@@ -31,9 +31,6 @@ class RouteServiceProvider extends ServiceProvider
                 ->group(__DIR__ . '/../../routes/api.php');
         });
 
-        $this->middlewareGroup('ip_verified', [IpAddressVerified::class])
-            ->middlewareGroup('logged_in_at', [LastLoggedIn::class])
-            ->middlewareGroup('logged_out_at', [LastLoggedOut::class]);
     }
 
     /**

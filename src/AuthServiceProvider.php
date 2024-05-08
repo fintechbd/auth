@@ -34,8 +34,9 @@ class AuthServiceProvider extends ServiceProvider
 
     /**
      * Bootstrap any package services.
+     * @param \Illuminate\Routing\Router $router
      */
-    public function boot(): void
+    public function boot(Router $router): void
     {
         $this->injectOnConfig();
 
@@ -69,11 +70,8 @@ class AuthServiceProvider extends ServiceProvider
             ]);
         }
 
-        $this->app->afterResolving('router', function (Router $router) {
-            $router->middlewareGroup('ip_verified', [IpAddressVerified::class])
-                ->middlewareGroup('logged_in_at', [LastLoggedIn::class])
-                ->middlewareGroup('logged_out_at', [LastLoggedOut::class]);
-        });
-
+        $router->middlewareGroup('ip_verified', [IpAddressVerified::class])
+            ->middlewareGroup('logged_in_at', [LastLoggedIn::class])
+            ->middlewareGroup('logged_out_at', [LastLoggedOut::class]);
     }
 }

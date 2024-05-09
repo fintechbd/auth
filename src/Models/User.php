@@ -49,7 +49,7 @@ class User extends Authenticatable implements HasMedia
         'logged_in_at' => 'datetime',
         'logged_out_at' => 'datetime',
         'wrong_password' => 'integer',
-        ];
+    ];
 
     protected $attributes = [
         'wrong_password' => 0,

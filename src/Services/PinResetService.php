@@ -7,6 +7,7 @@ use Fintech\Auth\Interfaces\OneTimePinRepository;
 use Fintech\Auth\Interfaces\UserRepository;
 use Fintech\Auth\Notifications\PinResetNotification;
 use Fintech\Core\Enums\Auth\PasswordResetOption;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
@@ -36,7 +37,8 @@ class PinResetService
     public function __construct(
         private readonly OneTimePinRepository $oneTimePinRepository,
         private readonly UserRepository       $userRepository
-    ) {
+    )
+    {
         $this->pinField = config('fintech.auth.pin_field', 'pin');
 
         $this->resetMethod = config('fintech.auth.password_reset_method', PasswordResetOption::ResetLink->value);
@@ -186,7 +188,7 @@ class PinResetService
 
     /**
      * @param string $token
-     * @return \Illuminate\Database\Eloquent\Model|null
+     * @return Model|null
      * @throws Exception
      */
     public function verifyToken(string $token)

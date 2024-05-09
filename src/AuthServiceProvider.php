@@ -6,6 +6,8 @@ use Fintech\Auth\Commands\InstallCommand;
 use Fintech\Auth\Middlewares\IpAddressVerified;
 use Fintech\Auth\Middlewares\LastLoggedIn;
 use Fintech\Auth\Middlewares\LastLoggedOut;
+use Fintech\Auth\Providers\EventServiceProvider;
+use Fintech\Auth\Providers\RepositoryServiceProvider;
 use Fintech\Core\Traits\RegisterPackageTrait;
 use Illuminate\Routing\Router;
 use Illuminate\Support\ServiceProvider;
@@ -28,13 +30,13 @@ class AuthServiceProvider extends ServiceProvider
             'fintech.auth'
         );
 
-        $this->app->register(\Fintech\Auth\Providers\EventServiceProvider::class);
-        $this->app->register(\Fintech\Auth\Providers\RepositoryServiceProvider::class);
+        $this->app->register(EventServiceProvider::class);
+        $this->app->register(RepositoryServiceProvider::class);
     }
 
     /**
      * Bootstrap any package services.
-     * @param \Illuminate\Routing\Router $router
+     * @param Router $router
      */
     public function boot(Router $router): void
     {

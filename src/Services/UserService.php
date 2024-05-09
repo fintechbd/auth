@@ -30,83 +30,14 @@ class UserService
     public function __construct(
         private readonly UserRepository    $userRepository,
         private readonly ProfileRepository $profileRepository
-    ) {
+    )
+    {
 
     }
 
     public function find($id, $onlyTrashed = false)
     {
         return $this->userRepository->find($id, $onlyTrashed);
-    }
-
-    public function updateRaw($id, array $inputs = [])
-    {
-        DB::beginTransaction();
-
-        try {
-
-            if ($user = $this->userRepository->update($id, $inputs)) {
-
-                DB::commit();
-
-                return $user;
-            }
-
-            return null;
-
-        } catch (Exception $exception) {
-            DB::rollBack();
-            throw new PDOException($exception->getMessage(), 0, $exception);
-        }
-    }
-
-    public function update($id, array $inputs = [])
-    {
-        DB::beginTransaction();
-
-        try {
-            $userData = $this->formatDataFromInput($inputs);
-
-            if ($user = $this->userRepository->update($id, $userData)) {
-
-                DB::commit();
-
-                return $user;
-            }
-
-            return null;
-
-        } catch (Exception $exception) {
-            DB::rollBack();
-            throw new PDOException($exception->getMessage(), 0, $exception);
-        }
-    }
-
-    private function formatDataFromInput($inputs, bool $forCreate = false)
-    {
-        $data = $inputs;
-
-        if ($forCreate) {
-            $data['password'] = Hash::make(($inputs['password'] ?? config('fintech.auth.default_password', '123456')));
-            $data['pin'] = Hash::make(($inputs['pin'] ?? config('fintech.auth.default_pin', '123456')));
-        } else {
-            if (!empty($data['password'])) {
-                $data['password'] = Hash::make($data['password']);
-            } else {
-                unset($data['password']);
-            }
-            if (!empty($data['pin'])) {
-                $data['pin'] = Hash::make($data['pin']);
-            } else {
-                unset($data['pin']);
-            }
-        }
-
-        $data['roles'] = $inputs['roles'] ?? config('fintech.auth.customer_roles', []);
-
-        $data['status'] = $data['status'] ?? UserStatus::Registered->value;
-
-        return $data;
     }
 
     public function destroy($id)
@@ -159,6 +90,33 @@ class UserService
             DB::rollBack();
             throw new PDOException($exception->getMessage(), 0, $exception);
         }
+    }
+
+    private function formatDataFromInput($inputs, bool $forCreate = false)
+    {
+        $data = $inputs;
+
+        if ($forCreate) {
+            $data['password'] = Hash::make(($inputs['password'] ?? config('fintech.auth.default_password', '123456')));
+            $data['pin'] = Hash::make(($inputs['pin'] ?? config('fintech.auth.default_pin', '123456')));
+        } else {
+            if (!empty($data['password'])) {
+                $data['password'] = Hash::make($data['password']);
+            } else {
+                unset($data['password']);
+            }
+            if (!empty($data['pin'])) {
+                $data['pin'] = Hash::make($data['pin']);
+            } else {
+                unset($data['pin']);
+            }
+        }
+
+        $data['roles'] = $inputs['roles'] ?? config('fintech.auth.customer_roles', []);
+
+        $data['status'] = $data['status'] ?? UserStatus::Registered->value;
+
+        return $data;
     }
 
     public function reset($user, $field)
@@ -258,10 +216,53 @@ class UserService
 
         \Illuminate\Support\Facades\Auth::guard($guard)->login($attemptUser);
 
-        $attemptUser->tokens->each(fn ($token) => $token->delete());
+        $attemptUser->tokens->each(fn($token) => $token->delete());
 
         return $attemptUser;
 
+    }
+
+    public function update($id, array $inputs = [])
+    {
+        DB::beginTransaction();
+
+        try {
+            $userData = $this->formatDataFromInput($inputs);
+
+            if ($user = $this->userRepository->update($id, $userData)) {
+
+                DB::commit();
+
+                return $user;
+            }
+
+            return null;
+
+        } catch (Exception $exception) {
+            DB::rollBack();
+            throw new PDOException($exception->getMessage(), 0, $exception);
+        }
+    }
+
+    public function updateRaw($id, array $inputs = [])
+    {
+        DB::beginTransaction();
+
+        try {
+
+            if ($user = $this->userRepository->update($id, $inputs)) {
+
+                DB::commit();
+
+                return $user;
+            }
+
+            return null;
+
+        } catch (Exception $exception) {
+            DB::rollBack();
+            throw new PDOException($exception->getMessage(), 0, $exception);
+        }
     }
 
     public function logout()

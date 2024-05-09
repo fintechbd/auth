@@ -6,6 +6,7 @@ use Exception;
 use Fintech\Auth\Interfaces\ProfileRepository;
 use Fintech\Core\Enums\Ekyc\KycStatus;
 use Fintech\Core\Facades\Core;
+use Fintech\Ekyc\Facades\Ekyc;
 use Fintech\MetaData\Facades\MetaData;
 use Fintech\MetaData\Models\Country;
 use Fintech\Transaction\Facades\Transaction;
@@ -25,16 +26,8 @@ class ProfileService
      */
     public function __construct(
         private readonly ProfileRepository $profileRepository
-    ) {
-    }
-
-    /**
-     * @param array $filters
-     * @return mixed
-     */
-    public function list(array $filters = [])
+    )
     {
-        return $this->profileRepository->list($filters);
     }
 
     public function create(string|int $user_id, array $inputs = [])
@@ -109,10 +102,10 @@ class ProfileService
 
     private function logKycStatus($user_id, array $data = [])
     {
-        $kycModel = \Fintech\Ekyc\Facades\Ekyc::kycStatus()->list(['reference_no' => $data['reference_no']])->first();
+        $kycModel = Ekyc::kycStatus()->list(['reference_no' => $data['reference_no']])->first();
 
         if ($kycModel) {
-            return \Fintech\Ekyc\Facades\Ekyc::kycStatus()->update($kycModel->getKey(), ['user_id' => $user_id]);
+            return Ekyc::kycStatus()->update($kycModel->getKey(), ['user_id' => $user_id]);
         } else {
             $payload['user_id'] = $user_id;
             $payload['reference_no'] = $data['reference_no'];
@@ -125,7 +118,35 @@ class ProfileService
             //@TODO Parse Response to get status and note.
             $payload['status'] = KycStatus::Accepted->value;
             $payload['note'] = 'This request is done using sdk.';
-            return \Fintech\Ekyc\Facades\Ekyc::kycStatus()->create($payload);
+            return Ekyc::kycStatus()->create($payload);
+        }
+    }
+
+    /**
+     * @param array $filters
+     * @return mixed
+     */
+    public function list(array $filters = [])
+    {
+        return $this->profileRepository->list($filters);
+    }
+
+    public function update(string|int $userId, array $inputs = [])
+    {
+        try {
+            DB::beginTransaction();
+
+            $profileData = $this->formatDataFromInput($inputs);
+
+            $user = $this->profileRepository->update($userId, $profileData);
+
+            DB::commit();
+
+            return $user;
+
+        } catch (Exception $exception) {
+            DB::rollBack();
+            throw new PDOException($exception->getMessage(), 0, $exception);
         }
     }
 
@@ -187,24 +208,5 @@ class ProfileService
         }
 
         return $data;
-    }
-
-    public function update(string|int $userId, array $inputs = [])
-    {
-        try {
-            DB::beginTransaction();
-
-            $profileData = $this->formatDataFromInput($inputs);
-
-            $user = $this->profileRepository->update($userId, $profileData);
-
-            DB::commit();
-
-            return $user;
-
-        } catch (Exception $exception) {
-            DB::rollBack();
-            throw new PDOException($exception->getMessage(), 0, $exception);
-        }
     }
 }

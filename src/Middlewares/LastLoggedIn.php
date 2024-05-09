@@ -2,16 +2,19 @@
 
 namespace Fintech\Auth\Middlewares;
 
+use Closure;
+use Fintech\Auth\Facades\Auth;
 use Illuminate\Http\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 class LastLoggedIn
 {
     /**
      * Handle an incoming request.
      *
-     * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
+     * @param Closure(Request): (Response) $next
      */
-    public function handle(Request $request, \Closure $next)
+    public function handle(Request $request, Closure $next)
     {
         return $next($request);
     }
@@ -27,7 +30,7 @@ class LastLoggedIn
         $user = \Illuminate\Support\Facades\Auth::user();
 
         if ($user) {
-            \Fintech\Auth\Facades\Auth::user()->updateRaw($user->getKey(), ['logged_in_at' => now()]);
+            Auth::user()->updateRaw($user->getKey(), ['logged_in_at' => now()]);
         }
     }
 }

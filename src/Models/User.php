@@ -149,10 +149,10 @@ class User extends Authenticatable implements HasMedia
         $primaryKey = $this->getKey();
 
         $links = [
-            'show' => action_link(route('auth.users.show', $primaryKey), __('core::messages.action.show'), 'get'),
-            'update' => action_link(route('auth.users.update', $primaryKey), __('core::messages.action.update'), 'put'),
-            'destroy' => action_link(route('auth.users.destroy', $primaryKey), __('core::messages.action.destroy'), 'delete'),
-            'restore' => action_link(route('auth.users.restore', $primaryKey), __('core::messages.action.restore'), 'post'),
+            'show' => action_link(route('auth.users.show', $primaryKey), __('restapi::messages.action.show'), 'get'),
+            'update' => action_link(route('auth.users.update', $primaryKey), __('restapi::messages.action.update'), 'put'),
+            'destroy' => action_link(route('auth.users.destroy', $primaryKey), __('restapi::messages.action.destroy'), 'delete'),
+            'restore' => action_link(route('auth.users.restore', $primaryKey), __('restapi::messages.action.restore'), 'post'),
             'reset-pin' => action_link(route('auth.users.reset-password-pin', [$primaryKey, 'pin']), __('auth::messages.reset.button.pin'), 'post'),
             'reset-password' => action_link(route('auth.users.reset-password-pin', [$primaryKey, 'password']), __('auth::messages.reset.button.password'), 'post'),
             'reset-both' => action_link(route('auth.users.reset-password-pin', [$primaryKey, 'both']), __('auth::messages.reset.button.both'), 'post'),

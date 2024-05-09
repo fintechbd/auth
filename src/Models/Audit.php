@@ -48,8 +48,8 @@ class Audit extends \OwenIt\Auditing\Models\Audit
         $primaryKey = $this->getKey();
 
         return [
-            'show' => action_link(route('auth.audits.show', $primaryKey), __('core::messages.action.show'), 'get'),
-            'destroy' => action_link(route('auth.audits.destroy', $primaryKey), __('core::messages.action.destroy'), 'delete'),
+            'show' => action_link(route('auth.audits.show', $primaryKey), __('restapi::messages.action.show'), 'get'),
+            'destroy' => action_link(route('auth.audits.destroy', $primaryKey), __('restapi::messages.action.destroy'), 'delete'),
         ];
     }
 

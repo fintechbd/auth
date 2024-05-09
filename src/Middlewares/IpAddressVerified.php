@@ -3,7 +3,7 @@
 namespace Fintech\Auth\Middlewares;
 
 use Closure;
-use Fintech\Core\Traits\ApiResponseTrait;
+use Fintech\RestApi\Traits\ApiResponseTrait;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
 use Symfony\Component\HttpFoundation\Response;

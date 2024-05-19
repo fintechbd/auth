@@ -53,7 +53,6 @@ return [
     'password_reset_method' => 'otp',
     'temporary_password_length' => 8,
 
-
     /*
     |--------------------------------------------------------------------------
     | Permission Model
@@ -72,6 +71,7 @@ return [
     */
     'role_model' => Role::class,
     'customer_roles' => [],
+
     /*
     |--------------------------------------------------------------------------
     | Team Model
@@ -89,6 +89,7 @@ return [
     | This value will be used to across system where model is needed
     */
     'user_model' => User::class,
+
     /*
     |--------------------------------------------------------------------------
     | User Fallback Image Path
@@ -128,7 +129,6 @@ return [
     */
     'audit_model' => Audit::class,
 
-
     /*
     |--------------------------------------------------------------------------
     | Favourite Model
@@ -159,11 +159,11 @@ return [
     | This value will be used to across system where model is needed
     | Example: login_id, email, mobile
     */
-
     'pin_field' => 'pin',
     'pin_field_rules' => ['required', 'string', 'min:6'],
     'default_pin' => '123456',
     'temporary_pin_length' => 5,
+
     /*
     |--------------------------------------------------------------------------
     | Password Validation
@@ -172,10 +172,10 @@ return [
     | This value will be used to across system where model is needed
     | Example: login_id, email, mobile
     */
-
     'password_field' => 'password',
     'password_field_rules' => ['string', 'min:8'],
     'default_password' => '12345678',
+
     /*
     |--------------------------------------------------------------------------
     | Login Validation
@@ -253,9 +253,7 @@ return [
     |
     | This value will be used to across system where model is needed
     */
-
     'frontend_login_url' => env('FRONTEND_LOGIN_URL', env('APP_URL', '')),
-
     'frontend_reset_url' => env('FRONTEND_RESET_URL', env('APP_URL', '')),
 
     /*

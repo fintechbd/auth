@@ -138,7 +138,7 @@ return [
     */
     'favourite_model' => Favourite::class,
 
-    
+
     /*
     |--------------------------------------------------------------------------
     | LoginAttempt Model

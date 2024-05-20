@@ -6,8 +6,6 @@ use Fintech\Core\Repositories\EloquentRepository;
 use Fintech\Auth\Interfaces\LoginAttemptRepository as InterfacesLoginAttemptRepository;
 use Illuminate\Contracts\Pagination\Paginator;
 use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Database\Eloquent\Model;
-use InvalidArgumentException;
 
 /**
  * Class LoginAttemptRepository
@@ -17,7 +15,7 @@ class LoginAttemptRepository extends EloquentRepository implements InterfacesLog
 {
     public function __construct()
     {
-       parent::__construct(config('fintech.auth.login_attempt_model', \Fintech\Auth\Models\LoginAttempt::class));
+        parent::__construct(config('fintech.auth.login_attempt_model', \Fintech\Auth\Models\LoginAttempt::class));
     }
 
     /**

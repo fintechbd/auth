@@ -2,7 +2,6 @@
 
 namespace Fintech\Auth\Services;
 
-
 use Fintech\Auth\Interfaces\LoginAttemptRepository;
 
 /**

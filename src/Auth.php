@@ -4,7 +4,6 @@ namespace Fintech\Auth;
 
 use Fintech\Auth\Services\AuditService;
 use Fintech\Auth\Services\FavouriteService;
-use Fintech\Auth\Services\IdDocTypeService;
 use Fintech\Auth\Services\IpAddressService;
 use Fintech\Auth\Services\OneTimePinService;
 use Fintech\Auth\Services\PasswordResetService;
@@ -14,7 +13,6 @@ use Fintech\Auth\Services\ProfileService;
 use Fintech\Auth\Services\RoleService;
 use Fintech\Auth\Services\TeamService;
 use Fintech\Auth\Services\UserService;
-use Illuminate\Contracts\Foundation\Application;
 
 class Auth
 {

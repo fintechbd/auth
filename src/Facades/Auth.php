@@ -27,6 +27,7 @@ use Illuminate\Support\Facades\Facade;
  * @method static AuditService audit()
  * @method static FavouriteService favourite()
  * @method static IpAddressService ipAddress()
+ * @method static \Fintech\Auth\Services\LoginAttemptService loginAttempt()
  * // Crud Service Method Point Do not Remove //
  *
  * @see \Fintech\Auth\Auth

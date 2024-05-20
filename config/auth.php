@@ -138,6 +138,16 @@ return [
     */
     'favourite_model' => Favourite::class,
 
+    
+    /*
+    |--------------------------------------------------------------------------
+    | LoginAttempt Model
+    |--------------------------------------------------------------------------
+    |
+    | This value will be used to across system where model is needed
+    */
+    'login_attempt_model' => \Fintech\Auth\Models\LoginAttempt::class,
+
     //** Model Config Point Do not Remove **//
 
     /*
@@ -288,6 +298,8 @@ return [
         \Fintech\Auth\Interfaces\AuditRepository::class => AuditRepository::class,
 
         \Fintech\Auth\Interfaces\FavouriteRepository::class => FavouriteRepository::class,
+
+        \Fintech\Auth\Interfaces\LoginAttemptRepository::class => \Fintech\Auth\Repositories\Eloquent\LoginAttemptRepository::class,
 
         //** Repository Binding Config Point Do not Remove **//
     ],

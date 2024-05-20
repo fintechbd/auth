@@ -109,7 +109,16 @@ class Auth
         return app(IpAddressService::class);
     }
 
+    /**
+     * @return \Fintech\Auth\Services\LoginAttemptService
+     */
+    public function loginAttempt()
+    {
+        return app(\Fintech\Auth\Services\LoginAttemptService::class);
+    }
+
     //** Crud Service Method Point Do not Remove **//
+
 
 
 }

@@ -30,6 +30,7 @@ return new class () extends Migration {
             $table->double('longitude')->nullable();
 
             $table->string('status')->nullable();
+            $table->mediumText('note')->nullable();
             $table->json('login_attempt_data')->nullable();
 
             $table->foreignId('creator_id')->nullable();

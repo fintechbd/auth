@@ -16,8 +16,8 @@ class LoginAttemptService
      * LoginAttemptService constructor.
      * @param LoginAttemptRepository $loginAttemptRepository
      */
-    public function __construct(LoginAttemptRepository $loginAttemptRepository) {
-        $this->loginAttemptRepository = $loginAttemptRepository;
+    public function __construct(private readonly LoginAttemptRepository $loginAttemptRepository)
+    {
     }
 
     /**
@@ -38,11 +38,6 @@ class LoginAttemptService
     public function find($id, $onlyTrashed = false)
     {
         return $this->loginAttemptRepository->find($id, $onlyTrashed);
-    }
-
-    public function update($id, array $inputs = [])
-    {
-        return $this->loginAttemptRepository->update($id, $inputs);
     }
 
     public function destroy($id)

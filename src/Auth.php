@@ -5,6 +5,7 @@ namespace Fintech\Auth;
 use Fintech\Auth\Services\AuditService;
 use Fintech\Auth\Services\FavouriteService;
 use Fintech\Auth\Services\IpAddressService;
+use Fintech\Auth\Services\LoginAttemptService;
 use Fintech\Auth\Services\OneTimePinService;
 use Fintech\Auth\Services\PasswordResetService;
 use Fintech\Auth\Services\PermissionService;
@@ -110,11 +111,11 @@ class Auth
     }
 
     /**
-     * @return \Fintech\Auth\Services\LoginAttemptService
+     * @return LoginAttemptService
      */
     public function loginAttempt()
     {
-        return app(\Fintech\Auth\Services\LoginAttemptService::class);
+        return app(LoginAttemptService::class);
     }
 
     //** Crud Service Method Point Do not Remove **//

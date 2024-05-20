@@ -5,6 +5,7 @@ namespace Fintech\Auth\Facades;
 use Fintech\Auth\Services\AuditService;
 use Fintech\Auth\Services\FavouriteService;
 use Fintech\Auth\Services\IpAddressService;
+use Fintech\Auth\Services\LoginAttemptService;
 use Fintech\Auth\Services\OneTimePinService;
 use Fintech\Auth\Services\PasswordResetService;
 use Fintech\Auth\Services\PermissionService;
@@ -27,7 +28,7 @@ use Illuminate\Support\Facades\Facade;
  * @method static AuditService audit()
  * @method static FavouriteService favourite()
  * @method static IpAddressService ipAddress()
- * @method static \Fintech\Auth\Services\LoginAttemptService loginAttempt()
+ * @method static LoginAttemptService loginAttempt()
  * // Crud Service Method Point Do not Remove //
  *
  * @see \Fintech\Auth\Auth

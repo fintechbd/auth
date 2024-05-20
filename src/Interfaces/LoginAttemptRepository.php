@@ -31,15 +31,6 @@ interface LoginAttemptRepository
     public function create(array $attributes = []);
 
     /**
-     * find and update a resource attributes
-     *
-     * @param int|string $id
-     * @param array $attributes
-     * @return BaseModel
-     */
-    public function update(int|string $id, array $attributes = []);
-
-    /**
      * find and delete a entry from records
      *
      * @param int|string $id

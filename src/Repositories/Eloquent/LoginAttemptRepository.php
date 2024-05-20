@@ -36,6 +36,15 @@ class LoginAttemptRepository extends EloquentRepository implements InterfacesLog
                 $query->where($this->model->getKeyName(), 'like', "%{$filters['search']}%");
             } else {
                 $query->where('name', 'like', "%{$filters['search']}%");
+                $query->orWhere('ip', 'like', "%{$filters['search']}%");
+                $query->orWhere('mac', 'like', "%{$filters['search']}%");
+                $query->orWhere('platform', 'like', "%{$filters['search']}%");
+                $query->orWhere('agent', 'like', "%{$filters['search']}%");
+                $query->orWhere('address', 'like', "%{$filters['search']}%");
+                $query->orWhere('city', 'like', "%{$filters['search']}%");
+                $query->orWhere('state', 'like', "%{$filters['search']}%");
+                $query->orWhere('country', 'like', "%{$filters['search']}%");
+                $query->orWhere('status', 'like', "%{$filters['search']}%");
                 $query->orWhere('login_attempt_data', 'like', "%{$filters['search']}%");
             }
         }
@@ -43,6 +52,10 @@ class LoginAttemptRepository extends EloquentRepository implements InterfacesLog
         //Display Trashed
         if (isset($filters['trashed']) && $filters['trashed'] === true) {
             $query->onlyTrashed();
+        }
+
+        if (!empty($filters['user_id'])) {
+            $query->where('user_id', '=', $filters['user_id']);
         }
 
         //Handle Sorting

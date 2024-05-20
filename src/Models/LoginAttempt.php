@@ -8,8 +8,8 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class LoginAttempt extends BaseModel
 {
-   use AuditableTrait;
-   use SoftDeletes;
+    use AuditableTrait;
+    use SoftDeletes;
 
     /*
     |--------------------------------------------------------------------------
@@ -23,7 +23,7 @@ class LoginAttempt extends BaseModel
 
     protected $appends = ['links'];
 
-    protected $casts = ['login_attempt_data' => 'array', 'restored_at' => 'datetime', 'enabled' => 'bool'];
+    protected $casts = ['login_attempt_data' => 'array', 'restored_at' => 'datetime'];
 
     protected $hidden = ['creator_id', 'editor_id', 'destroyer_id', 'restorer_id'];
 
@@ -38,6 +38,10 @@ class LoginAttempt extends BaseModel
     | RELATIONS
     |--------------------------------------------------------------------------
     */
+    public function user(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+        return $this->belongsTo(config('fintech.auth.user_model', User::class), 'user_id');
+    }
 
     /*
     |--------------------------------------------------------------------------
@@ -60,7 +64,6 @@ class LoginAttempt extends BaseModel
 
         $links = [
             'show' => action_link(route('auth.login-attempts.show', $primaryKey), __('core::messages.action.show'), 'get'),
-            'update' => action_link(route('auth.login-attempts.update', $primaryKey), __('core::messages.action.update'), 'put'),
             'destroy' => action_link(route('auth.login-attempts.destroy', $primaryKey), __('core::messages.action.destroy'), 'delete'),
             'restore' => action_link(route('auth.login-attempts.restore', $primaryKey), __('core::messages.action.restore'), 'post'),
         ];

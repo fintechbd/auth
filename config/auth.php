@@ -11,6 +11,7 @@ use Fintech\Auth\Models\Team;
 use Fintech\Auth\Models\User;
 use Fintech\Auth\Repositories\Eloquent\AuditRepository;
 use Fintech\Auth\Repositories\Eloquent\FavouriteRepository;
+use Fintech\Auth\Repositories\Eloquent\LoginAttemptRepository;
 use Fintech\Auth\Repositories\Eloquent\OneTimePinRepository;
 use Fintech\Auth\Repositories\Eloquent\PermissionRepository;
 use Fintech\Auth\Repositories\Eloquent\ProfileRepository;
@@ -299,7 +300,7 @@ return [
 
         \Fintech\Auth\Interfaces\FavouriteRepository::class => FavouriteRepository::class,
 
-        \Fintech\Auth\Interfaces\LoginAttemptRepository::class => \Fintech\Auth\Repositories\Eloquent\LoginAttemptRepository::class,
+        \Fintech\Auth\Interfaces\LoginAttemptRepository::class => LoginAttemptRepository::class,
 
         //** Repository Binding Config Point Do not Remove **//
     ],

@@ -11,7 +11,7 @@ use Throwable;
 class AuthException extends Exception
 {
     /**
-     * CoreException constructor.
+     * AuthException constructor.
      *
      * @param string $message
      * @param int $code

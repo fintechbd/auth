@@ -4,6 +4,9 @@ namespace Fintech\Auth\Services;
 
 use Exception;
 use Fintech\Auth\Events\AccountFreezed;
+use Fintech\Auth\Events\LoggedIn;
+use Fintech\Auth\Exceptions\AccessForbiddenException;
+use Fintech\Auth\Exceptions\AccountFreezeException;
 use Fintech\Auth\Facades\Auth;
 use Fintech\Auth\Interfaces\ProfileRepository;
 use Fintech\Auth\Interfaces\UserRepository;
@@ -195,7 +198,7 @@ class UserService
 
             event(new AccountFreezed($attemptUser));
 
-            throw new Exception(__('auth::messages.lockup'));
+            throw new AccountFreezeException(__('auth::messages.lockup'));
         }
 
 
@@ -216,6 +219,15 @@ class UserService
         \Illuminate\Support\Facades\Auth::guard($guard)->login($attemptUser);
 
         $attemptUser->tokens->each(fn ($token) => $token->delete());
+
+        if (!$attemptUser->can('auth.login')) {
+
+            \Illuminate\Support\Facades\Auth::guard($guard)->logout();
+
+            throw new AccessForbiddenException(__('auth::messages.forbidden', ['permission' => permission_format('auth.login', 'auth')]));
+        }
+
+        event(new LoggedIn($attemptUser));
 
         return $attemptUser;
 

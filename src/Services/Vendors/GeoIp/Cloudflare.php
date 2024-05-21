@@ -6,7 +6,6 @@ use Fintech\Auth\Interfaces\GeoIp;
 
 class Cloudflare implements GeoIp
 {
-
     /**
      * return a response of driver location information
      * from ip address

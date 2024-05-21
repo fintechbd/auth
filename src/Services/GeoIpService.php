@@ -3,7 +3,6 @@
 namespace Fintech\Auth\Services;
 
 use Fintech\Auth\Interfaces\GeoIp;
-use Illuminate\Contracts\Container\BindingResolutionException;
 
 /**
  * Class GeoIpService

@@ -16,13 +16,21 @@ class IpApi implements GeoIp
      */
     public function __construct(array $config = [])
     {
+        if (!$config['token']) {
+            throw new \InvalidArgumentException("IP API Access Key is missing.");
+        }
+
         $this->token = $config['token'];
     }
 
     public function find(string $ip): mixed
     {
-        $response = Http::baseUrl("https://api.ipapi.com/api/")
-            ->get($ip, ['access_key' => $this->token]);
+
+        $response = Http::baseUrl("https://api.ipapi.com/api/")->get($ip, [
+            'access_key' => $this->token,
+            'output' => 'json',
+            'language' => 'en'
+        ]);
 
         return $response->json();
     }

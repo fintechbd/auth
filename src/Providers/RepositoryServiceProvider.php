@@ -4,7 +4,6 @@ namespace Fintech\Auth\Providers;
 
 use Fintech\Auth\Interfaces\GeoIp;
 use Illuminate\Contracts\Support\DeferrableProvider;
-use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\ServiceProvider;
 
@@ -21,7 +20,7 @@ class RepositoryServiceProvider extends ServiceProvider implements DeferrablePro
             });
         }
 
-        $this->app->singleton(GeoIp::class, function () {
+        $this->app->singleton(GeoIp::class, function ($app) {
 
             if ($current = config('fintech.auth.geoip.default')) {
 
@@ -35,7 +34,7 @@ class RepositoryServiceProvider extends ServiceProvider implements DeferrablePro
 
                 unset($config['class']);
 
-                return App::make($class, $config);
+                return new $class($config);
 
             } else {
                 throw new \InvalidArgumentException("No driver is assigned for GeoIP Service.");

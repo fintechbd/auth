@@ -42,7 +42,8 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "Fintech\\Auth\\Tests\\": "tests/"
+            "Fintech\\Auth\\Tests\\": "tests/",
+            "Fintech\\Auth\\Seeders\\": "database/seeders/"
         }
     },
     "scripts": {

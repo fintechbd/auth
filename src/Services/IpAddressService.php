@@ -29,13 +29,13 @@ class IpAddressService
 
     }
 
-//    public function find($id, $onlyTrashed = false)
-//    {
-//        return $this->auditRepository->find($id, $onlyTrashed);
-//    }
-//
-//    public function destroy($id)
-//    {
-//        return $this->auditRepository->delete($id);
-//    }
+    //    public function find($id, $onlyTrashed = false)
+    //    {
+    //        return $this->auditRepository->find($id, $onlyTrashed);
+    //    }
+    //
+    //    public function destroy($id)
+    //    {
+    //        return $this->auditRepository->delete($id);
+    //    }
 }

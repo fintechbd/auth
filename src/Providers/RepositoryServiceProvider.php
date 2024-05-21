@@ -2,7 +2,9 @@
 
 namespace Fintech\Auth\Providers;
 
+use Fintech\Auth\Interfaces\GeoIp;
 use Illuminate\Contracts\Support\DeferrableProvider;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\ServiceProvider;
 
@@ -18,6 +20,27 @@ class RepositoryServiceProvider extends ServiceProvider implements DeferrablePro
                 return $app->make($binding);
             });
         }
+
+        $this->app->singleton(GeoIp::class, function () {
+
+            if ($current = config('fintech.auth.geoip.default')) {
+
+                if (!config("fintech.auth.geoip.drivers.{$current}")) {
+                    throw new \InvalidArgumentException("No driver configuration found named `{$current}`.");
+                }
+
+                $config = config("fintech.auth.geoip.drivers.{$current}");
+
+                $class = $config['class'];
+
+                unset($config['class']);
+
+                return App::make($class, $config);
+
+            } else {
+                throw new \InvalidArgumentException("No driver is assigned for GeoIP Service.");
+            }
+        });
     }
 
     /**
@@ -27,6 +50,6 @@ class RepositoryServiceProvider extends ServiceProvider implements DeferrablePro
      */
     public function provides(): array
     {
-        return array_keys(Config::get('fintech.auth.repositories', []));
+        return [GeoIp::class, ...array_keys(Config::get('fintech.auth.repositories', []))];
     }
 }

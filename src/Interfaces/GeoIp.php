@@ -7,10 +7,10 @@ use Illuminate\Contracts\Pagination\Paginator;
 use Illuminate\Support\Collection;
 
 /**
- * Interface GeoIpRepository
+ * Interface GeoIp
  * @package Fintech\Auth\Interfaces
  */
-interface GeoIpRepository
+interface GeoIp
 {
     /**
      * return a list or pagination of items from

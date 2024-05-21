@@ -2,7 +2,8 @@
 
 namespace Fintech\Auth\Services;
 
-use Fintech\Auth\Interfaces\GeoIpRepository;
+use Fintech\Auth\Interfaces\GeoIp;
+use Illuminate\Contracts\Container\BindingResolutionException;
 
 /**
  * Class GeoIpService
@@ -11,31 +12,18 @@ use Fintech\Auth\Interfaces\GeoIpRepository;
  */
 class GeoIpService
 {
-    /**
-     * GeoIpService constructor.
-     * @param GeoIpRepository $geoIpRepository
-     */
-    public function __construct(private readonly GeoIpRepository $geoIpRepository)
+    public function __construct(private readonly GeoIp $driver)
     {
+
     }
 
     /**
-     * @param array $filters
+     * @param string $ip
      * @return mixed
      */
-    public function lookup(array $filters = [])
+    public function lookup(string $ip)
     {
-        return $this->geoIpRepository->list($filters);
-
+        return $this->driver->lookup($ip);
     }
 
-    //    public function find($id, $onlyTrashed = false)
-    //    {
-    //        return $this->geoIpRepository->find($id, $onlyTrashed);
-    //    }
-    //
-    //    public function destroy($id)
-    //    {
-    //        return $this->geoIpRepository->delete($id);
-    //    }
 }

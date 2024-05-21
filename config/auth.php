@@ -148,6 +148,54 @@ return [
     | This value will be used to across system where model is needed
     */
     'login_attempt_model' => \Fintech\Auth\Models\LoginAttempt::class,
+    'record_login_attempt' => env('PACKAGE_AUTH_RECORD_LOGIN_ATTEMPT', false),
+    /*
+    |--------------------------------------------------------------------------
+    | IP Analyze Drivers
+    |--------------------------------------------------------------------------
+    |
+    | This value will be used to across system where model is needed
+    */
+    'geoip' => [
+        'default' => env('PACKAGE_AUTH_GEOIP_DRIVER', null),
+        'drivers' => [
+            'local' => [
+                'class' => \Fintech\Auth\Services\Vendors\GeoIp\Local::class,
+                'type' => 'city',
+                'path' => 'maxmind/GeoLite2-City.mmdb',
+            ],
+            'ipapi' => [
+                'class' => \Fintech\Auth\Services\Vendors\GeoIp\IpApi::class,
+                'token' => env('PACKAGE_AUTH_IPAPI_TOKEN'),
+            ],
+            'ipinfo' => [
+                'class' => \Fintech\Auth\Services\Vendors\GeoIp\IpInfo::class,
+                'token' => env('PACKAGE_AUTH_IPINFO_TOKEN'),
+            ],
+            'ipdata' => [
+                'class' => \Fintech\Auth\Services\Vendors\GeoIp\IpApi::class,
+                'token' => env('PACKAGE_AUTH_IPDATA_TOKEN'),
+            ],
+            'ip2location' => [
+                'class' => \Fintech\Auth\Services\Vendors\GeoIp\IpApi::class,
+                'token' => env('PACKAGE_AUTH_IP2LOCATION_TOKEN'),
+            ],
+            'cloudflare' => [
+                'class' => \Fintech\Auth\Services\Vendors\GeoIp\IpApi::class,
+                'token' => env(''),
+            ],
+            'kloudend' => [
+                'class' => \Fintech\Auth\Services\Vendors\GeoIp\IpApi::class,
+                'token' => env('PACKAGE_AUTH_KLOUDEND_TOKEN'),
+            ],
+            'maxmind' => [
+                'class' => \Fintech\Auth\Services\Vendors\GeoIp\IpApi::class,
+                'user_id' => env('PACKAGE_AUTH_MAXMIND_USER_ID'),
+                'license_key' => env('PACKAGE_AUTH_MAXMIND_LICENSE_KEY'),
+                'options' => ['host' => 'geoip.maxmind.com'],
+            ]
+        ]
+    ],
 
     //** Model Config Point Do not Remove **//
 
@@ -304,5 +352,4 @@ return [
 
         //** Repository Binding Config Point Do not Remove **//
     ],
-
 ];

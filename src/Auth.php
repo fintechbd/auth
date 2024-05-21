@@ -4,7 +4,7 @@ namespace Fintech\Auth;
 
 use Fintech\Auth\Services\AuditService;
 use Fintech\Auth\Services\FavouriteService;
-use Fintech\Auth\Services\IpAddressService;
+use Fintech\Auth\Services\GeoIpService;
 use Fintech\Auth\Services\LoginAttemptService;
 use Fintech\Auth\Services\OneTimePinService;
 use Fintech\Auth\Services\PasswordResetService;
@@ -103,11 +103,11 @@ class Auth
     }
 
     /**
-     * @return IpAddressService
+     * @return GeoIpService
      */
-    public function ipAddress()
+    public function geoip()
     {
-        return app(IpAddressService::class);
+        return app(GeoIpService::class);
     }
 
     /**

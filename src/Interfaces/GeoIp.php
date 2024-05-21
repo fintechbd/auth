@@ -2,10 +2,6 @@
 
 namespace Fintech\Auth\Interfaces;
 
-use Fintech\Core\Abstracts\BaseModel;
-use Illuminate\Contracts\Pagination\Paginator;
-use Illuminate\Support\Collection;
-
 /**
  * Interface GeoIp
  * @package Fintech\Auth\Interfaces
@@ -13,22 +9,20 @@ use Illuminate\Support\Collection;
 interface GeoIp
 {
     /**
-     * return a list or pagination of items from
-     * filtered options
+     * geoip driver contractor
      *
-     * @param array $filters
-     * @return Paginator|Collection
+     * @param array $config
      */
-    public function list(array $filters = []);
+    public function __construct(array $config = []);
 
     /**
-     * find and delete a entry from records
+     * return a response of driver location information
+     * from ip address
      *
-     * @param int|string $id
-     * @param bool $onlyTrashed
-     * @return BaseModel
+     * @param string $ip
+     * @return mixed
      */
-    public function find(int|string $id, $onlyTrashed = false);
+    public function find(string $ip): mixed;
 
     /**
      * find and delete a entry from records

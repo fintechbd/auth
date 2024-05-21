@@ -21,9 +21,9 @@ class GeoIpService
      * @param string $ip
      * @return mixed
      */
-    public function lookup(string $ip)
+    public function find(string $ip): mixed
     {
-        return $this->driver->lookup($ip);
+        return $this->driver->find($ip);
     }
 
 }

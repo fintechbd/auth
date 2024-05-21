@@ -173,23 +173,23 @@ return [
                 'token' => env('PACKAGE_AUTH_IPINFO_TOKEN'),
             ],
             'ipdata' => [
-                'class' => \Fintech\Auth\Services\Vendors\GeoIp\IpApi::class,
+                'class' => \Fintech\Auth\Services\Vendors\GeoIp\IpData::class,
                 'token' => env('PACKAGE_AUTH_IPDATA_TOKEN'),
             ],
             'ip2location' => [
-                'class' => \Fintech\Auth\Services\Vendors\GeoIp\IpApi::class,
+                'class' => \Fintech\Auth\Services\Vendors\GeoIp\Ip2Location::class,
                 'token' => env('PACKAGE_AUTH_IP2LOCATION_TOKEN'),
             ],
             'cloudflare' => [
-                'class' => \Fintech\Auth\Services\Vendors\GeoIp\IpApi::class,
-                'token' => env(''),
+                'class' => \Fintech\Auth\Services\Vendors\GeoIp\Cloudflare::class,
+//                'token' => env(''),
             ],
             'kloudend' => [
-                'class' => \Fintech\Auth\Services\Vendors\GeoIp\IpApi::class,
+                'class' => \Fintech\Auth\Services\Vendors\GeoIp\Kloudend::class,
                 'token' => env('PACKAGE_AUTH_KLOUDEND_TOKEN'),
             ],
             'maxmind' => [
-                'class' => \Fintech\Auth\Services\Vendors\GeoIp\IpApi::class,
+                'class' => \Fintech\Auth\Services\Vendors\GeoIp\MaxMind::class,
                 'user_id' => env('PACKAGE_AUTH_MAXMIND_USER_ID'),
                 'license_key' => env('PACKAGE_AUTH_MAXMIND_LICENSE_KEY'),
                 'options' => ['host' => 'geoip.maxmind.com'],

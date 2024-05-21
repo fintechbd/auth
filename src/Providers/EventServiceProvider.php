@@ -11,7 +11,7 @@ use Fintech\Auth\Events\LoggedOut;
 use Fintech\Auth\Events\PasswordResetRequested;
 use Fintech\Auth\Events\PasswordResetSuccessful;
 use Fintech\Auth\Events\VerificationRequested;
-use Fintech\Core\Listeners\Bell\TriggerListener;
+use Fintech\Core\Listeners\TriggerListener;
 use Illuminate\Auth\Events\Lockout;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
 

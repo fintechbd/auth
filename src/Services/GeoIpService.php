@@ -3,6 +3,7 @@
 namespace Fintech\Auth\Services;
 
 use Fintech\Auth\Interfaces\GeoIp;
+use Illuminate\Support\Facades\Cache;
 
 /**
  * Class GeoIpService
@@ -22,7 +23,9 @@ class GeoIpService
      */
     public function find(string $ip): mixed
     {
-        return $this->driver->find($ip);
+        return Cache::remember($ip . '-info', HOUR, function () use ($ip) {
+            return $this->driver->find($ip);
+        });
     }
 
 }

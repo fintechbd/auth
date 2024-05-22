@@ -11,8 +11,10 @@ use Fintech\Auth\Facades\Auth;
 use Fintech\Auth\Interfaces\ProfileRepository;
 use Fintech\Auth\Interfaces\UserRepository;
 use Fintech\Core\Abstracts\BaseModel;
+use Fintech\Core\Enums\Auth\LoginStatus;
 use Fintech\Core\Enums\Auth\PasswordResetOption;
 use Fintech\Core\Enums\Auth\UserStatus;
+use Fintech\MetaData\Facades\MetaData;
 use Illuminate\Foundation\Auth\User;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
@@ -25,6 +27,8 @@ use PDOException;
  */
 class UserService
 {
+    private array $loginAttempt;
+
     /**
      * UserService constructor.
      * @param UserRepository $userRepository
@@ -33,8 +37,9 @@ class UserService
     public function __construct(
         private readonly UserRepository    $userRepository,
         private readonly ProfileRepository $profileRepository
-    ) {
-
+    )
+    {
+        $this->loginAttempt = [];
     }
 
     public function find($id, $onlyTrashed = false)
@@ -121,6 +126,49 @@ class UserService
         return $data;
     }
 
+    public function update($id, array $inputs = [])
+    {
+        DB::beginTransaction();
+
+        try {
+            $userData = $this->formatDataFromInput($inputs);
+
+            if ($user = $this->userRepository->update($id, $userData)) {
+
+                DB::commit();
+
+                return $user;
+            }
+
+            return null;
+
+        } catch (Exception $exception) {
+            DB::rollBack();
+            throw new PDOException($exception->getMessage(), 0, $exception);
+        }
+    }
+
+    public function updateRaw($id, array $inputs = [])
+    {
+        DB::beginTransaction();
+
+        try {
+
+            if ($user = $this->userRepository->update($id, $inputs)) {
+
+                DB::commit();
+
+                return $user;
+            }
+
+            return null;
+
+        } catch (Exception $exception) {
+            DB::rollBack();
+            throw new PDOException($exception->getMessage(), 0, $exception);
+        }
+    }
+
     public function reset($user, $field)
     {
 
@@ -185,6 +233,9 @@ class UserService
         $attemptUser = $this->list($inputs);
 
         if ($attemptUser->isEmpty()) {
+
+            Auth::loginAttempt()->create($this->loginAttemptData(null, LoginStatus::Invalid, __('auth::messages.failed')));
+
             throw new Exception(__('auth::messages.failed'));
         }
 
@@ -192,11 +243,13 @@ class UserService
 
         if ($attemptUser->wrong_password > config('fintech.auth.password_threshold', 10)) {
 
-            $this->update($attemptUser->getKey(), [
+            $this->userRepository->update($attemptUser->getKey(), [
                 'status' => UserStatus::Suspended->value,
             ]);
 
             event(new AccountFreezed($attemptUser));
+
+            Auth::loginAttempt()->create($this->loginAttemptData($attemptUser->getKey(), LoginStatus::Banned, __('auth::messages.lockup')));
 
             throw new AccountFreezeException(__('auth::messages.lockup'));
         }
@@ -206,9 +259,19 @@ class UserService
 
             $wrongPasswordCount = $attemptUser->wrong_password + 1;
 
-            $this->updateRaw($attemptUser->getKey(), [
+            $this->userRepository->update($attemptUser->getKey(), [
                 'wrong_password' => $wrongPasswordCount,
             ]);
+
+            Auth::loginAttempt()->create(
+                $this->loginAttemptData(
+                    $attemptUser->getKey(),
+                    LoginStatus::Failed,
+                    __('auth::messages.warning',
+                        ['attempt' => $wrongPasswordCount, 'threshold' => config('fintech.auth.threshold.password', 10)]
+                    )
+                )
+            );
 
             throw new Exception(__('auth::messages.warning', [
                 'attempt' => $wrongPasswordCount,
@@ -218,62 +281,109 @@ class UserService
 
         \Illuminate\Support\Facades\Auth::guard($guard)->login($attemptUser);
 
-        $attemptUser->tokens->each(fn ($token) => $token->delete());
+        $attemptUser->tokens->each(fn($token) => $token->delete());
 
         if (!$attemptUser->can('auth.login')) {
 
             \Illuminate\Support\Facades\Auth::guard($guard)->logout();
+
+            Auth::loginAttempt()->create(
+                $this->loginAttemptData(
+                    $attemptUser->getKey(),
+                    LoginStatus::Failed,
+                    __('auth::messages.forbidden',
+                        ['permission' => permission_format('auth.login', 'auth')]
+                    )
+                )
+            );
 
             throw new AccessForbiddenException(__('auth::messages.forbidden', ['permission' => permission_format('auth.login', 'auth')]));
         }
 
         event(new LoggedIn($attemptUser));
 
+        Auth::loginAttempt()->create(
+            $this->loginAttemptData(
+                $attemptUser->getKey(),
+                LoginStatus::Successful,
+                __('auth::messages.success')
+            )
+        );
+
         return $attemptUser;
 
     }
 
-    public function update($id, array $inputs = [])
+    private function loginAttemptData($user_id, $status, $note): array
     {
-        DB::beginTransaction();
+        if (empty($this->loginAttempt)) {
 
-        try {
-            $userData = $this->formatDataFromInput($inputs);
+            $ip = request()->header('Agent-Id')
+                ? long2ip(request()->header('Agent-Id'))
+                : request()->ip();
 
-            if ($user = $this->userRepository->update($id, $userData)) {
+            $ipAddress = Auth::geoip()->find($ip);
 
-                DB::commit();
+            $address = implode(', ', [
+                $ipAddress['city'],
+                $ipAddress['region_name'],
+                $ipAddress['zip'],
+                $ipAddress['country_name'],
+                $ipAddress['continent_name']]);
 
-                return $user;
+            $country = MetaData::country()->list(['iso2' => $ipAddress['country_code']])->first();
+            $state = new \stdClass();
+            $city = new \stdClass();
+
+            if ($country) {
+                $state = MetaData::state()->list(['country_id' => $country->id, 'search' => $ipAddress['region_name']])->first();
+                $query = ['country_id' => $country->id, 'search' => $ipAddress['city']];
+                if ($state) {
+                    $query['state_id'] = $state->id;
+                }
+                $city = MetaData::city()->list($query)->first();
+                unset($query);
             }
 
-            return null;
+            $headers = [];
 
-        } catch (Exception $exception) {
-            DB::rollBack();
-            throw new PDOException($exception->getMessage(), 0, $exception);
-        }
-    }
+            foreach (request()->headers->all() as $header => $value) {
 
-    public function updateRaw($id, array $inputs = [])
-    {
-        DB::beginTransaction();
+                if ($header == 'authorization') continue;
 
-        try {
-
-            if ($user = $this->userRepository->update($id, $inputs)) {
-
-                DB::commit();
-
-                return $user;
+                $headers[$header] = ($header == 'attempt-data')
+                    ? json_decode($value[0])
+                    : $value[0];
             }
 
-            return null;
-
-        } catch (Exception $exception) {
-            DB::rollBack();
-            throw new PDOException($exception->getMessage(), 0, $exception);
+            $this->loginAttempt = [
+                'ip' => $ip,
+                'mac' => null,
+                'agent' => request()->userAgent(),
+                'platform' => request()->platform(),
+                'address' => $address,
+                'city' => $ipAddress['city'] ?? null,
+                'city_id' => $city->id ?? null,
+                'state' => $ipAddress['region_name'] ?? null,
+                'state_id' => $state->id ?? null,
+                'country' => $ipAddress['country_name'] ?? null,
+                'country_id' => $country->id ?? null,
+                'latitude' => $ipAddress['latitude'] ?? null,
+                'longitude' => $ipAddress['longitude'] ?? null,
+                'login_attempt_data' => [
+                    'ipaddress' => $ipAddress,
+                    'timestamp' => request()->header('Timestamp'),
+                    'headers' => $headers,
+                    'credentials' => request()->except(config('fintech.auth.password_field')),
+                ],
+            ];
         }
+
+        $this->loginAttempt['user_id'] = $user_id;
+        $this->loginAttempt['status'] = $status->value;
+        $this->loginAttempt['note'] = $note;
+
+        return $this->loginAttempt;
     }
 
     public function logout()

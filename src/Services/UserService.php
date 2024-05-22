@@ -37,8 +37,7 @@ class UserService
     public function __construct(
         private readonly UserRepository    $userRepository,
         private readonly ProfileRepository $profileRepository
-    )
-    {
+    ) {
         $this->loginAttempt = [];
     }
 
@@ -267,7 +266,8 @@ class UserService
                 $this->loginAttemptData(
                     $attemptUser->getKey(),
                     LoginStatus::Failed,
-                    __('auth::messages.warning',
+                    __(
+                        'auth::messages.warning',
                         ['attempt' => $wrongPasswordCount, 'threshold' => config('fintech.auth.threshold.password', 10)]
                     )
                 )
@@ -281,7 +281,7 @@ class UserService
 
         \Illuminate\Support\Facades\Auth::guard($guard)->login($attemptUser);
 
-        $attemptUser->tokens->each(fn($token) => $token->delete());
+        $attemptUser->tokens->each(fn ($token) => $token->delete());
 
         if (!$attemptUser->can('auth.login')) {
 
@@ -291,7 +291,8 @@ class UserService
                 $this->loginAttemptData(
                     $attemptUser->getKey(),
                     LoginStatus::Failed,
-                    __('auth::messages.forbidden',
+                    __(
+                        'auth::messages.forbidden',
                         ['permission' => permission_format('auth.login', 'auth')]
                     )
                 )
@@ -349,7 +350,9 @@ class UserService
 
             foreach (request()->headers->all() as $header => $value) {
 
-                if ($header == 'authorization') continue;
+                if ($header == 'authorization') {
+                    continue;
+                }
 
                 $headers[$header] = ($header == 'attempt-data')
                     ? json_decode($value[0])

@@ -293,7 +293,7 @@ class UserService
 
         if ($attemptUser->tokens->isNotEmpty()) {
 
-            $attemptUser->tokens->each(fn($token) => $token->delete());
+            $attemptUser->tokens->each(fn ($token) => $token->delete());
 
             event(new OtherDeviceLogout($guard, $attemptUser));
         }

@@ -4,7 +4,7 @@ namespace Fintech\Auth\Exceptions;
 
 use Exception;
 
-class AccountFreezeException extends Exception
+class AccountFrozenException extends Exception
 {
     //
 }

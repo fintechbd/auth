@@ -4,6 +4,7 @@ namespace Fintech\Auth\Models;
 
 use Fintech\Auth\Traits\TransactionRelations;
 use Fintech\Core\Traits\AuditableTrait;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -20,6 +21,8 @@ use Spatie\Permission\Traits\HasRoles;
  * Class User
  * @package Fintech\Auth\Models
  * @method getTeamIdFromToken()
+ * @property Collection $tokens
+ * @property int $wrong_password
  */
 class User extends Authenticatable implements HasMedia
 {

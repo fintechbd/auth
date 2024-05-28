@@ -2,7 +2,7 @@
 
 namespace Fintech\Auth\Providers;
 
-use Fintech\Auth\Events\AccountFreezed;
+use Fintech\Auth\Events\AccountFrozen;
 use Fintech\Auth\Events\AddToFavouriteAccepted;
 use Fintech\Auth\Events\AddToFavouriteRejected;
 use Fintech\Auth\Events\AddToFavouriteRequested;
@@ -12,6 +12,7 @@ use Fintech\Auth\Events\PasswordResetRequested;
 use Fintech\Auth\Events\PasswordResetSuccessful;
 use Fintech\Auth\Events\VerificationRequested;
 use Fintech\Core\Listeners\TriggerListener;
+use Illuminate\Auth\Events\Attempting;
 use Illuminate\Auth\Events\Lockout;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
 
@@ -23,6 +24,9 @@ class EventServiceProvider extends ServiceProvider
      * @var array<class-string, array<int, class-string>>
      */
     protected $listen = [
+        Attempting::class => [
+            TriggerListener::class
+        ],
         Lockout::class => [
             TriggerListener::class
         ],
@@ -32,7 +36,7 @@ class EventServiceProvider extends ServiceProvider
         PasswordResetSuccessful::class => [
             TriggerListener::class
         ],
-        AccountFreezed::class => [
+        AccountFrozen::class => [
             TriggerListener::class
         ],
         LoggedIn::class => [

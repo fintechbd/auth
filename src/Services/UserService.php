@@ -3,10 +3,10 @@
 namespace Fintech\Auth\Services;
 
 use Exception;
-use Fintech\Auth\Events\AccountFreezed;
+use Fintech\Auth\Events\AccountFrozen;
 use Fintech\Auth\Events\LoggedIn;
 use Fintech\Auth\Exceptions\AccessForbiddenException;
-use Fintech\Auth\Exceptions\AccountFreezeException;
+use Fintech\Auth\Exceptions\AccountFrozenException;
 use Fintech\Auth\Facades\Auth;
 use Fintech\Auth\Interfaces\ProfileRepository;
 use Fintech\Auth\Interfaces\UserRepository;
@@ -15,6 +15,10 @@ use Fintech\Core\Enums\Auth\LoginStatus;
 use Fintech\Core\Enums\Auth\PasswordResetOption;
 use Fintech\Core\Enums\Auth\UserStatus;
 use Fintech\MetaData\Facades\MetaData;
+use Illuminate\Auth\Events\Attempting;
+use Illuminate\Auth\Events\Authenticated;
+use Illuminate\Auth\Events\Failed;
+use Illuminate\Auth\Events\OtherDeviceLogout;
 use Illuminate\Foundation\Auth\User;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
@@ -215,7 +219,7 @@ class UserService
     /**
      * @param array $inputs
      * @param string $guard
-     * @return User|BaseModel|null
+     * @return BaseModel|\Fintech\Auth\Models\User|User|null
      * @throws Exception
      */
     public function login(array $inputs, string $guard = 'web')
@@ -235,9 +239,14 @@ class UserService
 
             Auth::loginAttempt()->create($this->loginAttemptData(null, LoginStatus::Invalid, __('auth::messages.failed')));
 
+            event(new Attempting($guard, $inputs, false));
+
             throw new Exception(__('auth::messages.failed'));
         }
 
+        /**
+         * @var \Fintech\Auth\Models\User $attemptUser
+         */
         $attemptUser = $attemptUser->first();
 
         if ($attemptUser->wrong_password > config('fintech.auth.password_threshold', 10)) {
@@ -246,13 +255,12 @@ class UserService
                 'status' => UserStatus::Suspended->value,
             ]);
 
-            event(new AccountFreezed($attemptUser));
+            event(new AccountFrozen($attemptUser));
 
             Auth::loginAttempt()->create($this->loginAttemptData($attemptUser->getKey(), LoginStatus::Banned, __('auth::messages.lockup')));
 
-            throw new AccountFreezeException(__('auth::messages.lockup'));
+            throw new AccountFrozenException(__('auth::messages.lockup'));
         }
-
 
         if (!Hash::check($password, $attemptUser->{$passwordField})) {
 
@@ -273,6 +281,8 @@ class UserService
                 )
             );
 
+            event(new Failed($guard, $attemptUser, $inputs));
+
             throw new Exception(__('auth::messages.warning', [
                 'attempt' => $wrongPasswordCount,
                 'threshold' => config('fintech.auth.threshold.password', 10),
@@ -281,7 +291,12 @@ class UserService
 
         \Illuminate\Support\Facades\Auth::guard($guard)->login($attemptUser);
 
-        $attemptUser->tokens->each(fn ($token) => $token->delete());
+        if ($attemptUser->tokens->isNotEmpty()) {
+
+            $attemptUser->tokens->each(fn($token) => $token->delete());
+
+            event(new OtherDeviceLogout($guard, $attemptUser));
+        }
 
         if (!$attemptUser->can('auth.login')) {
 
@@ -301,8 +316,6 @@ class UserService
             throw new AccessForbiddenException(__('auth::messages.forbidden', ['permission' => permission_format('auth.login', 'auth')]));
         }
 
-        event(new LoggedIn($attemptUser));
-
         Auth::loginAttempt()->create(
             $this->loginAttemptData(
                 $attemptUser->getKey(),
@@ -310,6 +323,10 @@ class UserService
                 __('auth::messages.success')
             )
         );
+
+        event(new LoggedIn($attemptUser));
+
+        event(new Authenticated($guard, $attemptUser));
 
         return $attemptUser;
 

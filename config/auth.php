@@ -182,7 +182,6 @@ return [
             ],
             'cloudflare' => [
                 'class' => \Fintech\Auth\Services\Vendors\GeoIp\Cloudflare::class,
-//                'token' => env(''),
             ],
             'kloudend' => [
                 'class' => \Fintech\Auth\Services\Vendors\GeoIp\Kloudend::class,

@@ -37,13 +37,13 @@
     },
     "autoload": {
         "psr-4": {
-            "Fintech\\Auth\\": "src/"
+            "Fintech\\Auth\\": "src/",
+            "Fintech\\Auth\\Seeders\\": "database/seeders/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Fintech\\Auth\\Tests\\": "tests/",
-            "Fintech\\Auth\\Seeders\\": "database/seeders/"
+            "Fintech\\Auth\\Tests\\": "tests/"
         }
     },
     "scripts": {

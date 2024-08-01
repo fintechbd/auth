@@ -29,16 +29,22 @@ class UserRepository extends EloquentRepository implements InterfacesUserReposit
     {
         $authField = config('fintech.auth.auth_field', 'login_id');
 
+        $userRoleTable = config('permission.table_names.model_has_roles', 'user_role');
+
         $query = $this->model->newQuery();
 
         if (!empty($filters['search'])) {
+
             $query->where('name', 'like', "%{$filters['search']}%")
                 ->orWhere($this->model->getKeyName(), 'like', "%{$filters['search']}%")
                 ->orWhere('email', 'like', "%{$filters['search']}%")
                 ->orWhere('mobile', 'like', "%{$filters['search']}%")
                 ->orWhere('login_id', 'like', "%{$filters['search']}%")
                 ->orWhere('status', 'like', "%{$filters['search']}%")
-                ->orWhere('currency', 'like', "%{$filters['search']}%");
+                ->orWhere('currency', 'like', "%{$filters['search']}%")
+                ->orWhereHas('roles', function (Builder $builder) use (&$filters) {
+                    return $builder->where('name', 'like', "%{$filters['search']}%");
+                });
         }
 
         //auth field search

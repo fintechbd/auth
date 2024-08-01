@@ -33,6 +33,7 @@ class UserRepository extends EloquentRepository implements InterfacesUserReposit
 
         if (!empty($filters['search'])) {
             $query->where('name', 'like', "%{$filters['search']}%")
+                ->orWhere($this->model->getKeyName(), 'like', "%{$filters['search']}%")
                 ->orWhere('email', 'like', "%{$filters['search']}%")
                 ->orWhere('mobile', 'like', "%{$filters['search']}%")
                 ->orWhere('login_id', 'like', "%{$filters['search']}%")

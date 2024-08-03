@@ -237,7 +237,10 @@ class UserService
 
         if ($attemptUser->isEmpty()) {
 
-            Auth::loginAttempt()->create($this->loginAttemptData(null, LoginStatus::Invalid, __('auth::messages.failed')));
+            if(config('fintech.auth.record_login_attempt')) {
+            
+                Auth::loginAttempt()->create($this->loginAttemptData(null, LoginStatus::Invalid, __('auth::messages.failed')));
+            }
 
             event(new Attempting($guard, $inputs, false));
 
@@ -255,10 +258,13 @@ class UserService
                 'status' => UserStatus::Suspended->value,
             ]);
 
+            if(config('fintech.auth.record_login_attempt')) {
+                
+                Auth::loginAttempt()->create($this->loginAttemptData($attemptUser->getKey(), LoginStatus::Banned, __('auth::messages.lockup')));
+            }
+
             event(new AccountFrozen($attemptUser));
-
-            Auth::loginAttempt()->create($this->loginAttemptData($attemptUser->getKey(), LoginStatus::Banned, __('auth::messages.lockup')));
-
+            
             throw new AccountFrozenException(__('auth::messages.lockup'));
         }
 
@@ -270,16 +276,20 @@ class UserService
                 'wrong_password' => $wrongPasswordCount,
             ]);
 
-            Auth::loginAttempt()->create(
-                $this->loginAttemptData(
-                    $attemptUser->getKey(),
-                    LoginStatus::Failed,
-                    __(
-                        'auth::messages.warning',
-                        ['attempt' => $wrongPasswordCount, 'threshold' => config('fintech.auth.threshold.password', 10)]
+            if(config('fintech.auth.record_login_attempt')) {
+                
+                Auth::loginAttempt()->create(
+                    $this->loginAttemptData(
+                        $attemptUser->getKey(),
+                        LoginStatus::Failed,
+                        __(
+                            'auth::messages.warning',
+                            ['attempt' => $wrongPasswordCount, 'threshold' => config('fintech.auth.threshold.password', 10)]
+                        )
                     )
-                )
-            );
+                );
+
+            }
 
             event(new Failed($guard, $attemptUser, $inputs));
 
@@ -302,27 +312,35 @@ class UserService
 
             \Illuminate\Support\Facades\Auth::guard($guard)->logout();
 
-            Auth::loginAttempt()->create(
-                $this->loginAttemptData(
-                    $attemptUser->getKey(),
-                    LoginStatus::Failed,
-                    __(
-                        'auth::messages.forbidden',
-                        ['permission' => permission_format('auth.login', 'auth')]
+            if(config('fintech.auth.record_login_attempt')) {
+
+                Auth::loginAttempt()->create(
+                    $this->loginAttemptData(
+                        $attemptUser->getKey(),
+                        LoginStatus::Failed,
+                        __(
+                            'auth::messages.forbidden',
+                            ['permission' => permission_format('auth.login', 'auth')]
+                        )
                     )
-                )
-            );
+                );
+            }
+
+            event(new Failed($guard, $attemptUser, $inputs));
 
             throw new AccessForbiddenException(__('auth::messages.forbidden', ['permission' => permission_format('auth.login', 'auth')]));
         }
 
-        Auth::loginAttempt()->create(
-            $this->loginAttemptData(
-                $attemptUser->getKey(),
-                LoginStatus::Successful,
-                __('auth::messages.success')
-            )
-        );
+        if(config('fintech.auth.record_login_attempt')) {
+
+            Auth::loginAttempt()->create(
+                $this->loginAttemptData(
+                    $attemptUser->getKey(),
+                    LoginStatus::Successful,
+                    __('auth::messages.success')
+                )
+            );
+        }
 
         event(new LoggedIn($attemptUser));
 

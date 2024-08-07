@@ -2,13 +2,13 @@
 
 namespace Fintech\Auth\Events;
 
-use Fintech\Core\Attributes\ManagedByTrigger;
+use Fintech\Core\Attributes\ListenByTrigger;
 use Fintech\Core\Attributes\Variable;
 use Fintech\Core\Interfaces\Bell\HasDynamicString;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-#[ManagedByTrigger(
+#[ListenByTrigger(
     name: 'User Account Frozen/Suspended',
     description: 'When someone tries to enter into their account using the incorrect password and the number of incorrect passwords exceeds the threshold, this trigger is set off.',
     enabled: true,

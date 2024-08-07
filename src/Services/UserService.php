@@ -238,7 +238,7 @@ class UserService
         if ($attemptUser->isEmpty()) {
 
             if(config('fintech.auth.record_login_attempt')) {
-            
+
                 Auth::loginAttempt()->create($this->loginAttemptData(null, LoginStatus::Invalid, __('auth::messages.failed')));
             }
 
@@ -259,12 +259,12 @@ class UserService
             ]);
 
             if(config('fintech.auth.record_login_attempt')) {
-                
+
                 Auth::loginAttempt()->create($this->loginAttemptData($attemptUser->getKey(), LoginStatus::Banned, __('auth::messages.lockup')));
             }
 
             event(new AccountFrozen($attemptUser));
-            
+
             throw new AccountFrozenException(__('auth::messages.lockup'));
         }
 
@@ -277,7 +277,7 @@ class UserService
             ]);
 
             if(config('fintech.auth.record_login_attempt')) {
-                
+
                 Auth::loginAttempt()->create(
                     $this->loginAttemptData(
                         $attemptUser->getKey(),

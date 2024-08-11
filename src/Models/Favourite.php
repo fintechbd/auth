@@ -22,7 +22,7 @@ class Favourite extends BaseModel
 
     protected $guarded = ['id'];
 
-    protected $appends = ['links'];
+
 
     protected $casts = ['favourite_data' => 'array', 'restored_at' => 'datetime', 'enabled' => 'bool'];
 

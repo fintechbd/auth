@@ -43,7 +43,7 @@ class Role extends BaseModel implements RoleContract
 
     protected $hidden = ['creator_id', 'editor_id', 'destroyer_id', 'restorer_id'];
 
-    protected $appends = ['links'];
+
 
     protected $with = ['permissions'];
 

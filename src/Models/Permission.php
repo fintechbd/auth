@@ -36,7 +36,7 @@ class Permission extends BaseModel implements PermissionContract
 
     protected $hidden = ['creator_id', 'editor_id', 'destroyer_id', 'restorer_id'];
 
-    protected $appends = ['links'];
+
 
     protected $attributes = ['guard_name' => 'web'];
 

@@ -21,7 +21,7 @@ class LoginAttempt extends BaseModel
 
     protected $guarded = ['id'];
 
-    protected $appends = ['links'];
+
 
     protected $casts = ['login_attempt_data' => 'array', 'restored_at' => 'datetime'];
 

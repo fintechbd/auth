@@ -14,7 +14,7 @@ class Audit extends \OwenIt\Auditing\Models\Audit
 
     protected $guarded = ['id'];
 
-    protected $appends = ['links'];
+
 
     /*
     |--------------------------------------------------------------------------

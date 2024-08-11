@@ -29,22 +29,21 @@ class LoginAttemptRepository extends EloquentRepository implements InterfacesLog
         $query = $this->model->newQuery();
 
         //Searching
-        if (! empty($filters['search'])) {
-            if (is_numeric($filters['search'])) {
-                $query->where($this->model->getKeyName(), 'like', "%{$filters['search']}%");
-            } else {
-                $query->where('name', 'like', "%{$filters['search']}%");
-                $query->orWhere('ip', 'like', "%{$filters['search']}%");
-                $query->orWhere('mac', 'like', "%{$filters['search']}%");
-                $query->orWhere('platform', 'like', "%{$filters['search']}%");
-                $query->orWhere('agent', 'like', "%{$filters['search']}%");
-                $query->orWhere('address', 'like', "%{$filters['search']}%");
-                $query->orWhere('city', 'like', "%{$filters['search']}%");
-                $query->orWhere('state', 'like', "%{$filters['search']}%");
-                $query->orWhere('country', 'like', "%{$filters['search']}%");
-                $query->orWhere('status', 'like', "%{$filters['search']}%");
-                $query->orWhere('login_attempt_data', 'like', "%{$filters['search']}%");
-            }
+        if (!empty($filters['search'])) {
+            $query->whereHas('user', function ($query) use ($filters) {
+                return $query->where('name', 'like', "%{$filters['search']}%");
+            });
+            $query->orWhere($this->model->getKeyName(), 'like', "%{$filters['search']}%");
+            $query->orWhere('ip', 'like', "%{$filters['search']}%");
+            $query->orWhere('mac', 'like', "%{$filters['search']}%");
+            $query->orWhere('platform', 'like', "%{$filters['search']}%");
+            $query->orWhere('agent', 'like', "%{$filters['search']}%");
+            $query->orWhere('address', 'like', "%{$filters['search']}%");
+            $query->orWhere('city', 'like', "%{$filters['search']}%");
+            $query->orWhere('state', 'like', "%{$filters['search']}%");
+            $query->orWhere('country', 'like', "%{$filters['search']}%");
+            $query->orWhere('status', 'like', "%{$filters['search']}%");
+            $query->orWhere('login_attempt_data', 'like', "%{$filters['search']}%");
         }
 
         //Display Trashed

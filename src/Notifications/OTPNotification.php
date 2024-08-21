@@ -31,13 +31,22 @@ class OTPNotification extends Notification
      */
     public function via(object $notifiable): array
     {
-        return ((request()->filled('mobile')
-            ? ['sms']
-            : (request()->filled('email')))
-            ? ['mail']
-            : request()->filled('user'))
-            ? $notifiable->prefer
-            : ['database'];
+        if (request()->filled('mobile')) {
+            return ['sms'];
+        }
+
+        if (request()->filled('email')) {
+            return ['mail'];
+        }
+
+        if (request()->filled('user')) {
+            $userModel = config('fintech.auth.user_model', \Fintech\Auth\Models\User::class);
+            return ($notifiable instanceof $userModel)
+                ? $notifiable->prefer ? [$notifiable->prefer] : ['mail']
+                : ['database'];
+        }
+
+        return ['database'];
     }
 
     /**

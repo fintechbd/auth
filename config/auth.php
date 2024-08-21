@@ -231,7 +231,7 @@ return [
     | Example: login_id, email, mobile
     */
     'password_field' => 'password',
-    'password_field_rules' => ['string', 'min:8'],
+    'password_field_rules' => ['string'],
     'default_password' => '12345678',
 
     /*

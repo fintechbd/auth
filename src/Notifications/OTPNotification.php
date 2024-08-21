@@ -6,7 +6,6 @@ use Fintech\Core\Enums\Auth\OTPOption;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
-use Laraflow\Sms\Exceptions\DriverNotFoundException;
 use Laraflow\Sms\SmsMessage;
 
 class OTPNotification extends Notification
@@ -91,7 +90,7 @@ class OTPNotification extends Notification
      */
     public function toSms(object $notifiable): SmsMessage
     {
-        return (new SmsMessage)
+        return (new SmsMessage())
             ->message('Your LebuPay mobile verification OTP is: ' . $this->data['value']);
     }
 }

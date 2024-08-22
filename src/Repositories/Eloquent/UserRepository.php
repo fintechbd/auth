@@ -80,6 +80,12 @@ class UserRepository extends EloquentRepository implements InterfacesUserReposit
             });
         }
 
+        if (!empty($filters['role_id_not_in'])) {
+            $query->whereHas('roles', function (Builder $builder) use (&$filters) {
+                return $builder->whereNotIn('roles.id', (array)$filters['role_id_not_in']);
+            });
+        }
+
         if (isset($filters['trashed']) && $filters['trashed'] === true) {
 
             $query->onlyTrashed();

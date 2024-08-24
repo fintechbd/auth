@@ -48,12 +48,7 @@ class RoleService
      */
     public function list(array $filters = [])
     {
-        $roleList = $this->roleRepository->list($filters);
-
-        //Do Business Stuff
-
-        return $roleList;
-
+        return $this->roleRepository->list($filters);
     }
 
     public function import(array $filters)

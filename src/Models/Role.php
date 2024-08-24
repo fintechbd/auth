@@ -10,6 +10,7 @@ use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\Permission\Contracts\Role as RoleContract;
 use Spatie\Permission\Exceptions\GuardDoesNotMatch;
@@ -224,7 +225,7 @@ class Role extends BaseModel implements RoleContract
     /**
      * A role belongs to some users of the model associated with its guard.
      */
-    public function users(): BelongsToMany
+    public function users()
     {
         return $this->morphedByMany(
             getModelForGuard($this->attributes['guard_name'] ?? config('auth.defaults.guard')),

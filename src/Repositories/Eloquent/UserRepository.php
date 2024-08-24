@@ -8,6 +8,7 @@ use Fintech\Core\Repositories\EloquentRepository;
 use Illuminate\Contracts\Pagination\Paginator;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Facades\DB;
 
 /**
  * Class UserRepository
@@ -93,6 +94,14 @@ class UserRepository extends EloquentRepository implements InterfacesUserReposit
 
         //Handle Sorting
         $query->orderBy($filters['sort'] ?? $this->model->getKeyName(), $filters['dir'] ?? 'asc');
+
+        if (isset($filters['count_user_status']) && $filters['count_user_status'] === true) {
+            $query->groupBy('status')
+                ->selectRaw('count(*) as count, status');
+        } else {
+            $query->select('users.*');
+        }
+
 
         //Execute Output
         return $this->executeQuery($query, $filters);

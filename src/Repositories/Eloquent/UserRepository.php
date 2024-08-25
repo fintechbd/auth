@@ -109,6 +109,14 @@ class UserRepository extends EloquentRepository implements InterfacesUserReposit
             $query->select('users.*');
         }
 
+        if (!empty($filters['limit'])) {
+            $query->limit($filters['limit']);
+        }
+
+        if (!empty($filters['offset'])) {
+            $query->offset($filters['offset']);
+        }
+
 
         //Execute Output
         return $this->executeQuery($query, $filters);

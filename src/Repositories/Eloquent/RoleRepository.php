@@ -50,7 +50,7 @@ class RoleRepository extends EloquentRepository implements InterfacesRoleReposit
         }
 
         if (!empty($filters['id_in'])) {
-            $query->whereIn($this->model->getKeyName(), (array)$filters['id_in']);
+            $query->whereIn($this->model->getTable() . '.' . $this->model->getKeyName(), (array)$filters['id_in']);
         }
 
         if (!empty($filters['name'])) {
@@ -66,8 +66,9 @@ class RoleRepository extends EloquentRepository implements InterfacesRoleReposit
         $query->orderBy($filters['sort'] ?? $this->model->getKeyName(), $filters['dir'] ?? 'asc');
 
         if (isset($filters['count_user']) && $filters['count_user'] === true) {
-            $query->groupBy('name')
-                ->selectRaw('count(*) as count, name')
+            $query->selectRaw('count(*) as count, name')
+                ->join('user_role', 'user_role.role_id', '=', 'roles.id')
+                ->groupBy('name')
                 ->count();
         }
 

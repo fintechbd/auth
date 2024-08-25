@@ -43,10 +43,6 @@ class Role extends BaseModel implements RoleContract
 
     protected $hidden = ['creator_id', 'editor_id', 'destroyer_id', 'restorer_id'];
 
-
-
-    protected $with = ['permissions'];
-
     protected $attributes = ['guard_name' => 'web'];
 
     /*

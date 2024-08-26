@@ -13,6 +13,7 @@ return new class () extends Migration {
         Schema::create('profiles', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->nullable()->unsigned();
+            $table->foreignId('id_doc_type_id')->nullable();
             $table->string('id_type')->nullable();
             $table->string('id_no')->nullable();
             $table->string('id_issue_country')->nullable();

@@ -17,7 +17,6 @@ return new class () extends Migration {
             $table->string('mac')->nullable();
             $table->mediumText('agent')->nullable();
             $table->string('platform')->nullable();
-
             $table->mediumText('address')->nullable();
             $table->string('city')->nullable();
             $table->foreignId('city_id')->nullable();
@@ -25,14 +24,11 @@ return new class () extends Migration {
             $table->foreignId('state_id')->nullable();
             $table->string('country')->nullable();
             $table->foreignId('country_id')->nullable();
-
             $table->double('latitude')->nullable();
             $table->double('longitude')->nullable();
-
             $table->string('status')->nullable();
             $table->mediumText('note')->nullable();
             $table->json('login_attempt_data')->nullable();
-
             $table->foreignId('creator_id')->nullable();
             $table->foreignId('editor_id')->nullable();
             $table->foreignId('destroyer_id')->nullable();

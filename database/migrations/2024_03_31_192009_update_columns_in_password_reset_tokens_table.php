@@ -10,9 +10,13 @@ return new class () extends Migration {
      */
     public function up(): void
     {
-        Schema::table('password_reset_tokens', function (Blueprint $table) {
-            $table->string('channel')->default('email')->after('email')->comment('notification channel');
-        });
+        Schema::table(config('auth.passwords.users.table', 'password_reset_tokens'),
+            function (Blueprint $table) {
+                $table->string('channel')
+                    ->default('email')
+                    ->after('email')
+                    ->comment('notification channel');
+            });
     }
 
     /**
@@ -20,8 +24,9 @@ return new class () extends Migration {
      */
     public function down(): void
     {
-        Schema::table('password_reset_tokens', function (Blueprint $table) {
-            $table->dropColumn('channel');
-        });
+        Schema::table(config('auth.passwords.users.table', 'password_reset_tokens'),
+            function (Blueprint $table) {
+                $table->dropColumn('channel');
+            });
     }
 };

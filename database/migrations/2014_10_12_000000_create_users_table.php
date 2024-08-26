@@ -11,7 +11,7 @@ return new class () extends Migration {
     public function up(): void
     {
         if (Schema::hasTable('users')) {
-            throw new ErrorException('`users` table already exists. please remove migration file and backup user data.');
+            throw new ErrorException('`users` table already exists. please drop table and backup user data.');
         }
 
         Schema::create('users', function (Blueprint $table) {
@@ -37,6 +37,8 @@ return new class () extends Migration {
             $table->foreignId('restorer_id')->nullable();
             $table->timestamp('email_verified_at')->nullable();
             $table->timestamp('mobile_verified_at')->nullable();
+            $table->timestamp('logged_in_at')->nullable();
+            $table->timestamp('logged_out_at')->nullable();
             $table->timestamps();
             $table->softDeletes();
             $table->timestamp('restored_at')->nullable();

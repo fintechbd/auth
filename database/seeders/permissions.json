@@ -1,0 +1,190 @@
+[
+    {
+        "name": "auth.login",
+        "guard": "web"
+    },
+    {
+        "name": "dashboard",
+        "guard": "web"
+    },
+    {
+        "name": "auth.user-manage.all-user",
+        "guard": "web"
+    },
+    {
+        "name": "auth.user-manage.recipient",
+        "guard": "web"
+    },
+    {
+        "name": "auth.role-manage.roles",
+        "guard": "web"
+    },
+    {
+        "name": "auth.role-manage.permissions",
+        "guard": "web"
+    },
+    {
+        "name": "auth.login-history",
+        "guard": "web"
+    },
+    {
+        "name": "settings-manage.system-config",
+        "guard": "web"
+    },
+    {
+        "name": "settings-manage.currency-rate",
+        "guard": "web"
+    },
+    {
+        "name": "service-manage.settings",
+        "guard": "web"
+    },
+    {
+        "name": "service-manage.type",
+        "guard": "web"
+    },
+    {
+        "name": "service-manage.service",
+        "guard": "web"
+    },
+    {
+        "name": "service-manage.service-stats",
+        "guard": "web"
+    },
+    {
+        "name": "service-manage.service-fields",
+        "guard": "web"
+    },
+    {
+        "name": "service-manage.service-vendors",
+        "guard": "web"
+    },
+    {
+        "name": "transaction.deposit",
+        "guard": "web"
+    },
+    {
+        "name": "transaction.money-transfer",
+        "guard": "web"
+    },
+    {
+        "name": "transaction.wallet-transfer",
+        "guard": "web"
+    },
+    {
+        "name": "transaction.airtime.bd-top-up",
+        "guard": "web"
+    },
+    {
+        "name": "transaction.bill-payment",
+        "guard": "web"
+    },
+    {
+        "name": "transaction.wallet-to-wallet",
+        "guard": "web"
+    },
+    {
+        "name": "report.deposit",
+        "guard": "web"
+    },
+    {
+        "name": "report.bank-transfer",
+        "guard": "web"
+    },
+    {
+        "name": "report.wallet-transfer",
+        "guard": "web"
+    },
+    {
+        "name": "report.airtime.bd-top-up",
+        "guard": "web"
+    },
+    {
+        "name": "report.bill-payment",
+        "guard": "web"
+    },
+    {
+        "name": "report.wallet-to-wallet",
+        "guard": "web"
+    },
+    {
+        "name": "report.cash-pickup",
+        "guard": "web"
+    },
+    {
+        "name": "report.currency-swap",
+        "guard": "web"
+    },
+    {
+        "name": "execution-report.bank-transfer",
+        "guard": "web"
+    },
+    {
+        "name": "execution-report.wallet-transfer",
+        "guard": "web"
+    },
+    {
+        "name": "execution-report.cash-pickup",
+        "guard": "web"
+    },
+    {
+        "name": "metadata.catalog",
+        "guard": "web"
+    },
+    {
+        "name": "metadata.beneficiary-type",
+        "guard": "web"
+    },
+    {
+        "name": "metadata.country",
+        "guard": "web"
+    },
+    {
+        "name": "metadata.serving-country",
+        "guard": "web"
+    },
+    {
+        "name": "metadata.destination-country",
+        "guard": "web"
+    },
+    {
+        "name": "metadata.state",
+        "guard": "web"
+    },
+    {
+        "name": "metadata.city",
+        "guard": "web"
+    },
+    {
+        "name": "metadata.region",
+        "guard": "web"
+    },
+    {
+        "name": "metadata.sub-region",
+        "guard": "web"
+    },
+    {
+        "name": "metadata.bank",
+        "guard": "web"
+    },
+    {
+        "name": "metadata.branch",
+        "guard": "web"
+    },
+    {
+        "name": "utility.api-log",
+        "guard": "web"
+    },
+    {
+        "name": "notification.triggers",
+        "guard": "web"
+    },
+    {
+        "name": "notification.templates",
+        "guard": "web"
+    },
+    {
+        "name": "notification.actions",
+        "guard": "web"
+    }
+]

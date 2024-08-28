@@ -321,7 +321,7 @@ return [
     |
     | This value will be used to across system where model is needed
     */
-    'middleware' => ['auth:sanctum', 'http_log'],
+    'middleware' => ['auth:sanctum', 'http_log', 'encrypted'],
 
     /*
     |--------------------------------------------------------------------------

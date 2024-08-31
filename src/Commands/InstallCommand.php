@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\DB;
 class InstallCommand extends Command
 {
     use HasCoreSettingTrait;
+
     private string $module = 'fintech/auth';
 
     public $signature = 'auth:install';
@@ -99,8 +100,14 @@ class InstallCommand extends Command
         try {
 
             $this->addSettings($this->module);
+
             $this->addPermissions();
+
             $this->addRoles();
+
+            $this->components->twoColumnDetail(
+                "<fg=yellow;options=bold>`{$this->module}`</> module setup completed.",
+                '<fg=green;options=bold>COMPLETED</>');
 
             return self::SUCCESS;
 
@@ -114,12 +121,12 @@ class InstallCommand extends Command
 
     private function addPermissions(): void
     {
-        $this->call('vendor:publish', ['--tag' => 'fintech-permissions']);
+        $this->call('vendor:publish', ['--tag' => 'fintech-permissions', '--quiet' => true]);
         $this->call('db:seed', ['--class' => PermissionSeeder::class]);
 
         $this->components->twoColumnDetail(
-            "<fg=yellow;options=bold>`{$this->module}`</> module system permissions synced.",
-            '<fg=red;options=bold>SUCCESS</>');
+            "<fg=yellow;options=bold>`{$this->module}`</> module system permissions created.",
+            '<fg=green;options=bold>SUCCESS</>');
     }
 
     private function addRoles(): void
@@ -140,14 +147,9 @@ class InstallCommand extends Command
         foreach ($roles as $role) {
             DB::beginTransaction();
             try {
-                if ($roleModel = Auth::role()->create($role)) {
-                    $this->components->twoColumnDetail(
-                        "ID {$roleModel->getKey()}: {$roleModel->name} role created.",
-                        '<fg=green;options=bold>SUCCESS</>');
-                    DB::commit();
-                }
-            }
-            catch (\Exception $exception) {
+                Auth::role()->create($role);
+                DB::commit();
+            } catch (\Exception $exception) {
                 DB::rollBack();
                 $this->components->twoColumnDetail($exception->getMessage(), '<fg=red;options=bold>ERROR</>');
             }
@@ -155,6 +157,6 @@ class InstallCommand extends Command
 
         $this->components->twoColumnDetail(
             "<fg=yellow;options=bold>`{$this->module}`</> module system roles/groups created.",
-            '<fg=red;options=bold>SUCCESS</>');
+            '<fg=green;options=bold>SUCCESS</>');
     }
 }

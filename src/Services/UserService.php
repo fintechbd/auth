@@ -41,13 +41,9 @@ class UserService
     public function __construct(
         private readonly UserRepository    $userRepository,
         private readonly ProfileRepository $profileRepository
-    ) {
-        $this->loginAttempt = [];
-    }
-
-    public function find($id, $onlyTrashed = false)
+    )
     {
-        return $this->userRepository->find($id, $onlyTrashed);
+        $this->loginAttempt = [];
     }
 
     public function destroy($id)
@@ -129,14 +125,13 @@ class UserService
         return $data;
     }
 
-    public function update($id, array $inputs = [])
+    public function updateRaw($id, array $inputs = [])
     {
         DB::beginTransaction();
 
         try {
-            $userData = $this->formatDataFromInput($inputs);
 
-            if ($user = $this->userRepository->update($id, $userData)) {
+            if ($user = $this->userRepository->update($id, $inputs)) {
 
                 DB::commit();
 
@@ -151,13 +146,14 @@ class UserService
         }
     }
 
-    public function updateRaw($id, array $inputs = [])
+    public function update($id, array $inputs = [])
     {
         DB::beginTransaction();
 
         try {
+            $userData = $this->formatDataFromInput($inputs);
 
-            if ($user = $this->userRepository->update($id, $inputs)) {
+            if ($user = $this->userRepository->update($id, $userData)) {
 
                 DB::commit();
 
@@ -237,7 +233,7 @@ class UserService
 
         if ($attemptUser->isEmpty()) {
 
-            if(config('fintech.auth.record_login_attempt')) {
+            if (config('fintech.auth.record_login_attempt')) {
 
                 Auth::loginAttempt()->create($this->loginAttemptData(null, LoginStatus::Invalid, __('auth::messages.failed')));
             }
@@ -258,7 +254,7 @@ class UserService
                 'status' => UserStatus::Suspended->value,
             ]);
 
-            if(config('fintech.auth.record_login_attempt')) {
+            if (config('fintech.auth.record_login_attempt')) {
 
                 Auth::loginAttempt()->create($this->loginAttemptData($attemptUser->getKey(), LoginStatus::Banned, __('auth::messages.lockup')));
             }
@@ -276,7 +272,7 @@ class UserService
                 'wrong_password' => $wrongPasswordCount,
             ]);
 
-            if(config('fintech.auth.record_login_attempt')) {
+            if (config('fintech.auth.record_login_attempt')) {
 
                 Auth::loginAttempt()->create(
                     $this->loginAttemptData(
@@ -303,7 +299,7 @@ class UserService
 
         if ($attemptUser->tokens->isNotEmpty()) {
 
-            $attemptUser->tokens->each(fn ($token) => $token->delete());
+            $attemptUser->tokens->each(fn($token) => $token->delete());
 
             event(new OtherDeviceLogout($guard, $attemptUser));
         }
@@ -312,7 +308,7 @@ class UserService
 
             \Illuminate\Support\Facades\Auth::guard($guard)->logout();
 
-            if(config('fintech.auth.record_login_attempt')) {
+            if (config('fintech.auth.record_login_attempt')) {
 
                 Auth::loginAttempt()->create(
                     $this->loginAttemptData(
@@ -331,7 +327,7 @@ class UserService
             throw new AccessForbiddenException(__('auth::messages.forbidden', ['permission' => permission_format('auth.login', 'auth')]));
         }
 
-        if(config('fintech.auth.record_login_attempt')) {
+        if (config('fintech.auth.record_login_attempt')) {
 
             Auth::loginAttempt()->create(
                 $this->loginAttemptData(
@@ -422,6 +418,11 @@ class UserService
         $this->loginAttempt['note'] = $note;
 
         return $this->loginAttempt;
+    }
+
+    public function find($id, $onlyTrashed = false)
+    {
+        return $this->userRepository->find($id, $onlyTrashed);
     }
 
     public function logout()

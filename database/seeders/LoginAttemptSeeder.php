@@ -2,8 +2,8 @@
 
 namespace Fintech\Auth\Seeders;
 
-use Illuminate\Database\Seeder;
 use Fintech\Auth\Facades\Auth;
+use Illuminate\Database\Seeder;
 
 class LoginAttemptSeeder extends Seeder
 {

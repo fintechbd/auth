@@ -19,21 +19,6 @@ class LoginAttemptService
     {
     }
 
-    /**
-     * @param array $filters
-     * @return mixed
-     */
-    public function list(array $filters = [])
-    {
-        return $this->loginAttemptRepository->list($filters);
-
-    }
-
-    public function create(array $inputs = [])
-    {
-        return $this->loginAttemptRepository->create($inputs);
-    }
-
     public function find($id, $onlyTrashed = false)
     {
         return $this->loginAttemptRepository->find($id, $onlyTrashed);
@@ -54,8 +39,23 @@ class LoginAttemptService
         return $this->loginAttemptRepository->list($filters);
     }
 
+    /**
+     * @param array $filters
+     * @return mixed
+     */
+    public function list(array $filters = [])
+    {
+        return $this->loginAttemptRepository->list($filters);
+
+    }
+
     public function import(array $filters)
     {
         return $this->loginAttemptRepository->create($filters);
+    }
+
+    public function create(array $inputs = [])
+    {
+        return $this->loginAttemptRepository->create($inputs);
     }
 }

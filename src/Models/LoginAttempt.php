@@ -2,8 +2,8 @@
 
 namespace Fintech\Auth\Models;
 
-use Fintech\Core\Traits\AuditableTrait;
 use Fintech\Core\Abstracts\BaseModel;
+use Fintech\Core\Traits\AuditableTrait;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class LoginAttempt extends BaseModel
@@ -20,7 +20,6 @@ class LoginAttempt extends BaseModel
     protected $primaryKey = 'id';
 
     protected $guarded = ['id'];
-
 
 
     protected $casts = ['login_attempt_data' => 'array', 'restored_at' => 'datetime'];

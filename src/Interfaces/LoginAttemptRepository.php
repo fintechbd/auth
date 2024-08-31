@@ -2,9 +2,9 @@
 
 namespace Fintech\Auth\Interfaces;
 
+use Fintech\Core\Abstracts\BaseModel;
 use Illuminate\Contracts\Pagination\Paginator;
 use Illuminate\Support\Collection;
-use Fintech\Core\Abstracts\BaseModel;
 
 /**
  * Interface LoginAttemptRepository

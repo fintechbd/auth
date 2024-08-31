@@ -29,6 +29,14 @@ class AccountFrozen implements HasDynamicString
 
     public mixed $user;
 
+    /**
+     * Create a new event instance.
+     */
+    public function __construct($user)
+    {
+        $this->user = $user;
+    }
+
     public function aliases(): array
     {
         return [
@@ -39,13 +47,5 @@ class AccountFrozen implements HasDynamicString
             '__account_status__' => $this->user->status ?? '',
             '__password_attempt_limit__' => config('fintech.auth.password_threshold', 10),
         ];
-    }
-
-    /**
-     * Create a new event instance.
-     */
-    public function __construct($user)
-    {
-        $this->user = $user;
     }
 }

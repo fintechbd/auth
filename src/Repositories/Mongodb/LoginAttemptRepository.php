@@ -2,8 +2,8 @@
 
 namespace Fintech\Auth\Repositories\Mongodb;
 
-use Fintech\Core\Repositories\MongodbRepository;
 use Fintech\Auth\Interfaces\LoginAttemptRepository as InterfacesLoginAttemptRepository;
+use Fintech\Core\Repositories\MongodbRepository;
 use Illuminate\Contracts\Pagination\Paginator;
 use Illuminate\Database\Eloquent\Collection;
 
@@ -29,7 +29,7 @@ class LoginAttemptRepository extends MongodbRepository implements InterfacesLogi
         $query = $this->model->newQuery();
 
         //Searching
-        if (! empty($filters['search'])) {
+        if (!empty($filters['search'])) {
             if (is_numeric($filters['search'])) {
                 $query->where($this->model->getKeyName(), 'like', "%{$filters['search']}%");
             } else {

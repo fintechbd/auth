@@ -2,8 +2,8 @@
 
 namespace Fintech\Auth\Repositories\Eloquent;
 
-use Fintech\Core\Repositories\EloquentRepository;
 use Fintech\Auth\Interfaces\LoginAttemptRepository as InterfacesLoginAttemptRepository;
+use Fintech\Core\Repositories\EloquentRepository;
 use Illuminate\Contracts\Pagination\Paginator;
 use Illuminate\Database\Eloquent\Collection;
 

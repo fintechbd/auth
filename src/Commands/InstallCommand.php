@@ -5,7 +5,6 @@ namespace Fintech\Auth\Commands;
 use Fintech\Auth\Facades\Auth;
 use Fintech\Auth\Seeders\PermissionSeeder;
 use Fintech\Core\Enums\Auth\SystemRole;
-use Fintech\Core\Facades\Core;
 use Fintech\Core\Traits\HasCoreSettingTrait;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Artisan;
@@ -15,12 +14,9 @@ class InstallCommand extends Command
 {
     use HasCoreSettingTrait;
 
-    private string $module = 'fintech/auth';
-
     public $signature = 'auth:install';
-
     public $description = 'Configure the system for the `fintech/auth` module';
-
+    private string $module = 'fintech/auth';
     private array $settings = [
         [
             'package' => 'auth',
@@ -123,7 +119,7 @@ class InstallCommand extends Command
     private function addPermissions(): void
     {
         Artisan::call('vendor:publish --tag=fintech-permissions --quiet');
-        Artisan::call('db:seed --class='.addslashes(PermissionSeeder::class).' --quiet');
+        Artisan::call('db:seed --class=' . addslashes(PermissionSeeder::class) . ' --quiet');
 
         $this->components->twoColumnDetail(
             "<fg=yellow;options=bold>`{$this->module}`</> module system permissions created.",

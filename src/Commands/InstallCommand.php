@@ -16,7 +16,7 @@ class InstallCommand extends Command
 
     public $signature = 'auth:install';
     public $description = 'Configure the system for the `fintech/auth` module';
-    private string $module = 'fintech/auth';
+    private string $module = 'Auth';
     private array $settings = [
         [
             'package' => 'auth',
@@ -94,20 +94,20 @@ class InstallCommand extends Command
 
     public function handle(): int
     {
-        $this->addSettings($this->module);
+        $this->addSettings();
 
         $this->addPermissions();
 
         $this->addRoles();
 
-        $this->components->twoColumnDetail("[<fg=green;options=bold>{$this->module}</>] Installation", "<fg=green;options=bold>COMPLETED</>");
+        $this->components->twoColumnDetail("[<fg=yellow;options=bold>{$this->module}</>] Installation", "<fg=green;options=bold>COMPLETED</>");
 
         return self::SUCCESS;
     }
 
     private function addPermissions(): void
     {
-        $this->components->task("[<fg=green;options=bold>{$this->module}</>] Creating system permissions", function () {
+        $this->components->task("[<fg=yellow;options=bold>{$this->module}</>] Creating system permissions", function () {
             Artisan::call('vendor:publish --tag=fintech-permissions --quiet');
             Artisan::call('db:seed --class=' . addslashes(PermissionSeeder::class) . ' --quiet');
         });
@@ -128,7 +128,7 @@ class InstallCommand extends Command
             ],
         ];
 
-        $this->components->task("[<fg=green;options=bold>{$this->module}</>] Creating system roles", function () use ($roles) {
+        $this->components->task("[<fg=yellow;options=bold>{$this->module}</>] Creating system roles", function () use ($roles) {
             foreach ($roles as $role) {
                 Auth::role()->create($role);
             }

@@ -2,18 +2,159 @@
 
 namespace Fintech\Auth\Commands;
 
+use Fintech\Auth\Facades\Auth;
+use Fintech\Auth\Seeders\PermissionSeeder;
+use Fintech\Core\Enums\Auth\SystemRole;
+use Fintech\Core\Facades\Core;
+use Fintech\Core\Traits\HasCoreSettingTrait;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\DB;
 
 class InstallCommand extends Command
 {
+    use HasCoreSettingTrait;
+    private string $module = 'fintech/auth';
+
     public $signature = 'auth:install';
 
-    public $description = 'My command';
+    public $description = 'Configure the system for the `fintech/auth` module';
+
+    private array $settings = [
+        [
+            'package' => 'auth',
+            'label' => 'User Authentication Field',
+            'description' => 'Unique field that can be used to authenticated a end user to system',
+            'key' => 'auth_field',
+            'type' => 'string',
+            'value' => 'login_id'
+        ],
+        [
+            'package' => 'auth',
+            'label' => 'OTP Key Length',
+            'description' => 'Number of digits that otp key will have',
+            'key' => 'otp_length',
+            'type' => 'integer',
+            'value' => '6'
+        ],
+        [
+            'package' => 'auth',
+            'label' => 'Password',
+            'description' => 'Which field in user table will maintain the password field value',
+            'key' => 'password_field',
+            'type' => 'string',
+            'value' => 'password'
+        ],
+        [
+            'package' => 'auth',
+            'label' => 'Wrong Password Warning Limit',
+            'description' => 'Number to times a user can attempt with wrong password before account become in active',
+            'key' => 'password_threshold',
+            'type' => 'integer',
+            'value' => '10'
+        ],
+        [
+            'package' => 'auth',
+            'label' => 'Wrong Pin Warning Limit',
+            'description' => 'Number to times a user can attempt with wrong pin on transaction before account become in active',
+            'key' => 'pin_threshold',
+            'type' => 'integer',
+            'value' => '3'
+        ],
+        [
+            'package' => 'auth',
+            'label' => 'Send Account De-activated Notification',
+            'description' => 'When account is freeze for suspicious activity send notification to email or mobile',
+            'key' => 'threshold_notification',
+            'type' => 'boolean',
+            'value' => 'false'
+        ],
+        [
+            'package' => 'auth',
+            'label' => 'Frontend Register Default Role',
+            'description' => 'Set the Default Role(s) for the Registration Customer',
+            'key' => 'customer_roles',
+            'type' => 'array',
+            'value' => '[7]'
+        ],
+        [
+            'package' => 'auth',
+            'label' => 'How User will reset their password',
+            'description' => 'When a user forgot password. he have follow this configured option to reset password.',
+            'key' => 'password_reset_method',
+            'type' => 'string',
+            'value' => 'temporary_password'
+        ],
+        [
+            'package' => 'auth',
+            'label' => 'Length of Temporary Password',
+            'description' => 'Number of Alpha-numeric characters in Temporary Password when generated',
+            'key' => 'temporary_password_length',
+            'type' => 'integer',
+            'value' => '8'
+        ]
+    ];
 
     public function handle(): int
     {
-        $this->comment('All done');
+        try {
 
-        return self::SUCCESS;
+            $this->addSettings($this->module);
+            $this->addPermissions();
+            $this->addRoles();
+
+            return self::SUCCESS;
+
+        } catch (\Exception $e) {
+
+            $this->components->twoColumnDetail($e->getMessage(), '<fg=red;options=bold>ERROR</>');
+
+            return self::FAILURE;
+        }
+    }
+
+    private function addPermissions(): void
+    {
+        $this->call('vendor:publish', ['--tag' => 'fintech-permissions']);
+        $this->call('db:seed', ['--class' => PermissionSeeder::class]);
+
+        $this->components->twoColumnDetail(
+            "<fg=yellow;options=bold>`{$this->module}`</> module system permissions synced.",
+            '<fg=red;options=bold>SUCCESS</>');
+    }
+
+    private function addRoles(): void
+    {
+        $roles = [
+            [
+                'name' => SystemRole::SuperAdmin->value,
+                'guard_name' => 'web',
+                'permissions' => Auth::permission()->list()->pluck('id')->toArray()
+            ],
+            [
+                'name' => SystemRole::MasterUser->value,
+                'guard_name' => 'web',
+                'permissions' => []
+            ],
+        ];
+
+        foreach ($roles as $role) {
+            DB::beginTransaction();
+            try {
+                if ($roleModel = Auth::role()->create($role)) {
+                    $this->components->twoColumnDetail(
+                        "ID {$roleModel->getKey()}: {$roleModel->name} role created.",
+                        '<fg=green;options=bold>SUCCESS</>');
+                    DB::commit();
+                }
+            }
+            catch (\Exception $exception) {
+                DB::rollBack();
+                $this->components->twoColumnDetail($exception->getMessage(), '<fg=red;options=bold>ERROR</>');
+            }
+        }
+
+        $this->components->twoColumnDetail(
+            "<fg=yellow;options=bold>`{$this->module}`</> module system roles/groups created.",
+            '<fg=red;options=bold>SUCCESS</>');
     }
 }

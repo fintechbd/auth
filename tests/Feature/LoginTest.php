@@ -1,6 +1,7 @@
 <?php
 
 use Fintech\Auth\Facades\Auth;
+
 use function Pest\Laravel\postJson;
 
 test('login failed', function () {

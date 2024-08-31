@@ -104,7 +104,8 @@ class InstallCommand extends Command
 
             $this->components->twoColumnDetail(
                 "<fg=yellow;options=bold>`{$this->module}`</> module setup completed.",
-                '<fg=green;options=bold>COMPLETED</>');
+                '<fg=green;options=bold>COMPLETED</>'
+            );
 
             return self::SUCCESS;
 
@@ -123,7 +124,8 @@ class InstallCommand extends Command
 
         $this->components->twoColumnDetail(
             "<fg=yellow;options=bold>`{$this->module}`</> module system permissions created.",
-            '<fg=green;options=bold>SUCCESS</>');
+            '<fg=green;options=bold>SUCCESS</>'
+        );
     }
 
     private function addRoles(): void
@@ -154,6 +156,7 @@ class InstallCommand extends Command
 
         $this->components->twoColumnDetail(
             "<fg=yellow;options=bold>`{$this->module}`</> module system roles/groups created.",
-            '<fg=green;options=bold>SUCCESS</>');
+            '<fg=green;options=bold>SUCCESS</>'
+        );
     }
 }

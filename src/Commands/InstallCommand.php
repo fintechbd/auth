@@ -8,7 +8,6 @@ use Fintech\Core\Enums\Auth\SystemRole;
 use Fintech\Core\Traits\HasCoreSettingTrait;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Artisan;
-use Illuminate\Support\Facades\DB;
 
 class InstallCommand extends Command
 {

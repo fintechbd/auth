@@ -94,36 +94,23 @@ class InstallCommand extends Command
 
     public function handle(): int
     {
-        try {
+        $this->addSettings($this->module);
 
-            $this->addSettings($this->module);
+        $this->addPermissions();
 
-            $this->addPermissions();
+        $this->addRoles();
 
-            $this->addRoles();
+        $this->components->twoColumnDetail("[<fg=green;options=bold>{$this->module}</>] Installation", "<fg=green;options=bold>COMPLETED</>");
 
-            $this->components->twoColumnDetail(
-                "<fg=yellow;options=bold>`{$this->module}`</> module setup completed.",
-                '<fg=green;options=bold>COMPLETED</>');
-
-            return self::SUCCESS;
-
-        } catch (\Exception $e) {
-
-            $this->components->twoColumnDetail($e->getMessage(), '<fg=red;options=bold>ERROR</>');
-
-            return self::FAILURE;
-        }
+        return self::SUCCESS;
     }
 
     private function addPermissions(): void
     {
-        Artisan::call('vendor:publish --tag=fintech-permissions --quiet');
-        Artisan::call('db:seed --class=' . addslashes(PermissionSeeder::class) . ' --quiet');
-
-        $this->components->twoColumnDetail(
-            "<fg=yellow;options=bold>`{$this->module}`</> module system permissions created.",
-            '<fg=green;options=bold>SUCCESS</>');
+        $this->components->task("[<fg=green;options=bold>{$this->module}</>] Creating system permissions", function () {
+            Artisan::call('vendor:publish --tag=fintech-permissions --quiet');
+            Artisan::call('db:seed --class=' . addslashes(PermissionSeeder::class) . ' --quiet');
+        });
     }
 
     private function addRoles(): void
@@ -141,19 +128,10 @@ class InstallCommand extends Command
             ],
         ];
 
-        foreach ($roles as $role) {
-            DB::beginTransaction();
-            try {
+        $this->components->task("[<fg=green;options=bold>{$this->module}</>] Creating system roles", function () use ($roles) {
+            foreach ($roles as $role) {
                 Auth::role()->create($role);
-                DB::commit();
-            } catch (\Exception $exception) {
-                DB::rollBack();
-                $this->components->twoColumnDetail($exception->getMessage(), '<fg=red;options=bold>ERROR</>');
             }
-        }
-
-        $this->components->twoColumnDetail(
-            "<fg=yellow;options=bold>`{$this->module}`</> module system roles/groups created.",
-            '<fg=green;options=bold>SUCCESS</>');
+        });
     }
 }

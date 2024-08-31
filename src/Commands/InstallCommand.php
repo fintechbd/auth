@@ -8,6 +8,7 @@ use Fintech\Core\Enums\Auth\SystemRole;
 use Fintech\Core\Facades\Core;
 use Fintech\Core\Traits\HasCoreSettingTrait;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\DB;
 
 class InstallCommand extends Command
@@ -121,8 +122,8 @@ class InstallCommand extends Command
 
     private function addPermissions(): void
     {
-        $this->call('vendor:publish', ['--tag' => 'fintech-permissions', '--quiet' => true]);
-        $this->call('db:seed', ['--class' => PermissionSeeder::class]);
+        Artisan::call('vendor:publish --tag=fintech-permissions --quiet');
+        Artisan::call('db:seed --class='.addslashes(PermissionSeeder::class).' --quiet');
 
         $this->components->twoColumnDetail(
             "<fg=yellow;options=bold>`{$this->module}`</> module system permissions created.",

@@ -3,6 +3,7 @@
 // config for fintech/auth
 use Fintech\Auth\Models\Audit;
 use Fintech\Auth\Models\Favourite;
+use Fintech\Auth\Models\LoginAttempt;
 use Fintech\Auth\Models\OneTimePin;
 use Fintech\Auth\Models\Permission;
 use Fintech\Auth\Models\Profile;
@@ -18,6 +19,14 @@ use Fintech\Auth\Repositories\Eloquent\ProfileRepository;
 use Fintech\Auth\Repositories\Eloquent\RoleRepository;
 use Fintech\Auth\Repositories\Eloquent\TeamRepository;
 use Fintech\Auth\Repositories\Eloquent\UserRepository;
+use Fintech\Auth\Services\Vendors\GeoIp\Cloudflare;
+use Fintech\Auth\Services\Vendors\GeoIp\Ip2Location;
+use Fintech\Auth\Services\Vendors\GeoIp\IpApi;
+use Fintech\Auth\Services\Vendors\GeoIp\IpData;
+use Fintech\Auth\Services\Vendors\GeoIp\IpInfo;
+use Fintech\Auth\Services\Vendors\GeoIp\Kloudend;
+use Fintech\Auth\Services\Vendors\GeoIp\Local;
+use Fintech\Auth\Services\Vendors\GeoIp\MaxMind;
 
 return [
 
@@ -147,7 +156,7 @@ return [
     |
     | This value will be used to across system where model is needed
     */
-    'login_attempt_model' => \Fintech\Auth\Models\LoginAttempt::class,
+    'login_attempt_model' => LoginAttempt::class,
     'record_login_attempt' => env('PACKAGE_AUTH_RECORD_LOGIN_ATTEMPT', false),
     /*
     |--------------------------------------------------------------------------
@@ -160,35 +169,35 @@ return [
         'default' => env('PACKAGE_AUTH_GEOIP_DRIVER', null),
         'drivers' => [
             'local' => [
-                'class' => \Fintech\Auth\Services\Vendors\GeoIp\Local::class,
+                'class' => Local::class,
                 'type' => 'city',
                 'path' => 'maxmind/GeoLite2-City.mmdb',
             ],
             'ipapi' => [
-                'class' => \Fintech\Auth\Services\Vendors\GeoIp\IpApi::class,
+                'class' => IpApi::class,
                 'token' => env('PACKAGE_AUTH_IPAPI_TOKEN'),
             ],
             'ipinfo' => [
-                'class' => \Fintech\Auth\Services\Vendors\GeoIp\IpInfo::class,
+                'class' => IpInfo::class,
                 'token' => env('PACKAGE_AUTH_IPINFO_TOKEN'),
             ],
             'ipdata' => [
-                'class' => \Fintech\Auth\Services\Vendors\GeoIp\IpData::class,
+                'class' => IpData::class,
                 'token' => env('PACKAGE_AUTH_IPDATA_TOKEN'),
             ],
             'ip2location' => [
-                'class' => \Fintech\Auth\Services\Vendors\GeoIp\Ip2Location::class,
+                'class' => Ip2Location::class,
                 'token' => env('PACKAGE_AUTH_IP2LOCATION_TOKEN'),
             ],
             'cloudflare' => [
-                'class' => \Fintech\Auth\Services\Vendors\GeoIp\Cloudflare::class,
+                'class' => Cloudflare::class,
             ],
             'kloudend' => [
-                'class' => \Fintech\Auth\Services\Vendors\GeoIp\Kloudend::class,
+                'class' => Kloudend::class,
                 'token' => env('PACKAGE_AUTH_KLOUDEND_TOKEN'),
             ],
             'maxmind' => [
-                'class' => \Fintech\Auth\Services\Vendors\GeoIp\MaxMind::class,
+                'class' => MaxMind::class,
                 'user_id' => env('PACKAGE_AUTH_MAXMIND_USER_ID'),
                 'license_key' => env('PACKAGE_AUTH_MAXMIND_LICENSE_KEY'),
                 'options' => ['host' => 'geoip.maxmind.com'],

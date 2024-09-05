@@ -4,6 +4,7 @@ namespace Fintech\Auth\Models;
 
 use Fintech\Core\Abstracts\BaseModel;
 use Fintech\Core\Traits\AuditableTrait;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class LoginAttempt extends BaseModel
@@ -37,7 +38,7 @@ class LoginAttempt extends BaseModel
     | RELATIONS
     |--------------------------------------------------------------------------
     */
-    public function user(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    public function user(): BelongsTo
     {
         return $this->belongsTo(config('fintech.auth.user_model', User::class), 'user_id');
     }

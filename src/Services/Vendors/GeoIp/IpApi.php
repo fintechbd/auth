@@ -4,6 +4,7 @@ namespace Fintech\Auth\Services\Vendors\GeoIp;
 
 use Fintech\Auth\Interfaces\GeoIp;
 use Illuminate\Support\Facades\Http;
+use InvalidArgumentException;
 
 class IpApi implements GeoIp
 {
@@ -17,7 +18,7 @@ class IpApi implements GeoIp
     public function __construct(array $config = [])
     {
         if (!$config['token']) {
-            throw new \InvalidArgumentException("IP API Access Key is missing.");
+            throw new InvalidArgumentException("IP API Access Key is missing.");
         }
 
         $this->token = $config['token'];

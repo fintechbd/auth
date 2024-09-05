@@ -2,6 +2,7 @@
 
 namespace Fintech\Auth\Notifications;
 
+use Fintech\Auth\Models\User;
 use Fintech\Core\Enums\Auth\OTPOption;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Messages\MailMessage;
@@ -40,7 +41,7 @@ class OTPNotification extends Notification
         }
 
         if (request()->filled('user')) {
-            $userModel = config('fintech.auth.user_model', \Fintech\Auth\Models\User::class);
+            $userModel = config('fintech.auth.user_model', User::class);
             return ($notifiable instanceof $userModel)
                 ? $notifiable->prefer ? [$notifiable->prefer] : ['mail']
                 : ['database'];

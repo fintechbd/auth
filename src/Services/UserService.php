@@ -24,6 +24,7 @@ use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use PDOException;
+use stdClass;
 
 /**
  * Class UserService
@@ -41,7 +42,8 @@ class UserService
     public function __construct(
         private readonly UserRepository    $userRepository,
         private readonly ProfileRepository $profileRepository
-    ) {
+    )
+    {
         $this->loginAttempt = [];
     }
 
@@ -298,7 +300,7 @@ class UserService
 
         if ($attemptUser->tokens->isNotEmpty()) {
 
-            $attemptUser->tokens->each(fn ($token) => $token->delete());
+            $attemptUser->tokens->each(fn($token) => $token->delete());
 
             event(new OtherDeviceLogout($guard, $attemptUser));
         }
@@ -363,8 +365,8 @@ class UserService
                 $ipAddress['continent_name']]);
 
             $country = MetaData::country()->list(['iso2' => $ipAddress['country_code']])->first();
-            $state = new \stdClass();
-            $city = new \stdClass();
+            $state = new stdClass();
+            $city = new stdClass();
 
             if ($country) {
                 $state = MetaData::state()->list(['country_id' => $country->id, 'search' => $ipAddress['region_name']])->first();

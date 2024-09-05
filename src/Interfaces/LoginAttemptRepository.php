@@ -5,6 +5,7 @@ namespace Fintech\Auth\Interfaces;
 use Fintech\Core\Abstracts\BaseModel;
 use Illuminate\Contracts\Pagination\Paginator;
 use Illuminate\Support\Collection;
+use InvalidArgumentException;
 
 /**
  * Interface LoginAttemptRepository
@@ -48,7 +49,7 @@ interface LoginAttemptRepository
      * find and restore a entry from records
      *
      * @param int|string $id
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     public function restore(int|string $id);
 }

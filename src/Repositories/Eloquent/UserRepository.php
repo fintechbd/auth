@@ -72,6 +72,10 @@ class UserRepository extends EloquentRepository implements InterfacesUserReposit
             $query->where('mobile', '=', $filters['mobile']);
         }
 
+        if (!empty($filters['wallet_recipient'])) {
+            $query->where('mobile', 'like', "%{$filters['wallet_recipient']}%");
+        }
+
         if (!empty($filters['name'])) {
             $query->where('name', '=', $filters['name']);
         }

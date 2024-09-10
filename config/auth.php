@@ -48,7 +48,7 @@ return [
     |
     | Note: while adding prefix add closing ending slash '/'
     */
-    'root_prefix' => '',
+    'root_prefix' => 'api/',
 
     /*
     |--------------------------------------------------------------------------

@@ -8,6 +8,7 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 use Laraflow\Sms\SmsMessage;
+
 use function decide_sms_from_name;
 
 class OTPNotification extends Notification

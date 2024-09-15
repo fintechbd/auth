@@ -8,6 +8,7 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 use Laraflow\Sms\SmsMessage;
+use function decide_sms_from_name;
 
 class OTPNotification extends Notification
 {
@@ -101,7 +102,7 @@ class OTPNotification extends Notification
     public function toSms(object $notifiable): SmsMessage
     {
         return (new SmsMessage())
-            ->from(\decide_sms_from_name($notifiable->routes['sms']))
+            ->from(decide_sms_from_name($notifiable->routes['sms']))
             ->message('Your LebuPay mobile verification OTP is: ' . $this->data['value']);
     }
 }

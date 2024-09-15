@@ -99,14 +99,14 @@ class InstallCommand extends Command
 
         $this->addRoles();
 
-        $this->components->twoColumnDetail("[<fg=yellow;options=bold>{$this->module}</>] Installation", "<fg=green;options=bold>COMPLETED</>");
+        $this->components->twoColumnDetail("<fg=black;bg=bright-yellow;options=bold> {$this->module} </> Installation", "<fg=green;options=bold>COMPLETED</>");
 
         return self::SUCCESS;
     }
 
     private function addPermissions(): void
     {
-        $this->components->task("[<fg=yellow;options=bold>{$this->module}</>] Creating system permissions", function () {
+        $this->components->task("<fg=black;bg=bright-yellow;options=bold> {$this->module} </> Creating system permissions", function () {
             Artisan::call('vendor:publish --tag=fintech-permissions --quiet');
             Artisan::call('db:seed --class=' . addslashes(PermissionSeeder::class) . ' --quiet');
         });
@@ -127,7 +127,7 @@ class InstallCommand extends Command
             ],
         ];
 
-        $this->components->task("[<fg=yellow;options=bold>{$this->module}</>] Creating system roles", function () use ($roles) {
+        $this->components->task("<fg=black;bg=bright-yellow;options=bold> {$this->module} </> Creating system roles", function () use ($roles) {
             foreach ($roles as $role) {
                 Auth::role()->create($role);
             }

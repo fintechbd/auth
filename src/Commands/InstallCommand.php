@@ -93,6 +93,8 @@ class InstallCommand extends Command
 
     public function handle(): int
     {
+        $this->infoMessage("Module Installation", 'RUNNING');
+
         $this->task("Module Installation", function () {
             $this->addSettings();
 
@@ -100,7 +102,7 @@ class InstallCommand extends Command
 
             $this->addRoles();
 
-        }, "COMPETED");
+        });
 
         return self::SUCCESS;
     }

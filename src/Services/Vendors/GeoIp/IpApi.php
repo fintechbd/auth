@@ -24,6 +24,9 @@ class IpApi implements GeoIp
         $this->token = $config['token'];
     }
 
+    /**
+     * @throws \JsonException
+     */
     public function find(string $ip): mixed
     {
         $response = Http::baseUrl("https://api.ipapi.com/api/")
@@ -39,7 +42,9 @@ class IpApi implements GeoIp
             throw new \JsonException("Invalid IP API Response.");
         }
 
-        if (!$response->json('success')) {
+        $response = $response->json();
+
+        if (isset($response['success']) && !$response['success']) {
             throw new \JsonException("IP API Error: " . $response->json('error.info'));
         }
 

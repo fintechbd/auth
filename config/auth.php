@@ -167,6 +167,7 @@ return [
     */
     'geoip' => [
         'default' => env('PACKAGE_AUTH_GEOIP_DRIVER', null),
+        'whitelist' => ['127.0.0.1', '0.0.0.0', 'localhost'],
         'drivers' => [
             'local' => [
                 'class' => Local::class,

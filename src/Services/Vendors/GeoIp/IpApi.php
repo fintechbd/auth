@@ -26,14 +26,24 @@ class IpApi implements GeoIp
 
     public function find(string $ip): mixed
     {
+        $response = Http::baseUrl("https://api.ipapi.com/api/")
+            ->contentType('application/json')
+            ->acceptJson()
+            ->get($ip, [
+                'access_key' => $this->token,
+                'output' => 'json',
+                'language' => 'en'
+            ]);
 
-        $response = Http::baseUrl("https://api.ipapi.com/api/")->get($ip, [
-            'access_key' => $this->token,
-            'output' => 'json',
-            'language' => 'en'
-        ]);
+        if (!$response->json()) {
+            throw new \JsonException("Invalid IP API Response.");
+        }
 
-        return $response->json();
+        if (!$response->json('success')) {
+            throw new \JsonException("IP API Error: " . $response->json('error.info'));
+        }
+
+        return $response;
     }
 
     /**

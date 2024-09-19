@@ -103,7 +103,7 @@ class ProfileService
 
     private function logKycStatus($user_id, array $data = [])
     {
-        $kycModel = Ekyc::kycStatus()->list(['reference_no' => $data['reference_no']])->first();
+        $kycModel = Ekyc::kycStatus()->findWhere(['reference_no' => $data['reference_no']]);
 
         if ($kycModel) {
             return Ekyc::kycStatus()->update($kycModel->getKey(), ['user_id' => $user_id]);

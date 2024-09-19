@@ -365,17 +365,17 @@ class UserService
                 $ipAddress['country_name'],
                 $ipAddress['continent_name']]);
 
-            $country = MetaData::country()->list(['iso2' => $ipAddress['country_code']])->first();
+            $country = MetaData::country()->findWhere(['iso2' => $ipAddress['country_code']]);
             $state = new stdClass();
             $city = new stdClass();
 
             if ($country) {
-                $state = MetaData::state()->list(['country_id' => $country->id, 'search' => $ipAddress['region_name']])->first();
+                $state = MetaData::state()->findWhere(['country_id' => $country->id, 'search' => $ipAddress['region_name']]);
                 $query = ['country_id' => $country->id, 'search' => $ipAddress['city']];
                 if ($state) {
                     $query['state_id'] = $state->id;
                 }
-                $city = MetaData::city()->list($query)->first();
+                $city = MetaData::city()->findWhere($query);
                 unset($query);
             }
 

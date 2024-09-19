@@ -30,7 +30,7 @@ use stdClass;
  * Class UserService
  *
  */
-class UserService
+class UserService extends \Fintech\Core\Abstracts\Service
 {
     private array $loginAttempt;
 

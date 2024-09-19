@@ -5,13 +5,13 @@ namespace Fintech\Auth\Commands;
 use Fintech\Auth\Facades\Auth;
 use Fintech\Auth\Seeders\PermissionSeeder;
 use Fintech\Core\Enums\Auth\SystemRole;
-use Fintech\Core\Traits\HasCoreSettingTrait;
+use Fintech\Core\Traits\HasCoreSetting;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Artisan;
 
 class InstallCommand extends Command
 {
-    use HasCoreSettingTrait;
+    use HasCoreSetting;
 
     public $signature = 'auth:install';
     public $description = 'Configure the system for the `fintech/auth` module';

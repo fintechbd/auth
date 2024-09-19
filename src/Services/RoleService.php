@@ -8,7 +8,7 @@ use Fintech\Auth\Interfaces\RoleRepository;
  * Class RoleService
  *
  */
-class RoleService
+class RoleService extends \Fintech\Core\Abstracts\Service
 {
     /**
      * RoleService constructor.

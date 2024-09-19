@@ -9,7 +9,7 @@ use Fintech\Auth\Interfaces\AuditRepository;
  * @package Fintech\Auth\Services
  *
  */
-class AuditService
+class AuditService extends \Fintech\Core\Abstracts\Service
 {
     /**
      * AuditService constructor.

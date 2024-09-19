@@ -9,7 +9,7 @@ use Fintech\Auth\Interfaces\FavouriteRepository;
  * @package Fintech\Auth\Services
  *
  */
-class FavouriteService
+class FavouriteService extends \Fintech\Core\Abstracts\Service
 {
     /**
      * FavouriteService constructor.

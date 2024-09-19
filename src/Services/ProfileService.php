@@ -18,7 +18,7 @@ use PDOException;
  * Class UserService
  *
  */
-class ProfileService
+class ProfileService extends \Fintech\Core\Abstracts\Service
 {
     /**
      * UserService constructor.

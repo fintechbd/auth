@@ -13,7 +13,7 @@ use JsonException;
  * Class PermissionService
  *
  */
-class OneTimePinService
+class OneTimePinService extends \Fintech\Core\Abstracts\Service
 {
     private string $otpMethod;
 

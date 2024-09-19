@@ -9,7 +9,7 @@ use Fintech\Auth\Interfaces\LoginAttemptRepository;
  * @package Fintech\Auth\Services
  *
  */
-class LoginAttemptService
+class LoginAttemptService extends \Fintech\Core\Abstracts\Service
 {
     /**
      * LoginAttemptService constructor.

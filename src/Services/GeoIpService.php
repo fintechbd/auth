@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Cache;
  * @package Fintech\Auth\Services
  *
  */
-class GeoIpService
+class GeoIpService extends \Fintech\Core\Abstracts\Service
 {
     public function __construct(private readonly GeoIp $driver)
     {

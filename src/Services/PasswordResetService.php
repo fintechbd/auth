@@ -18,7 +18,7 @@ use JsonException;
  * Class PermissionService
  *
  */
-class PasswordResetService
+class PasswordResetService extends \Fintech\Core\Abstracts\Service
 {
     /**
      * @var mixed|string

@@ -8,7 +8,7 @@ use Fintech\Auth\Interfaces\TeamRepository;
  * Class TeamService
  *
  */
-class TeamService
+class TeamService extends \Fintech\Core\Abstracts\Service
 {
     /**
      * TeamService constructor.

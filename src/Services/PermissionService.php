@@ -8,7 +8,7 @@ use Fintech\Auth\Interfaces\PermissionRepository;
  * Class PermissionService
  *
  */
-class PermissionService
+class PermissionService extends \Fintech\Core\Abstracts\Service
 {
     /**
      * PermissionService constructor.

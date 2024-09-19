@@ -22,8 +22,8 @@ class Auth
      *
      */
     public function user($filters = null)
-{
-	return \singleton(UserService::class, $filters);
+    {
+        return \singleton(UserService::class, $filters);
     }
 
     /**
@@ -31,8 +31,8 @@ class Auth
      *
      */
     public function profile($filters = null)
-{
-	return \singleton(ProfileService::class, $filters);
+    {
+        return \singleton(ProfileService::class, $filters);
     }
 
     /**
@@ -40,8 +40,8 @@ class Auth
      *
      */
     public function role($filters = null)
-{
-	return \singleton(RoleService::class, $filters);
+    {
+        return \singleton(RoleService::class, $filters);
     }
 
     /**
@@ -49,8 +49,8 @@ class Auth
      *
      */
     public function permission($filters = null)
-{
-	return \singleton(PermissionService::class, $filters);
+    {
+        return \singleton(PermissionService::class, $filters);
     }
 
     /**
@@ -58,64 +58,64 @@ class Auth
      *
      */
     public function team($filters = null)
-{
-	return \singleton(TeamService::class, $filters);
+    {
+        return \singleton(TeamService::class, $filters);
     }
 
     /**
      * @return OneTimePinService
      */
     public function otp($filters = null)
-{
-	return \singleton(OneTimePinService::class, $filters);
+    {
+        return \singleton(OneTimePinService::class, $filters);
     }
 
     /**
      * @return PasswordResetService
      */
     public function passwordReset($filters = null)
-{
-	return \singleton(PasswordResetService::class, $filters);
+    {
+        return \singleton(PasswordResetService::class, $filters);
     }
 
     /**
      * @return PinResetService
      */
     public function pinReset($filters = null)
-{
-	return \singleton(PinResetService::class, $filters);
+    {
+        return \singleton(PinResetService::class, $filters);
     }
 
     /**
      * @return AuditService
      */
     public function audit($filters = null)
-{
-	return \singleton(AuditService::class, $filters);
+    {
+        return \singleton(AuditService::class, $filters);
     }
 
     /**
      * @return FavouriteService
      */
     public function favourite($filters = null)
-{
-	return \singleton(FavouriteService::class, $filters);
+    {
+        return \singleton(FavouriteService::class, $filters);
     }
 
     /**
      * @return GeoIpService
      */
     public function geoip($filters = null)
-{
-	return \singleton(GeoIpService::class, $filters);
+    {
+        return \singleton(GeoIpService::class, $filters);
     }
 
     /**
      * @return LoginAttemptService
      */
     public function loginAttempt($filters = null)
-{
-	return \singleton(LoginAttemptService::class, $filters);
+    {
+        return \singleton(LoginAttemptService::class, $filters);
     }
 
     //** Crud Service Method Point Do not Remove **//

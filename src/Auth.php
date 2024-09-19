@@ -21,101 +21,101 @@ class Auth
      * @return UserService
      *
      */
-    public function user()
-    {
-        return app(UserService::class);
+    public function user($filters = null)
+{
+	return \singleton(UserService::class, $filters);
     }
 
     /**
      * @return UserService
      *
      */
-    public function profile()
-    {
-        return app(ProfileService::class);
+    public function profile($filters = null)
+{
+	return \singleton(ProfileService::class, $filters);
     }
 
     /**
      * @return RoleService
      *
      */
-    public function role()
-    {
-        return app(RoleService::class);
+    public function role($filters = null)
+{
+	return \singleton(RoleService::class, $filters);
     }
 
     /**
      * @return PermissionService
      *
      */
-    public function permission()
-    {
-        return app(PermissionService::class);
+    public function permission($filters = null)
+{
+	return \singleton(PermissionService::class, $filters);
     }
 
     /**
      * @return TeamService
      *
      */
-    public function team()
-    {
-        return app(TeamService::class);
+    public function team($filters = null)
+{
+	return \singleton(TeamService::class, $filters);
     }
 
     /**
      * @return OneTimePinService
      */
-    public function otp()
-    {
-        return app(OneTimePinService::class);
+    public function otp($filters = null)
+{
+	return \singleton(OneTimePinService::class, $filters);
     }
 
     /**
      * @return PasswordResetService
      */
-    public function passwordReset()
-    {
-        return app(PasswordResetService::class);
+    public function passwordReset($filters = null)
+{
+	return \singleton(PasswordResetService::class, $filters);
     }
 
     /**
      * @return PinResetService
      */
-    public function pinReset()
-    {
-        return app(PinResetService::class);
+    public function pinReset($filters = null)
+{
+	return \singleton(PinResetService::class, $filters);
     }
 
     /**
      * @return AuditService
      */
-    public function audit()
-    {
-        return app(AuditService::class);
+    public function audit($filters = null)
+{
+	return \singleton(AuditService::class, $filters);
     }
 
     /**
      * @return FavouriteService
      */
-    public function favourite()
-    {
-        return app(FavouriteService::class);
+    public function favourite($filters = null)
+{
+	return \singleton(FavouriteService::class, $filters);
     }
 
     /**
      * @return GeoIpService
      */
-    public function geoip()
-    {
-        return app(GeoIpService::class);
+    public function geoip($filters = null)
+{
+	return \singleton(GeoIpService::class, $filters);
     }
 
     /**
      * @return LoginAttemptService
      */
-    public function loginAttempt()
-    {
-        return app(LoginAttemptService::class);
+    public function loginAttempt($filters = null)
+{
+	return \singleton(LoginAttemptService::class, $filters);
     }
 
     //** Crud Service Method Point Do not Remove **//

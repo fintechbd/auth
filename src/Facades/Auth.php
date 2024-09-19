@@ -17,18 +17,18 @@ use Fintech\Auth\Services\UserService;
 use Illuminate\Support\Facades\Facade;
 
 /**
- * @method static UserService user()
- * @method static ProfileService profile()
- * @method static RoleService role()
- * @method static PermissionService permission()
- * @method static TeamService team()
- * @method static OneTimePinService otp()
- * @method static PasswordResetService passwordReset()
- * @method static PinResetService pinReset()
- * @method static AuditService audit()
- * @method static FavouriteService favourite()
- * @method static GeoIpService geoip()
- * @method static LoginAttemptService loginAttempt()
+ * @method static \Illuminate\Contracts\Pagination\Paginator|\Illuminate\Support\Collection|UserService user(array $filters = null)
+ * @method static \Illuminate\Contracts\Pagination\Paginator|\Illuminate\Support\Collection|ProfileService profile(array $filters = null)
+ * @method static \Illuminate\Contracts\Pagination\Paginator|\Illuminate\Support\Collection|RoleService role(array $filters = null)
+ * @method static \Illuminate\Contracts\Pagination\Paginator|\Illuminate\Support\Collection|PermissionService permission(array $filters = null)
+ * @method static \Illuminate\Contracts\Pagination\Paginator|\Illuminate\Support\Collection|TeamService team(array $filters = null)
+ * @method static \Illuminate\Contracts\Pagination\Paginator|\Illuminate\Support\Collection|OneTimePinService otp(array $filters = null)
+ * @method static \Illuminate\Contracts\Pagination\Paginator|\Illuminate\Support\Collection|PasswordResetService passwordReset(array $filters = null)
+ * @method static \Illuminate\Contracts\Pagination\Paginator|\Illuminate\Support\Collection|PinResetService pinReset(array $filters = null)
+ * @method static \Illuminate\Contracts\Pagination\Paginator|\Illuminate\Support\Collection|AuditService audit(array $filters = null)
+ * @method static \Illuminate\Contracts\Pagination\Paginator|\Illuminate\Support\Collection|FavouriteService favourite(array $filters = null)
+ * @method static \Illuminate\Contracts\Pagination\Paginator|\Illuminate\Support\Collection|GeoIpService geoip(array $filters = null)
+ * @method static \Illuminate\Contracts\Pagination\Paginator|\Illuminate\Support\Collection|LoginAttemptService loginAttempt(array $filters = null)
  * // Crud Service Method Point Do not Remove //
  *
  * @see \Fintech\Auth\Auth

@@ -17,7 +17,6 @@ use Fintech\Auth\Services\UserService;
 
 class Auth
 {
-
     public function user($filters = null)
     {
         return \singleton(UserService::class, $filters);

@@ -18,8 +18,10 @@ use PDOException;
  * Class UserService
  *
  */
-class ProfileService extends \Fintech\Core\Abstracts\Service
+class ProfileService
 {
+    use \Fintech\Core\Traits\HasFindWhereSearch;
+
     /**
      * UserService constructor.
      * @param ProfileRepository $profileRepository

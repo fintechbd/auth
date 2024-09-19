@@ -9,8 +9,10 @@ use Fintech\Auth\Interfaces\AuditRepository;
  * @package Fintech\Auth\Services
  *
  */
-class AuditService extends \Fintech\Core\Abstracts\Service
+class AuditService
 {
+    use \Fintech\Core\Traits\HasFindWhereSearch;
+
     /**
      * AuditService constructor.
      * @param AuditRepository $auditRepository

@@ -18,8 +18,10 @@ use JsonException;
  * Class PermissionService
  *
  */
-class PinResetService extends \Fintech\Core\Abstracts\Service
+class PinResetService
 {
+    use \Fintech\Core\Traits\HasFindWhereSearch;
+
     /**
      * @var mixed|string
      */

@@ -13,8 +13,10 @@ use JsonException;
  * Class PermissionService
  *
  */
-class OneTimePinService extends \Fintech\Core\Abstracts\Service
+class OneTimePinService
 {
+    use \Fintech\Core\Traits\HasFindWhereSearch;
+
     private string $otpMethod;
 
     /**

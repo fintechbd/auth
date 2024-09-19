@@ -9,8 +9,10 @@ use Fintech\Auth\Interfaces\FavouriteRepository;
  * @package Fintech\Auth\Services
  *
  */
-class FavouriteService extends \Fintech\Core\Abstracts\Service
+class FavouriteService
 {
+    use \Fintech\Core\Traits\HasFindWhereSearch;
+
     /**
      * FavouriteService constructor.
      * @param FavouriteRepository $favouriteRepository

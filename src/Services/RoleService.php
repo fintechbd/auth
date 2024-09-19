@@ -8,8 +8,10 @@ use Fintech\Auth\Interfaces\RoleRepository;
  * Class RoleService
  *
  */
-class RoleService extends \Fintech\Core\Abstracts\Service
+class RoleService
 {
+    use \Fintech\Core\Traits\HasFindWhereSearch;
+
     /**
      * RoleService constructor.
      * @param RoleRepository $roleRepository

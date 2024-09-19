@@ -8,8 +8,10 @@ use Fintech\Auth\Interfaces\PermissionRepository;
  * Class PermissionService
  *
  */
-class PermissionService extends \Fintech\Core\Abstracts\Service
+class PermissionService
 {
+    use \Fintech\Core\Traits\HasFindWhereSearch;
+
     /**
      * PermissionService constructor.
      * @param PermissionRepository $permissionRepository

@@ -10,8 +10,10 @@ use Illuminate\Support\Facades\Cache;
  * @package Fintech\Auth\Services
  *
  */
-class GeoIpService extends \Fintech\Core\Abstracts\Service
+class GeoIpService
 {
+    use \Fintech\Core\Traits\HasFindWhereSearch;
+
     public function __construct(private readonly GeoIp $driver)
     {
 

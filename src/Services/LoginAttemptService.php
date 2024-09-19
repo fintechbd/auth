@@ -9,8 +9,10 @@ use Fintech\Auth\Interfaces\LoginAttemptRepository;
  * @package Fintech\Auth\Services
  *
  */
-class LoginAttemptService extends \Fintech\Core\Abstracts\Service
+class LoginAttemptService
 {
+    use \Fintech\Core\Traits\HasFindWhereSearch;
+
     /**
      * LoginAttemptService constructor.
      * @param LoginAttemptRepository $loginAttemptRepository

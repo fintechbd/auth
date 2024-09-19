@@ -8,8 +8,10 @@ use Fintech\Auth\Interfaces\TeamRepository;
  * Class TeamService
  *
  */
-class TeamService extends \Fintech\Core\Abstracts\Service
+class TeamService
 {
+    use \Fintech\Core\Traits\HasFindWhereSearch;
+
     /**
      * TeamService constructor.
      * @param TeamRepository $teamRepository

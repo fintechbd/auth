@@ -30,8 +30,10 @@ use stdClass;
  * Class UserService
  *
  */
-class UserService extends \Fintech\Core\Abstracts\Service
+class UserService
 {
+    use \Fintech\Core\Traits\HasFindWhereSearch;
+
     private array $loginAttempt;
 
     /**

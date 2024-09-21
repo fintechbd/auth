@@ -16,19 +16,19 @@ class RoleSeeder extends Seeder
 
         foreach ($this->data() as $role) {
 
-            if(!isset($role['guard_name'])) {
+            if (!isset($role['guard_name'])) {
                 $role['guard_name'] = 'web';
             }
 
             if (isset($role['permissions'])) {
                 if (is_string($role['permissions']) && $role['permissions'] = "all") {
                     $role['permissions'] = $permissions->pluck('id')->toArray();
-                }
-                else if (is_array($role['permissions'])) {
+                } elseif (is_array($role['permissions'])) {
                     $ids = $permissions->whereIn('name', $role['permissions'])->pluck('id')->toArray();
                     $role['permissions'] = $ids;
+                } else {
+                    unset($role['permissions']);
                 }
-                else {unset($role['permissions']);}
             }
 
             Auth::role()->create($role);

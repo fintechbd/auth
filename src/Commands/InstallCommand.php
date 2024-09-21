@@ -4,6 +4,7 @@ namespace Fintech\Auth\Commands;
 
 use Fintech\Auth\Facades\Auth;
 use Fintech\Auth\Seeders\PermissionSeeder;
+use Fintech\Auth\Seeders\RoleSeeder;
 use Fintech\Core\Enums\Auth\SystemRole;
 use Fintech\Core\Traits\HasCoreSetting;
 use Illuminate\Console\Command;
@@ -96,11 +97,14 @@ class InstallCommand extends Command
         $this->infoMessage("Module Installation", 'RUNNING');
 
         $this->task("Module Installation", function () {
+
             $this->addSettings();
 
             $this->addPermissions();
 
-            $this->addRoles();
+            $this->addSystemRoles();
+
+            $this->addAdditionalRoles();
 
         });
 
@@ -115,7 +119,10 @@ class InstallCommand extends Command
         });
     }
 
-    private function addRoles(): void
+    /**
+     * @throws \Throwable
+     */
+    private function addSystemRoles(): void
     {
         $roles = [
             [
@@ -134,6 +141,17 @@ class InstallCommand extends Command
             foreach ($roles as $role) {
                 Auth::role()->create($role);
             }
+        });
+    }
+
+    /**
+     * @throws \Throwable
+     */
+    private function addAdditionalRoles(): void
+    {
+        $this->task("Creating additional roles", function () {
+            Artisan::call('vendor:publish --tag=fintech-roles --quiet');
+            Artisan::call('db:seed --class=' . addslashes(RoleSeeder::class) . ' --quiet');
         });
     }
 }

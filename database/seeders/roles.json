@@ -1,0 +1,42 @@
+[
+    {
+        "id": "3",
+        "name": "Admin",
+        "guard_name": "web",
+        "permissions": "all"
+    },
+    {
+        "id": "4",
+        "name": "Executive",
+        "guard_name": "web",
+        "permissions": [
+        ]
+    },
+    {
+        "id": "5",
+        "name": "Partner",
+        "guard_name": "web",
+        "permissions": [
+        ]
+    },
+    {
+        "id": "6",
+        "name": "Agent",
+        "guard_name": "web",
+        "permissions": [
+            "auth.register",
+            "auth.login",
+            "auth.logout"
+        ]
+    },
+    {
+        "id": "7",
+        "name": "Customer",
+        "guard_name": "web",
+        "permissions": [
+            "auth.register",
+            "auth.login",
+            "auth.logout"
+        ]
+    }
+]

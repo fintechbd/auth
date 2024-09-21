@@ -3,6 +3,8 @@
 namespace Fintech\Auth\Services;
 
 use Fintech\Auth\Interfaces\PermissionRepository;
+use Illuminate\Contracts\Pagination\Paginator;
+use Illuminate\Support\Collection;
 
 /**
  * Class PermissionService
@@ -46,16 +48,11 @@ class PermissionService
     }
 
     /**
-     * @return mixed
+     * @return Paginator|Collection
      */
     public function list(array $filters = [])
     {
-        $permissionList = $this->permissionRepository->list($filters);
-
-        //Do Business Stuff
-
-        return $permissionList;
-
+        return $this->permissionRepository->list($filters);
     }
 
     public function import(array $filters)

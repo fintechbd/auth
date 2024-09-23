@@ -357,11 +357,10 @@ class UserService
 
     private function platformLoginRequiredPermission(RequestPlatform $platform): ?array
     {
-        return match ($platform->value) {
-            RequestPlatform::Customer->value => ['customer.login'],
-            RequestPlatform::Agent->value => ['agent.login'],
-            RequestPlatform::Admin->value => ['admin.login'],
-            default => null
+        return match ($platform) {
+            RequestPlatform::WebAgent => ['agent.login'],
+            RequestPlatform::WebAdmin => ['admin.login'],
+            default => ['customer.login'],
         };
     }
 

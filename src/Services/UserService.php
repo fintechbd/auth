@@ -311,7 +311,7 @@ class UserService
 
         $permissions = $this->platformLoginRequiredPermission($platform);
 
-        if (!$attemptUser->canAny($permissions)) {
+        if (!$attemptUser->can($permissions)) {
 
             \Illuminate\Support\Facades\Auth::guard($guard)->logout();
 

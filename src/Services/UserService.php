@@ -21,7 +21,6 @@ use Illuminate\Auth\Events\Authenticated;
 use Illuminate\Auth\Events\Failed;
 use Illuminate\Auth\Events\OtherDeviceLogout;
 use Illuminate\Foundation\Auth\User;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
@@ -46,8 +45,7 @@ class UserService
     public function __construct(
         private readonly UserRepository    $userRepository,
         private readonly ProfileRepository $profileRepository
-    )
-    {
+    ) {
         $this->loginAttempt = [];
     }
 
@@ -304,7 +302,7 @@ class UserService
 
         if ($attemptUser->tokens->isNotEmpty()) {
 
-            $attemptUser->tokens->each(fn($token) => $token->delete());
+            $attemptUser->tokens->each(fn ($token) => $token->delete());
 
             event(new OtherDeviceLogout($guard, $attemptUser));
         }

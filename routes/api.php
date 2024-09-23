@@ -31,7 +31,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 if (Config::get('fintech.auth.enabled')) {
-    Route::prefix(config('fintech.auth.root_prefix', 'api/'))->middleware(['api', 'http_log', 'encrypted'])->group(function () {
+    Route::prefix(config('fintech.auth.root_prefix', 'api/'))->middleware(['api'])->group(function () {
         Route::prefix('auth')->name('auth.')->group(function () {
             Route::post('pulse-check', PulseCheckController::class)
                 ->name('pulse-check');

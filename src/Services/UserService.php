@@ -14,12 +14,14 @@ use Fintech\Core\Abstracts\BaseModel;
 use Fintech\Core\Enums\Auth\LoginStatus;
 use Fintech\Core\Enums\Auth\PasswordResetOption;
 use Fintech\Core\Enums\Auth\UserStatus;
+use Fintech\Core\Enums\RequestPlatform;
 use Fintech\MetaData\Facades\MetaData;
 use Illuminate\Auth\Events\Attempting;
 use Illuminate\Auth\Events\Authenticated;
 use Illuminate\Auth\Events\Failed;
 use Illuminate\Auth\Events\OtherDeviceLogout;
 use Illuminate\Foundation\Auth\User;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
@@ -44,7 +46,8 @@ class UserService
     public function __construct(
         private readonly UserRepository    $userRepository,
         private readonly ProfileRepository $profileRepository
-    ) {
+    )
+    {
         $this->loginAttempt = [];
     }
 
@@ -301,12 +304,16 @@ class UserService
 
         if ($attemptUser->tokens->isNotEmpty()) {
 
-            $attemptUser->tokens->each(fn ($token) => $token->delete());
+            $attemptUser->tokens->each(fn($token) => $token->delete());
 
             event(new OtherDeviceLogout($guard, $attemptUser));
         }
 
-        if (!$attemptUser->can('auth.login')) {
+        $platform = $inputs['platform'];
+
+        $permissions = $this->platformLoginRequiredPermission($platform);
+
+        if (!$attemptUser->canAny($permissions)) {
 
             \Illuminate\Support\Facades\Auth::guard($guard)->logout();
 
@@ -346,6 +353,16 @@ class UserService
 
         return $attemptUser;
 
+    }
+
+    private function platformLoginRequiredPermission(RequestPlatform $platform): ?array
+    {
+        return match ($platform->value) {
+            RequestPlatform::Customer->value => ['customer.login'],
+            RequestPlatform::Agent->value => ['agent.login'],
+            RequestPlatform::Admin->value => ['admin.login'],
+            default => null
+        };
     }
 
     private function loginAttemptData($user_id, $status, $note): array

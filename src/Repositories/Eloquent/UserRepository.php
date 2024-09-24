@@ -64,6 +64,17 @@ class UserRepository extends EloquentRepository implements InterfacesUserReposit
             $query->where($this->model->getKeyName(), '=', $filters['user_id']);
         }
 
+        if (!empty($filters['parent_id'])) {
+            $query->where('parent_id', '=', $filters['parent_id']);
+        }
+
+        if (!empty($filters['agent_id'])) {
+            $query->where(function ($query) use ($filters) {
+                return $query->where('parent_id', '=', $filters['agent_id'])
+                    ->orWhere($this->model->getKeyName(), '=', $filters['agent_id']);
+            });
+        }
+
         if (!empty($filters['email'])) {
             $query->where('email', '=', $filters['email']);
         }

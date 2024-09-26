@@ -3,6 +3,8 @@
 namespace Fintech\Auth\Models;
 
 use Fintech\Core\Abstracts\BaseModel;
+use Fintech\Core\Enums\Auth\LoginStatus;
+use Fintech\Core\Enums\RequestPlatform;
 use Fintech\Core\Traits\AuditableTrait;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -23,7 +25,7 @@ class LoginAttempt extends BaseModel
     protected $guarded = ['id'];
 
 
-    protected $casts = ['login_attempt_data' => 'array', 'restored_at' => 'datetime'];
+    protected $casts = ['login_attempt_data' => 'array', 'restored_at' => 'datetime', 'status' => LoginStatus::class, 'platform' => RequestPlatform::class];
 
     protected $hidden = ['creator_id', 'editor_id', 'destroyer_id', 'restorer_id'];
 

@@ -60,12 +60,6 @@ if (Config::get('fintech.auth.enabled')) {
                     ->name('reset-password');
             }
 
-            Route::post('update-password', [PasswordController::class, 'update'])
-                ->name('update-password');
-
-            Route::post('update-pin', [PasswordController::class, 'updatePin'])
-                ->name('update-pin');
-
             Route::post('/request-otp', [OneTimePinController::class, 'request'])
                 ->name('request-otp');
 
@@ -79,8 +73,16 @@ if (Config::get('fintech.auth.enabled')) {
                 ->name('users.verification');
 
             Route::middleware(config('fintech.auth.middleware'))->group(function () {
+
+                Route::post('update-password', [PasswordController::class, 'update'])
+                    ->name('update-password');
+
+                Route::post('update-pin', [PasswordController::class, 'updatePin'])
+                    ->name('update-pin');
+
                 Route::apiResource('users', UserController::class);
                 //            Route::post('users/{user}/restore', [UserController::class, 'restore'])->name('users.restore');
+
                 Route::post('users/change-status', [UserController::class, 'changeStatus'])
                     ->name('users.change-status');
 

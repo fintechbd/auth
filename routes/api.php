@@ -8,7 +8,7 @@ use Fintech\RestApi\Http\Controllers\Auth\Charts\UserStatusSummaryController;
 use Fintech\RestApi\Http\Controllers\Auth\FavouriteController;
 use Fintech\RestApi\Http\Controllers\Auth\LoginAttemptController;
 use Fintech\RestApi\Http\Controllers\Auth\OneTimePinController;
-use Fintech\RestApi\Http\Controllers\Auth\PasswordResetController;
+use Fintech\RestApi\Http\Controllers\Auth\PasswordController;
 use Fintech\RestApi\Http\Controllers\Auth\PermissionController;
 use Fintech\RestApi\Http\Controllers\Auth\PulseCheckController;
 use Fintech\RestApi\Http\Controllers\Auth\RegisterController;
@@ -51,14 +51,20 @@ if (Config::get('fintech.auth.enabled')) {
 
             if (config('fintech.auth.self_password_reset')) {
 
-                Route::post('/forgot-password', [PasswordResetController::class, 'store'])
+                Route::post('/forgot-password', [PasswordController::class, 'forgot'])
                     ->middleware('guest')
                     ->name('forgot-password');
 
-                Route::post('/reset-password', [PasswordResetController::class, 'update'])
+                Route::post('/reset-password', [PasswordController::class, 'reset'])
                     ->middleware('guest')
                     ->name('reset-password');
             }
+
+            Route::post('update-password', [PasswordController::class, 'update'])
+                ->name('update-password');
+
+            Route::post('update-pin', [PasswordController::class, 'updatePin'])
+                ->name('update-pin');
 
             Route::post('/request-otp', [OneTimePinController::class, 'request'])
                 ->name('request-otp');
@@ -77,6 +83,7 @@ if (Config::get('fintech.auth.enabled')) {
                 //            Route::post('users/{user}/restore', [UserController::class, 'restore'])->name('users.restore');
                 Route::post('users/change-status', [UserController::class, 'changeStatus'])
                     ->name('users.change-status');
+
                 Route::post('users/{user}/reset/{field}', [UserController::class, 'reset'])
                     ->name('users.reset-password-pin')
                     ->whereIn('field', ['pin', 'password', 'both']);

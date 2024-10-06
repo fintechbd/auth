@@ -134,6 +134,15 @@ class UserService
 
         try {
 
+            if (isset($inputs['password'])) {
+                $inputs['password'] = Hash::make($inputs['password']);
+            }
+
+            if (isset($inputs['pin'])) {
+                $inputs['pin'] = Hash::make($inputs['pin']);
+            }
+
+
             if ($user = $this->userRepository->update($id, $inputs)) {
 
                 DB::commit();

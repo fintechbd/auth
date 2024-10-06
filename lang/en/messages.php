@@ -19,6 +19,8 @@ return [
     'ip_blocked' => 'Your IP :ip is blocked, Please contact support.',
     'warning' => 'Sorry, You entered wrong credentials! You already attempt :attempt times out of :threshold',
     'lockup' => 'Sorry, Your Account is has been Locked. Please contact support!',
+    'update_password' => 'New password updated successfully.',
+    'update_pin' => 'New pin updated successfully.',
     'reset' => [
         'success' => 'Your account password reset successful.',
         'temporary_password' => 'We have send you a temporary password. Please log into you account with credentials.',

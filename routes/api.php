@@ -80,6 +80,9 @@ if (Config::get('fintech.auth.enabled')) {
                 Route::post('update-pin', [PasswordController::class, 'updatePin'])
                     ->name('update-pin');
 
+                Route::post('update-photo', [UserController::class, 'photo'])
+                    ->name('update-photo');
+
                 Route::apiResource('users', UserController::class);
                 //            Route::post('users/{user}/restore', [UserController::class, 'restore'])->name('users.restore');
 

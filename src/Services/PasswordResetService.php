@@ -55,18 +55,11 @@ class PasswordResetService
     {
         try {
 
-            switch ($this->resetMethod) {
-                case PasswordResetOption::TemporaryPassword->value:
-                    $notification_data = $this->viaTemporaryPassword($user);
-                    break;
-
-                case PasswordResetOption::Otp->value:
-                    $notification_data = $this->viaOneTimePin($user);
-                    break;
-
-                default:
-                    $notification_data = $this->viaResetLink($user);
-            }
+            $notification_data = match ($this->resetMethod) {
+                PasswordResetOption::TemporaryPassword->value => $this->viaTemporaryPassword($user),
+                PasswordResetOption::Otp->value => $this->viaOneTimePin($user),
+                default => $this->viaResetLink($user),
+            };
 
             $notification_data['method'] = $this->resetMethod;
 

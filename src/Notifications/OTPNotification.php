@@ -5,13 +5,14 @@ namespace Fintech\Auth\Notifications;
 use Fintech\Auth\Models\User;
 use Fintech\Core\Enums\Auth\OTPOption;
 use Illuminate\Bus\Queueable;
+use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 use Laraflow\Sms\SmsMessage;
 
 use function decide_sms_from_name;
 
-class OTPNotification extends Notification
+class OTPNotification extends Notification implements ShouldQueue
 {
     use Queueable;
 

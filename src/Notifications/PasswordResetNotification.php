@@ -4,10 +4,11 @@ namespace Fintech\Auth\Notifications;
 
 use Fintech\Core\Enums\Auth\PasswordResetOption;
 use Illuminate\Bus\Queueable;
+use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class PasswordResetNotification extends Notification
+class PasswordResetNotification extends Notification implements ShouldQueue
 {
     use Queueable;
 

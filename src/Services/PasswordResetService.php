@@ -3,6 +3,7 @@
 namespace Fintech\Auth\Services;
 
 use Exception;
+use Fintech\Auth\Events\PasswordResetRequested;
 use Fintech\Auth\Interfaces\OneTimePinRepository;
 use Fintech\Auth\Interfaces\UserRepository;
 use Fintech\Auth\Notifications\PasswordResetNotification;
@@ -66,6 +67,8 @@ class PasswordResetService
             if ($notification_data['status']) {
 
                 $user->notify(new PasswordResetNotification($notification_data));
+
+                PasswordResetRequested::dispatch($user);
 
                 return ['message' => $notification_data['message'], 'status' => true];
             }

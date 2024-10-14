@@ -15,13 +15,13 @@ class PasswordResetRequested
     use InteractsWithSockets;
     use SerializesModels;
 
-    public ?Authenticatable $user;
+    public $user;
 
     /**
      * Create a new event instance.
      * @param Authenticatable|null $user
      */
-    public function __construct(Authenticatable $user = null)
+    public function __construct($user)
     {
         $this->user = $user;
     }

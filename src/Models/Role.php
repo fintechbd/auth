@@ -5,12 +5,14 @@ namespace Fintech\Auth\Models;
 use Fintech\Auth\Traits\BusinessRelations;
 use Fintech\Core\Abstracts\BaseModel;
 use Fintech\Core\Traits\AuditableTrait;
+use Fintech\Core\Traits\BlameableTrait;
 use Illuminate\Config\Repository;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use OwenIt\Auditing\Contracts\Auditable;
 use Spatie\Permission\Contracts\Role as RoleContract;
 use Spatie\Permission\Exceptions\GuardDoesNotMatch;
 use Spatie\Permission\Exceptions\RoleAlreadyExists;
@@ -21,10 +23,11 @@ use Spatie\Permission\PermissionRegistrar;
 use Spatie\Permission\Traits\HasPermissions;
 use Spatie\Permission\Traits\RefreshesPermissionCache;
 
-class Role extends BaseModel implements RoleContract
+class Role extends BaseModel implements RoleContract, Auditable
 {
+    use \OwenIt\Auditing\Auditable;
+    use BlameableTrait;
     use HasPermissions;
-    use AuditableTrait;
     use RefreshesPermissionCache;
     use SoftDeletes;
     use BusinessRelations;

@@ -5,14 +5,17 @@ namespace Fintech\Auth\Models;
 use Fintech\Auth\Traits\MetaDataRelations;
 use Fintech\Core\Abstracts\BaseModel;
 use Fintech\Core\Traits\AuditableTrait;
+use Fintech\Core\Traits\BlameableTrait;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use OwenIt\Auditing\Contracts\Auditable;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 
-class Profile extends BaseModel implements HasMedia
+class Profile extends BaseModel implements HasMedia, Auditable
 {
-    use AuditableTrait;
+    use \OwenIt\Auditing\Auditable;
+    use BlameableTrait;
     use SoftDeletes;
     use MetaDataRelations;
     use InteractsWithMedia;

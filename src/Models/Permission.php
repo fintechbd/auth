@@ -3,10 +3,11 @@
 namespace Fintech\Auth\Models;
 
 use Fintech\Core\Abstracts\BaseModel;
-use Fintech\Core\Traits\AuditableTrait;
+use Fintech\Core\Traits\BlameableTrait;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use OwenIt\Auditing\Contracts\Auditable;
 use Spatie\Permission\Contracts\Permission as PermissionContract;
 use Spatie\Permission\Exceptions\PermissionAlreadyExists;
 use Spatie\Permission\Exceptions\PermissionDoesNotExist;
@@ -15,10 +16,11 @@ use Spatie\Permission\PermissionRegistrar;
 use Spatie\Permission\Traits\HasRoles;
 use Spatie\Permission\Traits\RefreshesPermissionCache;
 
-class Permission extends BaseModel implements PermissionContract
+class Permission extends BaseModel implements PermissionContract, Auditable
 {
+    use \OwenIt\Auditing\Auditable;
+    use BlameableTrait;
     use HasRoles;
-    use AuditableTrait;
     use RefreshesPermissionCache;
     use SoftDeletes;
 

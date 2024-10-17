@@ -4,6 +4,7 @@ namespace Fintech\Auth\Models;
 
 use Fintech\Auth\Traits\TransactionRelations;
 use Fintech\Core\Traits\AuditableTrait;
+use Fintech\Core\Traits\BlameableTrait;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasOne;
@@ -13,6 +14,7 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Notifications\Notification;
 use InvalidArgumentException;
 use Laravel\Sanctum\HasApiTokens;
+use OwenIt\Auditing\Contracts\Auditable;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\Permission\Traits\HasRoles;
@@ -24,11 +26,12 @@ use Spatie\Permission\Traits\HasRoles;
  * @property Collection $tokens
  * @property int $wrong_password
  */
-class User extends Authenticatable implements HasMedia
+class User extends Authenticatable implements HasMedia, Auditable
 {
+    use \OwenIt\Auditing\Auditable;
+    use BlameableTrait;
     use HasApiTokens;
     use HasRoles;
-    use AuditableTrait;
     use SoftDeletes;
     use Notifiable;
     use InteractsWithMedia;

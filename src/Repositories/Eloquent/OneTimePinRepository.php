@@ -57,7 +57,7 @@ class OneTimePinRepository implements InterfacesOneTimePinRepository
                 return $this->model;
             }
         } catch (Exception $exception) {
-            throw new Exception($exception->getMessage(), $exception->getCode(), $exception);
+            throw new Exception($exception->getMessage(), (int)$exception->getCode(), $exception);
         }
 
         return null;

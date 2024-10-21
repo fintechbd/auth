@@ -3,13 +3,11 @@
 namespace Fintech\Auth\Models;
 
 use Fintech\Core\Abstracts\BaseModel;
-use Fintech\Core\Traits\BlameableTrait;
 use OwenIt\Auditing\Contracts\Auditable;
 
 class OneTimePin extends BaseModel implements Auditable
 {
     use \OwenIt\Auditing\Auditable;
-    use BlameableTrait;
 
     /*
     |--------------------------------------------------------------------------

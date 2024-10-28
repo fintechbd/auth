@@ -16,6 +16,7 @@ use Fintech\RestApi\Http\Controllers\Auth\RoleController;
 use Fintech\RestApi\Http\Controllers\Auth\RolePermissionController;
 use Fintech\RestApi\Http\Controllers\Auth\SettingController;
 use Fintech\RestApi\Http\Controllers\Auth\UserController;
+use Fintech\RestApi\Http\Controllers\Auth\ProfileController;
 use Fintech\RestApi\Http\Controllers\Auth\VerifyIdDocumentController;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Route;
@@ -74,14 +75,15 @@ if (Config::get('fintech.auth.enabled')) {
 
             Route::middleware(config('fintech.auth.middleware'))->group(function () {
 
-                Route::post('update-password', [PasswordController::class, 'update'])
+                Route::post('update-password', [PasswordController::class, 'updatePassword'])
                     ->name('update-password');
 
                 Route::post('update-pin', [PasswordController::class, 'updatePin'])
                     ->name('update-pin');
 
-                Route::post('update-photo', [UserController::class, 'photo'])
-                    ->name('update-photo');
+                Route::get('profile', [ProfileController::class, 'show'])->name('profile.show');
+
+                Route::patch('profile', [ProfileController::class, 'update'])->name('profile.update');
 
                 Route::apiResource('users', UserController::class);
                 //            Route::post('users/{user}/restore', [UserController::class, 'restore'])->name('users.restore');
@@ -94,10 +96,8 @@ if (Config::get('fintech.auth.enabled')) {
                     ->whereIn('field', ['pin', 'password', 'both']);
 
                 Route::apiResource('roles', RoleController::class);
-                //            Route::post('roles/{role}/restore', [RoleController::class, 'restore'])->name('roles.restore');
 
                 Route::apiResource('permissions', PermissionController::class);
-                //            Route::post('permissions/{permission}/restore', [PermissionController::class, 'restore'])->name('permissions.restore');
 
                 Route::apiResource('role-permissions', RolePermissionController::class)
                     ->only(['show', 'update']);

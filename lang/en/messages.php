@@ -22,6 +22,7 @@ return [
     'update_password' => 'New password updated successfully.',
     'update_pin' => 'New pin updated successfully.',
     'update_photo' => 'New profile photo updated successfully.',
+    'user_profile_update' => 'User :field updated successfully.',
     'reset' => [
         'success' => 'Your account password reset successful.',
         'temporary_password' => 'We have send you a temporary password. Please log into you account with credentials.',

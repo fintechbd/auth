@@ -30,7 +30,7 @@ class LastLoggedIn
         $user = \Illuminate\Support\Facades\Auth::user();
 
         if ($user) {
-            Auth::user()->updateRaw($user->getKey(), ['logged_in_at' => now()]);
+            Auth::user()->update($user->getKey(), ['logged_in_at' => now()]);
         }
     }
 }

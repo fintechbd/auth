@@ -19,7 +19,7 @@ class LastLoggedOut
         $user = \Illuminate\Support\Facades\Auth::user();
 
         if ($user) {
-            Auth::user()->updateRaw($user->getKey(), ['logged_out_at' => now()]);
+            Auth::user()->update($user->getKey(), ['logged_out_at' => now()]);
         }
 
         return $next($request);

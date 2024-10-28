@@ -128,7 +128,10 @@ class UserService
         return $data;
     }
 
-    public function updateRaw($id, array $inputs = [])
+    /**
+     * @throws \ErrorException
+     */
+    public function update($id, array $inputs = []): ?BaseModel
     {
         DB::beginTransaction();
 
@@ -154,11 +157,14 @@ class UserService
 
         } catch (Exception $exception) {
             DB::rollBack();
-            throw new PDOException($exception->getMessage(), 0, $exception);
+            throw new \ErrorException($exception->getMessage(), 0, $exception);
         }
     }
 
-    public function update($id, array $inputs = [])
+    /**
+     * @throws \ErrorException
+     */
+    public function updateFromAdmin($id, array $inputs = []): ?BaseModel
     {
         DB::beginTransaction();
 
@@ -176,7 +182,7 @@ class UserService
 
         } catch (Exception $exception) {
             DB::rollBack();
-            throw new PDOException($exception->getMessage(), 0, $exception);
+            throw new \ErrorException($exception->getMessage(), 0, $exception);
         }
     }
 

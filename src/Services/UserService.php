@@ -131,7 +131,7 @@ class UserService
     /**
      * @throws \ErrorException
      */
-    public function update($id, array $inputs = []): ?BaseModel
+    public function update($id, array $inputs = [])
     {
         DB::beginTransaction();
 
@@ -164,7 +164,7 @@ class UserService
     /**
      * @throws \ErrorException
      */
-    public function updateFromAdmin($id, array $inputs = []): ?BaseModel
+    public function updateFromAdmin($id, array $inputs = [])
     {
         DB::beginTransaction();
 

@@ -3,6 +3,7 @@
 namespace Fintech\Auth\Models;
 
 use Fintech\Auth\Traits\TransactionRelations;
+use Fintech\Core\Enums\Auth\RiskProfile;
 use Fintech\Core\Traits\BlameableTrait;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -54,6 +55,7 @@ class User extends Authenticatable implements HasMedia, Auditable
         'logged_in_at' => 'datetime',
         'logged_out_at' => 'datetime',
         'wrong_password' => 'integer',
+        'risk_profile' => RiskProfile::class,
     ];
 
     protected $attributes = [

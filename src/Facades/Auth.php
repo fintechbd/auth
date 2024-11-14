@@ -27,7 +27,7 @@ use Illuminate\Support\Facades\Facade;
  * @method static \Illuminate\Contracts\Pagination\Paginator|\Illuminate\Support\Collection|PinResetService pinReset(array $filters = null)
  * @method static \Illuminate\Contracts\Pagination\Paginator|\Illuminate\Support\Collection|AuditService audit(array $filters = null)
  * @method static \Illuminate\Contracts\Pagination\Paginator|\Illuminate\Support\Collection|FavouriteService favourite(array $filters = null)
- * @method static \Illuminate\Contracts\Pagination\Paginator|\Illuminate\Support\Collection|GeoIpService geoip(array $filters = null)
+ * @method static \Illuminate\Contracts\Pagination\Paginator|\Illuminate\Support\Collection|GeoIpService geoip()
  * @method static \Illuminate\Contracts\Pagination\Paginator|\Illuminate\Support\Collection|LoginAttemptService loginAttempt(array $filters = null)
  * // Crud Service Method Point Do not Remove //
  *

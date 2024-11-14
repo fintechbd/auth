@@ -71,9 +71,9 @@ class Auth
         return \singleton(FavouriteService::class, $filters);
     }
 
-    public function geoip($filters = null)
+    public function geoip()
     {
-        return \singleton(GeoIpService::class, $filters);
+        return \singleton(GeoIpService::class);
     }
 
     public function loginAttempt($filters = null)

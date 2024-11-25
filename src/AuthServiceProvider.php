@@ -8,7 +8,7 @@ use Fintech\Auth\Middlewares\LastLoggedIn;
 use Fintech\Auth\Middlewares\LastLoggedOut;
 use Fintech\Auth\Providers\EventServiceProvider;
 use Fintech\Auth\Providers\RepositoryServiceProvider;
-use Fintech\Core\Traits\RegisterPackageTrait;
+use Fintech\Core\Traits\Packages\RegisterPackageTrait;
 use Illuminate\Routing\Router;
 use Illuminate\Support\ServiceProvider;
 

@@ -5,7 +5,7 @@ namespace Fintech\Auth\Models;
 use Fintech\Core\Abstracts\BaseModel;
 use Fintech\Core\Enums\Auth\LoginStatus;
 use Fintech\Core\Enums\RequestPlatform;
-use Fintech\Core\Traits\BlameableTrait;
+use Fintech\Core\Traits\Audits\BlameableTrait;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 

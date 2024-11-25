@@ -4,7 +4,7 @@ namespace Fintech\Auth\Models;
 
 use Fintech\Auth\Traits\BusinessRelations;
 use Fintech\Core\Abstracts\BaseModel;
-use Fintech\Core\Traits\BlameableTrait;
+use Fintech\Core\Traits\Audits\BlameableTrait;
 use Illuminate\Config\Repository;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Database\Eloquent\Builder;

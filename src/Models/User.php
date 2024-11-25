@@ -4,7 +4,7 @@ namespace Fintech\Auth\Models;
 
 use Fintech\Auth\Traits\TransactionRelations;
 use Fintech\Core\Enums\Auth\RiskProfile;
-use Fintech\Core\Traits\BlameableTrait;
+use Fintech\Core\Traits\Audits\BlameableTrait;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasOne;

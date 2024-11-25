@@ -23,7 +23,7 @@ class UpdatePinRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'current' => ['required', 'string', 'min:6', 'max:255', new CurrentPin],
+            'current' => ['required', 'string', 'min:6', 'max:255', new CurrentPin()],
             'pin' => ['required', 'string', 'min:6', 'max:255', 'confirmed', 'different:current'],
         ];
     }

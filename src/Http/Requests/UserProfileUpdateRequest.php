@@ -29,7 +29,7 @@ class UserProfileUpdateRequest extends FormRequest
     {
         $userRules = [
             'name' => ['bail', 'nullable', 'string', 'max:255'],
-            'mobile' => ['bail', 'nullable', 'string', 'max:255', 'min:10', new MobileNumber, Rule::unique('users', 'mobile')
+            'mobile' => ['bail', 'nullable', 'string', 'max:255', 'min:10', new MobileNumber(), Rule::unique('users', 'mobile')
                 ->ignore($this->user('sanctum')->getKey())],
             'email' => ['bail', 'nullable', 'string', 'max:255', 'min:5', 'email:dns,rfc',
                 Rule::unique('users', 'email')
@@ -41,7 +41,7 @@ class UserProfileUpdateRequest extends FormRequest
             'language' => ['bail', 'nullable', 'string', 'max:255', Rule::in(MetaData::language()->list(['enabled' => true])->pluck('language.code')->unique()->toArray())],
             'currency' => ['bail', 'nullable', 'string', 'max:255', Rule::in(MetaData::currency()->list(['enabled' => true])->pluck('currency')->unique()->toArray())],
             'fcm_token' => ['bail', 'nullable', 'string', 'max:255'],
-            'photo' => ['bail', 'nullable', 'string', new Base64File],
+            'photo' => ['bail', 'nullable', 'string', new Base64File()],
         ];
 
         $profileRules = [

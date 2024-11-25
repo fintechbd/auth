@@ -46,13 +46,13 @@ class ProfileController extends Controller
 
             if (! Auth::user()->update($user->getKey(), $request->only($this->userFields))) {
 
-                throw (new UpdateOperationException)->setModel(config('fintech.auth.user_model'), $user->getKey());
+                throw (new UpdateOperationException())->setModel(config('fintech.auth.user_model'), $user->getKey());
             }
 
             if ($request->except($this->userFields) != []) {
                 if (! Auth::profile()->update($user->getKey(), $request->except($this->userFields))) {
 
-                    throw (new UpdateOperationException)->setModel(config('fintech.auth.user_model'), $user->getKey());
+                    throw (new UpdateOperationException())->setModel(config('fintech.auth.user_model'), $user->getKey());
                 }
             }
 

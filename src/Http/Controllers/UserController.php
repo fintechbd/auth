@@ -75,7 +75,7 @@ class UserController extends Controller
             $user = Auth::user()->create($request->only($this->userFields));
 
             if (! $user) {
-                throw (new StoreOperationException)->setModel(config('fintech.auth.user_model'));
+                throw (new StoreOperationException())->setModel(config('fintech.auth.user_model'));
             }
 
             $profile = Auth::profile()->create($user->getKey(), $request->except($this->userFields));
@@ -108,7 +108,7 @@ class UserController extends Controller
             $user = Auth::user()->find($id);
 
             if (! $user) {
-                throw (new ModelNotFoundException)->setModel(config('fintech.auth.user_model'), $id);
+                throw (new ModelNotFoundException())->setModel(config('fintech.auth.user_model'), $id);
             }
 
             return new UserResource($user);
@@ -138,13 +138,13 @@ class UserController extends Controller
             $user = Auth::user()->find($id);
 
             if (! $user) {
-                throw (new ModelNotFoundException)->setModel(config('fintech.auth.user_model'), $id);
+                throw (new ModelNotFoundException())->setModel(config('fintech.auth.user_model'), $id);
             }
 
             if (! Auth::user()->updateFromAdmin($id, $request->only($this->userFields)) ||
                 ! Auth::profile()->update($user->getKey(), $request->except($this->userFields))) {
 
-                throw (new UpdateOperationException)->setModel(config('fintech.auth.user_model'), $id);
+                throw (new UpdateOperationException())->setModel(config('fintech.auth.user_model'), $id);
             }
 
             return response()->updated(__('restapi::messages.resource.updated', ['model' => 'User']));
@@ -176,12 +176,12 @@ class UserController extends Controller
             $user = Auth::user()->find($id);
 
             if (! $user) {
-                throw (new ModelNotFoundException)->setModel(config('fintech.auth.user_model'), $id);
+                throw (new ModelNotFoundException())->setModel(config('fintech.auth.user_model'), $id);
             }
 
             if (! Auth::user()->destroy($id)) {
 
-                throw (new DeleteOperationException)->setModel(config('fintech.auth.user_model'), $id);
+                throw (new DeleteOperationException())->setModel(config('fintech.auth.user_model'), $id);
             }
 
             return response()->deleted(__('restapi::messages.resource.deleted', ['model' => 'User']));
@@ -212,12 +212,12 @@ class UserController extends Controller
             $user = Auth::user()->find($id, true);
 
             if (! $user) {
-                throw (new ModelNotFoundException)->setModel(config('fintech.auth.user_model'), $id);
+                throw (new ModelNotFoundException())->setModel(config('fintech.auth.user_model'), $id);
             }
 
             if (! Auth::user()->restore($id)) {
 
-                throw (new RestoreOperationException)->setModel(config('fintech.auth.user_model'), $id);
+                throw (new RestoreOperationException())->setModel(config('fintech.auth.user_model'), $id);
             }
 
             return response()->restored(__('restapi::messages.resource.restored', ['model' => 'User']));
@@ -294,7 +294,7 @@ class UserController extends Controller
             $user = Auth::user()->find($id);
 
             if (! $user) {
-                throw (new ModelNotFoundException)->setModel(config('fintech.auth.user_model'), $id);
+                throw (new ModelNotFoundException())->setModel(config('fintech.auth.user_model'), $id);
             }
 
             $response = Auth::user()->reset($user, $field);
@@ -373,13 +373,13 @@ class UserController extends Controller
             $user = Auth::user()->find($inputs['user_id']);
 
             if (! $user) {
-                throw (new ModelNotFoundException)->setModel(config('fintech.auth.user_model'), $inputs['user_id']);
+                throw (new ModelNotFoundException())->setModel(config('fintech.auth.user_model'), $inputs['user_id']);
             }
 
             $response = Auth::user()->update($user->getKey(), ['status' => $inputs['status']]);
 
             if (! $response) {
-                throw (new UpdateOperationException)->setModel(config('fintech.auth.user_model'), $inputs['user_id']);
+                throw (new UpdateOperationException())->setModel(config('fintech.auth.user_model'), $inputs['user_id']);
             }
 
             return response()->updated(__('auth::messages.user.status-change', ['status' => $inputs['status']]));

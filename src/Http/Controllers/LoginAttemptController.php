@@ -63,7 +63,7 @@ class LoginAttemptController extends Controller
             $loginAttempt = Auth::loginAttempt()->find($id);
 
             if (! $loginAttempt) {
-                throw (new ModelNotFoundException)->setModel(config('fintech.auth.login_attempt_model'), $id);
+                throw (new ModelNotFoundException())->setModel(config('fintech.auth.login_attempt_model'), $id);
             }
 
             return new LoginAttemptResource($loginAttempt);
@@ -96,12 +96,12 @@ class LoginAttemptController extends Controller
             $loginAttempt = Auth::loginAttempt()->find($id);
 
             if (! $loginAttempt) {
-                throw (new ModelNotFoundException)->setModel(config('fintech.auth.login_attempt_model'), $id);
+                throw (new ModelNotFoundException())->setModel(config('fintech.auth.login_attempt_model'), $id);
             }
 
             if (! Auth::loginAttempt()->destroy($id)) {
 
-                throw (new DeleteOperationException)->setModel(config('fintech.auth.login_attempt_model'), $id);
+                throw (new DeleteOperationException())->setModel(config('fintech.auth.login_attempt_model'), $id);
             }
 
             return response()->deleted(__('restapi::messages.resource.deleted', ['model' => 'Login Attempt']));
@@ -132,12 +132,12 @@ class LoginAttemptController extends Controller
             $loginAttempt = Auth::loginAttempt()->find($id, true);
 
             if (! $loginAttempt) {
-                throw (new ModelNotFoundException)->setModel(config('fintech.auth.login_attempt_model'), $id);
+                throw (new ModelNotFoundException())->setModel(config('fintech.auth.login_attempt_model'), $id);
             }
 
             if (! Auth::loginAttempt()->restore($id)) {
 
-                throw (new RestoreOperationException)->setModel(config('fintech.auth.login_attempt_model'), $id);
+                throw (new RestoreOperationException())->setModel(config('fintech.auth.login_attempt_model'), $id);
             }
 
             return response()->restored(__('restapi::messages.resource.restored', ['model' => 'Login Attempt']));

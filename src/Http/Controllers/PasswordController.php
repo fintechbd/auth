@@ -88,7 +88,7 @@ class PasswordController extends Controller
             $targetedUser = $targetedUser->first();
 
             if (! Auth::user()->update($targetedUser->getKey(), [$passwordField => $password])) {
-                throw (new UpdateOperationException)->setModel(config('fintech.auth.user_model'), $targetedUser->getKey());
+                throw (new UpdateOperationException())->setModel(config('fintech.auth.user_model'), $targetedUser->getKey());
             }
 
             event(new PasswordResetSuccessful($targetedUser));
@@ -118,7 +118,7 @@ class PasswordController extends Controller
             $response = Auth::user()->update($user->getKey(), ['password' => $inputs['password']]);
 
             if (! $response) {
-                throw (new UpdateOperationException)->setModel(config('fintech.auth.user_model'), $user->getKey());
+                throw (new UpdateOperationException())->setModel(config('fintech.auth.user_model'), $user->getKey());
             }
 
             $user->currentAccessToken()->delete();
@@ -153,7 +153,7 @@ class PasswordController extends Controller
             $response = Auth::user()->update($user->getKey(), ['pin' => $inputs['pin']]);
 
             if (! $response) {
-                throw (new UpdateOperationException)->setModel(config('fintech.auth.user_model'), $user->getKey());
+                throw (new UpdateOperationException())->setModel(config('fintech.auth.user_model'), $user->getKey());
             }
 
             $user->currentAccessToken()->delete();

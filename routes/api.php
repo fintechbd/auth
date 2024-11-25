@@ -1,23 +1,23 @@
 <?php
 
-use Fintech\RestApi\Http\Controllers\Auth\AuditController;
-use Fintech\RestApi\Http\Controllers\Auth\AuthenticatedController;
-use Fintech\RestApi\Http\Controllers\Auth\Charts\RegisteredUserSummaryController;
-use Fintech\RestApi\Http\Controllers\Auth\Charts\UserRoleSummaryController;
-use Fintech\RestApi\Http\Controllers\Auth\Charts\UserStatusSummaryController;
-use Fintech\RestApi\Http\Controllers\Auth\FavouriteController;
-use Fintech\RestApi\Http\Controllers\Auth\LoginAttemptController;
-use Fintech\RestApi\Http\Controllers\Auth\OneTimePinController;
-use Fintech\RestApi\Http\Controllers\Auth\PasswordController;
-use Fintech\RestApi\Http\Controllers\Auth\PermissionController;
-use Fintech\RestApi\Http\Controllers\Auth\PulseCheckController;
-use Fintech\RestApi\Http\Controllers\Auth\RegisterController;
-use Fintech\RestApi\Http\Controllers\Auth\RoleController;
-use Fintech\RestApi\Http\Controllers\Auth\RolePermissionController;
-use Fintech\RestApi\Http\Controllers\Auth\SettingController;
-use Fintech\RestApi\Http\Controllers\Auth\UserController;
-use Fintech\RestApi\Http\Controllers\Auth\ProfileController;
-use Fintech\RestApi\Http\Controllers\Auth\VerifyIdDocumentController;
+use Fintech\Auth\Http\Controllers\AuditController;
+use Fintech\Auth\Http\Controllers\AuthenticatedController;
+use Fintech\Auth\Http\Controllers\Charts\RegisteredUserSummaryController;
+use Fintech\Auth\Http\Controllers\Charts\UserRoleSummaryController;
+use Fintech\Auth\Http\Controllers\Charts\UserStatusSummaryController;
+use Fintech\Auth\Http\Controllers\FavouriteController;
+use Fintech\Auth\Http\Controllers\LoginAttemptController;
+use Fintech\Auth\Http\Controllers\OneTimePinController;
+use Fintech\Auth\Http\Controllers\PasswordController;
+use Fintech\Auth\Http\Controllers\PermissionController;
+use Fintech\Auth\Http\Controllers\PulseCheckController;
+use Fintech\Auth\Http\Controllers\RegisterController;
+use Fintech\Auth\Http\Controllers\RoleController;
+use Fintech\Auth\Http\Controllers\RolePermissionController;
+use Fintech\Auth\Http\Controllers\SettingController;
+use Fintech\Auth\Http\Controllers\UserController;
+use Fintech\Auth\Http\Controllers\ProfileController;
+use Fintech\Auth\Http\Controllers\VerifyIdDocumentController;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Route;
 

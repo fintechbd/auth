@@ -4,7 +4,7 @@ namespace Fintech\Auth\Http\Resources;
 
 use Carbon\Carbon;
 use Fintech\Auth\Models\Profile;
-use Fintech\RestApi\Traits\IdDocTypeResourceTrait;
+use Fintech\Core\Traits\RestApi\IdDocTypeResourceTrait;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;

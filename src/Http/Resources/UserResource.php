@@ -6,7 +6,7 @@ use Carbon\Carbon;
 use Fintech\Auth\Models\Profile;
 use Fintech\Core\Enums\Auth\RiskProfile;
 use Fintech\Core\Facades\Core;
-use Fintech\RestApi\Traits\IdDocTypeResourceTrait;
+use Fintech\Core\Traits\RestApi\IdDocTypeResourceTrait;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Collection;

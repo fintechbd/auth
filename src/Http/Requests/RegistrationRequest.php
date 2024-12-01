@@ -3,7 +3,6 @@
 namespace Fintech\Auth\Http\Requests;
 
 use Fintech\Core\Facades\Core;
-use Fintech\Core\Rules\MobileNumber;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules\Password;

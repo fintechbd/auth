@@ -4,7 +4,6 @@ namespace Fintech\Auth\Http\Requests;
 
 use Fintech\Core\Enums\Auth\UserStatus;
 use Fintech\Core\Enums\MetaData\CatalogType;
-use Fintech\Core\Rules\MobileNumber;
 use Fintech\MetaData\Facades\MetaData;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;

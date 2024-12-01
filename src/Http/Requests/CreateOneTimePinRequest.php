@@ -2,7 +2,6 @@
 
 namespace Fintech\Auth\Http\Requests;
 
-use Fintech\Core\Rules\MobileNumber;
 use Illuminate\Auth\Events\Lockout;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\RateLimiter;

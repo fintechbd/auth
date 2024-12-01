@@ -27,7 +27,7 @@ class UpdateUserRequest extends FormRequest
         $rules = config('fintech.auth.register_rules', [
             //user
             'name' => ['required', 'string', 'min:2', 'max:255'],
-            'mobile' => ['required', 'string', 'min:10', 'max:15', new MobileNumber()],
+            'mobile' => ['required', 'string', 'min:10', 'max:15', 'mobile'],
             'email' => ['required', 'string', 'email:rfc,dns', 'min:2', 'max:255'],
             'pin' => ['string', 'min:4', 'max:16'],
             'app_version' => ['nullable', 'string'],

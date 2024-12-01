@@ -26,7 +26,7 @@ class CreateOneTimePinRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'mobile' => ['required_without_all:email,user', 'string', 'min:10', 'max:15', new MobileNumber()],
+            'mobile' => ['required_without_all:email,user', 'string', 'min:10', 'max:15', 'mobile'],
             'email' => ['required_without_all:mobile,user', 'string', 'email:rfc,dns'],
             'user' => ['required_without_all:mobile,email', 'integer', 'min:1'],
         ];

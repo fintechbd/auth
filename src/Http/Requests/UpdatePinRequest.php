@@ -2,7 +2,6 @@
 
 namespace Fintech\Auth\Http\Requests;
 
-use Fintech\Core\Rules\CurrentPin;
 use Illuminate\Foundation\Http\FormRequest;
 
 class UpdatePinRequest extends FormRequest
@@ -23,7 +22,7 @@ class UpdatePinRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'current' => ['required', 'string', 'min:6', 'max:255', new CurrentPin()],
+            'current' => ['required', 'string', 'min:6', 'max:255', 'current_pin'],
             'pin' => ['required', 'string', 'min:6', 'max:255', 'confirmed', 'different:current'],
         ];
     }

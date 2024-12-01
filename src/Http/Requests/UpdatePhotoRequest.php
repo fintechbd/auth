@@ -2,7 +2,6 @@
 
 namespace Fintech\Auth\Http\Requests;
 
-use Fintech\Core\Rules\Base64File;
 use Illuminate\Foundation\Http\FormRequest;
 
 class UpdatePhotoRequest extends FormRequest
@@ -23,7 +22,7 @@ class UpdatePhotoRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'photo' => ['required', new Base64File()],
+            'photo' => ['required', 'string', 'base64:image/*'],
         ];
     }
 }

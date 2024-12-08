@@ -3,6 +3,8 @@
 namespace Fintech\Auth\Services;
 
 use Fintech\Auth\Interfaces\PermissionRepository;
+use Fintech\Auth\Models\Permission;
+use Fintech\Core\Abstracts\BaseModel;
 use Illuminate\Contracts\Pagination\Paginator;
 use Illuminate\Support\Collection;
 
@@ -22,11 +24,17 @@ class PermissionService
     {
     }
 
+    /**
+     * @return BaseModel|Permission|null
+     */
     public function find($id, $onlyTrashed = false)
     {
         return $this->permissionRepository->find($id, $onlyTrashed);
     }
 
+    /**
+     * @return BaseModel|Permission|null
+     */
     public function update($id, array $inputs = [])
     {
         return $this->permissionRepository->update($id, $inputs);

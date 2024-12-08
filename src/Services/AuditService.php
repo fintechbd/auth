@@ -3,6 +3,8 @@
 namespace Fintech\Auth\Services;
 
 use Fintech\Auth\Interfaces\AuditRepository;
+use Fintech\Auth\Models\Audit;
+use Fintech\Core\Abstracts\BaseModel;
 
 /**
  * Class AuditService
@@ -31,6 +33,9 @@ class AuditService
 
     }
 
+    /**
+     * @return BaseModel|Audit|null
+     */
     public function find($id, $onlyTrashed = false)
     {
         return $this->auditRepository->find($id, $onlyTrashed);

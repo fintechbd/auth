@@ -3,6 +3,8 @@
 namespace Fintech\Auth\Services;
 
 use Fintech\Auth\Interfaces\FavouriteRepository;
+use Fintech\Auth\Models\Favourite;
+use Fintech\Core\Abstracts\BaseModel;
 
 /**
  * Class FavouriteService
@@ -21,11 +23,17 @@ class FavouriteService
     {
     }
 
+    /**
+     * @return BaseModel|Favourite|null
+     */
     public function find($id, $onlyTrashed = false)
     {
         return $this->favouriteRepository->find($id, $onlyTrashed);
     }
 
+    /**
+     * @return BaseModel|Favourite|null
+     */
     public function update($id, array $inputs = [])
     {
         return $this->favouriteRepository->update($id, $inputs);

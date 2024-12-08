@@ -3,6 +3,8 @@
 namespace Fintech\Auth\Services;
 
 use Fintech\Auth\Interfaces\LoginAttemptRepository;
+use Fintech\Auth\Models\LoginAttempt;
+use Fintech\Core\Abstracts\BaseModel;
 
 /**
  * Class LoginAttemptService
@@ -21,6 +23,9 @@ class LoginAttemptService
     {
     }
 
+    /**
+     * @return BaseModel|LoginAttempt|null
+     */
     public function find($id, $onlyTrashed = false)
     {
         return $this->loginAttemptRepository->find($id, $onlyTrashed);

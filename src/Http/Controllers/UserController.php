@@ -81,7 +81,7 @@ class UserController extends Controller
             $profile = Auth::profile()->create($user->getKey(), $request->except($this->userFields));
 
             return response()->created([
-                'message' => __('restapi::messages.resource.created', ['model' => 'User']),
+                'message' => __('core::messages.resource.created', ['model' => 'User']),
                 'id' => $user->getKey(),
             ]);
 
@@ -147,7 +147,7 @@ class UserController extends Controller
                 throw (new UpdateOperationException())->setModel(config('fintech.auth.user_model'), $id);
             }
 
-            return response()->updated(__('restapi::messages.resource.updated', ['model' => 'User']));
+            return response()->updated(__('core::messages.resource.updated', ['model' => 'User']));
 
         } catch (ModelNotFoundException $exception) {
 
@@ -184,7 +184,7 @@ class UserController extends Controller
                 throw (new DeleteOperationException())->setModel(config('fintech.auth.user_model'), $id);
             }
 
-            return response()->deleted(__('restapi::messages.resource.deleted', ['model' => 'User']));
+            return response()->deleted(__('core::messages.resource.deleted', ['model' => 'User']));
 
         } catch (ModelNotFoundException $exception) {
 
@@ -220,7 +220,7 @@ class UserController extends Controller
                 throw (new RestoreOperationException())->setModel(config('fintech.auth.user_model'), $id);
             }
 
-            return response()->restored(__('restapi::messages.resource.restored', ['model' => 'User']));
+            return response()->restored(__('core::messages.resource.restored', ['model' => 'User']));
 
         } catch (ModelNotFoundException $exception) {
 
@@ -246,7 +246,7 @@ class UserController extends Controller
 
             $userPaginate = Auth::user()->export($inputs);
 
-            return response()->exported(__('restapi::messages.resource.exported', ['model' => 'User']));
+            return response()->exported(__('core::messages.resource.exported', ['model' => 'User']));
 
         } catch (Exception $exception) {
 

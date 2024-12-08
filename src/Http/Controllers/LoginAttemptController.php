@@ -104,7 +104,7 @@ class LoginAttemptController extends Controller
                 throw (new DeleteOperationException())->setModel(config('fintech.auth.login_attempt_model'), $id);
             }
 
-            return response()->deleted(__('restapi::messages.resource.deleted', ['model' => 'Login Attempt']));
+            return response()->deleted(__('core::messages.resource.deleted', ['model' => 'Login Attempt']));
 
         } catch (ModelNotFoundException $exception) {
 
@@ -140,7 +140,7 @@ class LoginAttemptController extends Controller
                 throw (new RestoreOperationException())->setModel(config('fintech.auth.login_attempt_model'), $id);
             }
 
-            return response()->restored(__('restapi::messages.resource.restored', ['model' => 'Login Attempt']));
+            return response()->restored(__('core::messages.resource.restored', ['model' => 'Login Attempt']));
 
         } catch (ModelNotFoundException $exception) {
 
@@ -166,7 +166,7 @@ class LoginAttemptController extends Controller
 
             $loginAttemptPaginate = Auth::loginAttempt()->export($inputs);
 
-            return response()->exported(__('restapi::messages.resource.exported', ['model' => 'Login Attempt']));
+            return response()->exported(__('core::messages.resource.exported', ['model' => 'Login Attempt']));
 
         } catch (Exception $exception) {
 

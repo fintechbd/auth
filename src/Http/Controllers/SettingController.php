@@ -72,7 +72,7 @@ class SettingController extends Controller
 
             cache()->forget('fintech.setting');
 
-            return response()->updated(__('restapi::messages.setting.saved', ['package' => ucwords($configuration)]));
+            return response()->updated(__('core::messages.setting.saved', ['package' => ucwords($configuration)]));
 
         } catch (Exception $exception) {
 
@@ -98,7 +98,7 @@ class SettingController extends Controller
                 Core::setting()->destroy($setting->getKey());
             }
 
-            return response()->deleted(__('restapi::messages.setting.deleted', ['model' => 'Setting']));
+            return response()->deleted(__('core::messages.setting.deleted', ['model' => 'Setting']));
 
         } catch (Exception $exception) {
 

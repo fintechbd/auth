@@ -70,7 +70,7 @@ class PermissionController extends Controller
             }
 
             return response()->created([
-                'message' => __('restapi::messages.resource.created', ['model' => 'Permission']),
+                'message' => __('core::messages.resource.created', ['model' => 'Permission']),
                 'id' => $permission->getKey(),
             ]);
 
@@ -133,7 +133,7 @@ class PermissionController extends Controller
                 throw (new UpdateOperationException())->setModel(config('fintech.auth.permission_model'), $id);
             }
 
-            return response()->updated(__('restapi::messages.resource.updated', ['model' => 'Permission']));
+            return response()->updated(__('core::messages.resource.updated', ['model' => 'Permission']));
 
         } catch (ModelNotFoundException $exception) {
 
@@ -171,7 +171,7 @@ class PermissionController extends Controller
                 throw (new DeleteOperationException())->setModel(config('fintech.auth.permission_model'), $id);
             }
 
-            return response()->deleted(__('restapi::messages.resource.deleted', ['model' => 'Permission']));
+            return response()->deleted(__('core::messages.resource.deleted', ['model' => 'Permission']));
 
         } catch (ModelNotFoundException $exception) {
 
@@ -207,7 +207,7 @@ class PermissionController extends Controller
                 throw (new RestoreOperationException())->setModel(config('fintech.auth.permission_model'), $id);
             }
 
-            return response()->restored(__('restapi::messages.resource.restored', ['model' => 'Permission']));
+            return response()->restored(__('core::messages.resource.restored', ['model' => 'Permission']));
 
         } catch (ModelNotFoundException $exception) {
 
@@ -233,7 +233,7 @@ class PermissionController extends Controller
 
             $permissionPaginate = Auth::permission()->export($inputs);
 
-            return response()->exported(__('restapi::messages.resource.exported', ['model' => 'Permission']));
+            return response()->exported(__('core::messages.resource.exported', ['model' => 'Permission']));
 
         } catch (Exception $exception) {
 

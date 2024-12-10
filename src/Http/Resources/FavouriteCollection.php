@@ -43,6 +43,8 @@ class FavouriteCollection extends ResourceCollection
                 'sender_photo' => ($favourite->sender) ? $favourite->sender?->getFirstMediaUrl('photo') : null,
                 'receiver_id' => $favourite->receiver_id ?? null,
                 'receiver_name' => ($favourite->receiver) ? $favourite->receiver->name : null,
+                'receiver_email' => ($favourite->receiver) ? $favourite->receiver->email : null,
+                'receiver_mobile' => ($favourite->receiver) ? $favourite->receiver->mobile : null,
                 'receiver_photo' => ($favourite->receiver) ? $favourite->receiver?->getFirstMediaUrl('photo') : null,
                 'name' => $favourite->name ?? ($favourite->receiver) ? $favourite->receiver->name : null,
                 'status' => $favourite->status ?? null,

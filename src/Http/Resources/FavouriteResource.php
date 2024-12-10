@@ -23,7 +23,7 @@ class FavouriteResource extends JsonResource
             'receiver_id' => $this->receiver_id ?? null,
             'receiver_name' => ($this->receiver) ? $this->receiver->name : null,
             'receiver_photo' => ($this->receiver) ? $this->receiver?->getFirstMediaUrl('photo') : null,
-            'name' => $this->name ?? null,
+            'name' => $this->name ?? ($this->receiver) ? $this->receiver->name : null,
             'status' => $this->status ?? null,
             'favourite_data' => $this->favourite_data,
             'created_at' => $this->created_at,

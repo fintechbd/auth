@@ -2,8 +2,10 @@
 
 namespace Fintech\Auth\Http\Requests;
 
+use Fintech\Core\Enums\Auth\FavouriteStatus;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class StoreFavouriteRequest extends FormRequest
 {
@@ -23,8 +25,19 @@ class StoreFavouriteRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'name' => ['nullable', 'string', 'min:3', 'max:255'],
+            'sender_id' => ['nullable', 'integer', 'exists:users,id'],
+            'receiver_id' => ['required', 'integer', 'exists:users,id', 'different:sender_id'],
+            'status' => ['nullable', 'string',  Rule::in(FavouriteStatus::values())],
         ];
+    }
+
+    protected function prepareForValidation()
+    {
+        $this->mergeIfMissing([
+            'sender_id' => $this->user('sanctum')->id,
+            'status' => FavouriteStatus::Requested->value
+        ]);
     }
 
     /**

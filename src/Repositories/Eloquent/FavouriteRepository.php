@@ -61,7 +61,7 @@ class FavouriteRepository extends EloquentRepository implements InterfacesFavour
         }
 
         if (!empty($filters['status'])) {
-            $query->where('status', '=', $filters['status']);
+            $query->whereIn('status', (array)$filters['status']);
         }
 
         //Handle Sorting

@@ -3,6 +3,7 @@
 namespace Fintech\Auth\Models;
 
 use Fintech\Core\Abstracts\BaseModel;
+use Fintech\Core\Enums\Auth\FavouriteStatus;
 use Fintech\Core\Traits\Audits\BlameableTrait;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -25,7 +26,7 @@ class Favourite extends BaseModel implements Auditable
     protected $guarded = ['id'];
 
 
-    protected $casts = ['favourite_data' => 'array', 'restored_at' => 'datetime', 'enabled' => 'bool'];
+    protected $casts = ['favourite_data' => 'array', 'restored_at' => 'datetime', 'enabled' => 'bool', 'status' => FavouriteStatus::class];
 
     protected $hidden = ['creator_id', 'editor_id', 'destroyer_id', 'restorer_id'];
 

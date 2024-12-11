@@ -2,9 +2,11 @@
 
 namespace Fintech\Auth\Http\Requests;
 
+use Fintech\Core\Enums\Auth\FavouriteStatus;
 use Fintech\Core\Traits\RestApi\HasPaginateQuery;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class IndexFavouriteRequest extends FormRequest
 {
@@ -31,7 +33,8 @@ class IndexFavouriteRequest extends FormRequest
             'page' => ['integer', 'nullable', 'min:1'],
             'sender_id' => ['integer', 'nullable', 'min:1'],
             'receiver_id' => ['integer', 'nullable', 'min:1'],
-            'status' => ['string', 'nullable'],
+            'status' => ['nullable'],
+            'status.*' => ['string', 'nullable', Rule::in(FavouriteStatus::values())],
             'paginate' => ['boolean'],
             'sort' => ['string', 'nullable', 'min:2', 'max:255'],
             'dir' => ['string', 'min:3', 'max:4'],

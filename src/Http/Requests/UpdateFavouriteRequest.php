@@ -26,8 +26,6 @@ class UpdateFavouriteRequest extends FormRequest
     {
         return [
             'name' => ['nullable', 'string', 'min:3', 'max:255'],
-            'sender_id' => ['required', 'integer', 'exists:users,id'],
-            'receiver_id' => ['required', 'integer', 'exists:users,id', 'different:sender_id'],
             'status' => ['nullable', 'string',  Rule::in(FavouriteStatus::values())],
         ];
     }

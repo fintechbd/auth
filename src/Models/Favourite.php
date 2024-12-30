@@ -13,7 +13,6 @@ class Favourite extends BaseModel implements Auditable
 {
     use \OwenIt\Auditing\Auditable;
     use BlameableTrait;
-    use SoftDeletes;
 
     /*
     |--------------------------------------------------------------------------

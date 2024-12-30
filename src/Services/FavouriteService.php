@@ -5,6 +5,7 @@ namespace Fintech\Auth\Services;
 use Fintech\Auth\Interfaces\FavouriteRepository;
 use Fintech\Auth\Models\Favourite;
 use Fintech\Core\Abstracts\BaseModel;
+use Fintech\Core\Enums\Auth\FavouriteStatus;
 
 /**
  * Class FavouriteService
@@ -74,7 +75,10 @@ class FavouriteService
      */
     public function create(array $inputs = [])
     {
-        $relationExists = $this->favouriteRepository->list(['pair_exists' => [$inputs['sender_id'], $inputs['receiver_id']]])->isNotEmpty();
+        $relationExists = $this->favouriteRepository->list([
+            'pair_exists' => [$inputs['sender_id'], $inputs['receiver_id']],
+            'status' => [FavouriteStatus::Blocked->value],
+        ])->isNotEmpty();
 
         if ($relationExists) {
             throw new \Exception(__('auth::messages.favourite.already_exists'));

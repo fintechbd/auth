@@ -18,7 +18,6 @@ use Fintech\Auth\Http\Resources\FavouriteResource;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Routing\Controller;
-use Illuminate\Support\Arr;
 
 /**
  * Class FavouriteController

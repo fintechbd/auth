@@ -6,7 +6,6 @@ use Fintech\Core\Abstracts\BaseModel;
 use Fintech\Core\Enums\Auth\FavouriteStatus;
 use Fintech\Core\Traits\Audits\BlameableTrait;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\SoftDeletes;
 use OwenIt\Auditing\Contracts\Auditable;
 
 class Favourite extends BaseModel implements Auditable

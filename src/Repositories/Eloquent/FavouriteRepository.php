@@ -47,6 +47,17 @@ class FavouriteRepository extends EloquentRepository implements InterfacesFavour
             $query->whereIn($this->model->getKeyName(), (array)$filters['id_in']);
         }
 
+        if (!empty($filters['pair_exists'])) {
+            $query->where(function ($query) use ($filters) {
+                return $query->where('sender_id', '=', $filters['pair_exists'][0])
+                    ->where('receiver_id', '=', $filters['pair_exists'][1]);
+            })
+                ->orWhere(function ($query) use ($filters) {
+                    return $query->where('sender_id', '=', $filters['pair_exists'][1])
+                        ->where('receiver_id', '=', $filters['pair_exists'][0]);
+                });
+        }
+
         //Display Trashed
         if (isset($filters['trashed']) && $filters['trashed'] === true) {
             $query->onlyTrashed();

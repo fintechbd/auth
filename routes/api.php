@@ -112,6 +112,8 @@ if (Config::get('fintech.auth.enabled')) {
                     ->only('index', 'show', 'destroy');
 
                 Route::apiResource('favourites', FavouriteController::class);
+                Route::post('favourites/{favourite}/accept', [FavouriteController::class, 'accept'])->name('favourites.accept');
+                Route::post('favourites/{favourite}/block', [FavouriteController::class, 'block'])->name('favourites.block');
                 //            Route::post('favourites/{favourite}/restore', [FavouriteController::class, 'restore'])->name('favourites.restore');
 
                 Route::apiResource('login-attempts', LoginAttemptController::class)

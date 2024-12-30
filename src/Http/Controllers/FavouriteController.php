@@ -4,6 +4,7 @@ namespace Fintech\Auth\Http\Controllers;
 
 use Exception;
 use Fintech\Auth\Facades\Auth;
+use Fintech\Core\Enums\Auth\FavouriteStatus;
 use Fintech\Core\Exceptions\DeleteOperationException;
 use Fintech\Core\Exceptions\RestoreOperationException;
 use Fintech\Core\Exceptions\StoreOperationException;
@@ -17,6 +18,7 @@ use Fintech\Auth\Http\Resources\FavouriteResource;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Routing\Controller;
+use Illuminate\Support\Arr;
 
 /**
  * Class FavouriteController
@@ -67,12 +69,12 @@ class FavouriteController extends Controller
 
             $favourite = Auth::favourite()->create($inputs);
 
-            if (! $favourite) {
+            if (!$favourite) {
                 throw (new StoreOperationException())->setModel(config('fintech.auth.favourite_model'));
             }
 
             return response()->created([
-                'message' => __('core::messages.resource.created', ['model' => 'Favourite']),
+                'message' => __('auth::messages.favourite.requested'),
                 'id' => $favourite->id,
             ]);
 
@@ -96,7 +98,7 @@ class FavouriteController extends Controller
 
             $favourite = Auth::favourite()->find($id);
 
-            if (! $favourite) {
+            if (!$favourite) {
                 throw (new ModelNotFoundException())->setModel(config('fintech.auth.favourite_model'), $id);
             }
 
@@ -127,13 +129,13 @@ class FavouriteController extends Controller
 
             $favourite = Auth::favourite()->find($id);
 
-            if (! $favourite) {
+            if (!$favourite) {
                 throw (new ModelNotFoundException())->setModel(config('fintech.auth.favourite_model'), $id);
             }
 
             $inputs = $request->validated();
 
-            if (! Auth::favourite()->update($id, $inputs)) {
+            if (!Auth::favourite()->update($id, $inputs)) {
 
                 throw (new UpdateOperationException())->setModel(config('fintech.auth.favourite_model'), $id);
             }
@@ -167,11 +169,11 @@ class FavouriteController extends Controller
 
             $favourite = Auth::favourite()->find($id);
 
-            if (! $favourite) {
+            if (!$favourite) {
                 throw (new ModelNotFoundException())->setModel(config('fintech.auth.favourite_model'), $id);
             }
 
-            if (! Auth::favourite()->destroy($id)) {
+            if (!Auth::favourite()->destroy($id)) {
 
                 throw (new DeleteOperationException())->setModel(config('fintech.auth.favourite_model'), $id);
             }
@@ -203,11 +205,11 @@ class FavouriteController extends Controller
 
             $favourite = Auth::favourite()->find($id, true);
 
-            if (! $favourite) {
+            if (!$favourite) {
                 throw (new ModelNotFoundException())->setModel(config('fintech.auth.favourite_model'), $id);
             }
 
-            if (! Auth::favourite()->restore($id)) {
+            if (!Auth::favourite()->restore($id)) {
 
                 throw (new RestoreOperationException())->setModel(config('fintech.auth.favourite_model'), $id);
             }
@@ -263,6 +265,85 @@ class FavouriteController extends Controller
             $favouritePaginate = Auth::favourite()->list($inputs);
 
             return new FavouriteCollection($favouritePaginate);
+
+        } catch (Exception $exception) {
+
+            return response()->failed($exception);
+        }
+    }
+
+    /**
+     * @lrd:start
+     * Accept a specified *Favourite* resource using id.
+     *
+     * @lrd:end
+     *
+     * @throws ModelNotFoundException
+     */
+    public function accept(string|int $id): JsonResponse
+    {
+
+        try {
+
+            $favourite = Auth::favourite()->find($id);
+
+            if (!$favourite) {
+                throw (new ModelNotFoundException())->setModel(config('fintech.auth.favourite_model'), $id);
+            }
+
+            $favouriteResponse['status'] = FavouriteStatus::Accepted;
+            $favouriteResponse['sender_id'] = $favourite->receiver_id;
+            $favouriteResponse['receiver_id'] = $favourite->sender_id;
+
+            if (!Auth::favourite()->update($favourite->getKey(), ['status' => FavouriteStatus::Accepted]) || !Auth::favourite()->create($favouriteResponse)) {
+
+                throw (new UpdateOperationException())->setModel(config('fintech.auth.favourite_model'), $id);
+            }
+
+            return response()->updated(__('auth::messages.favourite.accepted'));
+
+        } catch (ModelNotFoundException $exception) {
+
+            return response()->notfound($exception->getMessage());
+
+        } catch (Exception $exception) {
+
+            return response()->failed($exception);
+        }
+    }
+
+    /**
+     * @lrd:start
+     * Accept a specified *Favourite* resource using id.
+     *
+     * @lrd:end
+     *
+     * @throws ModelNotFoundException
+     */
+    public function block(string|int $id): JsonResponse
+    {
+
+        try {
+
+            $favourite = Auth::favourite()->find($id);
+
+            if (!$favourite) {
+                throw (new ModelNotFoundException())->setModel(config('fintech.auth.favourite_model'), $id);
+            }
+
+            $reverseId = Auth::favourite()->findWhere(['sender_id' => $favourite->receiver_id, 'receiver_id' => $favourite->sender_id])->getKey();
+
+
+            if (!Auth::favourite()->update($favourite->getKey(), ['status' => FavouriteStatus::Blocked]) || !Auth::favourite()->destroy($reverseId)) {
+
+                throw (new UpdateOperationException())->setModel(config('fintech.auth.favourite_model'), $id);
+            }
+
+            return response()->updated(__('auth::messages.favourite.blocked'));
+
+        } catch (ModelNotFoundException $exception) {
+
+            return response()->notfound($exception->getMessage());
 
         } catch (Exception $exception) {
 

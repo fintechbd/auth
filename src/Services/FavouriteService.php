@@ -69,8 +69,17 @@ class FavouriteService
         return $this->favouriteRepository->create($filters);
     }
 
+    /**
+     * @throws \Exception
+     */
     public function create(array $inputs = [])
     {
+        $relationExists = $this->favouriteRepository->list(['pair_exists' => [$inputs['sender_id'], $inputs['receiver_id']]])->isNotEmpty();
+
+        if ($relationExists) {
+            throw new \Exception(__('auth::messages.favourite.already_exists'));
+        }
+
         return $this->favouriteRepository->create($inputs);
     }
 }

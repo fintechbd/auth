@@ -57,5 +57,12 @@ return [
     ],
     'user' => [
         'status-change' => 'User Account status changed to :status successfully.'
+    ],
+    'favourite' => [
+        'already_exists' => "Sorry, This user is already on favourite! Please choose another one.",
+        'requested' => 'Favourite request has been sent.',
+        'accepted' => 'Favourite request has been accepted.',
+        'rejected' => 'Favourite request has been canceled.',
+        'blocked' => 'This favourite request has been blocked.',
     ]
 ];

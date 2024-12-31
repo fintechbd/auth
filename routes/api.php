@@ -119,7 +119,7 @@ if (Config::get('fintech.auth.enabled')) {
 
                 Route::apiResource('login-attempts', LoginAttemptController::class)
                     ->only('index', 'show', 'destroy');
-//                Route::post('login-attempts/{login_attempt}/restore', [LoginAttemptController::class, 'restore'])->name('login-attempts.restore');
+                //                Route::post('login-attempts/{login_attempt}/restore', [LoginAttemptController::class, 'restore'])->name('login-attempts.restore');
 
                 Route::post('account-delete', AccountDeleteController::class)->name('account-delete')->middleware('imposter');
 

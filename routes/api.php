@@ -1,5 +1,6 @@
 <?php
 
+use Fintech\Auth\Http\Controllers\AccountDeleteController;
 use Fintech\Auth\Http\Controllers\AuditController;
 use Fintech\Auth\Http\Controllers\AuthenticatedController;
 use Fintech\Auth\Http\Controllers\Charts\RegisteredUserSummaryController;
@@ -118,7 +119,9 @@ if (Config::get('fintech.auth.enabled')) {
 
                 Route::apiResource('login-attempts', LoginAttemptController::class)
                     ->only('index', 'show', 'destroy');
-                //            Route::post('login-attempts/{login_attempt}/restore', [LoginAttemptController::class, 'restore'])->name('login-attempts.restore');
+//                Route::post('login-attempts/{login_attempt}/restore', [LoginAttemptController::class, 'restore'])->name('login-attempts.restore');
+
+                Route::post('account-delete', AccountDeleteController::class)->name('account-delete')->middleware('imposter');
 
                 //DO NOT REMOVE THIS LINE//
 

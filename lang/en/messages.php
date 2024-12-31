@@ -24,6 +24,7 @@ return [
     'update_pin' => 'New pin updated successfully.',
     'update_photo' => 'New profile photo updated successfully.',
     'user_profile_update' => 'User :field updated successfully.',
+    'account_deleted' => 'Account deletion request sent successfully.',
     'reset' => [
         'success' => 'Your account password reset successful.',
         'temporary_password' => 'We have send you a temporary password. Please log into you account with credentials.',

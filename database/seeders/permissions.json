@@ -1,190 +1,234 @@
 [
     {
-        "name": "auth.login",
-        "guard": "web"
+        "name": "admin.login",
+        "guard_name": "web"
+    },
+    {
+        "name": "customer.login",
+        "guard_name": "web"
+    },
+    {
+        "name": "agent.login",
+        "guard_name": "web"
     },
     {
         "name": "dashboard",
-        "guard": "web"
+        "guard_name": "web"
     },
     {
         "name": "auth.user-manage.all-user",
-        "guard": "web"
+        "guard_name": "web"
     },
     {
         "name": "auth.user-manage.recipient",
-        "guard": "web"
+        "guard_name": "web"
     },
     {
         "name": "auth.role-manage.roles",
-        "guard": "web"
+        "guard_name": "web"
     },
     {
         "name": "auth.role-manage.permissions",
-        "guard": "web"
+        "guard_name": "web"
     },
     {
         "name": "auth.login-history",
-        "guard": "web"
+        "guard_name": "web"
     },
     {
         "name": "settings-manage.system-config",
-        "guard": "web"
+        "guard_name": "web"
     },
     {
         "name": "settings-manage.currency-rate",
-        "guard": "web"
+        "guard_name": "web"
     },
     {
         "name": "service-manage.settings",
-        "guard": "web"
+        "guard_name": "web"
     },
     {
         "name": "service-manage.type",
-        "guard": "web"
+        "guard_name": "web"
     },
     {
         "name": "service-manage.service",
-        "guard": "web"
+        "guard_name": "web"
     },
     {
         "name": "service-manage.service-stats",
-        "guard": "web"
+        "guard_name": "web"
     },
     {
         "name": "service-manage.service-fields",
-        "guard": "web"
+        "guard_name": "web"
     },
     {
         "name": "service-manage.service-vendors",
-        "guard": "web"
+        "guard_name": "web"
     },
     {
         "name": "transaction.deposit",
-        "guard": "web"
+        "guard_name": "web"
     },
     {
-        "name": "transaction.money-transfer",
-        "guard": "web"
+        "name": "transaction.bank-transfer",
+        "guard_name": "web"
+    },
+    {
+        "name": "transaction.cash-pickup",
+        "guard_name": "web"
     },
     {
         "name": "transaction.wallet-transfer",
-        "guard": "web"
+        "guard_name": "web"
     },
     {
         "name": "transaction.airtime.bd-top-up",
-        "guard": "web"
+        "guard_name": "web"
     },
     {
         "name": "transaction.bill-payment",
-        "guard": "web"
+        "guard_name": "web"
     },
     {
         "name": "transaction.wallet-to-wallet",
-        "guard": "web"
+        "guard_name": "web"
     },
     {
         "name": "report.deposit",
-        "guard": "web"
+        "guard_name": "web"
     },
     {
         "name": "report.bank-transfer",
-        "guard": "web"
+        "guard_name": "web"
     },
     {
         "name": "report.wallet-transfer",
-        "guard": "web"
+        "guard_name": "web"
     },
     {
         "name": "report.airtime.bd-top-up",
-        "guard": "web"
+        "guard_name": "web"
     },
     {
         "name": "report.bill-payment",
-        "guard": "web"
+        "guard_name": "web"
     },
     {
         "name": "report.wallet-to-wallet",
-        "guard": "web"
+        "guard_name": "web"
     },
     {
         "name": "report.cash-pickup",
-        "guard": "web"
+        "guard_name": "web"
     },
     {
         "name": "report.currency-swap",
-        "guard": "web"
+        "guard_name": "web"
     },
     {
         "name": "execution-report.bank-transfer",
-        "guard": "web"
+        "guard_name": "web"
     },
     {
         "name": "execution-report.wallet-transfer",
-        "guard": "web"
+        "guard_name": "web"
     },
     {
         "name": "execution-report.cash-pickup",
-        "guard": "web"
+        "guard_name": "web"
     },
     {
         "name": "metadata.catalog",
-        "guard": "web"
+        "guard_name": "web"
     },
     {
         "name": "metadata.beneficiary-type",
-        "guard": "web"
+        "guard_name": "web"
     },
     {
         "name": "metadata.country",
-        "guard": "web"
+        "guard_name": "web"
     },
     {
         "name": "metadata.serving-country",
-        "guard": "web"
+        "guard_name": "web"
     },
     {
         "name": "metadata.destination-country",
-        "guard": "web"
+        "guard_name": "web"
     },
     {
         "name": "metadata.state",
-        "guard": "web"
+        "guard_name": "web"
     },
     {
         "name": "metadata.city",
-        "guard": "web"
+        "guard_name": "web"
     },
     {
         "name": "metadata.region",
-        "guard": "web"
+        "guard_name": "web"
     },
     {
         "name": "metadata.sub-region",
-        "guard": "web"
+        "guard_name": "web"
     },
     {
         "name": "metadata.bank",
-        "guard": "web"
+        "guard_name": "web"
     },
     {
         "name": "metadata.branch",
-        "guard": "web"
+        "guard_name": "web"
     },
     {
         "name": "utility.api-log",
-        "guard": "web"
+        "guard_name": "web"
     },
     {
         "name": "notification.triggers",
-        "guard": "web"
+        "guard_name": "web"
     },
     {
         "name": "notification.templates",
-        "guard": "web"
+        "guard_name": "web"
     },
     {
         "name": "notification.actions",
-        "guard": "web"
+        "guard_name": "web"
+    },
+    {
+        "name": "settings-manage.settings",
+        "guard_name": "web"
+    },
+    {
+        "name": "settings-manage.vendor-config",
+        "guard_name": "web"
+    },
+    {
+        "name": "service-manage.topup-package",
+        "guard_name": "web"
+    },
+    {
+        "name": "transaction-tracker",
+        "guard_name": "web"
+    },
+    {
+        "name": "utility.audit",
+        "guard_name": "web"
+    },
+    {
+        "name": "compliance-rules.compliance-policy",
+        "guard_name": "web"
+    },
+    {
+        "name": "compliance-rules.compliance-settings",
+        "guard_name": "web"
+    },
+    {
+        "name": "compliance-rules.compliance-report",
+        "guard_name": "web"
     }
 ]

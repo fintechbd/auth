@@ -3,7 +3,6 @@
 namespace Fintech\Auth\Events;
 
 use Fintech\Core\Attributes\ListenByTrigger;
-use Fintech\Core\Attributes\Recipient;
 use Fintech\Core\Attributes\Variable;
 use Fintech\Core\Interfaces\Bell\HasDynamicString;
 use Illuminate\Foundation\Events\Dispatchable;

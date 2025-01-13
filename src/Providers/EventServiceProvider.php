@@ -24,10 +24,10 @@ class EventServiceProvider extends ServiceProvider
      * @var array<class-string, array<int, class-string>>
      */
     protected $listen = [
-        Attempting::class => [
+        Lockout::class => [
             TriggerListener::class
         ],
-        Lockout::class => [
+        Attempting::class => [
             TriggerListener::class
         ],
         PasswordResetRequested::class => [

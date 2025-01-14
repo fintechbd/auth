@@ -230,5 +230,9 @@
     {
         "name": "compliance-rules.compliance-report",
         "guard_name": "web"
+    },
+    {
+        "name": "utility.file-manager",
+        "guard_name": "web"
     }
 ]

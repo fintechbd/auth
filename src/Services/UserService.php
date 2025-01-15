@@ -47,8 +47,7 @@ class UserService
     public function __construct(
         private readonly UserRepository    $userRepository,
         private readonly ProfileRepository $profileRepository
-    )
-    {
+    ) {
         $this->loginAttempt = [];
     }
 
@@ -323,7 +322,7 @@ class UserService
 
         if ($attemptUser->tokens->isNotEmpty()) {
 
-            $attemptUser->tokens->each(fn($token) => $token->delete());
+            $attemptUser->tokens->each(fn ($token) => $token->delete());
 
             event(new OtherDeviceLogout($guard, $attemptUser));
         }

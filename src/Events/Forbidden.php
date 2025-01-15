@@ -25,7 +25,9 @@ use Illuminate\Queue\SerializesModels;
 )]
 class Forbidden implements HasDynamicString
 {
-    use Dispatchable, InteractsWithSockets, SerializesModels;
+    use Dispatchable;
+    use InteractsWithSockets;
+    use SerializesModels;
 
     /**
      * Create a new event instance.

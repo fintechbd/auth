@@ -2,7 +2,7 @@
 
 namespace Fintech\Auth\Providers;
 
-use Fintech\Auth\Events\AccountFrozen;
+use Fintech\Auth\Events\Freezed;
 use Fintech\Auth\Events\AddToFavouriteAccepted;
 use Fintech\Auth\Events\AddToFavouriteRejected;
 use Fintech\Auth\Events\AddToFavouriteRequested;
@@ -11,7 +11,7 @@ use Fintech\Auth\Events\LoggedOut;
 use Fintech\Auth\Events\PasswordResetRequested;
 use Fintech\Auth\Events\PasswordResetSuccessful;
 use Fintech\Auth\Events\VerificationRequested;
-use Fintech\Core\Listeners\TriggerListener;
+use Fintech\Core\Listeners\TriggerNotification;
 use Illuminate\Auth\Events\Attempting;
 use Illuminate\Auth\Events\Lockout;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
@@ -25,37 +25,37 @@ class EventServiceProvider extends ServiceProvider
      */
     protected $listen = [
         Lockout::class => [
-            TriggerListener::class
+            TriggerNotification::class
         ],
         Attempting::class => [
-            TriggerListener::class
+            TriggerNotification::class
         ],
         PasswordResetRequested::class => [
-            TriggerListener::class
+            TriggerNotification::class
         ],
         PasswordResetSuccessful::class => [
-            TriggerListener::class
+            TriggerNotification::class
         ],
-        AccountFrozen::class => [
-            TriggerListener::class
+        Freezed::class => [
+            TriggerNotification::class
         ],
         LoggedIn::class => [
-            TriggerListener::class
+            TriggerNotification::class
         ],
         LoggedOut::class => [
-            TriggerListener::class
+            TriggerNotification::class
         ],
         VerificationRequested::class => [
-            TriggerListener::class
+            TriggerNotification::class
         ],
         AddToFavouriteRequested::class => [
-            TriggerListener::class
+            TriggerNotification::class
         ],
         AddToFavouriteAccepted::class => [
-            TriggerListener::class
+            TriggerNotification::class
         ],
         AddToFavouriteRejected::class => [
-            TriggerListener::class
+            TriggerNotification::class
         ]
     ];
 }

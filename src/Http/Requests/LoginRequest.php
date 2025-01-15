@@ -2,7 +2,7 @@
 
 namespace Fintech\Auth\Http\Requests;
 
-use App\Events\Lockout;
+use Fintech\Auth\Events\Lockout;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\RateLimiter;
 use Symfony\Component\HttpFoundation\Response;

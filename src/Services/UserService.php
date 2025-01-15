@@ -2,9 +2,12 @@
 
 namespace Fintech\Auth\Services;
 
+use ErrorException;
 use Exception;
-use Fintech\Auth\Events\AccountFrozen;
-use Fintech\Auth\Events\AccountUnauthorized;
+use Fintech\Auth\Events\Forbidden;
+use Fintech\Auth\Events\Attempting;
+use Fintech\Auth\Events\Failed;
+use Fintech\Auth\Events\Freezed;
 use Fintech\Auth\Events\LoggedIn;
 use Fintech\Auth\Exceptions\AccessForbiddenException;
 use Fintech\Auth\Exceptions\AccountFrozenException;
@@ -16,10 +19,8 @@ use Fintech\Core\Enums\Auth\LoginStatus;
 use Fintech\Core\Enums\Auth\PasswordResetOption;
 use Fintech\Core\Enums\Auth\UserStatus;
 use Fintech\Core\Enums\RequestPlatform;
+use Fintech\Core\Traits\HasFindWhereSearch;
 use Fintech\MetaData\Facades\MetaData;
-use Illuminate\Auth\Events\Attempting;
-use Illuminate\Auth\Events\Authenticated;
-use Illuminate\Auth\Events\Failed;
 use Illuminate\Auth\Events\OtherDeviceLogout;
 use Illuminate\Foundation\Auth\User;
 use Illuminate\Support\Facades\Config;
@@ -34,7 +35,7 @@ use stdClass;
  */
 class UserService
 {
-    use \Fintech\Core\Traits\HasFindWhereSearch;
+    use HasFindWhereSearch;
 
     private array $loginAttempt;
 
@@ -46,7 +47,8 @@ class UserService
     public function __construct(
         private readonly UserRepository    $userRepository,
         private readonly ProfileRepository $profileRepository
-    ) {
+    )
+    {
         $this->loginAttempt = [];
     }
 
@@ -130,7 +132,32 @@ class UserService
     }
 
     /**
-     * @throws \ErrorException
+     * @throws ErrorException
+     */
+    public function updateFromAdmin($id, array $inputs = [])
+    {
+        DB::beginTransaction();
+
+        try {
+            $userData = $this->formatDataFromInput($inputs);
+
+            if ($user = $this->userRepository->update($id, $userData)) {
+
+                DB::commit();
+
+                return $user;
+            }
+
+            return null;
+
+        } catch (Exception $exception) {
+            DB::rollBack();
+            throw new ErrorException($exception->getMessage(), 0, $exception);
+        }
+    }
+
+    /**
+     * @throws ErrorException
      */
     public function update($id, array $inputs = [])
     {
@@ -158,35 +185,13 @@ class UserService
 
         } catch (Exception $exception) {
             DB::rollBack();
-            throw new \ErrorException($exception->getMessage(), 0, $exception);
+            throw new ErrorException($exception->getMessage(), 0, $exception);
         }
     }
 
     /**
-     * @throws \ErrorException
+     * @throws Exception
      */
-    public function updateFromAdmin($id, array $inputs = [])
-    {
-        DB::beginTransaction();
-
-        try {
-            $userData = $this->formatDataFromInput($inputs);
-
-            if ($user = $this->userRepository->update($id, $userData)) {
-
-                DB::commit();
-
-                return $user;
-            }
-
-            return null;
-
-        } catch (Exception $exception) {
-            DB::rollBack();
-            throw new \ErrorException($exception->getMessage(), 0, $exception);
-        }
-    }
-
     public function reset($user, $field)
     {
 
@@ -278,7 +283,7 @@ class UserService
                 Auth::loginAttempt()->create($this->loginAttemptData($attemptUser->getKey(), LoginStatus::Banned, __('auth::messages.lockup')));
             }
 
-            event(new AccountFrozen($attemptUser));
+            event(new Freezed($attemptUser));
 
             throw new AccountFrozenException(__('auth::messages.lockup'));
         }
@@ -318,7 +323,7 @@ class UserService
 
         if ($attemptUser->tokens->isNotEmpty()) {
 
-            $attemptUser->tokens->each(fn ($token) => $token->delete());
+            $attemptUser->tokens->each(fn($token) => $token->delete());
 
             event(new OtherDeviceLogout($guard, $attemptUser));
         }
@@ -345,7 +350,7 @@ class UserService
                 );
             }
 
-            event(new AccountUnauthorized($attemptUser, $permissions));
+            event(new Forbidden($attemptUser, $permissions));
 
             throw new AccessForbiddenException(__('auth::messages.forbidden', ['permission' => permission_format('auth.login', 'auth')]));
         }
@@ -361,21 +366,10 @@ class UserService
             );
         }
 
-        event(new LoggedIn($attemptUser));
-
-        event(new Authenticated($guard, $attemptUser));
+        event(new LoggedIn($guard, $attemptUser));
 
         return $attemptUser;
 
-    }
-
-    private function platformLoginRequiredPermission(RequestPlatform $platform): ?array
-    {
-        return match ($platform) {
-            RequestPlatform::WebAgent => ['agent.login'],
-            RequestPlatform::WebAdmin => ['admin.login'],
-            default => ['customer.login'],
-        };
     }
 
     private function loginAttemptData($user_id, $status, $note): array
@@ -455,6 +449,15 @@ class UserService
     public function find($id, $onlyTrashed = false)
     {
         return $this->userRepository->find($id, $onlyTrashed);
+    }
+
+    private function platformLoginRequiredPermission(RequestPlatform $platform): ?array
+    {
+        return match ($platform) {
+            RequestPlatform::WebAgent => ['agent.login'],
+            RequestPlatform::WebAdmin => ['admin.login'],
+            default => ['customer.login'],
+        };
     }
 
     public function logout()

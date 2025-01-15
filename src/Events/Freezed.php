@@ -21,7 +21,7 @@ use Illuminate\Queue\SerializesModels;
         new Variable(name: '__password_attempt_limit__', description: 'The maximum number of times a user may try to customize my system.'),
     ]
 )]
-class AccountFrozen implements HasDynamicString
+class Freezed implements HasDynamicString
 {
     use Dispatchable;
     use SerializesModels;

@@ -10,7 +10,7 @@ use Illuminate\Queue\SerializesModels;
 
 #[ListenByTrigger(
     name: 'User Account Frozen/Suspended',
-    description: 'When someone tries to enter into their account using the incorrect password and the number of incorrect passwords exceeds the threshold, this trigger is set off.',
+    description: 'When someone tries to login into their account using incorrect password, when trials exceeds the threshold the trigger get fired.',
     enabled: true,
     variables: [
         new Variable(name: '__account_name__', description: 'Name of the user tried login.'),

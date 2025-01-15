@@ -4,6 +4,7 @@ namespace Fintech\Auth\Services;
 
 use Exception;
 use Fintech\Auth\Events\AccountFrozen;
+use Fintech\Auth\Events\AccountUnauthorized;
 use Fintech\Auth\Events\LoggedIn;
 use Fintech\Auth\Exceptions\AccessForbiddenException;
 use Fintech\Auth\Exceptions\AccountFrozenException;
@@ -344,7 +345,7 @@ class UserService
                 );
             }
 
-            event(new Failed($guard, $attemptUser, $inputs));
+            event(new AccountUnauthorized($attemptUser, $permissions));
 
             throw new AccessForbiddenException(__('auth::messages.forbidden', ['permission' => permission_format('auth.login', 'auth')]));
         }

@@ -35,15 +35,7 @@ class LoginRequest extends FormRequest
      */
     public function clearRateLimited(): void
     {
-        RateLimiter::clear($this->throttleKey());
-    }
-
-    /**
-     * Get the rate limiting throttle key for the request.
-     */
-    public function throttleKey(): string
-    {
-        return Str::transliterate(Str::lower($this->input(config('fintech.auth.auth_field', 'login_id'))).'|'.$this->ip());
+        RateLimiter::clear(throttle_key());
     }
 
     /**
@@ -51,7 +43,7 @@ class LoginRequest extends FormRequest
      */
     public function hitRateLimited(): void
     {
-        RateLimiter::hit($this->throttleKey());
+        RateLimiter::hit(throttle_key());
     }
 
     /**
@@ -59,13 +51,13 @@ class LoginRequest extends FormRequest
      */
     public function ensureIsNotRateLimited(): void
     {
-        if (! RateLimiter::tooManyAttempts($this->throttleKey(), 5)) {
+        if (! RateLimiter::tooManyAttempts(throttle_key(), 5)) {
             return;
         }
 
         event(new Lockout($this));
 
-        $seconds = RateLimiter::availableIn($this->throttleKey());
+        $seconds = RateLimiter::availableIn(throttle_key());
 
         abort(Response::HTTP_TOO_MANY_REQUESTS, __('auth::messages.throttle', [
             'seconds' => $seconds,

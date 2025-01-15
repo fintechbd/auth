@@ -2,10 +2,9 @@
 
 namespace Fintech\Auth\Http\Requests;
 
-use Illuminate\Auth\Events\Lockout;
+use App\Events\Lockout;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\RateLimiter;
-use Illuminate\Support\Str;
 use Symfony\Component\HttpFoundation\Response;
 
 class LoginRequest extends FormRequest

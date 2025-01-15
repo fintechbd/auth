@@ -24,7 +24,9 @@ use Illuminate\Queue\SerializesModels;
 )]
 class AccountUnauthorized implements HasDynamicString
 {
-    use Dispatchable, InteractsWithSockets, SerializesModels;
+    use Dispatchable;
+    use InteractsWithSockets;
+    use SerializesModels;
 
     public $user;
 

@@ -9,7 +9,6 @@ use Fintech\Auth\Events\Forbidden;
 use Fintech\Auth\Events\Attempting;
 use Fintech\Auth\Events\Failed;
 use Fintech\Auth\Events\Freezed;
-use Fintech\Auth\Events\LoggedIn;
 use Fintech\Auth\Exceptions\AccessForbiddenException;
 use Fintech\Auth\Exceptions\AccountFrozenException;
 use Fintech\Auth\Facades\Auth;

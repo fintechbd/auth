@@ -2,12 +2,11 @@
 
 namespace Fintech\Auth\Providers;
 
+use Fintech\Auth\Events\Authenticated;
 use Fintech\Auth\Events\Freezed;
 use Fintech\Auth\Events\AddToFavouriteAccepted;
 use Fintech\Auth\Events\AddToFavouriteRejected;
 use Fintech\Auth\Events\AddToFavouriteRequested;
-use Fintech\Auth\Events\LoggedIn;
-use Fintech\Auth\Events\LoggedOut;
 use Fintech\Auth\Events\PasswordResetRequested;
 use Fintech\Auth\Events\PasswordResetSuccessful;
 use Fintech\Auth\Events\VerificationRequested;
@@ -39,10 +38,7 @@ class EventServiceProvider extends ServiceProvider
         Freezed::class => [
             TriggerNotification::class
         ],
-        LoggedIn::class => [
-            TriggerNotification::class
-        ],
-        LoggedOut::class => [
+        Authenticated::class => [
             TriggerNotification::class
         ],
         VerificationRequested::class => [

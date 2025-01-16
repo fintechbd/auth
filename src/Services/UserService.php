@@ -4,6 +4,7 @@ namespace Fintech\Auth\Services;
 
 use ErrorException;
 use Exception;
+use Fintech\Auth\Events\Authenticated;
 use Fintech\Auth\Events\Forbidden;
 use Fintech\Auth\Events\Attempting;
 use Fintech\Auth\Events\Failed;
@@ -365,7 +366,7 @@ class UserService
             );
         }
 
-        event(new LoggedIn($guard, $attemptUser));
+        event(new Authenticated($guard, $attemptUser));
 
         return $attemptUser;
 

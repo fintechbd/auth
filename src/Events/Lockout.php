@@ -14,6 +14,7 @@ use Illuminate\Queue\SerializesModels;
     description: 'Lockout',
     enabled: false,
     variables: [
+        new Variable(name: '__login_id__', description: 'Email, phone number used to login'),
         new Variable(name: '__ip__', description: 'IP Address of the request received'),
         new Variable(name: '__platform__', description: 'User Platform of the request received'),
     ]
@@ -38,6 +39,9 @@ class Lockout implements HasDynamicString
      */
     public function aliases(): array
     {
-        return [];
+        return [
+            '__ip__' => request()->ip(),
+            '__platform__' => request()->userAgent(),
+        ];
     }
 }

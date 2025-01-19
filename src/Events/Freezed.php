@@ -45,6 +45,8 @@ class Freezed implements HasDynamicString
             '__password_attempt_count__' => $this->user->wrong_password ?? '',
             '__account_status__' => $this->user->status ?? '',
             '__password_attempt_limit__' => config('fintech.auth.password_threshold', 10),
+            '__ip__' => request()->ip(),
+            '__platform__' => request()->userAgent(),
         ];
     }
 }

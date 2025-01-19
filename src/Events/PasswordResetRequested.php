@@ -27,14 +27,14 @@ class PasswordResetRequested
     }
 
     /**
-     * Get the channels the event should broadcast on.
-     *
-     * @return array<int, Channel>
+     * List all the aliases that this event will provide
+     * @return array
      */
-    public function broadcastOn(): array
+    public function aliases(): array
     {
         return [
-            new PrivateChannel('channel-name'),
+            '__ip__' => request()->ip(),
+            '__platform__' => request()->userAgent(),
         ];
     }
 }

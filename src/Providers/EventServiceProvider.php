@@ -2,17 +2,18 @@
 
 namespace Fintech\Auth\Providers;
 
+use Fintech\Auth\Events\Attempting;
 use Fintech\Auth\Events\Authenticated;
+use Fintech\Auth\Events\Failed;
 use Fintech\Auth\Events\Freezed;
 use Fintech\Auth\Events\AddToFavouriteAccepted;
 use Fintech\Auth\Events\AddToFavouriteRejected;
 use Fintech\Auth\Events\AddToFavouriteRequested;
+use Fintech\Auth\Events\Lockout;
 use Fintech\Auth\Events\PasswordResetRequested;
 use Fintech\Auth\Events\PasswordResetSuccessful;
 use Fintech\Auth\Events\VerificationRequested;
 use Fintech\Core\Listeners\TriggerNotification;
-use Illuminate\Auth\Events\Attempting;
-use Illuminate\Auth\Events\Lockout;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
 
 class EventServiceProvider extends ServiceProvider
@@ -36,6 +37,9 @@ class EventServiceProvider extends ServiceProvider
             TriggerNotification::class
         ],
         Freezed::class => [
+            TriggerNotification::class
+        ],
+        Failed::class => [
             TriggerNotification::class
         ],
         Authenticated::class => [

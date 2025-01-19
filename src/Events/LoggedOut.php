@@ -10,20 +10,17 @@ use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
 #[ListenByTrigger(
-    name: 'Attempting',
-    description: 'Attempting',
+    name: 'LoggedOut',
+    description: 'LoggedOut',
     enabled: true,
     variables: [
-        new Variable(name: '__login_id__', description: 'Email, phone number used to log in'),
         new Variable(name: '__ip__', description: 'IP Address of the request received'),
         new Variable(name: '__platform__', description: 'User Platform of the request received'),
     ]
 )]
-class Attempting implements HasDynamicString
+class LoggedOut implements HasDynamicString
 {
-    use Dispatchable;
-    use InteractsWithSockets;
-    use SerializesModels;
+    use Dispatchable, InteractsWithSockets, SerializesModels;
 
     /**
      * Create a new event instance.

@@ -10,10 +10,16 @@ use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
 #[ListenByTrigger(
-    name: 'Failed',
-    description: 'Failed',
+    name: 'Authentication Failed',
+    description: 'Trigger fires when user failed to authentication with credentials on system',
     enabled: true,
     variables: [
+        new Variable(name: '__account_name__', description: 'Name of the user tried login'),
+        new Variable(name: '__account_mobile__', description: 'Mobile number associate with requested user'),
+        new Variable(name: '__account_email__', description: 'Email address associate with requested user'),
+        new Variable(name: '__password_attempt_count__', description: 'Number of times wrong password attempted'),
+        new Variable(name: '__account_status__', description: 'User account before frozen/suspended status.'),
+        new Variable(name: '__password_attempt_limit__', description: 'The maximum number of times a user may try to customize my system'),
         new Variable(name: '__ip__', description: 'IP Address of the request received'),
         new Variable(name: '__platform__', description: 'User Platform of the request received'),
     ]
@@ -38,6 +44,9 @@ class Failed implements HasDynamicString
      */
     public function aliases(): array
     {
-        return [];
+        return [
+            '__ip__' => request()->ip(),
+            '__platform__' => request()->userAgent(),
+        ];
     }
 }

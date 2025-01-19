@@ -43,6 +43,9 @@ class Forbidden implements HasDynamicString
      */
     public function aliases(): array
     {
-        return [];
+        return [
+            '__ip__' => request()->ip(),
+            '__platform__' => request()->userAgent(),
+        ];
     }
 }

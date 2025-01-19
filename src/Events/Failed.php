@@ -36,9 +36,10 @@ class Failed extends \Fintech\Core\Abstracts\BaseEvent implements HasDynamicStri
      * @param Authenticatable $user
      * @param array $credentials
      */
-    public function __construct(public Authenticatable $user,
-                                public array           $credentials = [])
-    {
+    public function __construct(
+        public Authenticatable $user,
+        public array           $credentials = []
+    ) {
     }
 
     /**

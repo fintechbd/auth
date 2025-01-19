@@ -18,7 +18,7 @@ use Illuminate\Queue\SerializesModels;
         new Variable(name: '__platform__', description: 'User Platform of the request received'),
     ]
 )]
-class LoggedOut implements HasDynamicString
+class LoggedOut extends \Fintech\Core\Abstracts\BaseEvent implements HasDynamicString
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 

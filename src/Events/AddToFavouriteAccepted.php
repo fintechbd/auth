@@ -2,13 +2,12 @@
 
 namespace Fintech\Auth\Events;
 
-use Illuminate\Broadcasting\Channel;
+use Fintech\Core\Interfaces\Bell\HasDynamicString;
 use Illuminate\Broadcasting\InteractsWithSockets;
-use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class AddToFavouriteAccepted
+class AddToFavouriteAccepted extends \Fintech\Core\Abstracts\BaseEvent implements HasDynamicString
 {
     use Dispatchable;
     use InteractsWithSockets;

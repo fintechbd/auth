@@ -24,7 +24,7 @@ use Illuminate\Queue\SerializesModels;
         new Variable(name: '__platform__', description: 'User Platform of the request received'),
     ]
 )]
-class Authenticated implements HasDynamicString
+class Authenticated extends \Fintech\Core\Abstracts\BaseEvent implements HasDynamicString
 {
     use Dispatchable;
     use InteractsWithSockets;

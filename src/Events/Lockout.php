@@ -19,7 +19,7 @@ use Illuminate\Queue\SerializesModels;
         new Variable(name: '__platform__', description: 'User Platform of the request received'),
     ]
 )]
-class Lockout implements HasDynamicString
+class Lockout extends \Fintech\Core\Abstracts\BaseEvent implements HasDynamicString
 {
     use Dispatchable;
     use InteractsWithSockets;

@@ -25,7 +25,7 @@ use Illuminate\Queue\SerializesModels;
         new Variable(name: '__platform__', description: 'User Platform of the request received'),
     ]
 )]
-class Failed implements HasDynamicString
+class Failed extends \Fintech\Core\Abstracts\BaseEvent implements HasDynamicString
 {
     use Dispatchable;
     use InteractsWithSockets;

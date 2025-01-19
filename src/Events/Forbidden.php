@@ -6,6 +6,7 @@ use Fintech\Core\Attributes\ListenByTrigger;
 use Fintech\Core\Attributes\Variable;
 use Fintech\Core\Interfaces\Bell\HasDynamicString;
 use Illuminate\Broadcasting\InteractsWithSockets;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
@@ -32,7 +33,7 @@ class Forbidden implements HasDynamicString
     /**
      * Create a new event instance.
      */
-    public function __construct()
+    public function __construct(public Authenticatable $user, public array $permissions = [])
     {
         //
     }
@@ -44,6 +45,11 @@ class Forbidden implements HasDynamicString
     public function aliases(): array
     {
         return [
+            '__account_name__' => $this->user->name ?? null,
+            '__account_mobile__' => $this->user->mobile ?? null,
+            '__account_email__' => $this->user->email ?? null,
+            '__permissions__' => $this->permissions ?? null,
+            '__account_status__' => $this->user->status ? ucfirst($this->user->status) : null,
             '__ip__' => request()->ip(),
             '__platform__' => request()->userAgent(),
         ];

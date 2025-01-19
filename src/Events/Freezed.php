@@ -5,6 +5,7 @@ namespace Fintech\Auth\Events;
 use Fintech\Core\Attributes\ListenByTrigger;
 use Fintech\Core\Attributes\Variable;
 use Fintech\Core\Interfaces\Bell\HasDynamicString;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
@@ -26,14 +27,11 @@ class Freezed implements HasDynamicString
     use Dispatchable;
     use SerializesModels;
 
-    public mixed $user;
-
     /**
      * Create a new event instance.
      */
-    public function __construct($user)
+    public function __construct(public Authenticatable $user)
     {
-        $this->user = $user;
     }
 
     public function aliases(): array

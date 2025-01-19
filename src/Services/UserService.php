@@ -310,7 +310,7 @@ class UserService
 
             }
 
-            event(new Failed($guard, $attemptUser, $inputs));
+            event(new Failed($attemptUser, $inputs));
 
             throw new Exception(__('auth::messages.warning', [
                 'attempt' => $wrongPasswordCount,
@@ -365,7 +365,7 @@ class UserService
             );
         }
 
-        event(new Authenticated($guard, $attemptUser));
+        event(new Authenticated($attemptUser));
 
         return $attemptUser;
 

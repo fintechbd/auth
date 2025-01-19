@@ -6,11 +6,12 @@ use Fintech\Core\Attributes\ListenByTrigger;
 use Fintech\Core\Attributes\Variable;
 use Fintech\Core\Interfaces\Bell\HasDynamicString;
 use Illuminate\Broadcasting\InteractsWithSockets;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
 #[ListenByTrigger(
-    name: 'Authentication Failed',
+    name: 'Login Failed',
     description: 'Trigger fires when user failed to authentication with credentials on system',
     enabled: true,
     variables: [
@@ -32,10 +33,12 @@ class Failed implements HasDynamicString
 
     /**
      * Create a new event instance.
+     * @param Authenticatable $user
+     * @param array $credentials
      */
-    public function __construct()
+    public function __construct(public Authenticatable $user,
+                                public array           $credentials = [])
     {
-        //
     }
 
     /**
@@ -45,6 +48,12 @@ class Failed implements HasDynamicString
     public function aliases(): array
     {
         return [
+            '__account_name__' => $this->user->name ?? null,
+            '__account_mobile__' => $this->user->mobile ?? null,
+            '__account_email__' => $this->user->email ?? null,
+            '__password_attempt_count__' => $this->user->wrong_password ?? null,
+            '__password_attempt_limit__' => config('fintech.auth.password_threshold', 10),
+            '__account_status__' => $this->user->status ? ucfirst($this->user->status) : null,
             '__ip__' => request()->ip(),
             '__platform__' => request()->userAgent(),
         ];

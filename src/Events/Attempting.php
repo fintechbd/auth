@@ -28,7 +28,7 @@ class Attempting implements HasDynamicString
     /**
      * Create a new event instance.
      */
-    public function __construct()
+    public function __construct(public string $guard = 'web', public array $credentials = [], public bool $remember = false)
     {
         //
     }
@@ -40,6 +40,7 @@ class Attempting implements HasDynamicString
     public function aliases(): array
     {
         return [
+            '__login_id__' => $this->credentials[config('fintech.auth.auth_field', 'login_id')],
             '__ip__' => request()->ip(),
             '__platform__' => request()->userAgent(),
         ];

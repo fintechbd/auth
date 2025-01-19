@@ -12,7 +12,7 @@ use Illuminate\Queue\SerializesModels;
 #[ListenByTrigger(
     name: 'Authenticated',
     description: 'Authenticated',
-    enabled: true,
+    enabled: false,
     variables: [
         new Variable(name: '__ip__', description: 'IP Address of the request received'),
         new Variable(name: '__platform__', description: 'User Platform of the request received'),

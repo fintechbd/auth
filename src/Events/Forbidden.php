@@ -4,7 +4,6 @@ namespace Fintech\Auth\Events;
 
 use Fintech\Core\Attributes\ListenByTrigger;
 use Fintech\Core\Attributes\Variable;
-use Fintech\Core\Interfaces\Bell\HasDynamicString;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Foundation\Events\Dispatchable;

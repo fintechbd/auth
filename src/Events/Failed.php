@@ -4,7 +4,6 @@ namespace Fintech\Auth\Events;
 
 use Fintech\Core\Attributes\ListenByTrigger;
 use Fintech\Core\Attributes\Variable;
-use Fintech\Core\Interfaces\Bell\HasDynamicString;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Foundation\Events\Dispatchable;
@@ -36,9 +35,10 @@ class Failed extends \Fintech\Core\Abstracts\BaseEvent
      * @param Authenticatable $user
      * @param array $credentials
      */
-    public function __construct(public Authenticatable $user,
-                                public array           $credentials = [])
-    {
+    public function __construct(
+        public Authenticatable $user,
+        public array           $credentials = []
+    ) {
         $this->init();
     }
 

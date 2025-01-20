@@ -117,6 +117,15 @@ class User extends Authenticatable implements HasMedia, Auditable
         return $this->email;
     }
 
+    /**
+     * Route notifications for the Push Message channel.
+     */
+    public function routeNotificationForChat(Notification $notification): mixed
+    {
+        return $this->getKey().'_';
+    }
+
+
     /*
     |--------------------------------------------------------------------------
     | RELATIONS

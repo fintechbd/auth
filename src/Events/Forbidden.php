@@ -24,7 +24,7 @@ use Illuminate\Queue\SerializesModels;
         new Variable(name: '__platform__', description: 'User Platform of the request received'),
     ]
 )]
-class Forbidden extends \Fintech\Core\Abstracts\BaseEvent implements HasDynamicString
+class Forbidden extends \Fintech\Core\Abstracts\BaseEvent
 {
     use Dispatchable;
     use InteractsWithSockets;

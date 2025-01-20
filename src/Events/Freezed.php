@@ -4,7 +4,6 @@ namespace Fintech\Auth\Events;
 
 use Fintech\Core\Attributes\ListenByTrigger;
 use Fintech\Core\Attributes\Variable;
-use Fintech\Core\Interfaces\Bell\HasDynamicString;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
@@ -22,7 +21,7 @@ use Illuminate\Queue\SerializesModels;
         new Variable(name: '__password_attempt_limit__', description: 'The maximum number of times a user may try to customize my system.'),
     ]
 )]
-class Freezed extends \Fintech\Core\Abstracts\BaseEvent implements HasDynamicString
+class Freezed extends \Fintech\Core\Abstracts\BaseEvent
 {
     use Dispatchable;
     use SerializesModels;
@@ -32,6 +31,7 @@ class Freezed extends \Fintech\Core\Abstracts\BaseEvent implements HasDynamicStr
      */
     public function __construct(public Authenticatable $user)
     {
+        $this->init();
     }
 
     public function aliases(): array

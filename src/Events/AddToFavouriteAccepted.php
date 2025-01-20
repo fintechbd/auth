@@ -2,12 +2,12 @@
 
 namespace Fintech\Auth\Events;
 
-use Fintech\Core\Interfaces\Bell\HasDynamicString;
+use Fintech\Core\Abstracts\BaseEvent;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class AddToFavouriteAccepted extends \Fintech\Core\Abstracts\BaseEvent implements HasDynamicString
+class AddToFavouriteAccepted extends BaseEvent
 {
     use Dispatchable;
     use InteractsWithSockets;
@@ -18,7 +18,7 @@ class AddToFavouriteAccepted extends \Fintech\Core\Abstracts\BaseEvent implement
      */
     public function __construct()
     {
-        //
+        $this->init();
     }
 
     /**

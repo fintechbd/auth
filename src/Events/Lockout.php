@@ -4,7 +4,6 @@ namespace Fintech\Auth\Events;
 
 use Fintech\Core\Attributes\ListenByTrigger;
 use Fintech\Core\Attributes\Variable;
-use Fintech\Core\Interfaces\Bell\HasDynamicString;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
@@ -19,7 +18,7 @@ use Illuminate\Queue\SerializesModels;
         new Variable(name: '__platform__', description: 'User Platform of the request received'),
     ]
 )]
-class Lockout extends \Fintech\Core\Abstracts\BaseEvent implements HasDynamicString
+class Lockout extends \Fintech\Core\Abstracts\BaseEvent
 {
     use Dispatchable;
     use InteractsWithSockets;
@@ -30,7 +29,7 @@ class Lockout extends \Fintech\Core\Abstracts\BaseEvent implements HasDynamicStr
      */
     public function __construct()
     {
-        //
+        $this->init();
     }
 
     /**

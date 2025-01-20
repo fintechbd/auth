@@ -2,6 +2,7 @@
 
 namespace Fintech\Auth\Events;
 
+use Fintech\Core\Abstracts\BaseEvent;
 use Fintech\Core\Attributes\ListenByTrigger;
 use Fintech\Core\Attributes\Variable;
 use Illuminate\Broadcasting\InteractsWithSockets;
@@ -23,7 +24,7 @@ use Illuminate\Queue\SerializesModels;
         new Variable(name: '__platform__', description: 'User Platform of the request received'),
     ]
 )]
-class Authenticated extends \Fintech\Core\Abstracts\BaseEvent
+class Authenticated extends BaseEvent
 {
     use Dispatchable;
     use InteractsWithSockets;

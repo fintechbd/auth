@@ -39,6 +39,7 @@ class Failed extends \Fintech\Core\Abstracts\BaseEvent
     public function __construct(public Authenticatable $user,
                                 public array           $credentials = [])
     {
+        $this->init();
     }
 
     /**

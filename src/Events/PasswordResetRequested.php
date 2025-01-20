@@ -2,6 +2,7 @@
 
 namespace Fintech\Auth\Events;
 
+use Fintech\Core\Abstracts\BaseEvent;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Broadcasting\PrivateChannel;
@@ -9,7 +10,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class PasswordResetRequested
+class PasswordResetRequested extends BaseEvent
 {
     use Dispatchable;
     use InteractsWithSockets;
@@ -24,6 +25,7 @@ class PasswordResetRequested
     public function __construct($user)
     {
         $this->user = $user;
+        $this->init();
     }
 
     /**

@@ -2,13 +2,14 @@
 
 namespace Fintech\Auth\Events;
 
+use Fintech\Core\Abstracts\BaseEvent;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class VerificationRequested
+class VerificationRequested extends BaseEvent
 {
     use Dispatchable;
     use InteractsWithSockets;
@@ -19,7 +20,7 @@ class VerificationRequested
      */
     public function __construct()
     {
-        //
+        $this->init();
     }
 
     /**

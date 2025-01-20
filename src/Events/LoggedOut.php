@@ -27,7 +27,7 @@ class LoggedOut extends \Fintech\Core\Abstracts\BaseEvent
      */
     public function __construct()
     {
-        //
+        $this->init();
     }
 
     /**

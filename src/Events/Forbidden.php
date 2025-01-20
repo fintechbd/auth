@@ -35,7 +35,7 @@ class Forbidden extends \Fintech\Core\Abstracts\BaseEvent
      */
     public function __construct(public Authenticatable $user, public array $permissions = [])
     {
-        //
+        $this->init();
     }
 
     /**

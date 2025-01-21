@@ -114,7 +114,7 @@ class User extends Authenticatable implements HasMedia, Auditable
      */
     public function routeNotificationForMail(Notification $notification): mixed
     {
-        return $this->email;
+        return [$this->email => $this->name];
     }
 
     /**
@@ -122,7 +122,7 @@ class User extends Authenticatable implements HasMedia, Auditable
      */
     public function routeNotificationForChat(Notification $notification): mixed
     {
-        return $this->getKey().'_';
+        return $this->getKey() . '_';
     }
 
 

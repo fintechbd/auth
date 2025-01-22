@@ -11,7 +11,6 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use Illuminate\Notifications\Notification;
 use InvalidArgumentException;
 use Laravel\Sanctum\HasApiTokens;
 use OwenIt\Auditing\Contracts\Auditable;
@@ -96,7 +95,7 @@ class User extends Authenticatable implements HasMedia, Auditable
     /**
      * Route notifications for the Push Message channel.
      */
-    public function routeNotificationForPush(Notification $notification): mixed
+    public function routeNotificationForPush($notification = null): mixed
     {
         return $this->fcm_token;
     }
@@ -104,15 +103,15 @@ class User extends Authenticatable implements HasMedia, Auditable
     /**
      * Route notifications for the Push Message channel.
      */
-    public function routeNotificationForSms(Notification $notification): mixed
+    public function routeNotificationForSms($notification = null): mixed
     {
         return $this->mobile;
     }
 
     /**
-     * Route notifications for the Push Message channel.
+     * Route notifications for the Mail Message channel.
      */
-    public function routeNotificationForMail(Notification $notification): mixed
+    public function routeNotificationForMail($notification = null): mixed
     {
         return [$this->email => $this->name];
     }
@@ -120,7 +119,7 @@ class User extends Authenticatable implements HasMedia, Auditable
     /**
      * Route notifications for the Push Message channel.
      */
-    public function routeNotificationForChat(Notification $notification): mixed
+    public function routeNotificationForChat($notification = null): mixed
     {
         return $this->getKey() . '_';
     }

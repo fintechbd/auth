@@ -13,7 +13,7 @@ use Fintech\Auth\Events\Lockout;
 use Fintech\Auth\Events\PasswordResetRequested;
 use Fintech\Auth\Events\PasswordResetSuccessful;
 use Fintech\Auth\Events\VerificationRequested;
-use Fintech\Core\Listeners\TriggerNotification;
+use Fintech\Core\Listeners\TriggerListener;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
 
 class EventServiceProvider extends ServiceProvider
@@ -25,37 +25,37 @@ class EventServiceProvider extends ServiceProvider
      */
     protected $listen = [
         Lockout::class => [
-            TriggerNotification::class
+            TriggerListener::class
         ],
         Attempting::class => [
-            TriggerNotification::class
+            TriggerListener::class
         ],
         PasswordResetRequested::class => [
-            TriggerNotification::class
+            TriggerListener::class
         ],
         PasswordResetSuccessful::class => [
-            TriggerNotification::class
+            TriggerListener::class
         ],
         Freezed::class => [
-            TriggerNotification::class
+            TriggerListener::class
         ],
         Failed::class => [
-            TriggerNotification::class
+            TriggerListener::class
         ],
         Authenticated::class => [
-            TriggerNotification::class
+            TriggerListener::class
         ],
         VerificationRequested::class => [
-            TriggerNotification::class
+            TriggerListener::class
         ],
         AddToFavouriteRequested::class => [
-            TriggerNotification::class
+            TriggerListener::class
         ],
         AddToFavouriteAccepted::class => [
-            TriggerNotification::class
+            TriggerListener::class
         ],
         AddToFavouriteRejected::class => [
-            TriggerNotification::class
+            TriggerListener::class
         ]
     ];
 }

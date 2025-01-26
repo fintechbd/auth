@@ -2,6 +2,7 @@
 
 namespace Fintech\Auth\Events;
 
+use Fintech\Auth\Http\Requests\LoginRequest;
 use Fintech\Core\Attributes\ListenByTrigger;
 use Fintech\Core\Attributes\Variable;
 use Illuminate\Broadcasting\InteractsWithSockets;
@@ -13,9 +14,10 @@ use Illuminate\Queue\SerializesModels;
     description: 'Lockout',
     enabled: false,
     variables: [
-        new Variable(name: '__login_id__', description: 'Email, phone number used to login'),
+        new Variable(name: '__login_id__', description: 'Email, Phone number used to login'),
         new Variable(name: '__ip__', description: 'IP Address of the request received'),
         new Variable(name: '__platform__', description: 'User Platform of the request received'),
+        new Variable(name: '__minutes__', description: 'Minutes after the system will be available.'),
     ]
 )]
 class Lockout extends \Fintech\Core\Abstracts\BaseEvent
@@ -27,7 +29,7 @@ class Lockout extends \Fintech\Core\Abstracts\BaseEvent
     /**
      * Create a new event instance.
      */
-    public function __construct()
+    public function __construct(public LoginRequest $request, public int $minutes = 0)
     {
         $this->init();
     }
@@ -39,6 +41,8 @@ class Lockout extends \Fintech\Core\Abstracts\BaseEvent
     public function aliases(): array
     {
         return [
+            '__login_id__' => $this->request,
+            '__minutes__' => $this->minutes,
             '__ip__' => request()->ip(),
             '__platform__' => request()->userAgent(),
         ];

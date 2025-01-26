@@ -54,9 +54,10 @@ class LoginRequest extends FormRequest
             return;
         }
 
-        event(new Lockout($this));
 
         $seconds = RateLimiter::availableIn(throttle_key());
+
+        event(new Lockout($this, ceil($seconds / 60)));
 
         abort(Response::HTTP_TOO_MANY_REQUESTS, __('auth::messages.throttle', [
             'seconds' => $seconds,

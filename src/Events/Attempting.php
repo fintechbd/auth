@@ -9,8 +9,8 @@ use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
 #[ListenByTrigger(
-    name: 'Attempting',
-    description: 'Attempting',
+    name: 'Invalid Login Credential',
+    description: 'Login attempts were made with invalid (email/phone/username).',
     enabled: true,
     variables: [
         new Variable(name: '__login_id__', description: 'Email, phone number used to log in'),
@@ -27,7 +27,7 @@ class Attempting extends \Fintech\Core\Abstracts\BaseEvent
     /**
      * Create a new event instance.
      */
-    public function __construct(public string $guard = 'web', public array $credentials = [], public bool $remember = false)
+    public function __construct(public array $credentials = [], public bool $remember = false)
     {
         $this->init();
     }

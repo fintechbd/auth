@@ -10,14 +10,14 @@ use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
 #[ListenByTrigger(
-    name: 'Lockout',
-    description: 'Lockout',
-    enabled: false,
+    name: 'Login Request Lockout',
+    description: 'Multiple login attempts are made in short timeframe then blocked.',
+    enabled: true,
     variables: [
         new Variable(name: '__login_id__', description: 'Email, Phone number used to login'),
         new Variable(name: '__ip__', description: 'IP Address of the request received'),
         new Variable(name: '__platform__', description: 'User Platform of the request received'),
-        new Variable(name: '__minutes__', description: 'Minutes after the system will be available.'),
+        new Variable(name: '__minutes_remain__', description: 'Minutes after the system will be available.'),
     ]
 )]
 class Lockout extends \Fintech\Core\Abstracts\BaseEvent
@@ -41,8 +41,8 @@ class Lockout extends \Fintech\Core\Abstracts\BaseEvent
     public function aliases(): array
     {
         return [
-            '__login_id__' => $this->request,
-            '__minutes__' => $this->minutes,
+            '__login_id__' => $this->request->input('login_id'),
+            '__minutes_remain__' => $this->minutes,
             '__ip__' => request()->ip(),
             '__platform__' => request()->userAgent(),
         ];

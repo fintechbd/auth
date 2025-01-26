@@ -261,7 +261,7 @@ class UserService
                 Auth::loginAttempt()->create($this->loginAttemptData(null, LoginStatus::Invalid, __('auth::messages.failed')));
             }
 
-            event(new Attempting($guard, $inputs, false));
+            event(new Attempting($inputs, false));
 
             throw new Exception(__('auth::messages.failed'));
         }

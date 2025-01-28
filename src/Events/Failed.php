@@ -10,8 +10,8 @@ use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
 #[ListenByTrigger(
-    name: 'Login Failed',
-    description: 'Trigger fires when user failed to authentication with credentials on system',
+    name: 'Login Attempt Failed',
+    description: 'Login attempt failed with improper password.',
     enabled: true,
     variables: [
         new Variable(name: '__account_name__', description: 'Name of the user tried login'),

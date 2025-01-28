@@ -8,7 +8,7 @@ use Fintech\Auth\Events\Authenticated;
 use Fintech\Auth\Events\Forbidden;
 use Fintech\Auth\Events\Attempting;
 use Fintech\Auth\Events\Failed;
-use Fintech\Auth\Events\Freezed;
+use Fintech\Auth\Events\Frozen;
 use Fintech\Auth\Exceptions\AccessForbiddenException;
 use Fintech\Auth\Exceptions\AccountFrozenException;
 use Fintech\Auth\Facades\Auth;
@@ -282,7 +282,7 @@ class UserService
                 Auth::loginAttempt()->create($this->loginAttemptData($attemptUser->getKey(), LoginStatus::Banned, __('auth::messages.lockup')));
             }
 
-            event(new Freezed($attemptUser));
+            event(new Frozen($attemptUser));
 
             throw new AccountFrozenException(__('auth::messages.lockup'));
         }

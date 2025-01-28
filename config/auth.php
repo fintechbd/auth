@@ -36,7 +36,7 @@ return [
     |--------------------------------------------------------------------------
     | this setting enable the api will be available or not
     */
-    'enabled' => env('PACKAGE_AUTH_ENABLED', true),
+    'enabled' => env('AUTH_ENABLED', true),
 
     /*
     |--------------------------------------------------------------------------
@@ -157,7 +157,7 @@ return [
     | This value will be used to across system where model is needed
     */
     'login_attempt_model' => LoginAttempt::class,
-    'record_login_attempt' => env('PACKAGE_AUTH_RECORD_LOGIN_ATTEMPT', false),
+    'record_login_attempt' => env('AUTH_RECORD_LOGIN_ATTEMPT', false),
     /*
     |--------------------------------------------------------------------------
     | IP Analyze Drivers
@@ -166,7 +166,7 @@ return [
     | This value will be used to across system where model is needed
     */
     'geoip' => [
-        'default' => env('PACKAGE_AUTH_GEOIP_DRIVER', null),
+        'default' => env('AUTH_GEOIP_DRIVER', null),
         'whitelist' => ['0.0.0.0', 'localhost', '192.168.10.115', '127.0.0.1'],
         'drivers' => [
             'local' => [
@@ -176,31 +176,31 @@ return [
             ],
             'ipapi' => [
                 'class' => IpApi::class,
-                'token' => env('PACKAGE_AUTH_IPAPI_TOKEN'),
+                'token' => env('AUTH_IPAPI_TOKEN'),
             ],
             'ipinfo' => [
                 'class' => IpInfo::class,
-                'token' => env('PACKAGE_AUTH_IPINFO_TOKEN'),
+                'token' => env('AUTH_IPINFO_TOKEN'),
             ],
             'ipdata' => [
                 'class' => IpData::class,
-                'token' => env('PACKAGE_AUTH_IPDATA_TOKEN'),
+                'token' => env('AUTH_IPDATA_TOKEN'),
             ],
             'ip2location' => [
                 'class' => Ip2Location::class,
-                'token' => env('PACKAGE_AUTH_IP2LOCATION_TOKEN'),
+                'token' => env('AUTH_IP2LOCATION_TOKEN'),
             ],
             'cloudflare' => [
                 'class' => Cloudflare::class,
             ],
             'kloudend' => [
                 'class' => Kloudend::class,
-                'token' => env('PACKAGE_AUTH_KLOUDEND_TOKEN'),
+                'token' => env('AUTH_KLOUDEND_TOKEN'),
             ],
             'maxmind' => [
                 'class' => MaxMind::class,
-                'user_id' => env('PACKAGE_AUTH_MAXMIND_USER_ID'),
-                'license_key' => env('PACKAGE_AUTH_MAXMIND_LICENSE_KEY'),
+                'user_id' => env('AUTH_MAXMIND_USER_ID'),
+                'license_key' => env('AUTH_MAXMIND_LICENSE_KEY'),
                 'options' => ['host' => 'geoip.maxmind.com'],
             ]
         ]

@@ -5,7 +5,7 @@ namespace Fintech\Auth\Providers;
 use Fintech\Auth\Events\Attempting;
 use Fintech\Auth\Events\Authenticated;
 use Fintech\Auth\Events\Failed;
-use Fintech\Auth\Events\Freezed;
+use Fintech\Auth\Events\Frozen;
 use Fintech\Auth\Events\AddToFavouriteAccepted;
 use Fintech\Auth\Events\AddToFavouriteRejected;
 use Fintech\Auth\Events\AddToFavouriteRequested;
@@ -36,7 +36,7 @@ class EventServiceProvider extends ServiceProvider
         PasswordResetSuccessful::class => [
             TriggerListener::class
         ],
-        Freezed::class => [
+        Frozen::class => [
             TriggerListener::class
         ],
         Failed::class => [

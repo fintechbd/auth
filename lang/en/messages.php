@@ -12,14 +12,14 @@
 */
 return [
     'success' => 'Login successful.',
-    'forbidden' => 'Access Forbidden! You are not allowed to :permission',
-    'logout' => 'Logout successful. Thank you for using our services',
+    'forbidden' => 'Access denied! You don’t have permission for :permission',
+    'logout' => 'Logged out. Thanks for using :app_name!',
     'failed' => 'These credentials do not match our records.',
-    'password' => 'The provided password is incorrect.',
+    'password' => 'Incorrect password.',
     'throttle' => 'Too many request attempts. Please try again in :seconds seconds.',
     'ip_blocked' => 'Your IP :ip is blocked, Please contact support.',
-    'warning' => 'Sorry, You entered wrong credentials! You already attempt :attempt times out of :threshold',
-    'lockup' => 'Sorry, Your Account is has been Locked. Please contact support!',
+    'warning' => 'Wrong credentials! You have used :attempt out of :threshold attempts.',
+    'lockup' => 'Your account is locked. Please contact support.',
     'update_password' => 'New password updated successfully.',
     'update_pin' => 'New pin updated successfully.',
     'update_photo' => 'New profile photo updated successfully.',
@@ -27,13 +27,13 @@ return [
     'account_deleted' => 'Account deletion request sent successfully.',
     'reset' => [
         'success' => 'Your account password reset successful.',
-        'temporary_password' => 'We have send you a temporary password. Please log into you account with credentials.',
-        'reset_link' => 'We have send you a password reset link. Please follow that instruction to proceed.',
-        'otp' => 'We have send you a verification code. Please verify your account with given code.',
-        'notification_failed' => 'There is a error while processing your request. Please try again later',
+        'temporary_password' => 'A temporary password has been sent. Log in with your new credentials.',
+        'reset_link' => 'A password reset link has been sent. Follow the instructions to proceed.',
+        'otp' => 'A verification code has been sent. Verify your account with the code.',
+        'notification_failed' => 'Error processing your request. Try again later.',
         'invalid_token' => 'The reset link token is invalid. Please try again later.',
         'expired_token' => 'The password reset token has expired. Please try again later.',
-        'user_not_found' => 'Unable to find valid user associated with this token',
+        'user_not_found' => 'No user found for this request.',
         'button' => [
             'pin' => 'Reset Pin',
             'password' => 'Reset Password',
@@ -41,17 +41,17 @@ return [
         ]
     ],
     'verify' => [
-        'link' => 'We have send you a password reset link on :channel. Please follow that instruction to proceed.',
-        'otp' => 'We have send you a verification code on :channel. Please verify your account with given code.',
-        'failed' => 'There is a error while processing your request. Please try again later',
+        'link' => 'A password reset link has been sent via :channel. Follow the instructions to proceed.',
+        'otp' => 'A verification code has been sent via :channel. Enter the code to verify your account',
+        'failed' => 'Error processing your request. Try again later.',
         'invalid' => 'The verification link token is invalid. Please try again later.',
         'expired' => 'The verification token has expired. Please try again later.',
         'success' => 'OTP Verification successful.',
     ],
     'audit' => [
         'create' => 'System audit can not be created by user input.',
-        'update' => 'System audit can not be update by user input.',
-        'restore' => 'System audit can not be restores by user command.'
+        'update' => 'System audit can not be updated by user input.',
+        'restore' => 'System audit can not be restored by user command.'
     ],
     'role' => [
         'permission_assigned' => 'Assigning permission to :role group successful.'

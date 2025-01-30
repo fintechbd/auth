@@ -74,6 +74,6 @@ class AuthenticatedController extends Controller
 
         $request->user('sanctum')->currentAccessToken()->delete();
 
-        return response()->deleted(__('auth::messages.logout'));
+        return response()->deleted(__('auth::messages.logout', ['app_name' => ucfirst(config('app.name'))]));
     }
 }

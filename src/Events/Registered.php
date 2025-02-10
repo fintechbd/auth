@@ -2,7 +2,6 @@
 
 namespace Fintech\Auth\Events;
 
-use Fintech\Auth\Http\Requests\LoginRequest;
 use Fintech\Core\Abstracts\BaseEvent;
 use Fintech\Core\Attributes\ListenByTrigger;
 use Fintech\Core\Attributes\Variable;

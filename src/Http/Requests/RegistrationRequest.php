@@ -73,7 +73,7 @@ class RegistrationRequest extends FormRequest
             'nationality' => ['string', 'nullable'],
         ]);
 
-        if (Core::packageExists('Ekyc')) {
+        if (Core::packageExists('Ekyc') && $this->has('ekyc')) {
             $rules['ekyc'] = ['required', 'array', 'min:3'];
             $rules['ekyc.reference_no'] = ['required', 'string', 'size:'.config('fintech.core.entry_number_length', 20)];
             $rules['ekyc.vendor'] = ['nullable', 'string', Rule::in(array_keys(config('fintech.ekyc.providers')))];
@@ -88,8 +88,6 @@ class RegistrationRequest extends FormRequest
         $rules[config('fintech.auth.auth_field', 'login_id')] = $login_id_rules;
 
         $rules[config('fintech.auth.password_field', 'password')] = config('fintech.auth.password_field_rules', ['required', 'string', Password::default()]);
-
-        $rules['pin'][] = 'required';
 
         return $rules;
     }

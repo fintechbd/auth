@@ -15,7 +15,6 @@ use Illuminate\Queue\SerializesModels;
     variables: [
         new Variable(name: '__login_id__', description: 'Email, phone number used to log in'),
         new Variable(name: '__ip__', description: 'IP Address of the request received'),
-        new Variable(name: '__platform__', description: 'User Platform of the request received'),
     ]
 )]
 class Attempting extends \Fintech\Core\Abstracts\BaseEvent

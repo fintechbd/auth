@@ -3,9 +3,9 @@
 namespace Fintech\Auth\Http\Controllers;
 
 use Exception;
+use Fintech\Auth\Events\Registered;
 use Fintech\Auth\Facades\Auth;
 use Fintech\Auth\Http\Requests\RegistrationRequest;
-use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Routing\Controller;
 

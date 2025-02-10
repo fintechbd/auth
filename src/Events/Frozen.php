@@ -20,7 +20,6 @@ use Illuminate\Queue\SerializesModels;
         new Variable(name: '__account_status__', description: 'User account before frozen/suspended status.'),
         new Variable(name: '__password_attempt_limit__', description: 'The maximum number of times a user may try to customize my system.'),
         new Variable(name: '__ip__', description: 'IP Address of the request received'),
-        new Variable(name: '__platform__', description: 'User Platform of the request received'),
     ]
 )]
 class Frozen extends \Fintech\Core\Abstracts\BaseEvent

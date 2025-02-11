@@ -16,17 +16,23 @@ class RegisterController extends Controller
      */
     public function __invoke(RegistrationRequest $request): JsonResponse
     {
-        $userFields = [
+        $userFields = config('fintech.auth.register_user_table_columns', [
             'name', 'mobile', 'email', 'login_id', 'password', 'pin',
             'language', 'currency', 'app_version', 'fcm_token', 'photo',
             'parent_id',
-        ];
+        ]);
 
         try {
 
-            $user = Auth::user()->create($request->only($userFields));
+            $userData = $request->only($userFields);
 
-            $profile = Auth::profile()->create($user->getKey(), $request->except($userFields));
+            $user = Auth::user()->create($userData);
+
+            $profileData = $request->except($userFields);
+
+            if (!empty($profileData)) {
+                $profile = Auth::profile()->create($user->getKey(), $profileData);
+            }
 
             event(new Registered($user));
 

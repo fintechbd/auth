@@ -304,6 +304,11 @@ return [
         'present_post_code' => ['string', 'nullable'],
         'nationality' => ['string', 'nullable'],
     ],
+    'register_user_table_columns' => [
+        'name', 'mobile', 'email', 'login_id', 'password', 'pin',
+        'language', 'currency', 'app_version', 'fcm_token', 'photo',
+        'parent_id',
+    ],
 
     /*
     |--------------------------------------------------------------------------

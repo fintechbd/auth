@@ -20,7 +20,6 @@ use Illuminate\Queue\SerializesModels;
         new Variable(name: '__permissions__', description: 'Permissions that required to authorized.'),
         new Variable(name: '__account_status__', description: 'User account before frozen/suspended status.'),
         new Variable(name: '__ip__', description: 'IP Address of the request received'),
-        new Variable(name: '__platform__', description: 'User Platform of the request received'),
     ]
 )]
 class Forbidden extends \Fintech\Core\Abstracts\BaseEvent

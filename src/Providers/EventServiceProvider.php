@@ -4,6 +4,7 @@ namespace Fintech\Auth\Providers;
 
 use Fintech\Auth\Events\Attempting;
 use Fintech\Auth\Events\Authenticated;
+use Fintech\Auth\Events\Registered;
 use Fintech\Auth\Events\Failed;
 use Fintech\Auth\Events\Frozen;
 use Fintech\Auth\Events\AddToFavouriteAccepted;
@@ -56,6 +57,9 @@ class EventServiceProvider extends ServiceProvider
         ],
         AddToFavouriteRejected::class => [
             TriggerListener::class
-        ]
+        ],
+        Registered::class => [
+            TriggerListener::class
+        ],
     ];
 }

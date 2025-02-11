@@ -228,9 +228,9 @@ return [
     | Example: login_id, email, mobile
     */
     'pin_field' => 'pin',
-    'pin_field_rules' => ['required', 'string', 'min:6'],
-    'default_pin' => '123456',
-    'temporary_pin_length' => 5,
+    'pin_field_rules' => ['required', 'string', 'min:4'],
+    'default_pin' => env('AUTH_DEFAULT_PIN', date('Y')),
+    'temporary_pin_length' => 4,
 
     /*
     |--------------------------------------------------------------------------
@@ -241,8 +241,8 @@ return [
     | Example: login_id, email, mobile
     */
     'password_field' => 'password',
-    'password_field_rules' => ['string'],
-    'default_password' => '12345678',
+    'password_field_rules' => ['required', 'string'],
+    'default_password' => env('AUTH_DEFAULT_PASSWORD', date('ymd')),
 
     /*
     |--------------------------------------------------------------------------

@@ -21,7 +21,6 @@ use Illuminate\Queue\SerializesModels;
         new Variable(name: '__password_attempt_count__', description: 'Number of times wrong password attempted'),
         new Variable(name: '__account_status__', description: 'User account before frozen/suspended status.'),
         new Variable(name: '__ip__', description: 'IP Address of the request received'),
-        new Variable(name: '__platform__', description: 'User Platform of the request received'),
     ]
 )]
 class Authenticated extends BaseEvent

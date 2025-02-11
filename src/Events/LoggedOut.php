@@ -13,8 +13,7 @@ use Illuminate\Queue\SerializesModels;
     description: 'LoggedOut',
     enabled: true,
     variables: [
-        new Variable(name: '__ip__', description: 'IP Address of the request received'),
-        new Variable(name: '__platform__', description: 'User Platform of the request received'),
+        new Variable(name: '__ip__', description: 'IP Address of the request received')
     ]
 )]
 class LoggedOut extends \Fintech\Core\Abstracts\BaseEvent

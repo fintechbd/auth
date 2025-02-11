@@ -46,7 +46,7 @@ class AuthServiceProvider extends ServiceProvider
             __DIR__ . '/../config/audit.php' => config_path('audit.php'),
             __DIR__ . '/../config/auth.php' => config_path('fintech/auth.php'),
             __DIR__ . '/../config/permission.php' => config_path('permission.php'),
-        ]);
+        ], 'fintech-auth-config');
 
         $this->loadMigrationsFrom(__DIR__ . '/../database/migrations');
 
@@ -54,7 +54,7 @@ class AuthServiceProvider extends ServiceProvider
 
         $this->publishes([
             __DIR__ . '/../lang' => $this->app->langPath('vendor/auth'),
-        ]);
+        ], 'fintech-auth-lang');
 
         $this->loadViewsFrom(__DIR__ . '/../resources/views', 'auth');
 
@@ -62,7 +62,7 @@ class AuthServiceProvider extends ServiceProvider
 
         $this->publishes([
             __DIR__ . '/../resources/views' => resource_path('views/vendor/auth'),
-        ]);
+        ], 'fintech-auth-views');
 
         $this->publishes([
             __DIR__ . '/../public' => public_path('vendor/auth'),
@@ -70,11 +70,11 @@ class AuthServiceProvider extends ServiceProvider
 
         $this->publishes([
             __DIR__ . '/../database/seeders/permissions.json' => database_path('seeders'),
-        ], 'fintech-permissions');
+        ], 'fintech-auth-permission-stub');
 
         $this->publishes([
             __DIR__ . '/../database/seeders/roles.json' => database_path('seeders'),
-        ], 'fintech-roles');
+        ], 'fintech-auth-role-stub');
 
         if ($this->app->runningInConsole()) {
             $this->commands([

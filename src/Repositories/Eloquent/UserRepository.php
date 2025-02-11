@@ -34,17 +34,18 @@ class UserRepository extends EloquentRepository implements InterfacesUserReposit
         $query = $this->model->newQuery();
 
         if (!empty($filters['search'])) {
-
-            $query->where('name', 'like', "%{$filters['search']}%")
-                ->orWhere($this->model->getKeyName(), 'like', "%{$filters['search']}%")
-                ->orWhere('email', 'like', "%{$filters['search']}%")
-                ->orWhere('mobile', 'like', "%{$filters['search']}%")
-                ->orWhere('login_id', 'like', "%{$filters['search']}%")
-                ->orWhere('status', 'like', "%{$filters['search']}%")
-                ->orWhere('currency', 'like', "%{$filters['search']}%")
-                ->orWhereHas('roles', function (Builder $builder) use (&$filters) {
-                    return $builder->where('name', 'like', "%{$filters['search']}%");
-                });
+            $query->where(function ($query) use ($filters) {
+                return $query->where('name', 'like', "%{$filters['search']}%")
+                    ->orWhere($this->model->getKeyName(), 'like', "%{$filters['search']}%")
+                    ->orWhere('email', 'like', "%{$filters['search']}%")
+                    ->orWhere('mobile', 'like', "%{$filters['search']}%")
+                    ->orWhere('login_id', 'like', "%{$filters['search']}%")
+                    ->orWhere('status', 'like', "%{$filters['search']}%")
+                    ->orWhere('currency', 'like', "%{$filters['search']}%")
+                    ->orWhereHas('roles', function (Builder $builder) use (&$filters) {
+                        return $builder->where('name', 'like', "%{$filters['search']}%");
+                    });
+            });
         }
 
         //auth field search

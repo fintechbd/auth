@@ -45,6 +45,8 @@ class AuthenticatedController extends Controller
 
             $credentials['platform'] = $request->platform();
 
+            $credentials['fcm_token'] = $request->input('fcm_token');
+
             $attemptUser = \Fintech\Auth\Facades\Auth::user()->login($credentials, 'web');
 
             $request->clearRateLimited();

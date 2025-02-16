@@ -245,6 +245,8 @@ class UserService
     {
         $passwordField = config('fintech.auth.password_field', 'password');
 
+        $fcmToken = $inputs['fcm_token'] ?? null;
+
         $password = null;
 
         if (isset($inputs[$passwordField])) {
@@ -363,6 +365,12 @@ class UserService
                     __('auth::messages.success')
                 )
             );
+        }
+
+        if (!empty($fcmToken)) {
+            $attemptUser = $this->userRepository->update($attemptUser->getKey(), [
+                'fcm_token' => $fcmToken,
+            ]);
         }
 
         event(new Authenticated($attemptUser));

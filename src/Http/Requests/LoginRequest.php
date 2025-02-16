@@ -3,6 +3,7 @@
 namespace Fintech\Auth\Http\Requests;
 
 use Fintech\Auth\Events\Lockout;
+use Fintech\Core\Facades\Core;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\RateLimiter;
 use Symfony\Component\HttpFoundation\Response;
@@ -22,11 +23,16 @@ class LoginRequest extends FormRequest
      */
     public function rules(): array
     {
-        return [
+        $defaultRules = [
             config('fintech.auth.auth_field', 'login_id') => config('fintech.auth.auth_field_rules', ['required', 'string', 'min:6', 'max:255']),
-
             config('fintech.auth.password_field', 'password') => config('fintech.auth.password_field_rules', ['required', 'string', 'min:8']),
         ];
+
+        if (Core::packageExists('Bell')) {
+            $defaultRules['fcm_token'] = ['nullable', 'string', 'max:255'];
+        }
+
+        return $defaultRules;
     }
 
     /**

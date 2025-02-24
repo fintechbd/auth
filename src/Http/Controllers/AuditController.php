@@ -66,7 +66,7 @@ class AuditController extends Controller
 
             return new AuditResource($audit);
 
-        }  catch (Exception $exception) {
+        } catch (Exception $exception) {
 
             return response()->failed($exception);
         }
@@ -100,7 +100,7 @@ class AuditController extends Controller
 
             return response()->deleted(__('core::messages.resource.deleted', ['model' => 'Audit']));
 
-        }  catch (Exception $exception) {
+        } catch (Exception $exception) {
 
             return response()->failed($exception);
         }

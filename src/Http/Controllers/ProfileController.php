@@ -8,7 +8,6 @@ use Fintech\Core\Exceptions\UpdateOperationException;
 use Fintech\Auth\Http\Requests\UserProfileUpdateRequest;
 use Fintech\Auth\Http\Resources\UserFullProfileResource;
 use Fintech\Core\Traits\RestApi\UserRequestFieldTrait;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
@@ -62,7 +61,7 @@ class ProfileController extends Controller
                 ])
             );
 
-        }  catch (Exception $exception) {
+        } catch (Exception $exception) {
 
             return response()->failed($exception);
         }

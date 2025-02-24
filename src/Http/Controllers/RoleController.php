@@ -102,7 +102,7 @@ class RoleController extends Controller
 
             return new RoleResource($role);
 
-        }  catch (Exception $exception) {
+        } catch (Exception $exception) {
 
             return response()->failed($exception);
         }
@@ -133,7 +133,7 @@ class RoleController extends Controller
 
             return response()->updated(__('core::messages.resource.updated', ['model' => 'Role']));
 
-        }  catch (Exception $exception) {
+        } catch (Exception $exception) {
 
             return response()->failed($exception);
         }
@@ -167,7 +167,7 @@ class RoleController extends Controller
 
             return response()->deleted(__('core::messages.resource.deleted', ['model' => 'Role']));
 
-        }  catch (Exception $exception) {
+        } catch (Exception $exception) {
 
             return response()->failed($exception);
         }
@@ -199,7 +199,7 @@ class RoleController extends Controller
 
             return response()->restored(__('core::messages.resource.restored', ['model' => 'Role']));
 
-        }  catch (Exception $exception) {
+        } catch (Exception $exception) {
 
             return response()->failed($exception);
         }

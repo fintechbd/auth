@@ -12,7 +12,6 @@ use Fintech\Auth\Http\Requests\ForgotPasswordRequest;
 use Fintech\Auth\Http\Requests\PasswordResetRequest;
 use Fintech\Auth\Http\Requests\UpdatePasswordRequest;
 use Fintech\Auth\Http\Requests\UpdatePinRequest;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
@@ -125,7 +124,7 @@ class PasswordController extends Controller
 
             return response()->updated(__('auth::messages.update_password'));
 
-        }  catch (Exception $exception) {
+        } catch (Exception $exception) {
 
             return response()->failed($exception);
         }
@@ -156,7 +155,7 @@ class PasswordController extends Controller
 
             return response()->updated(__('auth::messages.update_pin'));
 
-        }  catch (Exception $exception) {
+        } catch (Exception $exception) {
 
             return response()->failed($exception);
         }

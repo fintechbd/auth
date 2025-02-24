@@ -4,9 +4,9 @@ namespace Fintech\Auth\Http\Controllers;
 
 use Exception;
 use Fintech\Auth\Facades\Auth;
-use Fintech\Core\Exceptions\UpdateOperationException;
 use Fintech\Auth\Http\Requests\UserProfileUpdateRequest;
 use Fintech\Auth\Http\Resources\UserFullProfileResource;
+use Fintech\Core\Exceptions\UpdateOperationException;
 use Fintech\Core\Traits\RestApi\UserRequestFieldTrait;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;

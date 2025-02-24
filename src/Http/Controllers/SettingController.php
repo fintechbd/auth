@@ -3,10 +3,10 @@
 namespace Fintech\Auth\Http\Controllers;
 
 use Exception;
-use Fintech\Core\Facades\Core;
-use Fintech\Core\Supports\Utility;
 use Fintech\Auth\Http\Requests\StoreSettingRequest;
 use Fintech\Auth\Http\Resources\SettingResource;
+use Fintech\Core\Facades\Core;
+use Fintech\Core\Supports\Utility;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;

@@ -2,17 +2,17 @@
 
 namespace Fintech\Auth\Providers;
 
-use Fintech\Auth\Events\Attempting;
-use Fintech\Auth\Events\Authenticated;
-use Fintech\Auth\Events\Registered;
-use Fintech\Auth\Events\Failed;
-use Fintech\Auth\Events\Frozen;
 use Fintech\Auth\Events\AddToFavouriteAccepted;
 use Fintech\Auth\Events\AddToFavouriteRejected;
 use Fintech\Auth\Events\AddToFavouriteRequested;
+use Fintech\Auth\Events\Attempting;
+use Fintech\Auth\Events\Authenticated;
+use Fintech\Auth\Events\Failed;
+use Fintech\Auth\Events\Frozen;
 use Fintech\Auth\Events\Lockout;
 use Fintech\Auth\Events\PasswordResetRequested;
 use Fintech\Auth\Events\PasswordResetSuccessful;
+use Fintech\Auth\Events\Registered;
 use Fintech\Auth\Events\VerificationRequested;
 use Fintech\Core\Listeners\TriggerListener;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;

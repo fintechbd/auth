@@ -4,10 +4,10 @@ namespace Fintech\Auth\Services;
 
 use ErrorException;
 use Exception;
-use Fintech\Auth\Events\Authenticated;
-use Fintech\Auth\Events\Forbidden;
 use Fintech\Auth\Events\Attempting;
+use Fintech\Auth\Events\Authenticated;
 use Fintech\Auth\Events\Failed;
+use Fintech\Auth\Events\Forbidden;
 use Fintech\Auth\Events\Frozen;
 use Fintech\Auth\Exceptions\AccessForbiddenException;
 use Fintech\Auth\Exceptions\AccountFrozenException;

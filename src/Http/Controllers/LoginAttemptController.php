@@ -4,12 +4,12 @@ namespace Fintech\Auth\Http\Controllers;
 
 use Exception;
 use Fintech\Auth\Facades\Auth;
-use Fintech\Core\Exceptions\DeleteOperationException;
-use Fintech\Core\Exceptions\RestoreOperationException;
 use Fintech\Auth\Http\Requests\ImportLoginAttemptRequest;
 use Fintech\Auth\Http\Requests\IndexLoginAttemptRequest;
 use Fintech\Auth\Http\Resources\LoginAttemptCollection;
 use Fintech\Auth\Http\Resources\LoginAttemptResource;
+use Fintech\Core\Exceptions\DeleteOperationException;
+use Fintech\Core\Exceptions\RestoreOperationException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Routing\Controller;

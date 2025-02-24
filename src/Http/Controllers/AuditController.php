@@ -4,10 +4,10 @@ namespace Fintech\Auth\Http\Controllers;
 
 use Exception;
 use Fintech\Auth\Facades\Auth;
-use Fintech\Core\Exceptions\DeleteOperationException;
 use Fintech\Auth\Http\Requests\IndexAuditRequest;
 use Fintech\Auth\Http\Resources\AuditCollection;
 use Fintech\Auth\Http\Resources\AuditResource;
+use Fintech\Core\Exceptions\DeleteOperationException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Routing\Controller;

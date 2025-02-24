@@ -4,9 +4,9 @@ namespace Fintech\Auth\Http\Controllers;
 
 use Exception;
 use Fintech\Auth\Facades\Auth;
-use Fintech\Core\Exceptions\UpdateOperationException;
 use Fintech\Auth\Http\Requests\RolePermissionRequest;
 use Fintech\Auth\Http\Resources\RolePermissionResource;
+use Fintech\Core\Exceptions\UpdateOperationException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Routing\Controller;

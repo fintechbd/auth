@@ -100,11 +100,7 @@ class PermissionController extends Controller
 
             return new PermissionResource($permission);
 
-        } catch (ModelNotFoundException $exception) {
-
-            return response()->notfound($exception->getMessage());
-
-        } catch (Exception $exception) {
+        }  catch (Exception $exception) {
 
             return response()->failed($exception);
         }
@@ -135,11 +131,7 @@ class PermissionController extends Controller
 
             return response()->updated(__('core::messages.resource.updated', ['model' => 'Permission']));
 
-        } catch (ModelNotFoundException $exception) {
-
-            return response()->notfound($exception->getMessage());
-
-        } catch (Exception $exception) {
+        }  catch (Exception $exception) {
 
             return response()->failed($exception);
         }
@@ -173,11 +165,7 @@ class PermissionController extends Controller
 
             return response()->deleted(__('core::messages.resource.deleted', ['model' => 'Permission']));
 
-        } catch (ModelNotFoundException $exception) {
-
-            return response()->notfound($exception->getMessage());
-
-        } catch (Exception $exception) {
+        }  catch (Exception $exception) {
 
             return response()->failed($exception);
         }
@@ -209,11 +197,7 @@ class PermissionController extends Controller
 
             return response()->restored(__('core::messages.resource.restored', ['model' => 'Permission']));
 
-        } catch (ModelNotFoundException $exception) {
-
-            return response()->notfound($exception->getMessage());
-
-        } catch (Exception $exception) {
+        }  catch (Exception $exception) {
 
             return response()->failed($exception);
         }

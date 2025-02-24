@@ -103,11 +103,7 @@ class FavouriteController extends Controller
 
             return new FavouriteResource($favourite);
 
-        } catch (ModelNotFoundException $exception) {
-
-            return response()->notfound($exception->getMessage());
-
-        } catch (Exception $exception) {
+        }  catch (Exception $exception) {
 
             return response()->failed($exception);
         }
@@ -141,11 +137,7 @@ class FavouriteController extends Controller
 
             return response()->updated(__('core::messages.resource.updated', ['model' => 'Favourite']));
 
-        } catch (ModelNotFoundException $exception) {
-
-            return response()->notfound($exception->getMessage());
-
-        } catch (Exception $exception) {
+        }  catch (Exception $exception) {
 
             return response()->failed($exception);
         }
@@ -179,11 +171,7 @@ class FavouriteController extends Controller
 
             return response()->deleted(__('core::messages.resource.deleted', ['model' => 'Favourite']));
 
-        } catch (ModelNotFoundException $exception) {
-
-            return response()->notfound($exception->getMessage());
-
-        } catch (Exception $exception) {
+        }  catch (Exception $exception) {
 
             return response()->failed($exception);
         }
@@ -215,11 +203,7 @@ class FavouriteController extends Controller
 
             return response()->restored(__('core::messages.resource.restored', ['model' => 'Favourite']));
 
-        } catch (ModelNotFoundException $exception) {
-
-            return response()->notfound($exception->getMessage());
-
-        } catch (Exception $exception) {
+        }  catch (Exception $exception) {
 
             return response()->failed($exception);
         }
@@ -301,11 +285,7 @@ class FavouriteController extends Controller
 
             return response()->updated(__('auth::messages.favourite.accepted'));
 
-        } catch (ModelNotFoundException $exception) {
-
-            return response()->notfound($exception->getMessage());
-
-        } catch (Exception $exception) {
+        }  catch (Exception $exception) {
 
             return response()->failed($exception);
         }
@@ -340,11 +320,7 @@ class FavouriteController extends Controller
 
             return response()->updated(__('auth::messages.favourite.blocked'));
 
-        } catch (ModelNotFoundException $exception) {
-
-            return response()->notfound($exception->getMessage());
-
-        } catch (Exception $exception) {
+        }  catch (Exception $exception) {
 
             return response()->failed($exception);
         }

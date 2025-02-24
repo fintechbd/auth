@@ -125,11 +125,7 @@ class PasswordController extends Controller
 
             return response()->updated(__('auth::messages.update_password'));
 
-        } catch (ModelNotFoundException $exception) {
-
-            return response()->notfound($exception->getMessage());
-
-        } catch (Exception $exception) {
+        }  catch (Exception $exception) {
 
             return response()->failed($exception);
         }
@@ -160,11 +156,7 @@ class PasswordController extends Controller
 
             return response()->updated(__('auth::messages.update_pin'));
 
-        } catch (ModelNotFoundException $exception) {
-
-            return response()->notfound($exception->getMessage());
-
-        } catch (Exception $exception) {
+        }  catch (Exception $exception) {
 
             return response()->failed($exception);
         }

@@ -66,11 +66,7 @@ class AuditController extends Controller
 
             return new AuditResource($audit);
 
-        } catch (ModelNotFoundException $exception) {
-
-            return response()->notfound($exception->getMessage());
-
-        } catch (Exception $exception) {
+        }  catch (Exception $exception) {
 
             return response()->failed($exception);
         }
@@ -104,11 +100,7 @@ class AuditController extends Controller
 
             return response()->deleted(__('core::messages.resource.deleted', ['model' => 'Audit']));
 
-        } catch (ModelNotFoundException $exception) {
-
-            return response()->notfound($exception->getMessage());
-
-        } catch (Exception $exception) {
+        }  catch (Exception $exception) {
 
             return response()->failed($exception);
         }

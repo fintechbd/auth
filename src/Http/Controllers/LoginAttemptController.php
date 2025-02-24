@@ -68,11 +68,7 @@ class LoginAttemptController extends Controller
 
             return new LoginAttemptResource($loginAttempt);
 
-        } catch (ModelNotFoundException $exception) {
-
-            return response()->notfound($exception->getMessage());
-
-        } catch (Exception $exception) {
+        }  catch (Exception $exception) {
 
             return response()->failed($exception);
         }
@@ -106,11 +102,7 @@ class LoginAttemptController extends Controller
 
             return response()->deleted(__('core::messages.resource.deleted', ['model' => 'Login Attempt']));
 
-        } catch (ModelNotFoundException $exception) {
-
-            return response()->notfound($exception->getMessage());
-
-        } catch (Exception $exception) {
+        }  catch (Exception $exception) {
 
             return response()->failed($exception);
         }
@@ -142,11 +134,7 @@ class LoginAttemptController extends Controller
 
             return response()->restored(__('core::messages.resource.restored', ['model' => 'Login Attempt']));
 
-        } catch (ModelNotFoundException $exception) {
-
-            return response()->notfound($exception->getMessage());
-
-        } catch (Exception $exception) {
+        }  catch (Exception $exception) {
 
             return response()->failed($exception);
         }

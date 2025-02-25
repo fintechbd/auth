@@ -23,7 +23,7 @@ return [
     'update_password' => 'New password updated successfully.',
     'update_pin' => 'New pin updated successfully.',
     'update_photo' => 'New profile photo updated successfully.',
-    'user_profile_update' => 'User [:fields] updated successfully.',
+    'user_profile_update' => 'User :fields updated successfully.',
     'account_deleted' => 'Account deletion request sent successfully.',
     'reset' => [
         'success' => 'Your account password reset successful.',

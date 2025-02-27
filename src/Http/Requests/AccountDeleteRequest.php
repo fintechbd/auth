@@ -23,6 +23,7 @@ class AccountDeleteRequest extends FormRequest
     {
         return [
             'note' => ['required', 'string', 'max:255'],
+            'user_id' => ['nullable', 'integer'],
         ];
     }
 }

@@ -3,6 +3,8 @@
 namespace Fintech\Auth\Services;
 
 use Exception;
+use Fintech\Auth\Events\OtpRequested;
+use Fintech\Auth\Events\OtpVerified;
 use Fintech\Auth\Interfaces\OneTimePinRepository;
 use Fintech\Auth\Notifications\OTPNotification;
 use Fintech\Core\Enums\Auth\OTPOption;
@@ -42,9 +44,7 @@ class OneTimePinService
 
         $token = (string)mt_rand($min, $max);
 
-        $channel = (filter_var($authField, FILTER_VALIDATE_EMAIL) !== false) ? 'mail' : 'sms';
-
-        $notification_data = [
+        $notification = [
             'method' => $this->otpMethod,
             'url' => null,
             'value' => $token
@@ -52,11 +52,17 @@ class OneTimePinService
 
         if ($otp = $this->oneTimePinRepository->create($authField, $token)) {
 
-            Notification::route($channel, $authField)->notify(new OTPNotification($notification_data));
+            event(new OtpRequested($notification));
+
+            Notification::route(
+                (filter_var($authField, FILTER_VALIDATE_EMAIL) !== false) ? 'mail' : 'sms',
+                $authField)
+                ->notify(new OTPNotification($notification));
 
             $response = [
                 'status' => true,
-                'message' => __('auth::messages.verify.' . $this->otpMethod, ['channel' => $channel]),
+                'message' => __('auth::messages.verify.' . $this->otpMethod, [
+                    'channel' => (filter_var($authField, FILTER_VALIDATE_EMAIL) !== false) ? 'Mail' : 'SMS']),
             ];
 
             if (!app()->isProduction()) {
@@ -115,6 +121,8 @@ class OneTimePinService
 
                 throw new Exception(__('auth::messages.verify.expired'));
             }
+
+            event(new OtpVerified($verificationToken));
 
             return $verificationToken;
         }

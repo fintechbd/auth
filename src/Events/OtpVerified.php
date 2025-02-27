@@ -11,7 +11,7 @@ use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
 #[ListenByTrigger(
-    name: 'Account Deleted',
+    name: 'OTP Verified',
     description: 'Trigger fires when system delete the user account and related information.',
     enabled: true,
     variables: [

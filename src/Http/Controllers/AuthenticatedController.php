@@ -47,7 +47,7 @@ class AuthenticatedController extends Controller
 
             $credentials['fcm_token'] = $request->input('fcm_token');
 
-            $attemptUser = \Fintech\Auth\Facades\Auth::user()->login($credentials, 'web');
+            $attemptUser = \Fintech\Auth\Facades\Auth::user()->login($credentials, 'sanctum');
 
             $request->clearRateLimited();
 

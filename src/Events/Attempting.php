@@ -37,10 +37,8 @@ class Attempting extends \Fintech\Core\Abstracts\BaseEvent
      */
     public function aliases(): array
     {
-        logger()->debug("credentials", [$this->credentials]);
-
         return [
-            '__login_id__' => $this->credentials[config('fintech.auth.auth_field', 'login_id')] ?? '',
+            '__login_id__' => $this->credentials['mobile'] ?? $this->credentials['email'] ?? $this->credentials['login_id'] ?? null,
             '__ip__' => request()->ip(),
             '__platform__' => request()->userAgent(),
         ];

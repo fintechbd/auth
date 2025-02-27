@@ -56,7 +56,8 @@ class OneTimePinService
 
             Notification::route(
                 (filter_var($authField, FILTER_VALIDATE_EMAIL) !== false) ? 'mail' : 'sms',
-                $authField)
+                $authField
+            )
                 ->notify(new OTPNotification($notification));
 
             $response = [

@@ -19,7 +19,7 @@ use Illuminate\Queue\SerializesModels;
         new Variable(name: '__account_mobile__', description: 'Mobile number associate with requested user'),
         new Variable(name: '__account_email__', description: 'Email address associate with requested user'),
         new Variable(name: '__account_status__', description: 'User account before frozen/suspended status.'),
-        new Variable(name: '__ip__', description: 'IP Address of the request received'),
+        new Variable(name: '__ip__', description: 'IP address of the request received'),
     ]
 )]
 class AccountDeletedAccepted extends BaseEvent
@@ -31,6 +31,7 @@ class AccountDeletedAccepted extends BaseEvent
     /**
      * Create a new event instance.
      * @param Authenticatable $user
+     * @param string $reason
      */
     public function __construct(public Authenticatable $user, public string $reason)
     {

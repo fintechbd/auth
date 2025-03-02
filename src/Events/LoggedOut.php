@@ -2,6 +2,7 @@
 
 namespace Fintech\Auth\Events;
 
+use Fintech\Core\Abstracts\BaseEvent;
 use Fintech\Core\Attributes\ListenByTrigger;
 use Fintech\Core\Attributes\Variable;
 use Illuminate\Broadcasting\InteractsWithSockets;
@@ -13,10 +14,10 @@ use Illuminate\Queue\SerializesModels;
     description: 'LoggedOut',
     enabled: true,
     variables: [
-        new Variable(name: '__ip__', description: 'IP Address of the request received')
+        new Variable(name: '__ip__', description: 'IP address of the request received')
     ]
 )]
-class LoggedOut extends \Fintech\Core\Abstracts\BaseEvent
+class LoggedOut extends BaseEvent
 {
     use Dispatchable;
     use InteractsWithSockets;

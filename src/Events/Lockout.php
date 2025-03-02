@@ -16,7 +16,8 @@ use Illuminate\Queue\SerializesModels;
     enabled: true,
     variables: [
         new Variable(name: '__login_id__', description: 'Email, Phone number used to login'),
-        new Variable(name: '__ip__', description: 'IP Address of the request received'),
+        new Variable(name: '__ip__', description: 'IP address of the trigger received'),
+        new Variable(name: '__platform__', description: 'User Agent/Platform of the trigger received'),
         new Variable(name: '__minutes_remain__', description: 'Minutes after the system will be available.'),
     ]
 )]

@@ -9,9 +9,11 @@ use Fintech\Auth\Events\Authenticated;
 use Fintech\Auth\Events\Failed;
 use Fintech\Auth\Events\Forbidden;
 use Fintech\Auth\Events\Frozen;
+use Fintech\Auth\Events\LoggedOut;
 use Fintech\Auth\Exceptions\AccessForbiddenException;
 use Fintech\Auth\Exceptions\AccountFrozenException;
 use Fintech\Auth\Facades\Auth;
+use Fintech\Auth\Http\Requests\LogoutRequest;
 use Fintech\Auth\Interfaces\ProfileRepository;
 use Fintech\Auth\Interfaces\UserRepository;
 use Fintech\Core\Abstracts\BaseModel;
@@ -21,7 +23,6 @@ use Fintech\Core\Enums\Auth\UserStatus;
 use Fintech\Core\Enums\RequestPlatform;
 use Fintech\Core\Traits\HasFindWhereSearch;
 use Fintech\MetaData\Facades\MetaData;
-use Illuminate\Auth\Events\OtherDeviceLogout;
 use Illuminate\Foundation\Auth\User;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
@@ -325,8 +326,6 @@ class UserService
         if ($attemptUser->tokens->isNotEmpty()) {
 
             $attemptUser->tokens->each(fn ($token) => $token->delete());
-
-            event(new OtherDeviceLogout($guard, $attemptUser));
         }
 
         $platform = $inputs['platform'];
@@ -467,8 +466,13 @@ class UserService
         };
     }
 
-    public function logout()
+    public function logout(LogoutRequest $request): bool
     {
+        event(new LoggedOut($request->user('sanctum')));
+
+        $request->user('sanctum')->currentAccessToken()->delete();
+
+        return true;
 
     }
 }

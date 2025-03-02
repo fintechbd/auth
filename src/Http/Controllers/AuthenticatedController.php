@@ -3,14 +3,14 @@
 namespace Fintech\Auth\Http\Controllers;
 
 use Exception;
-use Fintech\Auth\Events\LoggedOut;
 use Fintech\Auth\Exceptions\AccessForbiddenException;
 use Fintech\Auth\Exceptions\AccountFrozenException;
+use Fintech\Auth\Facades\Auth;
 use Fintech\Auth\Http\Requests\LoginRequest;
+use Fintech\Auth\Http\Requests\LogoutRequest;
 use Fintech\Auth\Http\Resources\LoginResource;
 use Fintech\Auth\Traits\GuessAuthFieldTrait;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 
 /**
@@ -70,12 +70,11 @@ class AuthenticatedController extends Controller
     /**
      * Destroy an authenticated session
      */
-    public function logout(Request $request): JsonResponse
+    public function logout(LogoutRequest $request): JsonResponse
     {
-        event(new LoggedOut($request->user()));
-
-        $request->user('sanctum')->currentAccessToken()->delete();
-
-        return response()->deleted(__('auth::messages.logout', ['app_name' => ucfirst(config('app.name'))]));
+        if (Auth::user()->logout($request)) {
+            return response()->success(__('auth::messages.logout', ['app_name' => ucfirst(config('app.name'))]));
+        }
+        return response()->failed(__('auth::messages.failed'));
     }
 }

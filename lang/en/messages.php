@@ -47,6 +47,7 @@ return [
         'invalid' => 'The verification link token is invalid. Please try again later.',
         'expired' => 'The verification token has expired. Please try again later.',
         'success' => 'OTP Verification successful.',
+        'field_empty' => 'Input field must be one of (mobile, email, user) is not present or value is empty.'
     ],
     'audit' => [
         'create' => 'System audit can not be created by user input.',

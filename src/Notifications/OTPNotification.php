@@ -88,26 +88,4 @@ class OTPNotification extends Notification implements ShouldQueue
 
         return $mailable;
     }
-
-    /**
-     * Get the array representation of the notification.
-     *
-     * @param object $notifiable
-     * @return array<string, mixed>
-     */
-    public function toArray(object $notifiable): array
-    {
-        return [
-            'otp' => $this->data
-        ];
-    }
-
-    /**
-     */
-    public function toSms(object $notifiable): SmsMessage
-    {
-        return (new SmsMessage())
-            ->from(decide_sms_from_name($notifiable->routes['sms']))
-            ->message('Your LebuPay mobile verification OTP is: ' . $this->data['value']);
-    }
 }

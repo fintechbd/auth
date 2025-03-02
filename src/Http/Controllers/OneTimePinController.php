@@ -37,7 +37,7 @@ class OneTimePinController extends Controller
         try {
 
             if (empty($targetValue)) {
-                throw new InvalidArgumentException('Input field must be one of (mobile, email, user) is not present or value is empty.');
+                throw new InvalidArgumentException(__('auth::messages.verify.field_empty'));
             }
 
             $response = Auth::otp()->create($targetValue);

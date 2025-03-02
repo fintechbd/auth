@@ -6,7 +6,6 @@ use Fintech\Core\Abstracts\BaseEvent;
 use Fintech\Core\Attributes\ListenByTrigger;
 use Fintech\Core\Attributes\Variable;
 use Illuminate\Broadcasting\InteractsWithSockets;
-use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
@@ -15,7 +14,7 @@ use Illuminate\Queue\SerializesModels;
     description: 'Trigger fires when system delete the user account and related information.',
     enabled: true,
     variables: [
-        new Variable(name: '__account_name__', description: 'Name of the user tried login'),
+        new Variable(name: '__otp__', description: 'Random number that generated for verification'),
         new Variable(name: '__account_mobile__', description: 'Mobile number associate with requested user'),
         new Variable(name: '__account_email__', description: 'Email address associate with requested user'),
         new Variable(name: '__account_status__', description: 'User account before frozen/suspended status.'),
@@ -30,9 +29,9 @@ class OtpRequested extends BaseEvent
 
     /**
      * Create a new event instance.
-     * @param Authenticatable $user
+     * @param array $otpInfo
      */
-    public function __construct(public Authenticatable $user)
+    public function __construct(public array $otpInfo = [])
     {
         $this->init();
     }
@@ -44,10 +43,8 @@ class OtpRequested extends BaseEvent
     public function aliases(): array
     {
         return [
-            '__account_name__' => $this->user->name ?? null,
-            '__account_mobile__' => $this->user->mobile ?? null,
-            '__account_email__' => $this->user->email ?? null,
-            '__account_status__' => $this->user->status ? ucfirst($this->user->status) : null,
+            '__otp__' => $this->otpInfo['value'] ?? null,
+            '__expired_at__' => now()->addMinutes(config('auth.passwords.users.expire'))->format('r'),
             '__ip__' => request()->ip(),
             '__platform__' => request()->userAgent(),
         ];

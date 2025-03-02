@@ -6,9 +6,7 @@ use Exception;
 use Fintech\Auth\Events\OtpRequested;
 use Fintech\Auth\Events\OtpVerified;
 use Fintech\Auth\Interfaces\OneTimePinRepository;
-use Fintech\Auth\Notifications\OTPNotification;
 use Fintech\Core\Enums\Auth\OTPOption;
-use Illuminate\Support\Facades\Notification;
 use JsonException;
 
 /**

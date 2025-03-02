@@ -3,6 +3,7 @@
 namespace Fintech\Auth\Events;
 
 use Fintech\Auth\Http\Requests\LoginRequest;
+use Fintech\Core\Abstracts\BaseEvent;
 use Fintech\Core\Attributes\ListenByTrigger;
 use Fintech\Core\Attributes\Variable;
 use Illuminate\Broadcasting\InteractsWithSockets;
@@ -11,7 +12,7 @@ use Illuminate\Queue\SerializesModels;
 
 #[ListenByTrigger(
     name: 'Login Request Lockout',
-    description: 'Multiple login attempts are made in short timeframe then blocked.',
+    description: 'Multiple login attempts are made in short timeframe then system blocked future requests.',
     enabled: true,
     variables: [
         new Variable(name: '__login_id__', description: 'Email, Phone number used to login'),
@@ -19,7 +20,7 @@ use Illuminate\Queue\SerializesModels;
         new Variable(name: '__minutes_remain__', description: 'Minutes after the system will be available.'),
     ]
 )]
-class Lockout extends \Fintech\Core\Abstracts\BaseEvent
+class Lockout extends BaseEvent
 {
     use Dispatchable;
     use InteractsWithSockets;

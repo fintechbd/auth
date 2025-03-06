@@ -20,7 +20,8 @@
         "fintech/core": "*",
         "illuminate/contracts": "^11.0",
         "laravel/sanctum": "^4.0",
-        "spatie/laravel-permission": "^6.11"
+        "spatie/laravel-permission": "^6.11",
+        "owen-it/laravel-auditing": "^13.5"
     },
     "require-dev": {
         "guzzlehttp/guzzle": "^7.8",

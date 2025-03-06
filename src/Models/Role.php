@@ -85,7 +85,7 @@ class Role extends BaseModel implements RoleContract, Auditable
      *
      * @return Builder|Model|object|null
      */
-    protected static function findByParam(array $params = [])
+    protected static function findByParam(array $params = []): ?RoleContract
     {
         $query = static::query();
 
@@ -137,11 +137,12 @@ class Role extends BaseModel implements RoleContract, Auditable
     /**
      * Determine if the user may perform the given permission.
      *
-     * @param string|Permission $permission
      *
-     * @throws GuardDoesNotMatch
+     * @param \BackedEnum|int|\Spatie\Permission\Contracts\Permission|string $permission
+     * @param string|null $guardName
+     * @return bool
      */
-    public function hasPermissionTo($permission): bool
+    public function hasPermissionTo($permission, ?string $guardName): bool
     {
         if (config('permission.enable_wildcard_permission', false)) {
             return $this->hasWildcardPermission($permission, $this->getDefaultGuardName());
@@ -187,7 +188,7 @@ class Role extends BaseModel implements RoleContract, Auditable
      *
      * @param null $guardName
      */
-    public static function findById(int $id, $guardName = null): RoleContract
+    public static function findById(int|string $id, $guardName = null): RoleContract
     {
         $guardName = $guardName ?? Guard::getDefaultName(static::class);
 
@@ -222,7 +223,7 @@ class Role extends BaseModel implements RoleContract, Auditable
     /**
      * A role belongs to some users of the model associated with its guard.
      */
-    public function users()
+    public function users(): BelongsToMany
     {
         return $this->morphedByMany(
             getModelForGuard($this->attributes['guard_name'] ?? config('auth.defaults.guard')),

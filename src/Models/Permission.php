@@ -108,7 +108,7 @@ class Permission extends BaseModel implements PermissionContract, Auditable
      *
      * @param null $guardName
      */
-    public static function findById(int $id, $guardName = null): PermissionContract
+    public static function findById(int|string $id, $guardName = null): PermissionContract
     {
         $guardName = $guardName ?? Guard::getDefaultName(static::class);
         $permission = static::getPermission([(new static())->getKeyName() => $id, 'guard_name' => $guardName]);

@@ -19,8 +19,8 @@
         "php": "^8.2",
         "fintech/core": "*",
         "illuminate/contracts": "^11.0",
-        "laravel/sanctum": "^3.3",
-        "spatie/laravel-permission": "^5.11"
+        "laravel/sanctum": "^4.0",
+        "spatie/laravel-permission": "^6.11"
     },
     "require-dev": {
         "guzzlehttp/guzzle": "^7.8",

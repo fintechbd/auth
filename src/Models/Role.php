@@ -92,7 +92,8 @@ class Role extends BaseModel implements RoleContract, Auditable
         if (app(PermissionRegistrar::class)->teams) {
             $teamsKey = app(PermissionRegistrar::class)->teamsKey;
 
-            $query->where(fn ($q) => $q->whereNull($teamsKey)
+            $query->where(
+                fn ($q) => $q->whereNull($teamsKey)
                 ->orWhere($teamsKey, $params[$teamsKey] ?? getPermissionsTeamId())
             );
             unset($params[$teamsKey]);
@@ -188,7 +189,7 @@ class Role extends BaseModel implements RoleContract, Auditable
     {
         $guardName = $guardName ?? Guard::getDefaultName(static::class);
 
-        $role = static::findByParam([(new static)->getKeyName() => $id, 'guard_name' => $guardName]);
+        $role = static::findByParam([(new static())->getKeyName() => $id, 'guard_name' => $guardName]);
 
         if (! $role) {
             throw RoleDoesNotExist::withId($id, $guardName);

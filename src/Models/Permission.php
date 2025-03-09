@@ -54,6 +54,7 @@ class Permission extends BaseModel implements PermissionContract, Auditable
         parent::__construct($attributes);
 
         $this->guarded[] = $this->primaryKey;
+        $this->table = config('permission.table_names.permissions') ?: parent::getTable();
     }
 
     /**
@@ -61,11 +62,11 @@ class Permission extends BaseModel implements PermissionContract, Auditable
      *
      * @param null $guardName
      */
-    public static function findByName(string $name, $guardName = null): PermissionContract
+    public static function findByName(string $name, ?string $guardName = null): PermissionContract
     {
         $guardName = $guardName ?? Guard::getDefaultName(static::class);
         $permission = static::getPermission(['name' => $name, 'guard_name' => $guardName]);
-        if (!$permission) {
+        if (! $permission) {
             throw PermissionDoesNotExist::create($name, $guardName);
         }
 
@@ -77,6 +78,7 @@ class Permission extends BaseModel implements PermissionContract, Auditable
      */
     protected static function getPermission(array $params = []): ?PermissionContract
     {
+        /** @var PermissionContract|null */
         return static::getPermissions($params, true)->first();
     }
 
@@ -108,12 +110,12 @@ class Permission extends BaseModel implements PermissionContract, Auditable
      *
      * @param null $guardName
      */
-    public static function findById(int|string $id, $guardName = null): PermissionContract
+    public static function findById(int|string $id, ?string $guardName = null): PermissionContract
     {
         $guardName = $guardName ?? Guard::getDefaultName(static::class);
-        $permission = static::getPermission([(new static())->getKeyName() => $id, 'guard_name' => $guardName]);
+        $permission = static::getPermission([(new static)->getKeyName() => $id, 'guard_name' => $guardName]);
 
-        if (!$permission) {
+        if (! $permission) {
             throw PermissionDoesNotExist::withId($id, $guardName);
         }
 
@@ -125,12 +127,12 @@ class Permission extends BaseModel implements PermissionContract, Auditable
      *
      * @param null $guardName
      */
-    public static function findOrCreate(string $name, $guardName = null): PermissionContract
+    public static function findOrCreate(string $name, ?string $guardName = null): PermissionContract
     {
         $guardName = $guardName ?? Guard::getDefaultName(static::class);
         $permission = static::getPermission(['name' => $name, 'guard_name' => $guardName]);
 
-        if (!$permission) {
+        if (! $permission) {
             return static::query()->create(['name' => $name, 'guard_name' => $guardName]);
         }
 
@@ -156,8 +158,8 @@ class Permission extends BaseModel implements PermissionContract, Auditable
         return $this->belongsToMany(
             config('permission.models.role'),
             config('permission.table_names.role_has_permissions'),
-            PermissionRegistrar::$pivotPermission,
-            PermissionRegistrar::$pivotRole
+            app(PermissionRegistrar::class)->pivotPermission,
+            app(PermissionRegistrar::class)->pivotRole
         );
     }
 
@@ -170,7 +172,7 @@ class Permission extends BaseModel implements PermissionContract, Auditable
             getModelForGuard($this->attributes['guard_name'] ?? config('auth.defaults.guard')),
             'model',
             config('permission.table_names.model_has_permissions'),
-            PermissionRegistrar::$pivotPermission,
+            app(PermissionRegistrar::class)->pivotPermission,
             config('permission.column_names.model_morph_key')
         );
     }

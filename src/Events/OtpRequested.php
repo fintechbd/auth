@@ -13,6 +13,7 @@ use Illuminate\Queue\SerializesModels;
     name: 'OTP Requested',
     description: 'Trigger fires when system delete the user account and related information.',
     enabled: true,
+    anonymous: true,
     variables: [
         new Variable(name: '__otp__', description: 'Random number that generated for verification'),
         new Variable(name: '__account_mobile__', description: 'Mobile number associate with requested user'),

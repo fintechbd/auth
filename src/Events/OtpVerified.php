@@ -14,6 +14,7 @@ use Illuminate\Queue\SerializesModels;
     name: 'OTP Verified',
     description: 'Trigger fires when system delete the user account and related information.',
     enabled: true,
+    anonymous: true,
     variables: [
         new Variable(name: '__account_name__', description: 'Name of the user tried login'),
         new Variable(name: '__account_mobile__', description: 'Mobile number associate with requested user'),

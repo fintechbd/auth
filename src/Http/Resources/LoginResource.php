@@ -52,7 +52,7 @@ class LoginResource extends JsonResource
     {
         $this->resource->load(['profile', 'roles']);
 
-        $return = [
+        $data = [
             'id' => $this->getKey(),
             'name' => $this->name,
             'mobile' => $this->mobile,
@@ -82,18 +82,18 @@ class LoginResource extends JsonResource
 
         if ($this->roles != null) {
             $role = $this->roles->first();
-            $return['role_id'] = $role->id ?? null;
-            $return['role_name'] = $role->name ?? null;
+            $data['role_id'] = $role->id ?? null;
+            $data['role_name'] = $role->name ?? null;
         }
 
-        foreach ($return['balances'] as $index => $balance) {
+        foreach ($data['balances'] as $index => $balance) {
             $balance['deposit_amount_formatted'] = (string) currency($balance['deposit_amount'], $balance['currency']);
             $balance['available_amount_formatted'] = (string) currency($balance['available_amount'], $balance['currency']);
             $balance['spent_amount_formatted'] = (string) currency($balance['spent_amount'], $balance['currency']);
-            $return['balances'][$index]['balance'] = $balance;
+            $data['balances'][$index]['balance'] = $balance;
         }
 
-        return $return;
+        return $data;
     }
 
     /**

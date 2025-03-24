@@ -39,6 +39,11 @@ class LoggedOut extends BaseEvent
         $this->init();
     }
 
+    public function user(): mixed
+    {
+        return $this->user;
+    }
+
     /**
      * List all the aliases that this event will provide
      * @return array

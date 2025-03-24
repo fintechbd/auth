@@ -24,6 +24,7 @@ use Fintech\Core\Enums\RequestPlatform;
 use Fintech\Core\Traits\HasFindWhereSearch;
 use Fintech\MetaData\Facades\MetaData;
 use Illuminate\Foundation\Auth\User;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
@@ -466,11 +467,13 @@ class UserService
         };
     }
 
-    public function logout(LogoutRequest $request): bool
+    public function logout(Request $request): bool
     {
-        event(new LoggedOut($request->user('sanctum')));
+        $user = $request->user('sanctum');
 
-        $request->user('sanctum')->currentAccessToken()->delete();
+        event(new LoggedOut($user));
+
+        $user->currentAccessToken()->delete();
 
         return true;
 

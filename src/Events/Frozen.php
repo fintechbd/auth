@@ -37,6 +37,11 @@ class Frozen extends BaseEvent
         $this->init();
     }
 
+    public function user(): mixed
+    {
+        return $this->user;
+    }
+
     public function aliases(): array
     {
         return [

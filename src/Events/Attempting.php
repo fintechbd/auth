@@ -8,6 +8,7 @@ use Fintech\Core\Attributes\Variable;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Arr;
 
 #[ListenByTrigger(
     name: 'Invalid Login Attempt',
@@ -31,6 +32,13 @@ class Attempting extends BaseEvent
     public function __construct(public array $credentials = [], public bool $remember = false)
     {
         $this->init();
+    }
+
+    public function user(): mixed
+    {
+        $credentials = Arr::only($this->credentials, ['mobile', 'email', 'login_id']);
+
+        return \Fintech\Auth\Facades\Auth::user()->findWhere($credentials);
     }
 
     /**

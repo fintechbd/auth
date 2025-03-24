@@ -3,11 +3,13 @@
 namespace Fintech\Auth\Events;
 
 use Fintech\Auth\Http\Requests\LoginRequest;
+use Fintech\Auth\Traits\GuessAuthFieldTrait;
 use Fintech\Core\Abstracts\BaseEvent;
 use Fintech\Core\Attributes\ListenByTrigger;
 use Fintech\Core\Attributes\Variable;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Foundation\Events\Dispatchable;
+use Illuminate\Notifications\AnonymousNotifiable;
 use Illuminate\Queue\SerializesModels;
 
 #[ListenByTrigger(
@@ -26,6 +28,7 @@ class Lockout extends BaseEvent
     use Dispatchable;
     use InteractsWithSockets;
     use SerializesModels;
+    use GuessAuthFieldTrait;
 
     /**
      * Create a new event instance.
@@ -33,6 +36,13 @@ class Lockout extends BaseEvent
     public function __construct(public LoginRequest $request, public int $minutes = 0)
     {
         $this->init();
+    }
+
+    public function user(): mixed
+    {
+        $credentials = $this->getAuthFieldFromInput($this->request);
+
+        return \Fintech\Auth\Facades\Auth::user()->findWhere($credentials);
     }
 
     /**

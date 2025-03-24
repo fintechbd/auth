@@ -13,7 +13,6 @@ use Fintech\Auth\Events\LoggedOut;
 use Fintech\Auth\Exceptions\AccessForbiddenException;
 use Fintech\Auth\Exceptions\AccountFrozenException;
 use Fintech\Auth\Facades\Auth;
-use Fintech\Auth\Http\Requests\LogoutRequest;
 use Fintech\Auth\Interfaces\ProfileRepository;
 use Fintech\Auth\Interfaces\UserRepository;
 use Fintech\Core\Abstracts\BaseModel;

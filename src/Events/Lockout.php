@@ -9,7 +9,6 @@ use Fintech\Core\Attributes\ListenByTrigger;
 use Fintech\Core\Attributes\Variable;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Foundation\Events\Dispatchable;
-use Illuminate\Notifications\AnonymousNotifiable;
 use Illuminate\Queue\SerializesModels;
 
 #[ListenByTrigger(

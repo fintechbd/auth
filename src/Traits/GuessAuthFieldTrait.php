@@ -2,7 +2,6 @@
 
 namespace Fintech\Auth\Traits;
 
-
 use Illuminate\Http\Request;
 
 trait GuessAuthFieldTrait

@@ -29,11 +29,12 @@ class OneTimePinService
     }
 
     /**
+     * @param string $authKey
      * @param string $authField
      * @return array
      * @throws Exception
      */
-    public function create(string $authField): array
+    public function create(string $authKey, string $authField): array
     {
         $this->delete($authField);
 
@@ -43,6 +44,8 @@ class OneTimePinService
         $token = (string)mt_rand($min, $max);
 
         $notification = [
+            'auth_key' => $authKey,
+            'auth_value' => $authField,
             'method' => $this->otpMethod,
             'url' => null,
             'value' => $token

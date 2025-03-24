@@ -2,11 +2,13 @@
 
 namespace Fintech\Auth\Events;
 
+use Fintech\Auth\Facades\Auth;
 use Fintech\Core\Abstracts\BaseEvent;
 use Fintech\Core\Attributes\ListenByTrigger;
 use Fintech\Core\Attributes\Variable;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Foundation\Events\Dispatchable;
+use Illuminate\Notifications\AnonymousNotifiable;
 use Illuminate\Queue\SerializesModels;
 
 #[ListenByTrigger(
@@ -35,6 +37,16 @@ class OtpRequested extends BaseEvent
     public function __construct(public array $otpInfo = [])
     {
         $this->init();
+    }
+
+    public function user(): mixed
+    {
+        return match ($this->otpInfo['auth_key']) {
+            'user' => Auth::user()->find($this->otpInfo['auth_value']),
+            'email' => (new AnonymousNotifiable())->route('mail', $this->otpInfo['auth_value']),
+            'mobile' => (new AnonymousNotifiable())->route('sms', $this->otpInfo['auth_value']),
+            default => null,
+        };
     }
 
     /**

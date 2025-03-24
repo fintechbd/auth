@@ -24,23 +24,17 @@ class OneTimePinController extends Controller
      */
     public function request(CreateOneTimePinRequest $request): JsonResponse
     {
-        $targetField = $request->has('mobile')
-            ? 'mobile' :
-            (
-                $request->has('email')
-                    ? 'email' :
-                    ($request->has('user') ? 'user' : null)
-            );
-
-        $targetValue = $request->input($targetField);
+        $otpField = $request->only(['mobile', 'email', 'user']);
 
         try {
 
-            if (empty($targetValue)) {
+            if (empty($otpField)) {
                 throw new InvalidArgumentException(__('auth::messages.verify.field_empty'));
             }
 
-            $response = Auth::otp()->create($targetValue);
+            $otpKey = array_keys($otpField)[0];
+
+            $response = Auth::otp()->create($otpKey, array_shift($otpField));
 
             if (! $response['status']) {
                 throw new Exception($response['message']);

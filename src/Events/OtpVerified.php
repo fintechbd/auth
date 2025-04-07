@@ -41,9 +41,9 @@ class OtpVerified extends BaseEvent
     {
 
         return match ($this->otpModel['auth_key']) {
-//            'user' => Auth::user()->find($this->otpInfo['auth_value']),
-//            'email' => (new AnonymousNotifiable())->route('mail', $this->otpInfo['auth_value']),
-//            'mobile' => (new AnonymousNotifiable())->route('sms', $this->otpInfo['auth_value']),
+            //            'user' => Auth::user()->find($this->otpInfo['auth_value']),
+            //            'email' => (new AnonymousNotifiable())->route('mail', $this->otpInfo['auth_value']),
+            //            'mobile' => (new AnonymousNotifiable())->route('sms', $this->otpInfo['auth_value']),
             default => null,
         };
     }

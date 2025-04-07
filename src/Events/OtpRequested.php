@@ -41,12 +41,16 @@ class OtpRequested extends BaseEvent
 
     public function user(): mixed
     {
-        return match ($this->otpInfo['auth_key']) {
+        $user = match ($this->otpInfo['auth_key']) {
             'user' => Auth::user()->find($this->otpInfo['auth_value']),
             'email' => (new AnonymousNotifiable())->route('mail', $this->otpInfo['auth_value']),
             'mobile' => (new AnonymousNotifiable())->route('sms', $this->otpInfo['auth_value']),
             default => null,
         };
+
+        logger("User Type: " . get_class($user) . ', Type: ' . ucfirst($this->otpInfo['auth_key']));
+
+        return $user;
     }
 
     /**
@@ -61,5 +65,14 @@ class OtpRequested extends BaseEvent
             '__ip__' => request()->ip(),
             '__platform__' => request()->userAgent(),
         ];
+    }
+
+    public function preferChannels(): array
+    {
+        return match ($this->otpInfo['auth_key']) {
+            'email' => ['mail'],
+            'mobile' => ['sms'],
+            default => [],
+        };
     }
 }

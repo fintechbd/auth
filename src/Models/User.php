@@ -62,7 +62,7 @@ class User extends Authenticatable implements HasMedia, Auditable
         'wrong_pin' => 0,
     ];
 
-    protected $hidden = ['creator_id', 'editor_id', 'destroyer_id', 'restorer_id'];
+    protected $hidden = ['creator_id', 'editor_id', 'destroyer_id', 'restorer_id', 'password', 'remember_token', 'fcm_token', 'wrong_pin' , 'pin'];
 
 
     /*

@@ -321,8 +321,6 @@ class UserService
             ]));
         }
 
-        \Illuminate\Support\Facades\Auth::guard($guard)->login($attemptUser);
-
         if ($attemptUser->tokens->isNotEmpty()) {
 
             $attemptUser->tokens->each(fn ($token) => $token->delete());
@@ -333,8 +331,6 @@ class UserService
         $permissions = $this->platformLoginRequiredPermission($platform);
 
         if (!$attemptUser->can($permissions)) {
-
-            \Illuminate\Support\Facades\Auth::guard($guard)->logout();
 
             if (config('fintech.auth.record_login_attempt')) {
 

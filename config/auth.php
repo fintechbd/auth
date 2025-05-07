@@ -171,7 +171,6 @@ return [
         'drivers' => [
             'local' => [
                 'class' => Local::class,
-                'type' => 'city',
                 'path' => 'maxmind/GeoLite2-City.mmdb',
             ],
             'ipapi' => [

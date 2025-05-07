@@ -12,8 +12,6 @@ use Illuminate\Support\Facades\Cache;
  */
 class GeoIpService
 {
-    use \Fintech\Core\Traits\HasFindWhereSearch;
-
     public function __construct(private readonly GeoIp $driver)
     {
 

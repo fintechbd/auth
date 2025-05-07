@@ -2,7 +2,9 @@
 
 namespace Fintech\Auth\Services\Vendors\GeoIp;
 
-class Local
+use Fintech\Auth\Interfaces\GeoIp;
+
+class Local implements GeoIp
 {
     /**
      * geoip driver contractor

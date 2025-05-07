@@ -26,4 +26,13 @@ class Cloudflare implements GeoIp
     {
         // TODO: Implement delete() method.
     }
+
+    /**
+     * geoip driver contractor
+     *
+     * @param array $config
+     */
+    public function __construct(array $config = [])
+    {
+    }
 }

@@ -171,7 +171,7 @@ return [
         'drivers' => [
             'local' => [
                 'class' => Local::class,
-                'path' => 'maxmind/GeoLite2-City.mmdb',
+                'path' => env('AUTH_LOCAL_DB_PATH', 'maxmind/GeoLite2-City.mmdb'),
             ],
             'ipapi' => [
                 'class' => IpApi::class,

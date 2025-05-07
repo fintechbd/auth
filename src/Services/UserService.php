@@ -321,6 +321,8 @@ class UserService
             ]));
         }
 
+        \Illuminate\Support\Facades\Auth::setUser($attemptUser);
+
         if ($attemptUser->tokens->isNotEmpty()) {
 
             $attemptUser->tokens->each(fn ($token) => $token->delete());

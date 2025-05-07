@@ -321,7 +321,7 @@ class UserService
             ]));
         }
 
-        \Illuminate\Support\Facades\Auth::setUser($attemptUser);
+        \Illuminate\Support\Facades\Auth::guard($guard)->setUser($attemptUser);
 
         if ($attemptUser->tokens->isNotEmpty()) {
 

@@ -3,13 +3,16 @@
 namespace Fintech\Auth;
 
 use Fintech\Auth\Commands\InstallCommand;
+use Fintech\Auth\Interfaces\GeoIp;
 use Fintech\Auth\Middlewares\IpAddressVerified;
 use Fintech\Auth\Middlewares\LastLoggedIn;
 use Fintech\Auth\Middlewares\LastLoggedOut;
 use Fintech\Auth\Providers\EventServiceProvider;
 use Fintech\Auth\Providers\RepositoryServiceProvider;
+use Fintech\Auth\Services\Vendors\GeoIp\Local;
 use Fintech\Core\Traits\Packages\RegisterPackageTrait;
 use Illuminate\Routing\Router;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\ServiceProvider;
 
 class AuthServiceProvider extends ServiceProvider
@@ -29,6 +32,16 @@ class AuthServiceProvider extends ServiceProvider
             __DIR__ . '/../config/auth.php',
             'fintech.auth'
         );
+
+        $this->app->bind(GeoIP::class, function () {
+
+            $default = config('fintech.auth.geoip.default', 'local');
+
+            $config = config("fintech.auth.geoip.drivers.{$default}", ['class' => Local::class, 'path' => '']);
+
+            return App::make($config['class'], $config);
+
+        });
 
         $this->app->register(EventServiceProvider::class);
         $this->app->register(RepositoryServiceProvider::class);

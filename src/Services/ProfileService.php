@@ -6,10 +6,8 @@ use Exception;
 use Fintech\Auth\Interfaces\ProfileRepository;
 use Fintech\Core\Enums\Ekyc\KycStatus;
 use Fintech\Core\Facades\Core;
-use Fintech\Ekyc\Facades\Ekyc;
 use Fintech\MetaData\Facades\MetaData;
 use Fintech\MetaData\Models\Country;
-use Fintech\Transaction\Facades\Transaction;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\DB;
 use PDOException;
@@ -86,7 +84,7 @@ class ProfileService
                 ];
 
                 if (Core::packageExists('Transaction')) {
-                    Transaction::userAccount()->create($defaultUserAccount);
+                    transaction()->userAccount()->create($defaultUserAccount);
                 }
             }
 
@@ -103,10 +101,10 @@ class ProfileService
 
     private function logKycStatus($user_id, array $data = [])
     {
-        $kycModel = Ekyc::kycStatus()->findWhere(['reference_no' => $data['reference_no']]);
+        $kycModel = ekyc()->kycStatus()->findWhere(['reference_no' => $data['reference_no']]);
 
         if ($kycModel) {
-            return Ekyc::kycStatus()->update($kycModel->getKey(), ['user_id' => $user_id]);
+            returnekyc()->kycStatus()->update($kycModel->getKey(), ['user_id' => $user_id]);
         } else {
             $payload['user_id'] = $user_id;
             $payload['reference_no'] = $data['reference_no'];
@@ -119,7 +117,7 @@ class ProfileService
             //@TODO Parse Response to get status and note.
             $payload['status'] = KycStatus::Accepted->value;
             $payload['note'] = 'This request is done using sdk.';
-            return Ekyc::kycStatus()->create($payload);
+            returnekyc()->kycStatus()->create($payload);
         }
     }
 
